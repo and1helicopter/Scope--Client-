@@ -1,0 +1,59 @@
+D:\WORK\C# PROJECTS\Normal Projects\VS 2010\MonitorApplication\ModBusLibrary\bin\Release\ModBusLibrary.dll
+D:\WORK\C# PROJECTS\Normal Projects\VS 2010\MonitorApplication\ModBusLibrary\bin\Release\ModBusLibrary.pdb
+D:\WORK\C# PROJECTS\Normal Projects\VS 2010\MonitorApplication\ModBusLibrary\obj\Release\ResolveAssemblyReference.cache
+D:\WORK\C# PROJECTS\Normal Projects\VS 2010\MonitorApplication\ModBusLibrary\obj\Release\ModBusLibrary.dll
+D:\WORK\C# PROJECTS\Normal Projects\VS 2010\MonitorApplication\ModBusLibrary\obj\Release\ModBusLibrary.pdb
+D:\WORK\C# PROJECTS\Normal Projects\VS 2010\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.dll
+D:\WORK\C# PROJECTS\Normal Projects\VS 2010\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.pdb
+D:\WORK\C# PROJECTS\Normal Projects\VS 2010\ExMonApplication\ModBusLibrary\obj\Release\ResolveAssemblyReference.cache
+D:\WORK\C# PROJECTS\Normal Projects\VS 2010\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.dll
+D:\WORK\C# PROJECTS\Normal Projects\VS 2010\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.pdb
+D:\WORK\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.dll
+D:\WORK\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.pdb
+D:\WORK\ExMonApplication\ModBusLibrary\obj\Release\ResolveAssemblyReference.cache
+D:\WORK\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.dll
+D:\WORK\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.pdb
+D:\WORK\Visual Studio 2010\EXMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.dll
+D:\WORK\Visual Studio 2010\EXMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.pdb
+D:\WORK\Visual Studio 2010\EXMonApplication\ModBusLibrary\obj\Release\ResolveAssemblyReference.cache
+D:\WORK\Visual Studio 2010\EXMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.dll
+D:\WORK\Visual Studio 2010\EXMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.pdb
+D:\WORK\C# PROJECTS\16.01.2013\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.dll
+D:\WORK\C# PROJECTS\16.01.2013\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.pdb
+D:\WORK\C# PROJECTS\16.01.2013\ExMonApplication\ModBusLibrary\obj\Release\ResolveAssemblyReference.cache
+D:\WORK\C# PROJECTS\16.01.2013\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.dll
+D:\WORK\C# PROJECTS\16.01.2013\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.pdb
+D:\WORK\C# PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ResolveAssemblyReference.cache
+D:\WORK\C# PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.dll
+D:\WORK\C# PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.pdb
+D:\WORK\C# PROJECTS\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.dll
+D:\WORK\C# PROJECTS\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.pdb
+D:\WORK\C# PROJECTS\ExMonApplication_115200\ModBusLibrary\bin\Release\ModBusLibrary.dll
+D:\WORK\C# PROJECTS\ExMonApplication_115200\ModBusLibrary\bin\Release\ModBusLibrary.pdb
+D:\WORK\C# PROJECTS\ExMonApplication_115200\ModBusLibrary\obj\Release\ResolveAssemblyReference.cache
+D:\WORK\C# PROJECTS\ExMonApplication_115200\ModBusLibrary\obj\Release\ModBusLibrary.dll
+D:\WORK\C# PROJECTS\ExMonApplication_115200\ModBusLibrary\obj\Release\ModBusLibrary.pdb
+D:\WORK\C PROJECTS\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.dll
+D:\WORK\C PROJECTS\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.pdb
+D:\WORK\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.dll
+D:\WORK\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.pdb
+E:\WORK\C PROJECTS\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.dll
+E:\WORK\C PROJECTS\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.pdb
+E:\WORK\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ResolveAssemblyReference.cache
+E:\WORK\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.dll
+E:\WORK\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.pdb
+D:\WORK\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.csprojResolveAssemblyReference.cache
+C:\Users\User\Desktop\C PROJECTS\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.dll
+C:\Users\User\Desktop\C PROJECTS\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.pdb
+C:\Users\User\Desktop\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.csprojResolveAssemblyReference.cache
+C:\Users\User\Desktop\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.dll
+C:\Users\User\Desktop\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.pdb
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.dll
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.pdb
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.dll
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.pdb
+C:\Users\and1h\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.dll
+C:\Users\and1h\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\bin\Release\ModBusLibrary.pdb
+C:\Users\and1h\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.dll
+C:\Users\and1h\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.pdb
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Release\ModBusLibrary.csprojResolveAssemblyReference.cache

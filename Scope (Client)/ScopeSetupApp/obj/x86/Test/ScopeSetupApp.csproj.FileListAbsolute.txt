@@ -1,0 +1,15 @@
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\bin\x86\Test\ScopeSetupApp.exe.config
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Test\ScopeSetupApp.csprojResolveAssemblyReference.cache
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Test\ScopeSetupApp.ColorForm.resources
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Test\ScopeSetupApp.ConnectForm.resources
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Test\ScopeSetupApp.LoadOscQueryForm.resources
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Test\ScopeSetupApp.MainForm.resources
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Test\ScopeSetupApp.Properties.Resources.resources
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Test\ScopeSetupApp.ScopeSetupForm.resources
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Test\ScopeSetupApp.csproj.GenerateResource.Cache
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\bin\x86\Test\ADSPLibrary.dll
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\bin\x86\Test\ModBusLibrary.dll
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\bin\x86\Test\ADSPLibrary.pdb
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\bin\x86\Test\ModBusLibrary.pdb
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Test\ScopeSetupApp.exe
+C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ScopeSetupApp\ScopeSetupApp\bin\x86\Test\ScopeSetupApp.exe

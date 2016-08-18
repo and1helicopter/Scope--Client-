@@ -1,0 +1,17 @@
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\bin\Debug\ScopeSetupApp.exe
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\bin\Debug\ScopeSetupApp.pdb
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\bin\Debug\ADSPLibrary.dll
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\bin\Debug\ModBusLibrary.dll
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\bin\Debug\ADSPLibrary.pdb
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\bin\Debug\ModBusLibrary.pdb
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Debug\ScopeSetupApp.ColorForm.resources
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Debug\ScopeSetupApp.ConnectForm.resources
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Debug\ScopeSetupApp.LoadOscQueryForm.resources
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Debug\ScopeSetupApp.MainForm.resources
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Debug\ScopeSetupApp.Properties.Resources.resources
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Debug\ScopeSetupApp.ScopeSetupForm.resources
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Debug\GenerateResource.read.1.tlog
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Debug\GenerateResource.write.1.tlog
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Debug\ScopeSetupApp.exe
+D:\WORK\C# PROJECTS\ScopeSetupApp\ScopeSetupApp\obj\x86\Debug\ScopeSetupApp.pdb
