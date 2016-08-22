@@ -54,7 +54,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.hystoryRadioButton = new System.Windows.Forms.TextBox();
             this.enaScopeCheckBox = new System.Windows.Forms.CheckBox();
-            this.oscTimeLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -152,7 +151,6 @@
             this.panel1.Controls.Add(this.panel6);
             this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.enaScopeCheckBox);
-            this.panel1.Controls.Add(this.oscTimeLabel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 38);
             this.panel1.Name = "panel1";
@@ -351,17 +349,6 @@
             this.enaScopeCheckBox.Text = "Осциллографирование включено";
             this.enaScopeCheckBox.UseVisualStyleBackColor = true;
             // 
-            // oscTimeLabel
-            // 
-            this.oscTimeLabel.AutoSize = true;
-            this.oscTimeLabel.Location = new System.Drawing.Point(484, 12);
-            this.oscTimeLabel.Name = "oscTimeLabel";
-            this.oscTimeLabel.Size = new System.Drawing.Size(196, 14);
-            this.oscTimeLabel.TabIndex = 4;
-            this.oscTimeLabel.Text = "Длительность осциллограммы:";
-            this.oscTimeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.oscTimeLabel.Visible = false;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.AutoScroll = true;
@@ -512,7 +499,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label oscTimeLabel;
         private System.Windows.Forms.TextBox oscFreqRadioButton;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel4;

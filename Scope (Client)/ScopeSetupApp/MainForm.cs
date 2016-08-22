@@ -113,11 +113,11 @@ namespace ScopeSetupApp
                 MessageBox.Show(e.Message.ToString());
             }
 
-    //        for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
-      //      {
-       //         MessageBox.Show(ScopeSysType.ChannelFormats[i].ToString());
+          //  for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
+          //  {
+           //  MessageBox.Show(ScopeSysType.ChannelFormats[i].ToString());
 
-        //    }
+            //}
             modBusUnit = new ModBusUnit();
             modBusUnit.RequestFinished += new EventHandler(EndRequest);
 
@@ -149,7 +149,6 @@ namespace ScopeSetupApp
         //************************** ВЫЗОВЫ ДОЧЕРНИХ ОКОН ***************************************//
         //***************************************************************************************//
         //***************************************************************************************//
-
 
         ScopeSetupForm scopeSetupForm;
 
@@ -473,8 +472,8 @@ namespace ScopeSetupApp
         bool initManStartFlag = false;
         private void ManStartRequest()
         {
-            ushort u = (ushort)(ScopeSysType.ParamLoadConfigAddr - 2);
-            //MessageBox.Show(u.ToString("X4"));
+            ushort u = (ushort)(ScopeSysType.ParamLoadConfigAddr);//
+            MessageBox.Show(u.ToString("X4"));
             ushort[] uv = { 1, 1, 1, 1 };
             modBusUnit.SetData(u, 1, uv);
         }
@@ -620,13 +619,13 @@ namespace ScopeSetupApp
             int i;
             statusButtons = new List<Button>();
 
-            Font font = new Font("Arial", 10);
-            Size size = new Size(90, 90);
+            Font font = new Font("Consoles", 10);
+            Size size = new Size(112, 63);
 
             for (i = 0; i < ScopeConfig.ScopeCount; i++)
             {
                 statusButtons.Add(new Button());
-                statusButtons[i].Text = (i + 1).ToString() + ".\n" + "ПУСТО";
+                statusButtons[i].Text = (i + 1).ToString() + ". Пусто";
                 statusButtons[i].Size = size;
                 statusButtons[i].Font = font;
                 statusButtons[i].Tag = i;
@@ -654,33 +653,35 @@ namespace ScopeSetupApp
             {
                 if (oscilsStatus[i] == 0) 
                 {
-                    oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString() + ".";
-                    statusButtons[i].Text = (i + 1).ToString() + ".\nПУСТО";
-                    statusButtons[i].BackColor = Color.Gray; 
+                    statusButtons[i].FlatStyle = FlatStyle.Standard;
+                    statusButtons[i].BackColor = Color.White;
                     statusButtons[i].Enabled = false;
+                    oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString() + ".";
+                    statusButtons[i].Text = (i + 1).ToString() + ". Пусто";
                 
                 }
-                else if (oscilsStatus[i] >= 4) { statusButtons[i].BackColor = Color.Lime; statusButtons[i].Enabled = true; }
+                else if (oscilsStatus[i] >= 4) { statusButtons[i].BackColor = Color.SkyBlue; statusButtons[i].Enabled = true; }
             
                 else if (oscilsStatus[i] == 3)
                 {
-                    statusButtons[i].BackColor = Color.LightBlue; 
+                    statusButtons[i].FlatStyle = FlatStyle.Standard;
+                    statusButtons[i].BackColor = Color.PowderBlue; 
                     statusButtons[i].Enabled = true;
                     oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString() + ".";
-                    statusButtons[i].Text = (i + 1).ToString() + ".\nИДЕТ ЗАПИСЬ";         
+                    statusButtons[i].Text = (i + 1).ToString() + ".Идет запись";         
                 }
                 else if (oscilsStatus[i] == 1)
                 {
-                    statusButtons[i].BackColor = Color.Yellow;
+                    statusButtons[i].BackColor = Color.AliceBlue;
                     statusButtons[i].Enabled = true;
                     oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString() + ".";
-                    statusButtons[i].Text = (i + 1).ToString() + ".\nЗАПИСЬ ПРЕДЫС-\nТОРИИ";
+                    statusButtons[i].Text = (i + 1).ToString() + ". Запись предыстории";
                 }
-                else { 
-                    statusButtons[i].BackColor = Color.Yellow;
+                else {
+                    statusButtons[i].BackColor = Color.PaleTurquoise;
                     statusButtons[i].Enabled = true;
                     oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString()+".";
-                    statusButtons[i].Text = (i + 1).ToString() + ".\nГОТОВА К ЗАПИСИ\n";
+                    statusButtons[i].Text = (i + 1).ToString() + ". Готова к записи";
                 }
             }
         }

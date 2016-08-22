@@ -81,3 +81,19 @@ C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ver_0.1\ScopeSetupApp\obj\x86\Re
 C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ver_0.1\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.csproj.GenerateResource.Cache
 C:\Users\User\OneDrive\project\Oscil\Scope--Client-\ver_0.1\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.exe
 C:\Users\User\OneDrive\project\Oscil\Scope--Client-\ver_0.1\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.pdb
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.exe
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.pdb
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\bin\Release\ScopeSetupApp.exe
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\bin\Release\ScopeSetupApp.pdb
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\bin\Release\ADSPLibrary.dll
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\bin\Release\ModBusLibrary.dll
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\bin\Release\ADSPLibrary.pdb
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\bin\Release\ModBusLibrary.pdb
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.csprojResolveAssemblyReference.cache
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.ConnectForm.resources
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.LoadOscQueryForm.resources
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.MainForm.resources
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.Properties.Resources.resources
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.ScopeConfigForm.resources
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.ScopeSetupForm.resources
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.csproj.GenerateResource.Cache

@@ -30,7 +30,7 @@ namespace ScopeSetupApp
             possibleLabels = new List<Label>();
             checkBoxs = new List<CheckBox>();
             currentLabels = new List<Label>();
-            oscilAllSize = ScopeSysType.OscilAllSize;
+           // oscilAllSize = ScopeSysType.OscilAllSize;
 
             int i;
 
@@ -397,9 +397,9 @@ namespace ScopeSetupApp
                     else { newOscillConfig[2 + i] = 0; }
                 }
 
-                newOscillConfig[34] = Convert.ToUInt16(OscilSize(oscilAllSize) >> 16);
-                newOscillConfig[35] = Convert.ToUInt16((OscilSize(oscilAllSize) << 16) >> 16); 
-                        
+                newOscillConfig[34] = Convert.ToUInt16((OscilSize(ScopeSysType.OscilAllSize) << 16) >> 16); 
+                newOscillConfig[35] = Convert.ToUInt16(OscilSize(ScopeSysType.OscilAllSize) >> 16);
+                                        
                 newOscillConfig[36] = nowScopeCount;            //Колличество формируемых осциллограмм
                 newOscillConfig[37] = nowMaxChannelCount;       //Колличество каналов
                 newOscillConfig[38] = nowHystory;               //Предыстория
@@ -475,8 +475,8 @@ namespace ScopeSetupApp
             {
                 partParam[i] = newOscillConfig[i + writeConfigStep * 8];
             }
-            ModBusUnits.ScopeSetupModbusUnit.SetData((ushort)(0x20 + ScopeSysType.ParamLoadDataAddr + writeConfigStep * 8), 8, partParam);
-           // MessageBox.Show(ModBusUnits.ScopeSetupModbusUnit.modBusData.StartAddr.ToString("X4"));
+            ModBusUnits.ScopeSetupModbusUnit.SetData((ushort)( ScopeSysType.ParamLoadDataAddr + writeConfigStep * 8), 8, partParam);
+            // MessageBox.Show(ModBusUnits.ScopeSetupModbusUnit.modBusData.StartAddr.ToString("X4"));0x20 +
         }
 
         public void EndRequest(object sender, EventArgs e)
@@ -495,7 +495,7 @@ namespace ScopeSetupApp
                 if (writeConfigStep < 6) { WritePartConfigToSystem(); }     //Отправляю новую конфигурацию 
                 else 
                 {
-                    if (OscilEnable() == 2 && writeNameStep < nowMaxChannelCount + 1) { writeNameStep++; WriteConfigToSystem(); }
+                    if (OscilEnable() == 2 && writeNameStep < nowMaxChannelCount ) { writeNameStep++; WriteConfigToSystem(); }
                     else
                     {
                         writeNameStep = 0;
@@ -515,8 +515,7 @@ namespace ScopeSetupApp
             if (MessageBox.Show("Изменить конфигурацию осциллографа?\n" +
                                 "Все текущие осциллограммы будут удалены из памяти системы!",
                                 "Настройка осциллографа", MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Stop
-                                ) != System.Windows.Forms.DialogResult.Yes
+                                MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes
                 ) { return; }
 
             WriteConfigToSystem();

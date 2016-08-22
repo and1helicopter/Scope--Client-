@@ -147,16 +147,19 @@
             // 
             // loadScopeToolStripLabel
             // 
+            this.loadScopeToolStripLabel.Margin = new System.Windows.Forms.Padding(9);
             this.loadScopeToolStripLabel.Name = "loadScopeToolStripLabel";
-            this.loadScopeToolStripLabel.Size = new System.Drawing.Size(258, 14);
+            this.loadScopeToolStripLabel.Size = new System.Drawing.Size(240, 14);
             this.loadScopeToolStripLabel.Text = "toolStripLabel1";
             this.loadScopeToolStripLabel.Visible = false;
             // 
             // loadDataProgressBar
             // 
+            this.loadDataProgressBar.AutoSize = false;
+            this.loadDataProgressBar.Margin = new System.Windows.Forms.Padding(3);
             this.loadDataProgressBar.Maximum = 65536;
             this.loadDataProgressBar.Name = "loadDataProgressBar";
-            this.loadDataProgressBar.Size = new System.Drawing.Size(256, 22);
+            this.loadDataProgressBar.Size = new System.Drawing.Size(128, 20);
             this.loadDataProgressBar.Visible = false;
             // 
             // timer1
