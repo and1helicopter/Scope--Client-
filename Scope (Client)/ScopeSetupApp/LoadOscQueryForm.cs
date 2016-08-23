@@ -15,7 +15,7 @@ namespace ScopeSetupApp
         {
             InitializeComponent();
             titlLabel.Text = titl;
-            button1.Enabled = enaDownLoadBtn;
+            SaveOscil.Enabled = enaDownLoadBtn;
         }
 
 

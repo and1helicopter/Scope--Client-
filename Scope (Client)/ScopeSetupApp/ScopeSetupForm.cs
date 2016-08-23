@@ -30,7 +30,7 @@ namespace ScopeSetupApp
             possibleLabels = new List<Label>();
             checkBoxs = new List<CheckBox>();
             currentLabels = new List<Label>();
-           // oscilAllSize = ScopeSysType.OscilAllSize;
+            oscilAllSize = ScopeSysType.OscilAllSize;
 
             int i;
 

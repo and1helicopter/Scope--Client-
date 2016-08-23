@@ -473,7 +473,7 @@ namespace ScopeSetupApp
         private void ManStartRequest()
         {
             ushort u = (ushort)(ScopeSysType.ParamLoadConfigAddr);//
-            MessageBox.Show(u.ToString("X4"));
+            //MessageBox.Show(u.ToString("X4"));
             ushort[] uv = { 1, 1, 1, 1 };
             modBusUnit.SetData(u, 1, uv);
         }
@@ -668,7 +668,7 @@ namespace ScopeSetupApp
                     statusButtons[i].BackColor = Color.PowderBlue; 
                     statusButtons[i].Enabled = true;
                     oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString() + ".";
-                    statusButtons[i].Text = (i + 1).ToString() + ".Идет запись";         
+                    statusButtons[i].Text = (i + 1).ToString() + ". Идет запись";         
                 }
                 else if (oscilsStatus[i] == 1)
                 {
@@ -700,7 +700,7 @@ namespace ScopeSetupApp
              str = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
              str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H    
              statusButtons[loadTimeStampStep].Text = (loadTimeStampStep+1).ToString() + ".\n" + str + "\n" + str2;
-             oscilTitls[loadTimeStampStep] = "Осциллограмма №" + (loadTimeStampStep + 1).ToString() + ". " + str + " " + str2;
+             oscilTitls[loadTimeStampStep] = "Осциллограмма №" + (loadTimeStampStep + 1).ToString() + ". \n" + str + " \n" + str2;
              oscTimeDates[loadTimeStampStep] = str + " " + str2;
         }
         private void UpdateTimeStampInvoke()
@@ -824,7 +824,7 @@ namespace ScopeSetupApp
                             writeArr[3] = (ushort)m;
                             writeArr[4] = 32;
                             writeArr[5] = 1;
-                            modBusUnit.SetData(ScopeSysType.ParamLoadConfigAddr, 6, writeArr);
+                          //  modBusUnit.SetData(ScopeSysType.ParamLoadConfigAddr, 6, writeArr);
                         }
                         else
                         {
