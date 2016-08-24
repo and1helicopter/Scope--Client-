@@ -229,8 +229,6 @@ namespace ScopeSetupApp
                     hystoryRadioButton.Clear();
                     return;
                 }
-
-                enaScopeCheckBox.Checked = ScopeConfig.ScopeEnabled;
             }
         }
 
@@ -328,7 +326,7 @@ namespace ScopeSetupApp
             { 		
                 OscS--;
             }
-            oscSize.Text = "Размер под осциллограмму: " + OscS.ToString() + " байт";
+            //oscSize.Text = "Размер под осциллограмму: " + OscS.ToString() + " байт";
                         
             return (OscS);
         }
