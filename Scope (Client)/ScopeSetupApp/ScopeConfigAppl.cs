@@ -242,16 +242,16 @@ namespace ScopeSetupApp
                 }
 
                 timeStampTextBox.Text = "0x" + ScopeSysType.TimeStampAddr.ToString("X4");
-                oscillStatusTextBox.Text = "0x" + ScopeSysType.OscilStatusAddr.ToString("X4");
-                hystoryTextBox.Text = "0x" + ScopeSysType.HystoryAddr.ToString("X4");
-                channelCountTextBox.Text = "0x" + ScopeSysType.ChannelCountAddr.ToString("X4");
-                dataStartTextBox.Text = "0x" + ScopeSysType.DataStartAddr.ToString("X4");
-                oscillFreqTextBox.Text = "0x" + ScopeSysType.OscilFreqAddr.ToString("X4");
-                scopeCountTextBox.Text = "0x" + ScopeSysType.ScopeCountAddr.ToString("X4");
-                loadOscillStartTextBox.Text = "0x" + ScopeSysType.LoadOscilStartAddr.ToString("X4");
-                paramLoadConfigTextBox.Text = "0x" + ScopeSysType.ParamLoadConfigAddr.ToString("X4");
-                paramLoadDataTextBox.Text = "0x" + ScopeSysType.ParamLoadDataAddr.ToString("X4");
-                oscillSizeDataTextBox.Text = "0x" + ScopeSysType.OscilAllSize.ToString("X4");
+                OscilStatus_TextBox.Text = "0x" + ScopeSysType.OscilStatusAddr.ToString("X4");
+                History_TextBox.Text = "0x" + ScopeSysType.HistoryAddr.ToString("X4");
+                ChannelCount_TextBox.Text = "0x" + ScopeSysType.ChannelCountAddr.ToString("X4");
+                StartTemp_TextBox.Text = "0x" + ScopeSysType.StartTemptAddr.ToString("X4");
+                OscilFreq_TextBox.Text = "0x" + ScopeSysType.OscilFreqAddr.ToString("X4");
+                ScopeCount_TextBox.Text = "0x" + ScopeSysType.ScopeCountAddr.ToString("X4");
+                OscilLoad_TextBox.Text = "0x" + ScopeSysType.OscilLoadAddr.ToString("X4");
+                FlagNeed_ConfigTextBox.Text = "0x" + ScopeSysType.FlagNeedAddr.ToString("X4");
+                NewConfig_TextBox.Text = "0x" + ScopeSysType.NewConfigAddr.ToString("X4");
+                OscilSizeData_TextBox.Text = "0x" + ScopeSysType.OscilAllSize.ToString("X4");
 
                 
                 for (int i = nameTextBoxs.Count - 1; i >= 0 ; i--)
@@ -309,7 +309,7 @@ namespace ScopeSetupApp
             }
 
 
-            if (!AdvanceConvert.StrToInt(oscillStatusTextBox.Text))
+            if (!AdvanceConvert.StrToInt(OscilStatus_TextBox.Text))
             {
                 MessageBox.Show("Ошибка в поле oscillStatus");
                 return;
@@ -320,7 +320,7 @@ namespace ScopeSetupApp
             }
 
 
-            if (!AdvanceConvert.StrToInt(scopeCountTextBox.Text))
+            if (!AdvanceConvert.StrToInt(ScopeCount_TextBox.Text))
             {
                 MessageBox.Show("Ошибка в поле scopeCount");
                 return;
@@ -330,7 +330,7 @@ namespace ScopeSetupApp
                 scopeCountStr = AdvanceConvert.uValue.ToString();
             }
 
-            if (!AdvanceConvert.StrToInt(hystoryTextBox.Text))
+            if (!AdvanceConvert.StrToInt(History_TextBox.Text))
             {
                 MessageBox.Show("Ошибка в поле hystoryText");
                 return;
@@ -341,7 +341,7 @@ namespace ScopeSetupApp
             }
 
 
-            if (!AdvanceConvert.StrToInt(channelCountTextBox.Text))
+            if (!AdvanceConvert.StrToInt(ChannelCount_TextBox.Text))
             {
                 MessageBox.Show("Ошибка в поле channelCount");
                 return;
@@ -352,7 +352,7 @@ namespace ScopeSetupApp
             }
 
 
-            if (!AdvanceConvert.StrToInt(dataStartTextBox.Text))
+            if (!AdvanceConvert.StrToInt(StartTemp_TextBox.Text))
             {
                 MessageBox.Show("Ошибка в поле dataStart");
                 return;
@@ -362,7 +362,7 @@ namespace ScopeSetupApp
                 dataStartStr = AdvanceConvert.uValue.ToString();
             }
 
-            if (!AdvanceConvert.StrToInt(oscillFreqTextBox.Text))
+            if (!AdvanceConvert.StrToInt(OscilFreq_TextBox.Text))
             {
                 MessageBox.Show("Ошибка в поле oscilFreq");
                 return;
@@ -374,7 +374,7 @@ namespace ScopeSetupApp
 
 
 
-            if (!AdvanceConvert.StrToInt(loadOscillStartTextBox.Text))
+            if (!AdvanceConvert.StrToInt(OscilLoad_TextBox.Text))
             {
                 MessageBox.Show("Ошибка в поле loadOscilStart");
                 return;
@@ -384,7 +384,7 @@ namespace ScopeSetupApp
                 loadOscilStartStr = AdvanceConvert.uValue.ToString();
             }
 
-            if (!AdvanceConvert.StrToInt(paramLoadConfigTextBox.Text))
+            if (!AdvanceConvert.StrToInt(FlagNeed_ConfigTextBox.Text))
             {
                 MessageBox.Show("Ошибка в поле paramLoadConfig");
                 return;
@@ -395,7 +395,7 @@ namespace ScopeSetupApp
             }
 
 
-            if (!AdvanceConvert.StrToInt(paramLoadDataTextBox.Text))
+            if (!AdvanceConvert.StrToInt(NewConfig_TextBox.Text))
             {
                 MessageBox.Show("Ошибка в поле paramLoadData");
                 return;
@@ -420,7 +420,7 @@ namespace ScopeSetupApp
 
             }
 
-            if (!AdvanceConvert.StrToInt(oscillSizeDataTextBox.Text))
+            if (!AdvanceConvert.StrToInt(OscilSizeData_TextBox.Text))
             {
                 MessageBox.Show("Ошибка в поле Oscill Size Data");
                 return;

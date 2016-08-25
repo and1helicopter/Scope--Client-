@@ -310,24 +310,30 @@ namespace ScopeSetupApp
         }
 
         // OscilSize
-        private uint OscilSize(uint AllSize)
+        public uint OscilSize(uint AllSize)
         {
             uint OscilMaxMultiplicity;
-            
-            OscilMaxMultiplicity = ScopeSysType.ChannelFormats.Max();
+
+            List<ushort> ChannelFormat = new List<ushort>();
+            for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
+            {
+                if (currentLabels[i].Visible)
+                {
+                    ChannelFormat.Add(ScopeSysType.ChannelFormats[i]);
+                }
+            }
+            OscilMaxMultiplicity = ChannelFormat.Max();
 
             if (OscilMaxMultiplicity == 16) OscilMaxMultiplicity = 2;
             if (OscilMaxMultiplicity == 32) OscilMaxMultiplicity = 4;
             if (OscilMaxMultiplicity == 64) OscilMaxMultiplicity = 8;
-            
 
             uint OscS = (AllSize * 1024) / Convert.ToUInt32(nowScopeCount);
-            while (OscS % OscilMaxMultiplicity != 0 || OscS % nowMaxChannelCount != 0)   //Проверка на кратность слова с учетом колличества каналов  
+            while (OscS % OscilMaxMultiplicity != 0 || OscS % nowMaxChannelCount != 0 || OscS % 64 != 0)   //Проверка на кратность слова с учетом колличества каналов  
             { 		
                 OscS--;
             }
-            //oscSize.Text = "Размер под осциллограмму: " + OscS.ToString() + " байт";
-                        
+                    
             return (OscS);
         }
        //////////////////////////////////////////
@@ -473,7 +479,7 @@ namespace ScopeSetupApp
             {
                 partParam[i] = newOscillConfig[i + writeConfigStep * 8];
             }
-            ModBusUnits.ScopeSetupModbusUnit.SetData((ushort)( ScopeSysType.ParamLoadDataAddr + writeConfigStep * 8), 8, partParam);
+            ModBusUnits.ScopeSetupModbusUnit.SetData((ushort)( ScopeSysType.NewConfigAddr + writeConfigStep * 8), 8, partParam);
             // MessageBox.Show(ModBusUnits.ScopeSetupModbusUnit.modBusData.StartAddr.ToString("X4"));0x20 +
         }
 
@@ -659,7 +665,7 @@ namespace ScopeSetupApp
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("Hystory");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.HystoryAddr));
+                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.HistoryAddr));
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("ChannelCount");
@@ -667,7 +673,7 @@ namespace ScopeSetupApp
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("DataStart");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.DataStartAddr));
+                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.StartTemptAddr));
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("OscilFreq");
@@ -675,15 +681,15 @@ namespace ScopeSetupApp
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("LoadOscilStart");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.LoadOscilStartAddr));
+                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.OscilLoadAddr));
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("ParamLoadConfig");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ParamLoadConfigAddr));
+                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.FlagNeedAddr));
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("ParamLoadData");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ParamLoadDataAddr));
+                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.NewConfigAddr));
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("MeasureParams");

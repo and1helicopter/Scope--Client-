@@ -27,7 +27,7 @@ namespace ScopeSetupApp
         }
 
         //Текущая предыстория
-        static ushort hystory = 0x8000;
+        static ushort hystory = 1;
         public static ushort Hystory
         {
             get { return hystory; }
@@ -57,6 +57,17 @@ namespace ScopeSetupApp
             set
             {
                 channelCount = value;
+            }
+        }
+
+        //Размер осциллограммы 
+        static uint oscilSize = 1;
+        public static uint OscilSize
+        {
+            get { return oscilSize; }
+            set
+            {
+                oscilSize = value;
             }
         }
 

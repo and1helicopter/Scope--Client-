@@ -21,19 +21,21 @@ namespace ScopeSetupApp
         public static ushort TimeStampAddr;
         public static ushort OscilStatusAddr;
         public static ushort ScopeCountAddr;
-        public static ushort HystoryAddr;
+        public static ushort HistoryAddr;
         public static ushort ChannelCountAddr;
-        public static ushort DataStartAddr;
+        public static ushort StartTemptAddr;
         public static ushort OscilFreqAddr;
-        public static ushort LoadOscilStartAddr;
-        public static ushort ParamLoadConfigAddr;
-        public static ushort ParamLoadDataAddr;
+        public static ushort OscilLoadAddr;
+        public static ushort FlagNeedAddr;
+        public static ushort NewConfigAddr;
 
         public static ushort OscilCount;
         public static ushort ChannelCount;
         public static ushort HystoryCount; 
         public static ushort FrequncyCount;
         public static ushort OscilAllSize;
+        //public static int OscilSize;
+
 
         static void LoadFromXML(string paramName, string WrName, XmlDocument doc, out ushort addr)
         {
@@ -76,13 +78,13 @@ namespace ScopeSetupApp
             LoadFromXML("TimeStamp", "Addr", doc, out TimeStampAddr);
             LoadFromXML("OscilStatus", "Addr", doc, out OscilStatusAddr);
             LoadFromXML("ScopeCount", "Addr", doc, out ScopeCountAddr);
-            LoadFromXML("Hystory", "Addr", doc, out HystoryAddr);
+            LoadFromXML("Hystory", "Addr", doc, out HistoryAddr);
             LoadFromXML("ChannelCount", "Addr", doc, out ChannelCountAddr);
-            LoadFromXML("DataStart", "Addr", doc, out DataStartAddr);
+            LoadFromXML("DataStart", "Addr", doc, out StartTemptAddr);
             LoadFromXML("OscilFreq", "Addr", doc, out OscilFreqAddr);
-            LoadFromXML("LoadOscilStart", "Addr", doc, out LoadOscilStartAddr);
-            LoadFromXML("ParamLoadConfig", "Addr", doc, out ParamLoadConfigAddr);
-            LoadFromXML("ParamLoadData", "Addr", doc, out ParamLoadDataAddr);
+            LoadFromXML("LoadOscilStart", "Addr", doc, out OscilLoadAddr);
+            LoadFromXML("ParamLoadConfig", "Addr", doc, out FlagNeedAddr);
+            LoadFromXML("ParamLoadData", "Addr", doc, out NewConfigAddr);
            
             ushort count = 0;
             LoadFromXML("MeasureParams", "Count", doc, out count);
