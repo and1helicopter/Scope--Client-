@@ -12,7 +12,12 @@ namespace ScopeSetupApp
 
         //Скаченные параметры
         static ushort[] loadParams = new ushort[32];
-        public static ushort[] LoadParams { get { return loadParams; } set { } }
+        public static ushort[] LoadParams 
+        { 
+            get { return loadParams; } 
+            set { }
+        }
+
         public static void SetLoadParamsBlock(ushort[] newPartLoadParams, int startIndex, int paramCount)
         {
             int i;
@@ -27,13 +32,13 @@ namespace ScopeSetupApp
         }
 
         //Текущая предыстория
-        static ushort hystory = 1;
-        public static ushort Hystory
+        static ushort history = 1;
+        public static ushort History
         {
-            get { return hystory; }
+            get { return history; }
             set
             {
-                hystory = value;
+                history = value;
             }
 
         }

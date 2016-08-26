@@ -54,7 +54,7 @@ namespace ScopeSetupApp
 			try { doc.Load(comPortXMLName); }
 			catch
 			{
-				MessageBox.Show("Не удалось открыть файл с настройками!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Неизв. формат удалось открыть файл с настройками!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				Application.Exit();
 			}
 
@@ -343,7 +343,7 @@ namespace ScopeSetupApp
 
             if (loadConfigStep == 5)
 			{
-				modBusUnit.GetData(ScopeSysType.StartTemptAddr, 16);
+				modBusUnit.GetData(0x0200, 32);
 				return;
 			}
 
@@ -385,7 +385,7 @@ namespace ScopeSetupApp
 
                     case 4:
 						{
-							ScopeConfig.Hystory = modBusUnit.modBusData.ReadData[0];
+							ScopeConfig.History = modBusUnit.modBusData.ReadData[0];
 							if (modBusUnit.modBusData.ReadData[6] != 0)
 							{
 								ScopeConfig.ScopeEnabled = true;
@@ -421,7 +421,7 @@ namespace ScopeSetupApp
 			if (!modBusUnit.modBusData.RequestError)
 			{
 				string str, str2;
-				str = (modBusUnit.modBusData.ReadData[4] & 0x3F).ToString("X2") + "." + (modBusUnit.modBusData.ReadData[5] & 0x1F).ToString("X2") + "." + (modBusUnit.modBusData.ReadData[6] & 0xFF).ToString("X2") + "";
+				str = (modBusUnit.modBusData.ReadData[4] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[5] & 0x1F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0xFF).ToString("X2") + "";
 				str2 = (modBusUnit.modBusData.ReadData[2] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[0] & 0x7F).ToString("X2") + " ";
 				try
 				{
@@ -714,7 +714,7 @@ namespace ScopeSetupApp
 		private void UpdateTimeStamp()
 		{
 			 string str, str2;
-			 str = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "." + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + ".20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
+			 str = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
 			 str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H    
 			 statusButtons[loadTimeStampStep].Text = "№" + (loadTimeStampStep + 1).ToString() + "\n" + str + "\n" + str2;
 			 oscilTitls[loadTimeStampStep] = "Осциллограмма №" + (loadTimeStampStep + 1).ToString() + "\n" + str + "\n" + str2;
@@ -829,11 +829,13 @@ namespace ScopeSetupApp
 						if (loadOscDataSubStep == 0)
 						{
 							ushort[] writeArr = new ushort[4];
+
+                            uint oscilLoadTemp = (CalcOscilLoadTemp(loadOscNum));
 						   
 							writeArr[0] = 0x0001;
 							writeArr[1] = (ushort)loadOscNum;
-							writeArr[2] = Convert.ToUInt16(( CalcOscilLoadTemp(loadOscNum) << 16) >> 16);
-							writeArr[3] = Convert.ToUInt16(CalcOscilLoadTemp(loadOscNum) >> 16); 
+                            writeArr[2] = Convert.ToUInt16((oscilLoadTemp << 16) >> 16);
+                            writeArr[3] = Convert.ToUInt16(oscilLoadTemp >> 16); 
 							modBusUnit.SetData((ushort)(ScopeSysType.FlagNeedAddr + 1), 4, writeArr);
 						}
 						else
@@ -899,8 +901,7 @@ namespace ScopeSetupApp
 
 
                                 loadOscDataSubStep = 0;
-                                loadOscilIndex = (2*CountTemp*0xFFFF)/ScopeConfig.OscilSize;
-                                //Console.WriteLine(CountTemp);
+                                loadOscilIndex = (2*CountTemp*1000)/ScopeConfig.OscilSize;
                                 
                                 UpdateLoadDataProgressBarInvoke();
 
@@ -914,8 +915,8 @@ namespace ScopeSetupApp
 									loadOscDataStep = 0;
 									loadOscNum = 0;
 									UpdateLoadDataProgressBarInvoke();
-									
-								}
+                                    CountTemp = 0;
+                                }
 
 							}
 						}
@@ -1068,10 +1069,45 @@ namespace ScopeSetupApp
 			}
 			return str;
 		}
+
+        ushort[] ChFormat = new ushort[32]; 
+
+        void ChFormats(){
+            
+            for (int i = 0; i < ScopeConfig.ChannelCount; i++)
+            {
+                if (ScopeSysType.ChannelFormatsName[i] == "Percent")        ChFormat[i] = 0;
+                if(ScopeSysType.ChannelFormatsName[i] == "uint16")          ChFormat[i] = 1;
+                if(ScopeSysType.ChannelFormatsName[i] == "int16")           ChFormat[i] = 2;
+                if(ScopeSysType.ChannelFormatsName[i] == "Freq standart")   ChFormat[i] = 3;
+                if(ScopeSysType.ChannelFormatsName[i] == "8.8")             ChFormat[i] = 4;
+                if(ScopeSysType.ChannelFormatsName[i] == "0.16")            ChFormat[i] = 5;
+                if(ScopeSysType.ChannelFormatsName[i] == "Slide")           ChFormat[i] = 6;
+                if(ScopeSysType.ChannelFormatsName[i] == "Digits")          ChFormat[i] = 7;
+                if(ScopeSysType.ChannelFormatsName[i] == "RegulMode")       ChFormat[i] = 8;
+                if(ScopeSysType.ChannelFormatsName[i] == "AVR type")        ChFormat[i] = 9;
+                if(ScopeSysType.ChannelFormatsName[i] == "Int/10")          ChFormat[i] = 10;
+                if(ScopeSysType.ChannelFormatsName[i] == "Hex")             ChFormat[i] = 11;
+                if(ScopeSysType.ChannelFormatsName[i] == "*0.135 (Uf)")     ChFormat[i] = 12;
+                if(ScopeSysType.ChannelFormatsName[i] == "FreqNew")         ChFormat[i] = 13;
+                if(ScopeSysType.ChannelFormatsName[i] == "Current trans")   ChFormat[i] = 14;
+                if(ScopeSysType.ChannelFormatsName[i] == "trans alarm")     ChFormat[i] = 15;
+                if(ScopeSysType.ChannelFormatsName[i] == "int/8")           ChFormat[i] = 16;
+                if(ScopeSysType.ChannelFormatsName[i] == "uint/1000")       ChFormat[i] = 17;
+                if(ScopeSysType.ChannelFormatsName[i] == "percent/4")       ChFormat[i] = 18;
+                if(ScopeSysType.ChannelFormatsName[i] == "FreqNew2")        ChFormat[i] = 19;
+                if(ScopeSysType.ChannelFormatsName[i] == "Percent upp")     ChFormat[i] = 20;
+                if(ScopeSysType.ChannelFormatsName[i] == "Freq UPTF")       ChFormat[i] = 21;
+                else ChFormat[i] = 0;            }
+         }
+
+
 		string FileParamLine(ushort[] paramLine, int lineNum)
 		{
-			string str = "";
+			
+            string str = "";
 			int i = 0;
+            ChFormats();
 			str = lineNum.ToString() + "\t";
 			for (i = 0; i < ScopeConfig.ChannelCount; i++)
 			{
@@ -1081,26 +1117,31 @@ namespace ScopeSetupApp
 				  //  str = str + HexToPercent(paramLine[i]) + "\t";
 				   // MessageBox.Show(ScopeSysType.ChannelNames[i]+" "+ScopeSysType.ChannelFormats[i].ToString());
 					//MessageBox.Show(ScopeSysType.ChannelFormats[i].ToString());
-					str = str + AdvanceConvert.HexToFormat(paramLine[i], (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]]) + "\t";
+
+                    str = str + AdvanceConvert.HexToFormat(paramLine[i], (byte)ChFormat[ScopeConfig.OscillParams[i]]) + "\t";
 				}
 			}
 			return str;
 		}
 		List<ushort[]> InitParamsLines()
 		{
-			ushort countInLine = (ushort)Math.Round(32.0 / ScopeConfig.ChannelCount);
 			List<ushort[]> paramsLines = new List<ushort[]>();
-
-			for (int i3 = 0; i3 < downloadedData.Count; i3++)
+            int k = 0;
+            int j = 0;
+			for (int i = 0; i < downloadedData.Count; i++)
 			{
-				for (int i = 0; i < countInLine; i++)
-				{
-					paramsLines.Add(new ushort[ScopeConfig.ChannelCount]);
-					for (int i2 = 0; i2 < ScopeConfig.ChannelCount; i2++)
-					{
-						paramsLines[paramsLines.Count-1][i2] = downloadedData[i3][i * ScopeConfig.ChannelCount + i2];
-					}
-				}
+                while (j < 32)
+                {
+                    if (k == 0) paramsLines.Add(new ushort[ScopeConfig.ChannelCount]);
+                    while (k < ScopeConfig.ChannelCount && j < 32)
+				    { 
+				        paramsLines[paramsLines.Count-1][k] = downloadedData[i][j];
+                        k++;
+                        j++;
+                    }
+                    if (k == ScopeConfig.ChannelCount) k = 0;
+			    }
+                j = 0;
 			}
 			return paramsLines;
 		}
@@ -1128,7 +1169,8 @@ namespace ScopeSetupApp
 			try
 			{
 				sw.WriteLine(oscTimeDates[createFileNum]);
-				sw.WriteLine(ScopeConfig.ScopeFreq.ToString());
+				//sw.WriteLine(ScopeConfig.ScopeFreq.ToString());
+                sw.WriteLine("1");
 				sw.WriteLine(FileHeaderLine());
 				sw.WriteLine(FileColorLine());
 				sw.WriteLine(FileOffsetLine());

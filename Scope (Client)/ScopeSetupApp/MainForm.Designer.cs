@@ -37,9 +37,9 @@
             this.nowStatusFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.connectBtn = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.ConfigScopeButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.OpenScope_Button = new System.Windows.Forms.ToolStripButton();
             this.manStartBtn = new System.Windows.Forms.ToolStripButton();
             this.loadScopeToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.loadDataProgressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -88,7 +88,8 @@
             this.nowStatusFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.nowStatusFlowLayoutPanel.Name = "nowStatusFlowLayoutPanel";
             this.nowStatusFlowLayoutPanel.Size = new System.Drawing.Size(481, 444);
-            this.nowStatusFlowLayoutPanel.TabIndex = 13;
+            this.nowStatusFlowLayoutPanel.TabIndex = 2;
+            this.nowStatusFlowLayoutPanel.Tag = "";
             // 
             // toolStrip1
             // 
@@ -100,9 +101,9 @@
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.connectBtn,
-            this.toolStripButton3,
-            this.toolStripButton1,
-            this.toolStripButton2,
+            this.ConfigScopeButton,
+            this.toolStripButton,
+            this.OpenScope_Button,
             this.manStartBtn,
             this.loadScopeToolStripLabel,
             this.loadDataProgressBar});
@@ -111,7 +112,8 @@
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.toolStrip1.Size = new System.Drawing.Size(244, 444);
-            this.toolStrip1.TabIndex = 14;
+            this.toolStrip1.TabIndex = 1;
+            this.toolStrip1.Tag = "0";
             this.toolStrip1.Text = "toolStrip1";
             // 
             // connectBtn
@@ -126,61 +128,65 @@
             this.connectBtn.Name = "connectBtn";
             this.connectBtn.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.connectBtn.Size = new System.Drawing.Size(230, 60);
+            this.connectBtn.Tag = "";
             this.connectBtn.Text = "Настройка соединения ";
             this.connectBtn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.connectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.connectBtn.Click += new System.EventHandler(this.connectBtn_Click);
             // 
-            // toolStripButton3
+            // ConfigScopeButton
             // 
-            this.toolStripButton3.AutoSize = false;
-            this.toolStripButton3.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.toolStripButton3.Font = new System.Drawing.Font("Open Sans", 9F);
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Margin = new System.Windows.Forms.Padding(2);
-            this.toolStripButton3.MergeIndex = 3;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.toolStripButton3.Size = new System.Drawing.Size(230, 60);
-            this.toolStripButton3.Text = "Конфигурация системы";
-            this.toolStripButton3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripButton3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
+            this.ConfigScopeButton.AutoSize = false;
+            this.ConfigScopeButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.ConfigScopeButton.Font = new System.Drawing.Font("Open Sans", 9F);
+            this.ConfigScopeButton.Image = ((System.Drawing.Image)(resources.GetObject("ConfigScopeButton.Image")));
+            this.ConfigScopeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ConfigScopeButton.Margin = new System.Windows.Forms.Padding(2);
+            this.ConfigScopeButton.MergeIndex = 3;
+            this.ConfigScopeButton.Name = "ConfigScopeButton";
+            this.ConfigScopeButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ConfigScopeButton.Size = new System.Drawing.Size(230, 60);
+            this.ConfigScopeButton.Tag = "";
+            this.ConfigScopeButton.Text = "Конфигурация системы";
+            this.ConfigScopeButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ConfigScopeButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.ConfigScopeButton.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
-            // toolStripButton1
+            // toolStripButton
             // 
-            this.toolStripButton1.AutoSize = false;
-            this.toolStripButton1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.toolStripButton1.Font = new System.Drawing.Font("Open Sans", 9F);
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Margin = new System.Windows.Forms.Padding(2);
-            this.toolStripButton1.MergeIndex = 3;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.toolStripButton1.Size = new System.Drawing.Size(230, 60);
-            this.toolStripButton1.Text = "Конфигурация осциллографа";
-            this.toolStripButton1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.toolStripButton.AutoSize = false;
+            this.toolStripButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.toolStripButton.Font = new System.Drawing.Font("Open Sans", 9F);
+            this.toolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton.Image")));
+            this.toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton.Margin = new System.Windows.Forms.Padding(2);
+            this.toolStripButton.MergeIndex = 3;
+            this.toolStripButton.Name = "toolStripButton";
+            this.toolStripButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.toolStripButton.Size = new System.Drawing.Size(230, 60);
+            this.toolStripButton.Tag = "";
+            this.toolStripButton.Text = "Конфигурация осциллографа";
+            this.toolStripButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.toolStripButton.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
-            // toolStripButton2
+            // OpenScope_Button
             // 
-            this.toolStripButton2.AutoSize = false;
-            this.toolStripButton2.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.toolStripButton2.Font = new System.Drawing.Font("Open Sans", 9F);
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Margin = new System.Windows.Forms.Padding(2);
-            this.toolStripButton2.MergeIndex = 3;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.toolStripButton2.Size = new System.Drawing.Size(230, 60);
-            this.toolStripButton2.Text = "Открыть файл с осциллограммой";
-            this.toolStripButton2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.OpenScope_Button.AutoSize = false;
+            this.OpenScope_Button.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.OpenScope_Button.Font = new System.Drawing.Font("Open Sans", 9F);
+            this.OpenScope_Button.Image = ((System.Drawing.Image)(resources.GetObject("OpenScope_Button.Image")));
+            this.OpenScope_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.OpenScope_Button.Margin = new System.Windows.Forms.Padding(2);
+            this.OpenScope_Button.MergeIndex = 3;
+            this.OpenScope_Button.Name = "OpenScope_Button";
+            this.OpenScope_Button.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.OpenScope_Button.Size = new System.Drawing.Size(230, 60);
+            this.OpenScope_Button.Tag = "";
+            this.OpenScope_Button.Text = "Открыть файл с осциллограммой";
+            this.OpenScope_Button.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.OpenScope_Button.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.OpenScope_Button.Click += new System.EventHandler(this.toolStripButton2_Click_1);
             // 
             // manStartBtn
             // 
@@ -194,6 +200,7 @@
             this.manStartBtn.Name = "manStartBtn";
             this.manStartBtn.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.manStartBtn.Size = new System.Drawing.Size(230, 60);
+            this.manStartBtn.Tag = "";
             this.manStartBtn.Text = "Ручной запуск осциллографа";
             this.manStartBtn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.manStartBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -212,9 +219,11 @@
             // 
             this.loadDataProgressBar.AutoSize = false;
             this.loadDataProgressBar.Margin = new System.Windows.Forms.Padding(3);
-            this.loadDataProgressBar.Maximum = 65536;
+            this.loadDataProgressBar.Maximum = 1000;
+            this.loadDataProgressBar.MergeIndex = 0;
             this.loadDataProgressBar.Name = "loadDataProgressBar";
-            this.loadDataProgressBar.Size = new System.Drawing.Size(161, 26);
+            this.loadDataProgressBar.Size = new System.Drawing.Size(150, 24);
+            this.loadDataProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.loadDataProgressBar.Visible = false;
             // 
             // toolStripContainer1
@@ -287,9 +296,9 @@
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton connectBtn;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton ConfigScopeButton;
+        private System.Windows.Forms.ToolStripButton toolStripButton;
+        private System.Windows.Forms.ToolStripButton OpenScope_Button;
         private System.Windows.Forms.ToolStripButton manStartBtn;
         private System.Windows.Forms.ToolStripLabel loadScopeToolStripLabel;
         private System.Windows.Forms.ToolStripProgressBar loadDataProgressBar;

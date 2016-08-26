@@ -97,5 +97,3 @@ C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp
 C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.ScopeConfigForm.resources
 C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.ScopeSetupForm.resources
 C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\obj\x86\Release\ScopeSetupApp.csproj.GenerateResource.Cache
-C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\bin\Release\Microsoft.VisualBasic.PowerPacks.Vs.dll
-C:\Users\User\OneDrive\project\Oscil\Scope--Client-\Scope (Client)\ScopeSetupApp\bin\Release\Microsoft.VisualBasic.PowerPacks.Vs.xml
