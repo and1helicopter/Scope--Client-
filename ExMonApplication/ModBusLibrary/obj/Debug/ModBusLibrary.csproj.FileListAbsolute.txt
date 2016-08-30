@@ -7,3 +7,7 @@ C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\b
 C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\bin\Debug\ModBusLibrary.pdb
 C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Debug\ModBusLibrary.dll
 C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Debug\ModBusLibrary.pdb
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\ExMonApplication\ModBusLibrary\bin\Debug\ModBusLibrary.dll
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\ExMonApplication\ModBusLibrary\bin\Debug\ModBusLibrary.pdb
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\ExMonApplication\ModBusLibrary\obj\Debug\ModBusLibrary.dll
+C:\Users\User\OneDrive\project\Oscil\Scope--Client-\ExMonApplication\ModBusLibrary\obj\Debug\ModBusLibrary.pdb

@@ -259,6 +259,7 @@ namespace ScopeSetupApp
 
 		string[] oscilTitls = new string[32];
 		string[] oscTimeDates = new string[32];
+        string[] oscStartTimeDates = new string[32];
 
 		private void SendTimeStampRequest()
 		{
@@ -420,12 +421,15 @@ namespace ScopeSetupApp
 		{
 			if (!modBusUnit.modBusData.RequestError)
 			{
-				string str, str2;
-				str = (modBusUnit.modBusData.ReadData[4] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[5] & 0x1F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0xFF).ToString("X2") + "";
-				str2 = (modBusUnit.modBusData.ReadData[2] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[0] & 0x7F).ToString("X2") + " ";
-				try
+			 //	string str, str1, str2, str3;
+              //  str1 = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
+              //  str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H   
+              //  str3 = (modBusUnit.modBusData.ReadData[4]).ToString(); 
+               // str = str1 + " " + str2 + "." + str3;
+              //  Console.WriteLine(str);
+                try
 				{
-					Invoke(new SetStringDelegate(SetTimeLabel), str2 + str);
+                    Invoke(new SetStringDelegate(SetTimeLabel), "CONNECT");
 				}
 				catch { }
 			}
@@ -713,12 +717,13 @@ namespace ScopeSetupApp
 
 		private void UpdateTimeStamp()
 		{
-			 string str, str2;
+			 string str, str2, str3;
 			 str = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
-			 str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H    
+			 str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H   
+             str3 = (modBusUnit.modBusData.ReadData[4]).ToString(); 
 			 statusButtons[loadTimeStampStep].Text = "№" + (loadTimeStampStep + 1).ToString() + "\n" + str + "\n" + str2;
 			 oscilTitls[loadTimeStampStep] = "Осциллограмма №" + (loadTimeStampStep + 1).ToString() + "\n" + str + "\n" + str2;
-			 oscTimeDates[loadTimeStampStep] = str + " " + str2;
+             oscTimeDates[loadTimeStampStep] = str + " " + str2 + "." + str3;
 		}
 		private void UpdateTimeStampInvoke()
 		{
@@ -913,7 +918,6 @@ namespace ScopeSetupApp
 									//CreateFileInvoke();
 									loadOscData = false;
 									loadOscDataStep = 0;
-									loadOscNum = 0;
 									UpdateLoadDataProgressBarInvoke();
                                     CountTemp = 0;
                                 }
@@ -924,7 +928,6 @@ namespace ScopeSetupApp
 						{
 							loadOscData = false;
 							loadOscDataStep = 0;
-							loadOscNum = 0;
                             CountTemp = 0;
 
                         }
@@ -1146,59 +1149,186 @@ namespace ScopeSetupApp
 			return paramsLines;
 		}
 
+        //Save to cometrade
+        string Line1()
+        {
+            string str = "";
+            string station_name = "<Не задано>";
+            string rec_dev_id = (loadOscNum + 1).ToString();
+            string rev_year = "1999";
+            str = station_name + "," + rec_dev_id + "," + rev_year;
+           
+            return str;
+        }
+
+        string Line2()
+        {
+            string str = "";
+
+            int nA = ScopeConfig.ChannelCount;
+            int nD = 0;
+            int TT = nA + nD;
+            str = TT + "," + nA + "A," + nD + "D";
+
+            return str;
+        }
+
+        string Line3(int nA)
+        {
+            string str = "";
+            string ch_id = "";
+            string ph = "";
+            string ccbm = "";
+            string uu = "NONE";
+            int a = 1;
+            int b = 0;
+            int skew = 0;
+            int min = -1000;
+            int max = 1000;
+            int primary = 200; 
+            int secondary = 1;
+            string ps = "p";
+
+		    //Если параметр в списке известных, то пишем его в файл
+            if (ScopeConfig.OscillParams[nA - 1] < ScopeSysType.ChannelNames.Count)
+			{
+                ch_id = ScopeSysType.ChannelNames[ScopeConfig.OscillParams[nA - 1]];
+			}
+
+            str = nA + "," + ch_id + "," + ph + "," + ccbm + "," + uu + "," + a + "," + b + "," + skew + "," +
+            min + "," + max + "," + primary + "," + secondary + "," + ps;
+
+            return str;
+        }
+
+        string Line5()
+        {
+             string str = "";
+             string lf = "50";
+             str = lf;
+             return str;
+        }
+
+        string Line6()
+        {
+            string str = "";
+            string nrates = "1";
+            str = nrates;
+            return str;
+      
+        }
+
+        string Line7()
+        {
+            string str = "";
+            string samp = "1";
+            string endsamp = "1";
+            str = samp + "," + endsamp;
+            return str;
+        }
+        string Line8()
+        {
+            string str = "";
+            string samp = "1";
+            string endsamp = "1";
+            str = samp + "," + endsamp;
+            return str;
+        }
+
 		void CreateFile()
 		{
 		   // MessageBox.Show("SDF");
 			SaveFileDialog sfd = new SaveFileDialog();
 			//sfd.FileName = oscilTitls[createFileNum];
 			sfd.DefaultExt = ".txt"; // Default file extension
-			sfd.Filter = "Текстовый файл (.txt)|*.txt"; // Filter files by extension
-			if (sfd.ShowDialog() != DialogResult.OK) { return; }
+            sfd.Filter = "Text Files (*.txt)|*.txt|COMTRADE (*.cfg)|*.cfg"; // Filter files by extension
 
-			StreamWriter sw;
-			try
-			{ 
-				sw = File.CreateText(sfd.FileName); 
-			}
-			catch
-			{
-				MessageBox.Show("Ошибка при создании файла!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
+            
+            if (sfd.ShowDialog() != DialogResult.OK) { return; }
+            
+            StreamWriter sw;
 
-			try
-			{
-				sw.WriteLine(oscTimeDates[createFileNum]);
-				//sw.WriteLine(ScopeConfig.ScopeFreq.ToString());
-                sw.WriteLine("1");
-				sw.WriteLine(FileHeaderLine());
-				sw.WriteLine(FileColorLine());
-				sw.WriteLine(FileOffsetLine());
-				sw.WriteLine(FileScaleLine());
-				sw.WriteLine(FileStepLine());
+            if (sfd.FilterIndex == 1) { 
+
+			    
+			    try
+			    { 
+				    sw = File.CreateText(sfd.FileName);
+			    }
+			    catch
+			    {
+				    MessageBox.Show("Ошибка при создании файла!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				    return;
+			    }
+
+			    try
+			    {
+				    sw.WriteLine(oscTimeDates[createFileNum]);
+				    //sw.WriteLine(ScopeConfig.ScopeFreq.ToString());
+                    sw.WriteLine("1");
+				    sw.WriteLine(FileHeaderLine());
+				    sw.WriteLine(FileColorLine());
+				    sw.WriteLine(FileOffsetLine());
+				    sw.WriteLine(FileScaleLine());
+				    sw.WriteLine(FileStepLine());
 				
-				sw.WriteLine(FileReserveLine());
-				sw.WriteLine(FileReserveLine());
-				sw.WriteLine(FileReserveLine());
-				sw.WriteLine(FileReserveLine());
+				    sw.WriteLine(FileReserveLine());
+				    sw.WriteLine(FileReserveLine());
+				    sw.WriteLine(FileReserveLine());
+				    sw.WriteLine(FileReserveLine());
 
-				List<ushort[]> lu = InitParamsLines();
-				for (int i = 0; i < lu.Count; i++)
-				{
-					sw.WriteLine(FileParamLine(lu[i], i));
-				}
-			}
-			catch
-			{
-				MessageBox.Show("Ошибка при записи в файл!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-			sw.Close();
+				    List<ushort[]> lu = InitParamsLines();
+				    for (int i = 0; i < lu.Count; i++)
+				    {
+				    	sw.WriteLine(FileParamLine(lu[i], i));
+				    }
+			    }
+			    catch
+			    {
+				    MessageBox.Show("Ошибка при записи в файл!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				    return;
+			    }
+			    sw.Close();
 
-			if (MessageBox.Show("Открыть осциллограмму для просмотра",this.Text,MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
-			{
-				ExecuteScopeView(sfd.FileName);
-			}
+			    if (MessageBox.Show("Открыть осциллограмму для просмотра",this.Text,MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+			    {
+				    ExecuteScopeView(sfd.FileName);     
+			    }
+            }
+
+            if (sfd.FilterIndex == 2) 
+            {
+                 MessageBox.Show("Еще не реализованно");
+
+                 try
+                 {
+                     sw = File.CreateText(sfd.FileName);
+                 }
+                 catch
+                 {
+                     MessageBox.Show("Ошибка при создании файла!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                     return;
+                 }
+
+                 try
+                 {
+                     sw.WriteLine(Line1());
+                     sw.WriteLine(Line2());
+                     for (int i = 0; i < ScopeConfig.ChannelCount; i++) sw.WriteLine(Line3(i+1));
+                     sw.WriteLine(Line5());
+                     sw.WriteLine(Line6());
+                     sw.WriteLine(Line7());
+
+                     
+                 }
+                 catch
+                 {
+                     MessageBox.Show("Ошибка при записи в файл!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                     return;
+                 }
+                 sw.Close();
+            }
+            loadOscNum = 0;
 		}
 
 		bool initLoadOscilFlag = false;
@@ -1279,7 +1409,8 @@ namespace ScopeSetupApp
 				CreateFile();
 			}
 			timer2.Enabled = true;
-		}
+            
+        }
 
 
 		//Ручной запуск осциллографа
