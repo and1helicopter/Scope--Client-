@@ -219,6 +219,7 @@
             // 
             this.loadDataProgressBar.AutoSize = false;
             this.loadDataProgressBar.Margin = new System.Windows.Forms.Padding(3);
+            this.loadDataProgressBar.MarqueeAnimationSpeed = 1000;
             this.loadDataProgressBar.Maximum = 1000;
             this.loadDataProgressBar.MergeIndex = 0;
             this.loadDataProgressBar.Name = "loadDataProgressBar";

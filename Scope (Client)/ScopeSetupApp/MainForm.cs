@@ -287,25 +287,37 @@ namespace ScopeSetupApp
 				lineBusy = false;
 				return;
 			}
-			else
+            else if (requestStep == 3)
 			{
 				loadTimeStampStep = i;
 			   
 				modBusUnit.GetData((ushort)(ScopeSysType.TimeStampAddr + i * 8), 8);
 			}
+            else if (requestStep == 4)
+            {
+                loadTimeStampStep = i;
+
+                modBusUnit.GetData((ushort)(ScopeSysType.TimeStampAddr + 256 + i * 8), 8);
+            }
 		}
 		private void EndTimeStampRequest()
 		{
-			if (!modBusUnit.modBusData.RequestError)
+            if (!modBusUnit.modBusData.RequestError && requestStep == 3)
 			{
 				UpdateTimeStampInvoke();
 			}
-			else
-			{
-				MessageBox.Show("TimeStamp error");
-			}
+            else if (!modBusUnit.modBusData.RequestError && requestStep == 4)
+            {
+                UpdateStartTimeStampInvoke();
+                loadTimeStampStep++; 
+                if (loadTimeStampStep <= ScopeConfig.ScopeCount) requestStep = 3;
+            }
+            else
+            {
+                MessageBox.Show("TimeStamp error");
+            }
 
-			loadTimeStampStep++;
+			
 		}
 
 		private void LoadConfig()
@@ -558,7 +570,13 @@ namespace ScopeSetupApp
 			else if (requestStep == 3)
 			{
 				EndTimeStampRequest();
+                requestStep = 4;
 			}
+
+            else if (requestStep == 4)
+            {
+                EndTimeStampRequest();
+            }
 
 			if (ScopeConfig.ChangeScopeConfig)
 			{
@@ -620,6 +638,11 @@ namespace ScopeSetupApp
 			{
 				 SendTimeStampRequest(); 
 			}
+
+            else if (requestStep == 4)
+            {
+                SendTimeStampRequest();
+            }
 
 			timer1.Enabled = true;
 		}
@@ -717,13 +740,13 @@ namespace ScopeSetupApp
 
 		private void UpdateTimeStamp()
 		{
-			 string str, str2, str3;
-			 str = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
-			 str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H   
-             str3 = (modBusUnit.modBusData.ReadData[4]).ToString(); 
-			 statusButtons[loadTimeStampStep].Text = "№" + (loadTimeStampStep + 1).ToString() + "\n" + str + "\n" + str2;
-			 oscilTitls[loadTimeStampStep] = "Осциллограмма №" + (loadTimeStampStep + 1).ToString() + "\n" + str + "\n" + str2;
-             oscTimeDates[loadTimeStampStep] = str + " " + str2 + "." + str3;
+            string str1, str2, str3;
+            str1 = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
+            str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H   
+            str3 = (modBusUnit.modBusData.ReadData[4]).ToString();
+            statusButtons[loadTimeStampStep].Text = "№" + (loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
+            oscilTitls[loadTimeStampStep] = "Осциллограмма №" + (loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
+            oscTimeDates[loadTimeStampStep] = str1 + "," + str2 + "." + str3;
 		}
 		private void UpdateTimeStampInvoke()
 		{
@@ -733,6 +756,22 @@ namespace ScopeSetupApp
 			}
 			catch { }
 		}
+        private void UpdateStartTimeStamp()
+        {
+            string str1, str2, str3;
+            str1 = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
+            str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H   
+            str3 = (modBusUnit.modBusData.ReadData[4]).ToString();
+            oscStartTimeDates[loadTimeStampStep] = str1 + "," + str2 + "." + str3;
+        }
+        private void UpdateStartTimeStampInvoke ()
+        {
+            try
+            {
+                Invoke(new NoParamDelegate(UpdateStartTimeStamp), null);
+            }
+            catch { }
+        }
 
 		private void UpdateLoadDataProgressBar()
 		{
@@ -1107,8 +1146,7 @@ namespace ScopeSetupApp
 
 		string FileParamLine(ushort[] paramLine, int lineNum)
 		{
-			
-            string str = "";
+			string str = "";
 			int i = 0;
             ChFormats();
 			str = lineNum.ToString() + "\t";
@@ -1126,6 +1164,21 @@ namespace ScopeSetupApp
 			}
 			return str;
 		}
+        string FileParamLineData(ushort[] paramLine, int lineNum)
+        {
+            string str = "";
+            ChFormats();
+            str = (lineNum + 1).ToString();
+            for (int i = 0; i < ScopeConfig.ChannelCount; i++)
+            {
+                //Если параметр в списке известных, то пишем его в файл
+                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                {
+                    str = str + "," + AdvanceConvert.HexToFormat(paramLine[i], (byte)ChFormat[ScopeConfig.OscillParams[i]]);
+                }
+            }
+            return str;
+        }
 		List<ushort[]> InitParamsLines()
 		{
 			List<ushort[]> paramsLines = new List<ushort[]>();
@@ -1148,7 +1201,7 @@ namespace ScopeSetupApp
 			}
 			return paramsLines;
 		}
-
+  
         //Save to cometrade
         string Line1()
         {
@@ -1157,25 +1210,23 @@ namespace ScopeSetupApp
             string rec_dev_id = (loadOscNum + 1).ToString();
             string rev_year = "1999";
             str = station_name + "," + rec_dev_id + "," + rev_year;
-           
             return str;
         }
 
         string Line2()
         {
             string str = "";
-
             int nA = ScopeConfig.ChannelCount;
             int nD = 0;
             int TT = nA + nD;
             str = TT + "," + nA + "A," + nD + "D";
-
             return str;
         }
 
         string Line3(int nA)
         {
             string str = "";
+
             string ch_id = "";
             string ph = "";
             string ccbm = "";
@@ -1203,41 +1254,49 @@ namespace ScopeSetupApp
 
         string Line5()
         {
-             string str = "";
              string lf = "50";
-             str = lf;
-             return str;
+             return lf;
         }
 
         string Line6()
         {
-            string str = "";
             string nrates = "1";
-            str = nrates;
-            return str;
-      
+            return nrates;
         }
 
         string Line7()
         {
             string str = "";
             string samp = "1";
-            string endsamp = "1";
+            string endsamp = InitParamsLines().Count.ToString();
             str = samp + "," + endsamp;
             return str;
         }
-        string Line8()
+        string Line8(int numOsc)
         {
-            string str = "";
-            string samp = "1";
-            string endsamp = "1";
-            str = samp + "," + endsamp;
-            return str;
+            return oscStartTimeDates[numOsc];;
         }
+        string Line9(int numOsc)
+        {
+            return oscTimeDates[numOsc]; ;
+        }
+        string Line10()
+        {
+            string ft = "ASCII";
+            return ft;
+        }
+
+        string Line11()
+        {
+            string timemult = "1";
+            return timemult;
+        }
+
 
 		void CreateFile()
 		{
-		   // MessageBox.Show("SDF");
+		    string namefile, pathfile, pathDateFile;
+           // MessageBox.Show("SDF");
 			SaveFileDialog sfd = new SaveFileDialog();
 			//sfd.FileName = oscilTitls[createFileNum];
 			sfd.DefaultExt = ".txt"; // Default file extension
@@ -1247,7 +1306,7 @@ namespace ScopeSetupApp
             if (sfd.ShowDialog() != DialogResult.OK) { return; }
             
             StreamWriter sw;
-
+            
             if (sfd.FilterIndex == 1) { 
 
 			    
@@ -1277,7 +1336,7 @@ namespace ScopeSetupApp
 				    sw.WriteLine(FileReserveLine());
 				    sw.WriteLine(FileReserveLine());
 
-				    List<ushort[]> lu = InitParamsLines();
+                    List<ushort[]> lu = InitParamsLines();
 				    for (int i = 0; i < lu.Count; i++)
 				    {
 				    	sw.WriteLine(FileParamLine(lu[i], i));
@@ -1303,6 +1362,8 @@ namespace ScopeSetupApp
                  try
                  {
                      sw = File.CreateText(sfd.FileName);
+                     namefile = Path.GetFileNameWithoutExtension(sfd.FileName);
+                     pathfile = Path.GetDirectoryName(sfd.FileName);
                  }
                  catch
                  {
@@ -1318,8 +1379,10 @@ namespace ScopeSetupApp
                      sw.WriteLine(Line5());
                      sw.WriteLine(Line6());
                      sw.WriteLine(Line7());
-
-                     
+                     sw.WriteLine(Line8(createFileNum));
+                     sw.WriteLine(Line9(createFileNum));
+                     sw.WriteLine(Line10());
+                     sw.WriteLine(Line11());
                  }
                  catch
                  {
@@ -1327,6 +1390,32 @@ namespace ScopeSetupApp
                      return;
                  }
                  sw.Close();
+
+                 pathDateFile = pathfile + "\\" + namefile + ".dat";
+                 try
+                 {
+                    sw = File.CreateText(pathDateFile);
+                 }
+                 catch
+                 {
+                     MessageBox.Show("Ошибка при создании файла!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                     return;
+                 }
+                 try
+                 {
+                     List<ushort[]> lud = InitParamsLines();
+                     for (int i = 0; i < lud.Count; i++)
+                     {
+                         sw.WriteLine(FileParamLineData(lud[i], i));
+                     }
+                 }
+                 catch
+                 {
+                     MessageBox.Show("Ошибка при записи в файл!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                     return;
+                 }
+                 sw.Close();
+
             }
             loadOscNum = 0;
 		}
