@@ -305,19 +305,18 @@ namespace ScopeSetupApp
             if (!modBusUnit.modBusData.RequestError && requestStep == 3)
 			{
 				UpdateTimeStampInvoke();
+                requestStep = 4;
 			}
             else if (!modBusUnit.modBusData.RequestError && requestStep == 4)
             {
                 UpdateStartTimeStampInvoke();
-                loadTimeStampStep++; 
-                if (loadTimeStampStep <= ScopeConfig.ScopeCount) requestStep = 3;
+                loadTimeStampStep++;
+                requestStep = 3;
             }
             else
             {
                 MessageBox.Show("TimeStamp error");
-            }
-
-			
+            }			
 		}
 
 		private void LoadConfig()
@@ -567,15 +566,9 @@ namespace ScopeSetupApp
 				requestStep = 3;
 			}
 
-			else if (requestStep == 3)
+            else if (requestStep == 3 || requestStep == 4)
 			{
 				EndTimeStampRequest();
-                requestStep = 4;
-			}
-
-            else if (requestStep == 4)
-            {
-                EndTimeStampRequest();
             }
 
 			if (ScopeConfig.ChangeScopeConfig)
