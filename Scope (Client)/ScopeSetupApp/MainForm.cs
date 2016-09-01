@@ -736,7 +736,7 @@ namespace ScopeSetupApp
             string str1, str2, str3;
             str1 = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
             str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H   
-            str3 = (modBusUnit.modBusData.ReadData[4]).ToString();
+            str3 = (modBusUnit.modBusData.ReadData[4]).ToString("000") + "000";
             statusButtons[loadTimeStampStep].Text = "№" + (loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
             oscilTitls[loadTimeStampStep] = "Осциллограмма №" + (loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
             oscTimeDates[loadTimeStampStep] = str1 + "," + str2 + "." + str3;
@@ -754,7 +754,7 @@ namespace ScopeSetupApp
             string str1, str2, str3;
             str1 = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
             str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H   
-            str3 = (modBusUnit.modBusData.ReadData[4]).ToString();
+            str3 = (modBusUnit.modBusData.ReadData[4]).ToString("000") + "000";
             oscStartTimeDates[loadTimeStampStep] = str1 + "," + str2 + "." + str3;
         }
         private void UpdateStartTimeStampInvoke ()
@@ -1196,10 +1196,9 @@ namespace ScopeSetupApp
 		}
   
         //Save to cometrade
-        string Line1()
+        string Line1(string station_name)
         {
             string str = "";
-            string station_name = "<Не задано>";
             string rec_dev_id = (loadOscNum + 1).ToString();
             string rev_year = "1999";
             str = station_name + "," + rec_dev_id + "," + rev_year;
@@ -1209,41 +1208,58 @@ namespace ScopeSetupApp
         string Line2()
         {
             string str = "";
-            int nA = ScopeConfig.ChannelCount;
-            int nD = 0;
+            int nA = 0 , nD = 0;
+            for (int i = 0; i < ScopeConfig.ChannelCount; i++)
+            {
+                //Если параметр в списке известных, то пишем его в файл
+                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                {
+                    if (ScopeSysType.ChannelTypeAD[i] == 0) nA += 1;
+                    if (ScopeSysType.ChannelTypeAD[i] == 1) nD += 1;
+                }
+            }
             int TT = nA + nD;
             str = TT + "," + nA + "A," + nD + "D";
             return str;
         }
 
-        string Line3(int nA)
+        string Line3(int Num ,int nA)
         {
             string str = "";
 
-            string ch_id = "";
+            string ch_id = ScopeSysType.ChannelNames[ScopeConfig.OscillParams[Num]];
             string ph = "";
             string ccbm = "";
-            string uu = "NONE";
+            string uu = ScopeSysType.ChannelDimension[ScopeConfig.OscillParams[Num]];
             int a = 1;
             int b = 0;
             int skew = 0;
             int min = -1000;
             int max = 1000;
-            int primary = 200; 
+            int primary = 1; 
             int secondary = 1;
-            string ps = "p";
-
-		    //Если параметр в списке известных, то пишем его в файл
-            if (ScopeConfig.OscillParams[nA - 1] < ScopeSysType.ChannelNames.Count)
-			{
-                ch_id = ScopeSysType.ChannelNames[ScopeConfig.OscillParams[nA - 1]];
-			}
+            string ps = "P";
 
             str = nA + "," + ch_id + "," + ph + "," + ccbm + "," + uu + "," + a + "," + b + "," + skew + "," +
             min + "," + max + "," + primary + "," + secondary + "," + ps;
 
             return str;
         }
+
+        string Line4(int Num, int nD)
+        {
+            string str = "";
+
+            string ch_id = ScopeSysType.ChannelNames[ScopeConfig.OscillParams[Num]];
+            string ph = "";
+            string ccbm = "";
+            int y = 0;
+            
+            str = nD + "," + ch_id + "," + ph + "," + ccbm + "," + y ;
+
+            return str;
+        }
+
 
         string Line5()
         {
@@ -1293,7 +1309,7 @@ namespace ScopeSetupApp
 			SaveFileDialog sfd = new SaveFileDialog();
 			//sfd.FileName = oscilTitls[createFileNum];
 			sfd.DefaultExt = ".txt"; // Default file extension
-            sfd.Filter = "Text Files (*.txt)|*.txt|COMTRADE (*.cfg)|*.cfg"; // Filter files by extension
+            sfd.Filter = "Text Files (*.txt)|*.txt|COMTRADE rev. 1999 (*.cfg)|*.cfg|COMTRADE rev. 2013 (*.cfg)|*.cfg"; // Filter files by extension
 
             
             if (sfd.ShowDialog() != DialogResult.OK) { return; }
@@ -1366,9 +1382,22 @@ namespace ScopeSetupApp
 
                  try
                  {
-                     sw.WriteLine(Line1());
+                     sw.WriteLine(Line1(namefile));
                      sw.WriteLine(Line2());
-                     for (int i = 0; i < ScopeConfig.ChannelCount; i++) sw.WriteLine(Line3(i+1));
+                     for (int i = 0, j = 0; i < ScopeConfig.ChannelCount; i++) 
+                     { 
+                        if(ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count) 
+                        {
+                            if (ScopeSysType.ChannelTypeAD[i] == 0) {sw.WriteLine(Line3(i, j+1)); j++; }
+                        }
+                     }
+                     for (int i = 0, j = 0; i < ScopeConfig.ChannelCount; i++)
+                     {
+                         if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                         {
+                             if (ScopeSysType.ChannelTypeAD[i] == 1) { sw.WriteLine(Line4(i, j + 1)); j++; }
+                         }
+                     }
                      sw.WriteLine(Line5());
                      sw.WriteLine(Line6());
                      sw.WriteLine(Line7());

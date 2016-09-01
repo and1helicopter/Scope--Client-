@@ -701,11 +701,15 @@ namespace ScopeSetupApp
                     xmlOut.WriteStartElement("MeasureParam" + (i + 1).ToString());
 
                     xmlOut.WriteAttributeString("Name", ScopeSysType.ChannelNames[i]);
+                    xmlOut.WriteAttributeString("Dimension", ScopeSysType.ChannelDimension[i]);
                     xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ChannelAddrs[i]));
                     xmlOut.WriteAttributeString("Color", Convert.ToString(ScopeSysType.ChannelColors[i].ToArgb()));
                     xmlOut.WriteAttributeString("Format", Convert.ToString(ScopeSysType.ChannelFormats[i]));
                     xmlOut.WriteAttributeString("FormatName", Convert.ToString(ScopeSysType.ChannelFormatsName[i]));
                     xmlOut.WriteAttributeString("StepLine", Convert.ToString(ScopeSysType.ChannelStepLines[i]));
+                    xmlOut.WriteAttributeString("TypeAD", Convert.ToString(ScopeSysType.ChannelTypeAD[i]));
+                    xmlOut.WriteAttributeString("Min", Convert.ToString(ScopeSysType.ChannelMin[i]));
+                    xmlOut.WriteAttributeString("Max", Convert.ToString(ScopeSysType.ChannelMax[i]));
                     xmlOut.WriteAttributeString("Checked", Convert.ToString(checkBoxs[i].Checked));
                     
                     xmlOut.WriteEndElement();

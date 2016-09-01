@@ -11,12 +11,18 @@ namespace ScopeSetupApp
     {
         public static string xmlFileName = "ScopeSysType.xml";
         public static List<string> ChannelNames = new List<string>();
+        public static List<string> ChannelDimension = new List<string>();
         public static List<ushort> ChannelAddrs = new List<ushort>();
         public static List<Color> ChannelColors = new List<Color>();
         public static List<ushort> ChannelFormats = new List<ushort>();
         public static List<string> ChannelFormatsName = new List<string>();
         public static List<int> ChannelStepLines = new List<int>();
+        public static List<int> ChannelTypeAD = new List<int>();
+        public static List<int> ChannelMin = new List<int>();
+        public static List<int> ChannelMax = new List<int>();
         public static List<bool> ChannelChecked = new List<bool>();
+        
+        
                     
         public static ushort TimeStampAddr;
         public static ushort OscilStatusAddr;
@@ -95,13 +101,17 @@ namespace ScopeSetupApp
             LoadFromXML("OscilAllSize", "Count", doc, out OscilAllSize);
                        
             ChannelNames = new List<string>();
+            ChannelDimension = new List<string>();
             ChannelAddrs = new List<ushort>();
             ChannelColors = new List<Color>();
             ChannelFormats = new List<ushort>();
             ChannelFormatsName = new List<string>();
             ChannelStepLines = new List<int>();
+            ChannelTypeAD = new List<int>();
+            ChannelMin = new List<int>();
+            ChannelMax = new List<int>();
             ChannelChecked = new List<bool>();
-
+            
             XmlNodeList xmls;
             XmlNode xmlline;
 
@@ -117,12 +127,16 @@ namespace ScopeSetupApp
                 try
                 {
                     ChannelNames.Add(Convert.ToString(xmlline.Attributes["Name"].Value));
+                    ChannelDimension.Add(Convert.ToString(xmlline.Attributes["Dimension"].Value));
                     ChannelAddrs.Add(Convert.ToUInt16(xmlline.Attributes["Addr"].Value));
                     int ic = Convert.ToInt32(xmlline.Attributes["Color"].Value);
                     ChannelColors.Add(Color.FromArgb(ic));
                     ChannelFormats.Add(Convert.ToUInt16(xmlline.Attributes["Format"].Value));
                     ChannelFormatsName.Add(Convert.ToString(xmlline.Attributes["FormatName"].Value));
                     ChannelStepLines.Add(Convert.ToInt32(xmlline.Attributes["StepLine"].Value));
+                    ChannelTypeAD.Add(Convert.ToInt32(xmlline.Attributes["TypeAD"].Value));
+                    ChannelMin.Add(Convert.ToInt32(xmlline.Attributes["Min"].Value));
+                    ChannelMax.Add(Convert.ToInt32(xmlline.Attributes["Max"].Value));
                     ChannelChecked.Add(Convert.ToBoolean(xmlline.Attributes["Checked"].Value));
                 }
                 catch
