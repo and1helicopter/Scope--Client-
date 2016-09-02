@@ -21,25 +21,24 @@ namespace ScopeSetupApp
         public static List<int> ChannelMin = new List<int>();
         public static List<int> ChannelMax = new List<int>();
         public static List<bool> ChannelChecked = new List<bool>();
-        
-        
-                    
-        public static ushort TimeStampAddr;
-        public static ushort OscilStatusAddr;
-        public static ushort ScopeCountAddr;
-        public static ushort HistoryAddr;
-        public static ushort ChannelCountAddr;
-        public static ushort StartTemptAddr;
-        public static ushort OscilFreqAddr;
-        public static ushort OscilLoadAddr;
-        public static ushort FlagNeedAddr;
-        public static ushort NewConfigAddr;
 
+        public static ushort ScopeCountAddr;
+        public static ushort ChannelCountAddr;
+        public static ushort HistoryAddr;
+        public static ushort OscilFreqAddr;
+        public static ushort OscilStatusAddr;
+        public static ushort StartTemptAddr;
+        public static ushort OscilLoadAddr;
+        public static ushort NewConfigAddr;
+        public static ushort FlagNeedAddr;
+        public static ushort TimeStampAddr;
+        public static ushort OscilAllSize;
+          
         public static ushort OscilCount;
         public static ushort ChannelCount;
-        public static ushort HystoryCount; 
+        public static ushort HistoryCount;
         public static ushort FrequncyCount;
-        public static ushort OscilAllSize;
+        
         public static ushort OscilNominalFrequency;
         public static ushort OscilSampleRate;
 
@@ -81,24 +80,25 @@ namespace ScopeSetupApp
                 throw new Exception("Не удалось открыть файл: " + xmlFileName + "!");
             }
 
-            LoadFromXML("TimeStamp", "Addr", doc, out TimeStampAddr);
-            LoadFromXML("OscilStatus", "Addr", doc, out OscilStatusAddr);
             LoadFromXML("ScopeCount", "Addr", doc, out ScopeCountAddr);
-            LoadFromXML("Hystory", "Addr", doc, out HistoryAddr);
             LoadFromXML("ChannelCount", "Addr", doc, out ChannelCountAddr);
-            LoadFromXML("DataStart", "Addr", doc, out StartTemptAddr);
+            LoadFromXML("History", "Addr", doc, out HistoryAddr);
             LoadFromXML("OscilFreq", "Addr", doc, out OscilFreqAddr);
+            LoadFromXML("OscilStatus", "Addr", doc, out OscilStatusAddr);
+            LoadFromXML("StartTemp", "Addr", doc, out StartTemptAddr);
             LoadFromXML("LoadOscilStart", "Addr", doc, out OscilLoadAddr);
-            LoadFromXML("ParamLoadConfig", "Addr", doc, out FlagNeedAddr);
-            LoadFromXML("ParamLoadData", "Addr", doc, out NewConfigAddr);
-           
+            LoadFromXML("NewConfig", "Addr", doc, out NewConfigAddr);
+            LoadFromXML("FlagNeed", "Addr", doc, out FlagNeedAddr);
+            LoadFromXML("TimeStamp", "Addr", doc, out TimeStampAddr);
             ushort count = 0;
+            LoadFromXML("OscilAllSize", "Count", doc, out OscilAllSize);
             LoadFromXML("MeasureParams", "Count", doc, out count);
+
             LoadFromXML("Oscil", "Count", doc, out OscilCount);
             LoadFromXML("Channel", "Count", doc, out ChannelCount);
-            LoadFromXML("History", "Count", doc, out HystoryCount);
+            LoadFromXML("Story", "Count", doc, out HistoryCount);
             LoadFromXML("Frequency", "Count", doc, out FrequncyCount);
-            LoadFromXML("OscilAllSize", "Count", doc, out OscilAllSize);
+
             LoadFromXML("OscilNominalFrequency", "Count", doc, out OscilNominalFrequency);
             LoadFromXML("OscilSampleRate", "Count", doc, out OscilSampleRate);
             

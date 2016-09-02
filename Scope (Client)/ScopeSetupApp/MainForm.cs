@@ -1156,29 +1156,14 @@ namespace ScopeSetupApp
 			}
 			return str;
 		}
-        string FileParamLineData(ushort[] paramLine, int lineNum)
+
+        string CommOnPoint(ushort[] paramLine ,int i)
         {
-            string str = "";
-            ChFormats();
-            str = (lineNum + 1).ToString();
-            for (int i = 0; i < ScopeConfig.ChannelCount; i++)
-            {
-                //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
-                {
-                    if(ScopeSysType.ChannelTypeAD[i] == 0)str = str + ", " + AdvanceConvert.HexToFormat(paramLine[i], (byte)ChFormat[ScopeConfig.OscillParams[i]]);
-                }
-            }
-            for (int i = 0; i < ScopeConfig.ChannelCount; i++)
-            {
-                //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
-                {
-                    if (ScopeSysType.ChannelTypeAD[i] == 1) str = str + ", " + AdvanceConvert.HexToFormat(paramLine[i], (byte)ChFormat[ScopeConfig.OscillParams[i]]);
-                }
-            }
+            string str = AdvanceConvert.HexToFormat(paramLine[i], (byte)ChFormat[ScopeConfig.OscillParams[i]]);
+            str = str.Replace(",", ".");
             return str;
         }
+ 
 		List<ushort[]> InitParamsLines()
 		{
 			List<ushort[]> paramsLines = new List<ushort[]>();
@@ -1203,10 +1188,35 @@ namespace ScopeSetupApp
 		}
   
         //Save to cometrade
+        #region
+        string FileParamLineData(ushort[] paramLine, int lineNum)
+        {
+            string str = "";
+            ChFormats();
+            str = (lineNum + 1).ToString() + ",";
+            for (int i = 0; i < ScopeConfig.ChannelCount; i++)
+            {
+                //Если параметр в списке известных, то пишем его в файл
+                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                {
+                    if (ScopeSysType.ChannelTypeAD[i] == 0) str = str + "," + CommOnPoint(paramLine, i);
+                }
+            }
+            for (int i = 0; i < ScopeConfig.ChannelCount; i++)
+            {
+                //Если параметр в списке известных, то пишем его в файл
+                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                {
+                    if (ScopeSysType.ChannelTypeAD[i] == 1) str = str + "," + CommOnPoint(paramLine, i);
+                }
+            }
+            return str;
+        }
+
         string Line1(string station_name, int FilterIndex)
         {
             string str = "";
-            string rec_dev_id = (loadOscNum + 1).ToString();
+            string rec_dev_id = (loadOscNum + 1).ToString("00");
             string rev_year = "";
             if (FilterIndex == 2) rev_year = "1999";
             if (FilterIndex == 3) rev_year = "2013";
@@ -1288,6 +1298,7 @@ namespace ScopeSetupApp
             str = samp + "," + endsamp;
             return str;
         }
+
         string Line8(int numOsc)
         {
             return oscStartTimeDates[numOsc];;
@@ -1296,6 +1307,7 @@ namespace ScopeSetupApp
         {
             return oscTimeDates[numOsc]; ;
         }
+
         string Line10()
         {
             string ft = "ASCII";
@@ -1308,6 +1320,20 @@ namespace ScopeSetupApp
             return timemult;
         }
 
+        string Line12()
+        {
+            string timecode = "";
+            string localcode = "";
+            return timecode + "," + localcode;
+        }
+
+        string Line13()
+        {
+            string  tmq_code = "";
+            string  leapsec = "";
+            return tmq_code + "," + leapsec; 
+        }
+        #endregion//Save to cometrade
 
 		void CreateFile()
 		{
@@ -1319,13 +1345,16 @@ namespace ScopeSetupApp
             sfd.Filter = "Text Files (*.txt)|*.txt|COMTRADE rev. 1999 (*.cfg)|*.cfg|COMTRADE rev. 2013 (*.cfg)|*.cfg"; // Filter files by extension
 
             if (sfd.ShowDialog() != DialogResult.OK) { return; }
-            
+
             StreamWriter sw;
+
+            // Save to .txt
+            #region 
             
             if (sfd.FilterIndex == 1) { 
 
 			    try
-			    { 
+                {
 				    sw = File.CreateText(sfd.FileName);
 			    }
 			    catch
@@ -1368,7 +1397,10 @@ namespace ScopeSetupApp
 				    ExecuteScopeView(sfd.FileName);     
 			    }
             }
+            #endregion
 
+            // Save to COMETRADE
+            #region
             if (sfd.FilterIndex != 1) 
             {
                  MessageBox.Show("Еще не реализованно");
@@ -1389,6 +1421,7 @@ namespace ScopeSetupApp
                  {
                      sw.WriteLine(Line1(namefile, sfd.FilterIndex));
                      sw.WriteLine(Line2());
+
                      for (int i = 0, j = 0; i < ScopeConfig.ChannelCount; i++) 
                      { 
                         if(ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count) 
@@ -1403,6 +1436,7 @@ namespace ScopeSetupApp
                              if (ScopeSysType.ChannelTypeAD[i] == 1) { sw.WriteLine(Line4(i, j + 1)); j++; }
                          }
                      }
+
                      sw.WriteLine(Line5(ScopeSysType.OscilNominalFrequency));
                      sw.WriteLine(Line6());
                      sw.WriteLine(Line7(ScopeSysType.OscilSampleRate));
@@ -1410,6 +1444,11 @@ namespace ScopeSetupApp
                      sw.WriteLine(Line9(createFileNum));
                      sw.WriteLine(Line10());
                      sw.WriteLine(Line11());
+                     if (sfd.FilterIndex == 3)
+                     {
+                         sw.WriteLine(Line12());
+                         sw.WriteLine(Line13());
+                     }
                  }
                  catch
                  {
@@ -1442,8 +1481,9 @@ namespace ScopeSetupApp
                      return;
                  }
                  sw.Close();
-
             }
+            #endregion
+
             loadOscNum = 0;
 		}
 

@@ -374,7 +374,7 @@ namespace ScopeSetupApp
         private void saveButton_Click(object sender, EventArgs e)
         {
             string timeStampStr, oscilStatusStr, scopeCountStr,
-                   hystoryStr, channelCountStr, dataStartStr,
+                   historyStr, channelCountStr, dataStartStr,
                    oscilFreqStr, loadOscilStartStr, paramLoadConfigStr,
                    paramLoadDataStr, oscillSizeDataStr;
             List<string> paramAddrStrs = new List<string>();
@@ -418,7 +418,7 @@ namespace ScopeSetupApp
             }
             else
             {
-                hystoryStr = AdvanceConvert.uValue.ToString();
+                historyStr = AdvanceConvert.uValue.ToString();
             }
 
 
@@ -520,50 +520,54 @@ namespace ScopeSetupApp
                 xmlOut.WriteStartDocument();
                 xmlOut.WriteStartElement("Setup");
                 /////////////////////////////////////////////////////////////
-                xmlOut.WriteStartElement("TimeStamp");
-                xmlOut.WriteAttributeString("Addr", timeStampStr);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("OscilStatus");
-                xmlOut.WriteAttributeString("Addr", oscilStatusStr);
-                xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("ScopeCount");
                 xmlOut.WriteAttributeString("Addr", scopeCountStr);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("Hystory");
-                xmlOut.WriteAttributeString("Addr", hystoryStr);
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("ChannelCount");
                 xmlOut.WriteAttributeString("Addr", channelCountStr);
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("DataStart");
-                xmlOut.WriteAttributeString("Addr", dataStartStr);
+                xmlOut.WriteStartElement("History");
+                xmlOut.WriteAttributeString("Addr", historyStr);
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("OscilFreq");
                 xmlOut.WriteAttributeString("Addr", oscilFreqStr);
                 xmlOut.WriteEndElement();
 
+                xmlOut.WriteStartElement("OscilStatus");
+                xmlOut.WriteAttributeString("Addr", oscilStatusStr);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("StartTemp");
+                xmlOut.WriteAttributeString("Addr", dataStartStr);
+                xmlOut.WriteEndElement();
+
                 xmlOut.WriteStartElement("LoadOscilStart");
                 xmlOut.WriteAttributeString("Addr", loadOscilStartStr);
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("ParamLoadConfig");
+                xmlOut.WriteStartElement("NewConfig");
+                xmlOut.WriteAttributeString("Addr", paramLoadDataStr);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("FlagNeed");
                 xmlOut.WriteAttributeString("Addr", paramLoadConfigStr);
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("ParamLoadData");
-                xmlOut.WriteAttributeString("Addr", paramLoadDataStr);
+                xmlOut.WriteStartElement("TimeStamp");
+                xmlOut.WriteAttributeString("Addr", timeStampStr);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("OscilAllSize");
+                xmlOut.WriteAttributeString("Count", Convert.ToString(oscillSizeDataStr));
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("MeasureParams");
                 xmlOut.WriteAttributeString("Count", nameTextBoxs.Count.ToString());
                 xmlOut.WriteEndElement();
-
 
                 for (int i = 0; i < paramAddrStrs.Count; i++)
                 {
@@ -592,7 +596,7 @@ namespace ScopeSetupApp
                 xmlOut.WriteAttributeString("Count", Convert.ToString("0"));
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("History");
+                xmlOut.WriteStartElement("Story");
                 xmlOut.WriteAttributeString("Count", Convert.ToString("0"));
                 xmlOut.WriteEndElement();
 
@@ -600,9 +604,7 @@ namespace ScopeSetupApp
                 xmlOut.WriteAttributeString("Count", Convert.ToString("0"));
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("OscilAllSize");
-                xmlOut.WriteAttributeString("Count", Convert.ToString(oscillSizeDataStr));
-                xmlOut.WriteEndElement();
+                /////////////////////////////////////////////////////////////
 
                 xmlOut.WriteStartElement("OscilNominalFrequency");
                 xmlOut.WriteAttributeString("Count", nominalFrequency_textBox.Text);

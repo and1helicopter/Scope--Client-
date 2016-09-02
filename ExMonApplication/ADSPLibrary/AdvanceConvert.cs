@@ -185,7 +185,7 @@ namespace ADSPLibrary
         {
             if (digitCount > 5) { digitCount = 5; }
             double f = (short)value / 40.96;
-            //new version return f.ToString("0.###", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+            //return f.ToString("0.###", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
              return (f.ToString("F" + digitCount.ToString()));   
         }
 

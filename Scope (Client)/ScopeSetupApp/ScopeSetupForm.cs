@@ -604,7 +604,7 @@ namespace ScopeSetupApp
           
             if (ScopeSysType.OscilCount != 0) chCountRadioButton.Text = Convert.ToString(ScopeSysType.OscilCount);
             else chCountRadioButton.Clear();
-            if (ScopeSysType.HystoryCount != 0) hystoryRadioButton.Text = Convert.ToString(ScopeSysType.HystoryCount);
+            if (ScopeSysType.HistoryCount != 0) hystoryRadioButton.Text = Convert.ToString(ScopeSysType.HistoryCount);
             else hystoryRadioButton.Clear();
             if (ScopeSysType.FrequncyCount != 0) oscFreqRadioButton.Text = Convert.ToString(ScopeSysType.FrequncyCount);
             else oscFreqRadioButton.Clear();
@@ -652,44 +652,48 @@ namespace ScopeSetupApp
                 xmlOut.WriteStartDocument();
                 xmlOut.WriteStartElement("Setup");
                 /////////////////////////////////////////////////////////////
-                xmlOut.WriteStartElement("TimeStamp");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.TimeStampAddr));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("OscilStatus");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.OscilStatusAddr));
-                xmlOut.WriteEndElement();
-
                 xmlOut.WriteStartElement("ScopeCount");
                 xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ScopeCountAddr));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("Hystory");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.HistoryAddr));
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("ChannelCount");
                 xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ChannelCountAddr));
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("DataStart");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.StartTemptAddr));
+                xmlOut.WriteStartElement("History");
+                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.HistoryAddr));
                 xmlOut.WriteEndElement();
-
+                
                 xmlOut.WriteStartElement("OscilFreq");
                 xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.OscilFreqAddr));
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("OscilStatus");
+                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.OscilStatusAddr));
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("StartTemp");
+                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.StartTemptAddr));
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("LoadOscilStart");
                 xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.OscilLoadAddr));
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("ParamLoadConfig");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.FlagNeedAddr));
+                xmlOut.WriteStartElement("NewConfig");
+                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.NewConfigAddr));
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("ParamLoadData");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.NewConfigAddr));
+                xmlOut.WriteStartElement("FlagNeed");
+                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.FlagNeedAddr));
+                xmlOut.WriteEndElement();
+                
+                xmlOut.WriteStartElement("TimeStamp");
+                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.TimeStampAddr));
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("OscilAllSize");
+                xmlOut.WriteAttributeString("Count", Convert.ToString(oscilAllSize));
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("MeasureParams");
@@ -723,16 +727,12 @@ namespace ScopeSetupApp
                 xmlOut.WriteAttributeString("Count", Convert.ToString(nowMaxChannelCount));
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("History");
+                xmlOut.WriteStartElement("Story");
                 xmlOut.WriteAttributeString("Count", Convert.ToString(nowHystory));
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("Frequency");
                 xmlOut.WriteAttributeString("Count", Convert.ToString(nowOscFreq));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("OscilAllSize");
-                xmlOut.WriteAttributeString("Count", Convert.ToString(oscilAllSize));
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("OscilNominalFrequency");
