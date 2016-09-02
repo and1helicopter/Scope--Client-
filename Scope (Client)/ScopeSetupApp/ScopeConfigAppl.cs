@@ -87,7 +87,7 @@ namespace ScopeSetupApp
             nameTextBoxs[i].Font = new Font("Arial", 9);
             nameTextBoxs[i].AutoSize = false;
             nameTextBoxs[i].Left = 10;
-            nameTextBoxs[i].Top = 10 + 26 * i;
+            nameTextBoxs[i].Top = 3 + 26 * i;
             nameTextBoxs[i].Width = 140;
             nameTextBoxs[i].Height = 24;
             nameTextBoxs[i].Text = lineName;
@@ -98,7 +98,7 @@ namespace ScopeSetupApp
             dimensionComboBox[i].Font = new Font("Arial", 9);
             dimensionComboBox[i].Items.AddRange(dimension);
             dimensionComboBox[i].Left = 153;
-            dimensionComboBox[i].Top = 10 + 26 * i;
+            dimensionComboBox[i].Top = 3 + 26 * i;
             dimensionComboBox[i].Width = 55;
             dimensionComboBox[i].Text = lineDimension;
             dimensionComboBox[i].DropDownStyle = ComboBoxStyle.DropDown;
@@ -108,7 +108,7 @@ namespace ScopeSetupApp
             addrTextBoxs[i].Font = new Font("Arial", 9);
             addrTextBoxs[i].AutoSize = false;
             addrTextBoxs[i].Left = 211;
-            addrTextBoxs[i].Top = 10 + 26 * i;
+            addrTextBoxs[i].Top = 3 + 26 * i;
             addrTextBoxs[i].Width = 55;
             addrTextBoxs[i].Height = 24;
             addrTextBoxs[i].Text = "0x" + lineAddr.ToString("X4");
@@ -120,7 +120,7 @@ namespace ScopeSetupApp
             colorLabels[i].BorderStyle = BorderStyle.FixedSingle;
             colorLabels[i].Width = colorLabels[i].Height = addrTextBoxs[i].Height;
             colorLabels[i].Left = 269;
-            colorLabels[i].Top = 10 + 26 * i;
+            colorLabels[i].Top = 3 + 26 * i;
             colorLabels[i].BackColor = clr;
             colorLabels[i].Click += new EventHandler(colorLabel_Click);
 
@@ -131,7 +131,7 @@ namespace ScopeSetupApp
             formatComboBoxNumeric[i].Items.AddRange(sizeFormat);
             formatComboBoxNumeric[i].Width = 40;
             formatComboBoxNumeric[i].Left = 297;
-            formatComboBoxNumeric[i].Top = 10 + 26 * i; ;
+            formatComboBoxNumeric[i].Top = 3 + 26 * i;
             formatComboBoxNumeric[i].Text = Convert.ToString(formatData);
             formatComboBoxNumeric[i].DropDownStyle = ComboBoxStyle.DropDownList;
             
@@ -143,7 +143,7 @@ namespace ScopeSetupApp
             formatComboBox[i].Items.AddRange(format);
             formatComboBox[i].Width = 90;
             formatComboBox[i].Left = 340;
-            formatComboBox[i].Top = 10 + 26 * i;
+            formatComboBox[i].Top = 3 + 26 * i;
             formatComboBox[i].Text = formatName;
             
             
@@ -157,7 +157,7 @@ namespace ScopeSetupApp
             stepLineCheckBoxs[i].Items.Add("Smooth");
             stepLineCheckBoxs[i].Items.Add("Step");
             stepLineCheckBoxs[i].SelectedIndex = stepLine;
-            stepLineCheckBoxs[i].Top = 10 + 26 * i;
+            stepLineCheckBoxs[i].Top = 3 + 26 * i;
 
             AnalogDigitalComboBox.Add(new ComboBox());
             AnalogDigitalComboBox[i].Tag = i;
@@ -169,14 +169,14 @@ namespace ScopeSetupApp
             AnalogDigitalComboBox[i].Items.Add("Analog");
             AnalogDigitalComboBox[i].Items.Add("Digital");
             AnalogDigitalComboBox[i].SelectedIndex = lineTypeAD;
-            AnalogDigitalComboBox[i].Top = 10 + 26 * i;
+            AnalogDigitalComboBox[i].Top = 3 + 26 * i;
 
             minTextBoxs.Add(new TextBox());
             minTextBoxs[i].Dock = DockStyle.None;
             minTextBoxs[i].Font = new Font("Arial", 9);
             minTextBoxs[i].AutoSize = false;
             minTextBoxs[i].Left = 559;
-            minTextBoxs[i].Top = 10 + 26 * i;
+            minTextBoxs[i].Top = 3 + 26 * i;
             minTextBoxs[i].Width = 95;
             minTextBoxs[i].Height = 24;
             minTextBoxs[i].Text = min.ToString();
@@ -187,7 +187,7 @@ namespace ScopeSetupApp
             maxTextBoxs[i].Font = new Font("Arial", 9);
             maxTextBoxs[i].AutoSize = false;
             maxTextBoxs[i].Left = 657;
-            maxTextBoxs[i].Top = 10 + 26 * i;
+            maxTextBoxs[i].Top = 3 + 26 * i;
             maxTextBoxs[i].Width = 95;
             maxTextBoxs[i].Height = 24;
             maxTextBoxs[i].Text = max.ToString();
@@ -198,7 +198,7 @@ namespace ScopeSetupApp
             removeButtons[i].Tag = i;
             removeButtons[i].Dock = DockStyle.None;
             removeButtons[i].Left = 753;
-            removeButtons[i].Top = 10 + 26 * i; ;
+            removeButtons[i].Top = 3 + 26 * i;
             removeButtons[i].Click += new EventHandler(deleteButton_Click);
 
                         
@@ -319,6 +319,8 @@ namespace ScopeSetupApp
                 FlagNeed_ConfigTextBox.Text = "0x" + ScopeSysType.FlagNeedAddr.ToString("X4");
                 NewConfig_TextBox.Text = "0x" + ScopeSysType.NewConfigAddr.ToString("X4");
                 OscilSizeData_TextBox.Text = "0x" + ScopeSysType.OscilAllSize.ToString("X4");
+                nominalFrequency_textBox.Text = ScopeSysType.OscilNominalFrequency.ToString("###");
+                sampleRate_textBox.Text = ScopeSysType.OscilSampleRate.ToString("###");
 
                 
                 for (int i = nameTextBoxs.Count - 1; i >= 0 ; i--)
@@ -451,8 +453,6 @@ namespace ScopeSetupApp
                 oscilFreqStr = AdvanceConvert.uValue.ToString();
             }
 
-
-
             if (!AdvanceConvert.StrToInt(OscilLoad_TextBox.Text))
             {
                 MessageBox.Show("Ошибка в поле loadOscilStart");
@@ -509,8 +509,6 @@ namespace ScopeSetupApp
                 oscillSizeDataStr = AdvanceConvert.uValue.ToString();
             }
 
-
-
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.DefaultExt = ".xml"; // Default file extension
             sfd.Filter = "XML|*.xml"; // Filter files by extension
@@ -566,6 +564,7 @@ namespace ScopeSetupApp
                 xmlOut.WriteAttributeString("Count", nameTextBoxs.Count.ToString());
                 xmlOut.WriteEndElement();
 
+
                 for (int i = 0; i < paramAddrStrs.Count; i++)
                 {
                     xmlOut.WriteStartElement("MeasureParam" + (i + 1).ToString());
@@ -603,6 +602,14 @@ namespace ScopeSetupApp
 
                 xmlOut.WriteStartElement("OscilAllSize");
                 xmlOut.WriteAttributeString("Count", Convert.ToString(oscillSizeDataStr));
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("OscilNominalFrequency");
+                xmlOut.WriteAttributeString("Count", nominalFrequency_textBox.Text);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("OscilSampleRate");
+                xmlOut.WriteAttributeString("Count", sampleRate_textBox.Text);
                 xmlOut.WriteEndElement();
 
                 /////////////////////////////////////////////////////////////

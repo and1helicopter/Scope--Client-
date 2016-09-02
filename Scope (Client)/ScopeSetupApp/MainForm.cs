@@ -1134,8 +1134,7 @@ namespace ScopeSetupApp
                 if(ScopeSysType.ChannelFormatsName[i] == "Percent upp")     ChFormat[i] = 20;
                 if(ScopeSysType.ChannelFormatsName[i] == "Freq UPTF")       ChFormat[i] = 21;
                 else ChFormat[i] = 0;            }
-         }
-
+        }
 
 		string FileParamLine(ushort[] paramLine, int lineNum)
 		{
@@ -1167,7 +1166,15 @@ namespace ScopeSetupApp
                 //Если параметр в списке известных, то пишем его в файл
                 if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
                 {
-                    str = str + "," + AdvanceConvert.HexToFormat(paramLine[i], (byte)ChFormat[ScopeConfig.OscillParams[i]]);
+                    if(ScopeSysType.ChannelTypeAD[i] == 0)str = str + ", " + AdvanceConvert.HexToFormat(paramLine[i], (byte)ChFormat[ScopeConfig.OscillParams[i]]);
+                }
+            }
+            for (int i = 0; i < ScopeConfig.ChannelCount; i++)
+            {
+                //Если параметр в списке известных, то пишем его в файл
+                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                {
+                    if (ScopeSysType.ChannelTypeAD[i] == 1) str = str + ", " + AdvanceConvert.HexToFormat(paramLine[i], (byte)ChFormat[ScopeConfig.OscillParams[i]]);
                 }
             }
             return str;
@@ -1196,11 +1203,13 @@ namespace ScopeSetupApp
 		}
   
         //Save to cometrade
-        string Line1(string station_name)
+        string Line1(string station_name, int FilterIndex)
         {
             string str = "";
             string rec_dev_id = (loadOscNum + 1).ToString();
-            string rev_year = "1999";
+            string rev_year = "";
+            if (FilterIndex == 2) rev_year = "1999";
+            if (FilterIndex == 3) rev_year = "2013";
             str = station_name + "," + rec_dev_id + "," + rev_year;
             return str;
         }
@@ -1234,8 +1243,8 @@ namespace ScopeSetupApp
             int a = 1;
             int b = 0;
             int skew = 0;
-            int min = -1000;
-            int max = 1000;
+            int min = ScopeSysType.ChannelMin[ScopeConfig.OscillParams[Num]];;
+            int max = ScopeSysType.ChannelMax[ScopeConfig.OscillParams[Num]];;
             int primary = 1; 
             int secondary = 1;
             string ps = "P";
@@ -1260,11 +1269,9 @@ namespace ScopeSetupApp
             return str;
         }
 
-
-        string Line5()
+        string Line5(int lf)
         {
-             string lf = "50";
-             return lf;
+             return lf.ToString();
         }
 
         string Line6()
@@ -1273,10 +1280,10 @@ namespace ScopeSetupApp
             return nrates;
         }
 
-        string Line7()
+        string Line7(int Freq)
         {
             string str = "";
-            string samp = "1";
+            int samp = Freq * ScopeSysType.FrequncyCount;
             string endsamp = InitParamsLines().Count.ToString();
             str = samp + "," + endsamp;
             return str;
@@ -1311,14 +1318,12 @@ namespace ScopeSetupApp
 			sfd.DefaultExt = ".txt"; // Default file extension
             sfd.Filter = "Text Files (*.txt)|*.txt|COMTRADE rev. 1999 (*.cfg)|*.cfg|COMTRADE rev. 2013 (*.cfg)|*.cfg"; // Filter files by extension
 
-            
             if (sfd.ShowDialog() != DialogResult.OK) { return; }
             
             StreamWriter sw;
             
             if (sfd.FilterIndex == 1) { 
 
-			    
 			    try
 			    { 
 				    sw = File.CreateText(sfd.FileName);
@@ -1364,7 +1369,7 @@ namespace ScopeSetupApp
 			    }
             }
 
-            if (sfd.FilterIndex == 2) 
+            if (sfd.FilterIndex != 1) 
             {
                  MessageBox.Show("Еще не реализованно");
 
@@ -1382,7 +1387,7 @@ namespace ScopeSetupApp
 
                  try
                  {
-                     sw.WriteLine(Line1(namefile));
+                     sw.WriteLine(Line1(namefile, sfd.FilterIndex));
                      sw.WriteLine(Line2());
                      for (int i = 0, j = 0; i < ScopeConfig.ChannelCount; i++) 
                      { 
@@ -1398,9 +1403,9 @@ namespace ScopeSetupApp
                              if (ScopeSysType.ChannelTypeAD[i] == 1) { sw.WriteLine(Line4(i, j + 1)); j++; }
                          }
                      }
-                     sw.WriteLine(Line5());
+                     sw.WriteLine(Line5(ScopeSysType.OscilNominalFrequency));
                      sw.WriteLine(Line6());
-                     sw.WriteLine(Line7());
+                     sw.WriteLine(Line7(ScopeSysType.OscilSampleRate));
                      sw.WriteLine(Line8(createFileNum));
                      sw.WriteLine(Line9(createFileNum));
                      sw.WriteLine(Line10());

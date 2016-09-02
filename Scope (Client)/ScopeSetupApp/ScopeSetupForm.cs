@@ -735,7 +735,13 @@ namespace ScopeSetupApp
                 xmlOut.WriteAttributeString("Count", Convert.ToString(oscilAllSize));
                 xmlOut.WriteEndElement();
 
+                xmlOut.WriteStartElement("OscilNominalFrequency");
+                xmlOut.WriteAttributeString("Count", Convert.ToString(ScopeSysType.OscilNominalFrequency));
+                xmlOut.WriteEndElement();
 
+                xmlOut.WriteStartElement("OscilSampleRate");
+                xmlOut.WriteAttributeString("Count", Convert.ToString(ScopeSysType.OscilSampleRate));
+                xmlOut.WriteEndElement();
 
                 /////////////////////////////////////////////////////////////
                 xmlOut.WriteEndElement();

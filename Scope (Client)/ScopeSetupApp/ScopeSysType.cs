@@ -40,8 +40,8 @@ namespace ScopeSetupApp
         public static ushort HystoryCount; 
         public static ushort FrequncyCount;
         public static ushort OscilAllSize;
-        //public static int OscilSize;
-
+        public static ushort OscilNominalFrequency;
+        public static ushort OscilSampleRate;
 
         static void LoadFromXML(string paramName, string WrName, XmlDocument doc, out ushort addr)
         {
@@ -99,7 +99,9 @@ namespace ScopeSetupApp
             LoadFromXML("History", "Count", doc, out HystoryCount);
             LoadFromXML("Frequency", "Count", doc, out FrequncyCount);
             LoadFromXML("OscilAllSize", "Count", doc, out OscilAllSize);
-                       
+            LoadFromXML("OscilNominalFrequency", "Count", doc, out OscilNominalFrequency);
+            LoadFromXML("OscilSampleRate", "Count", doc, out OscilSampleRate);
+            
             ChannelNames = new List<string>();
             ChannelDimension = new List<string>();
             ChannelAddrs = new List<ushort>();
