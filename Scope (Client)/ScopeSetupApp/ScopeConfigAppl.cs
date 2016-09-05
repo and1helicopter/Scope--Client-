@@ -319,13 +319,18 @@ namespace ScopeSetupApp
                 FlagNeed_ConfigTextBox.Text = "0x" + ScopeSysType.FlagNeedAddr.ToString("X4");
                 NewConfig_TextBox.Text = "0x" + ScopeSysType.NewConfigAddr.ToString("X4");
                 OscilSizeData_TextBox.Text = "0x" + ScopeSysType.OscilAllSize.ToString("X4");
+                //For COMETRADE
+                stationName_textBox.Text = ScopeSysType.StationName.ToString();
+                recordingDevice_textBox.Text = ScopeSysType.RecordingDevice.ToString();
                 nominalFrequency_textBox.Text = ScopeSysType.OscilNominalFrequency.ToString("###");
                 sampleRate_textBox.Text = ScopeSysType.OscilSampleRate.ToString("###");
-
+                timeCode_textBox.Text = ScopeSysType.TimeCode.ToString();
+                localCode_textBox.Text = ScopeSysType.LocalCode.ToString();
+                tmqCode_textBox.Text = ScopeSysType.tmqCode.ToString();
+                leapsec_textBox.Text = ScopeSysType.leapsec.ToString();
                 
                 for (int i = nameTextBoxs.Count - 1; i >= 0 ; i--)
                 {
-
                     configPanel.Controls.Remove(nameTextBoxs[i]);
                     configPanel.Controls.Remove(dimensionComboBox[i]);
                     configPanel.Controls.Remove(addrTextBoxs[i]);
@@ -521,6 +526,8 @@ namespace ScopeSetupApp
                 xmlOut.WriteStartElement("Setup");
                 /////////////////////////////////////////////////////////////
 
+                xmlOut.WriteStartElement("OscilConfig");
+
                 xmlOut.WriteStartElement("ScopeCount");
                 xmlOut.WriteAttributeString("Addr", scopeCountStr);
                 xmlOut.WriteEndElement();
@@ -569,6 +576,22 @@ namespace ScopeSetupApp
                 xmlOut.WriteAttributeString("Count", nameTextBoxs.Count.ToString());
                 xmlOut.WriteEndElement();
 
+                xmlOut.WriteStartElement("Oscil");
+                xmlOut.WriteAttributeString("Count", Convert.ToString("0"));
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("Channel");
+                xmlOut.WriteAttributeString("Count", Convert.ToString("0"));
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("Story");
+                xmlOut.WriteAttributeString("Count", Convert.ToString("1"));
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("Frequency");
+                xmlOut.WriteAttributeString("Count", Convert.ToString("1"));
+                xmlOut.WriteEndElement();
+
                 for (int i = 0; i < paramAddrStrs.Count; i++)
                 {
                     xmlOut.WriteStartElement("MeasureParam" + (i + 1).ToString());
@@ -588,23 +611,16 @@ namespace ScopeSetupApp
                     xmlOut.WriteEndElement();
                 }
 
-                xmlOut.WriteStartElement("Oscil");
-                xmlOut.WriteAttributeString("Count", Convert.ToString("0"));
                 xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("Channel");
-                xmlOut.WriteAttributeString("Count", Convert.ToString("0"));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("Story");
-                xmlOut.WriteAttributeString("Count", Convert.ToString("0"));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("Frequency");
-                xmlOut.WriteAttributeString("Count", Convert.ToString("0"));
-                xmlOut.WriteEndElement();
-
+                
                 /////////////////////////////////////////////////////////////
+                xmlOut.WriteStartElement("COMETRADEConfig");
+
+                xmlOut.WriteStartElement("StationName", stationName_textBox.Text);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("RecordingDevice", recordingDevice_textBox.Text);
+                xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("OscilNominalFrequency");
                 xmlOut.WriteAttributeString("Count", nominalFrequency_textBox.Text);
@@ -614,6 +630,19 @@ namespace ScopeSetupApp
                 xmlOut.WriteAttributeString("Count", sampleRate_textBox.Text);
                 xmlOut.WriteEndElement();
 
+                xmlOut.WriteStartElement("TimeCode", timeCode_textBox.Text);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("LocalCode", localCode_textBox.Text);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("tmqCode", tmqCode_textBox.Text);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("leapsec", leapsec_textBox.Text);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteEndElement();
                 /////////////////////////////////////////////////////////////
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();

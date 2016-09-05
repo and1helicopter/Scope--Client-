@@ -1213,10 +1213,11 @@ namespace ScopeSetupApp
             return str;
         }
 
-        string Line1(string station_name, int FilterIndex)
+        string Line1( int FilterIndex)
         {
             string str = "";
-            string rec_dev_id = (loadOscNum + 1).ToString("00");
+            string station_name = ScopeSysType.StationName;
+            string rec_dev_id = ScopeSysType.RecordingDevice;
             string rev_year = "";
             if (FilterIndex == 2) rev_year = "1999";
             if (FilterIndex == 3) rev_year = "2013";
@@ -1279,9 +1280,9 @@ namespace ScopeSetupApp
             return str;
         }
 
-        string Line5(int lf)
+        string Line5()
         {
-             return lf.ToString();
+            return ScopeSysType.OscilNominalFrequency.ToString();
         }
 
         string Line6()
@@ -1290,10 +1291,10 @@ namespace ScopeSetupApp
             return nrates;
         }
 
-        string Line7(int Freq)
+        string Line7()
         {
             string str = "";
-            int samp = Freq * ScopeSysType.FrequncyCount;
+            int samp = ScopeSysType.OscilSampleRate * ScopeSysType.FrequncyCount;
             string endsamp = InitParamsLines().Count.ToString();
             str = samp + "," + endsamp;
             return str;
@@ -1303,6 +1304,7 @@ namespace ScopeSetupApp
         {
             return oscStartTimeDates[numOsc];;
         }
+
         string Line9(int numOsc)
         {
             return oscTimeDates[numOsc]; ;
@@ -1322,15 +1324,15 @@ namespace ScopeSetupApp
 
         string Line12()
         {
-            string timecode = "";
-            string localcode = "";
+            string timecode = ScopeSysType.TimeCode;
+            string localcode = ScopeSysType.LocalCode;
             return timecode + "," + localcode;
         }
 
         string Line13()
         {
-            string  tmq_code = "";
-            string  leapsec = "";
+            string  tmq_code = ScopeSysType.tmqCode;
+            string  leapsec = ScopeSysType.leapsec;
             return tmq_code + "," + leapsec; 
         }
         #endregion//Save to cometrade
@@ -1346,16 +1348,18 @@ namespace ScopeSetupApp
 
             if (sfd.ShowDialog() != DialogResult.OK) { return; }
 
-            StreamWriter sw;
+            
 
             // Save to .txt
             #region 
             
-            if (sfd.FilterIndex == 1) { 
+            if (sfd.FilterIndex == 1) 
+            {
+                StreamWriter sw;
 
-			    try
+                try
                 {
-				    sw = File.CreateText(sfd.FileName);
+                    sw = File.CreateText(sfd.FileName);
 			    }
 			    catch
 			    {
@@ -1392,6 +1396,7 @@ namespace ScopeSetupApp
 			    }
 			    sw.Close();
 
+
 			    if (MessageBox.Show("Открыть осциллограмму для просмотра",this.Text,MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
 			    {
 				    ExecuteScopeView(sfd.FileName);     
@@ -1403,11 +1408,10 @@ namespace ScopeSetupApp
             #region
             if (sfd.FilterIndex != 1) 
             {
-                 MessageBox.Show("Еще не реализованно");
+                StreamWriter sw = new StreamWriter(sfd.FileName, false, Encoding.GetEncoding("Windows-1251"));
 
                  try
                  {
-                     sw = File.CreateText(sfd.FileName);
                      namefile = Path.GetFileNameWithoutExtension(sfd.FileName);
                      pathfile = Path.GetDirectoryName(sfd.FileName);
                  }
@@ -1419,7 +1423,7 @@ namespace ScopeSetupApp
 
                  try
                  {
-                     sw.WriteLine(Line1(namefile, sfd.FilterIndex));
+                     sw.WriteLine(Line1(sfd.FilterIndex));
                      sw.WriteLine(Line2());
 
                      for (int i = 0, j = 0; i < ScopeConfig.ChannelCount; i++) 
@@ -1437,9 +1441,9 @@ namespace ScopeSetupApp
                          }
                      }
 
-                     sw.WriteLine(Line5(ScopeSysType.OscilNominalFrequency));
+                     sw.WriteLine(Line5());
                      sw.WriteLine(Line6());
-                     sw.WriteLine(Line7(ScopeSysType.OscilSampleRate));
+                     sw.WriteLine(Line7());
                      sw.WriteLine(Line8(createFileNum));
                      sw.WriteLine(Line9(createFileNum));
                      sw.WriteLine(Line10());
@@ -1460,7 +1464,7 @@ namespace ScopeSetupApp
                  pathDateFile = pathfile + "\\" + namefile + ".dat";
                  try
                  {
-                    sw = File.CreateText(pathDateFile);
+                     sw = File.CreateText(pathDateFile);
                  }
                  catch
                  {

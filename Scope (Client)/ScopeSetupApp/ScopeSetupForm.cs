@@ -652,6 +652,9 @@ namespace ScopeSetupApp
                 xmlOut.WriteStartDocument();
                 xmlOut.WriteStartElement("Setup");
                 /////////////////////////////////////////////////////////////
+
+                xmlOut.WriteStartElement("OscilConfig");
+
                 xmlOut.WriteStartElement("ScopeCount");
                 xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ScopeCountAddr));
                 xmlOut.WriteEndElement();
@@ -699,6 +702,22 @@ namespace ScopeSetupApp
                 xmlOut.WriteStartElement("MeasureParams");
                 xmlOut.WriteAttributeString("Count", Convert.ToString(possibleLabels.Count));
                 xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("Oscil");
+                xmlOut.WriteAttributeString("Count", Convert.ToString(nowScopeCount));
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("Channel");
+                xmlOut.WriteAttributeString("Count", Convert.ToString(nowMaxChannelCount));
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("Story");
+                xmlOut.WriteAttributeString("Count", Convert.ToString(nowHystory));
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("Frequency");
+                xmlOut.WriteAttributeString("Count", Convert.ToString(nowOscFreq));
+                xmlOut.WriteEndElement();
                              
                 for (int i = 0; i < possibleLabels.Count; i++)
                 {
@@ -719,20 +738,14 @@ namespace ScopeSetupApp
                     xmlOut.WriteEndElement();
                 }
 
-                xmlOut.WriteStartElement("Oscil");
-                xmlOut.WriteAttributeString("Count", Convert.ToString(nowScopeCount));
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("Channel");
-                xmlOut.WriteAttributeString("Count", Convert.ToString(nowMaxChannelCount));
+                xmlOut.WriteStartElement("COMETRADEConfig");
+
+                xmlOut.WriteStartElement("StationName", ScopeSysType.StationName);
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("Story");
-                xmlOut.WriteAttributeString("Count", Convert.ToString(nowHystory));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("Frequency");
-                xmlOut.WriteAttributeString("Count", Convert.ToString(nowOscFreq));
+                xmlOut.WriteStartElement("RecordingDevice", ScopeSysType.RecordingDevice);
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("OscilNominalFrequency");
@@ -743,6 +756,19 @@ namespace ScopeSetupApp
                 xmlOut.WriteAttributeString("Count", Convert.ToString(ScopeSysType.OscilSampleRate));
                 xmlOut.WriteEndElement();
 
+                xmlOut.WriteStartElement("TimeCode", ScopeSysType.TimeCode);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("LocalCode", ScopeSysType.LocalCode);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("tmqCode",  ScopeSysType.tmqCode);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("leapsec", ScopeSysType.leapsec);
+                xmlOut.WriteEndElement();
+
+                xmlOut.WriteEndElement();
                 /////////////////////////////////////////////////////////////
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();

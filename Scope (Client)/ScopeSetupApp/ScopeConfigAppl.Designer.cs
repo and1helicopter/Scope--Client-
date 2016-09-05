@@ -62,6 +62,19 @@
             this.OscilStatus_TextBox = new System.Windows.Forms.TextBox();
             this.OscilStatus_label = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.recordingDevice_textBox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.stationName_textBox = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.leapsec_textBox = new System.Windows.Forms.TextBox();
+            this.timeCode_textBox = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tmqCode_textBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.localCode_textBox = new System.Windows.Forms.TextBox();
             this.sampleRate_textBox = new System.Windows.Forms.TextBox();
             this.sampleRate_label = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -75,22 +88,13 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.configPanel = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.mailToolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // mailToolStrip
@@ -156,7 +160,7 @@
             // nominalFrequency_label
             // 
             this.nominalFrequency_label.AutoSize = true;
-            this.nominalFrequency_label.Location = new System.Drawing.Point(10, 13);
+            this.nominalFrequency_label.Location = new System.Drawing.Point(10, 67);
             this.nominalFrequency_label.Name = "nominalFrequency_label";
             this.nominalFrequency_label.Size = new System.Drawing.Size(140, 17);
             this.nominalFrequency_label.TabIndex = 23;
@@ -164,7 +168,7 @@
             // 
             // nominalFrequency_textBox
             // 
-            this.nominalFrequency_textBox.Location = new System.Drawing.Point(156, 10);
+            this.nominalFrequency_textBox.Location = new System.Drawing.Point(156, 64);
             this.nominalFrequency_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.nominalFrequency_textBox.Name = "nominalFrequency_textBox";
             this.nominalFrequency_textBox.Size = new System.Drawing.Size(116, 24);
@@ -434,6 +438,10 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage2.Controls.Add(this.recordingDevice_textBox);
+            this.tabPage2.Controls.Add(this.label9);
+            this.tabPage2.Controls.Add(this.stationName_textBox);
+            this.tabPage2.Controls.Add(this.label14);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.sampleRate_textBox);
             this.tabPage2.Controls.Add(this.sampleRate_label);
@@ -446,9 +454,134 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = " COMETRADE Config";
             // 
+            // recordingDevice_textBox
+            // 
+            this.recordingDevice_textBox.Location = new System.Drawing.Point(156, 37);
+            this.recordingDevice_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.recordingDevice_textBox.Name = "recordingDevice_textBox";
+            this.recordingDevice_textBox.Size = new System.Drawing.Size(116, 24);
+            this.recordingDevice_textBox.TabIndex = 39;
+            this.recordingDevice_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(48, 40);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(103, 17);
+            this.label9.TabIndex = 38;
+            this.label9.Text = "Recording device";
+            // 
+            // stationName_textBox
+            // 
+            this.stationName_textBox.Location = new System.Drawing.Point(156, 10);
+            this.stationName_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.stationName_textBox.Name = "stationName_textBox";
+            this.stationName_textBox.Size = new System.Drawing.Size(116, 24);
+            this.stationName_textBox.TabIndex = 37;
+            this.stationName_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(68, 13);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(82, 17);
+            this.label14.TabIndex = 36;
+            this.label14.Text = "Station name";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.leapsec_textBox);
+            this.groupBox1.Controls.Add(this.timeCode_textBox);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.tmqCode_textBox);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.localCode_textBox);
+            this.groupBox1.Location = new System.Drawing.Point(278, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(268, 118);
+            this.groupBox1.TabIndex = 35;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "For rev. 2013";
+            // 
+            // leapsec_textBox
+            // 
+            this.leapsec_textBox.Location = new System.Drawing.Point(146, 91);
+            this.leapsec_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.leapsec_textBox.Name = "leapsec_textBox";
+            this.leapsec_textBox.Size = new System.Drawing.Size(116, 24);
+            this.leapsec_textBox.TabIndex = 34;
+            this.leapsec_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // timeCode_textBox
+            // 
+            this.timeCode_textBox.Location = new System.Drawing.Point(146, 10);
+            this.timeCode_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.timeCode_textBox.Name = "timeCode_textBox";
+            this.timeCode_textBox.Size = new System.Drawing.Size(116, 24);
+            this.timeCode_textBox.TabIndex = 28;
+            this.timeCode_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(89, 94);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(51, 17);
+            this.label7.TabIndex = 33;
+            this.label7.Text = "leapsec";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(72, 13);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(68, 17);
+            this.label6.TabIndex = 27;
+            this.label6.Text = "Time Code";
+            // 
+            // tmqCode_textBox
+            // 
+            this.tmqCode_textBox.Location = new System.Drawing.Point(146, 64);
+            this.tmqCode_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tmqCode_textBox.Name = "tmqCode_textBox";
+            this.tmqCode_textBox.Size = new System.Drawing.Size(116, 24);
+            this.tmqCode_textBox.TabIndex = 32;
+            this.tmqCode_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(71, 40);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(69, 17);
+            this.label5.TabIndex = 29;
+            this.label5.Text = "Local Code";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(78, 67);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(62, 17);
+            this.label8.TabIndex = 31;
+            this.label8.Text = "tmq Code";
+            // 
+            // localCode_textBox
+            // 
+            this.localCode_textBox.Location = new System.Drawing.Point(146, 37);
+            this.localCode_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.localCode_textBox.Name = "localCode_textBox";
+            this.localCode_textBox.Size = new System.Drawing.Size(116, 24);
+            this.localCode_textBox.TabIndex = 30;
+            this.localCode_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // sampleRate_textBox
             // 
-            this.sampleRate_textBox.Location = new System.Drawing.Point(156, 37);
+            this.sampleRate_textBox.Location = new System.Drawing.Point(156, 91);
             this.sampleRate_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.sampleRate_textBox.Name = "sampleRate_textBox";
             this.sampleRate_textBox.Size = new System.Drawing.Size(116, 24);
@@ -458,7 +591,7 @@
             // sampleRate_label
             // 
             this.sampleRate_label.AutoSize = true;
-            this.sampleRate_label.Location = new System.Drawing.Point(48, 40);
+            this.sampleRate_label.Location = new System.Drawing.Point(48, 94);
             this.sampleRate_label.Name = "sampleRate_label";
             this.sampleRate_label.Size = new System.Drawing.Size(102, 17);
             this.sampleRate_label.TabIndex = 25;
@@ -469,7 +602,7 @@
             this.tabPage3.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(844, 119);
+            this.tabPage3.Size = new System.Drawing.Size(844, 124);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Save to Memory";
             // 
@@ -582,95 +715,6 @@
             this.configPanel.Size = new System.Drawing.Size(852, 226);
             this.configPanel.TabIndex = 25;
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(146, 37);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(116, 24);
-            this.textBox1.TabIndex = 30;
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(71, 40);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 17);
-            this.label5.TabIndex = 29;
-            this.label5.Text = "Local Code";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(146, 10);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(116, 24);
-            this.textBox2.TabIndex = 28;
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(72, 13);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(68, 17);
-            this.label6.TabIndex = 27;
-            this.label6.Text = "Time Code";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(146, 91);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(116, 24);
-            this.textBox3.TabIndex = 34;
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(89, 94);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(51, 17);
-            this.label7.TabIndex = 33;
-            this.label7.Text = "leapsec";
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(146, 64);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(116, 24);
-            this.textBox4.TabIndex = 32;
-            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(78, 67);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(62, 17);
-            this.label8.TabIndex = 31;
-            this.label8.Text = "tmq Code";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.textBox4);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Location = new System.Drawing.Point(278, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(268, 118);
-            this.groupBox1.TabIndex = 35;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "For rev. 2013";
-            // 
             // ScopeConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -697,10 +741,10 @@
             this.panel5.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -755,14 +799,18 @@
         private System.Windows.Forms.Label sampleRate_label;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox leapsec_textBox;
+        private System.Windows.Forms.TextBox timeCode_textBox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox tmqCode_textBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox localCode_textBox;
+        private System.Windows.Forms.TextBox recordingDevice_textBox;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox stationName_textBox;
+        private System.Windows.Forms.Label label14;
     }
 }
 

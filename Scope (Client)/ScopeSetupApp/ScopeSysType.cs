@@ -38,9 +38,16 @@ namespace ScopeSetupApp
         public static ushort ChannelCount;
         public static ushort HistoryCount;
         public static ushort FrequncyCount;
-        
+        //Cometrade format
+        public static string StationName;
+        public static string RecordingDevice;
         public static ushort OscilNominalFrequency;
         public static ushort OscilSampleRate;
+        //For rev. 2013
+        public static string TimeCode;
+        public static string LocalCode;
+        public static string tmqCode;
+        public static string leapsec;
 
         static void LoadFromXML(string paramName, string WrName, XmlDocument doc, out ushort addr)
         {
@@ -49,11 +56,11 @@ namespace ScopeSetupApp
 
             
             xmls = doc.GetElementsByTagName(paramName);
-            if (xmls.Count != 1)
+            /*if (xmls.Count != 1)
             {
                 addr = 0;
                 throw new Exception("Ошибки в файле: "+xmlFileName+"!");
-            }
+            }*/
             xmlline = xmls[0];
 
             try
@@ -63,10 +70,27 @@ namespace ScopeSetupApp
             catch 
             {
                 addr = 0;
-                throw new Exception("Ошибки в файле: "+xmlFileName+"!");
+               // throw new Exception("Ошибки в файле: "+xmlFileName+"!");
             }
         }
 
+        static void LoadNameFromXML(string paramName, XmlDocument doc, out string str)
+        {
+            XmlNodeList xmls;
+            XmlNode xmlline;
+
+            xmls = doc.GetElementsByTagName(paramName);
+            xmlline = xmls[0];
+            try
+            {
+                str = Convert.ToString(xmlline.Attributes["xmlns"].Value);
+            }
+            catch 
+            {
+                str = "";
+            }
+            
+        }
        
         public static void InitScopeSysType()
         {
@@ -98,9 +122,16 @@ namespace ScopeSetupApp
             LoadFromXML("Channel", "Count", doc, out ChannelCount);
             LoadFromXML("Story", "Count", doc, out HistoryCount);
             LoadFromXML("Frequency", "Count", doc, out FrequncyCount);
-
+            //Cometrade format
+            LoadNameFromXML("StationName", doc, out StationName);
+            LoadNameFromXML("RecordingDevice", doc, out RecordingDevice);
             LoadFromXML("OscilNominalFrequency", "Count", doc, out OscilNominalFrequency);
             LoadFromXML("OscilSampleRate", "Count", doc, out OscilSampleRate);
+            //For rev. 2013
+            LoadNameFromXML("TimeCode", doc, out TimeCode);
+            LoadNameFromXML("LocalCode", doc, out LocalCode);
+            LoadNameFromXML("tmqCode", doc, out tmqCode);
+            LoadNameFromXML("leapsec", doc, out leapsec);
             
             ChannelNames = new List<string>();
             ChannelDimension = new List<string>();
@@ -113,7 +144,7 @@ namespace ScopeSetupApp
             ChannelMin = new List<int>();
             ChannelMax = new List<int>();
             ChannelChecked = new List<bool>();
-            
+
             XmlNodeList xmls;
             XmlNode xmlline;
 
