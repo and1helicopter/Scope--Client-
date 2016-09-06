@@ -819,8 +819,10 @@ namespace ScopeSetupApp
 
 		//*************************** СКАЧИВАНИЕ ОСЦИЛЛОГРАММ В ФАЙЛ ************************************//
 		//***********************************************************************************************//
-		//***********************************************************************************************//
-		private void loadOscBtnClick(object sender, EventArgs e)
+        //***********************************************************************************************//
+        #region
+
+        private void loadOscBtnClick(object sender, EventArgs e)
 		{
 			bool b = false;
 			if (oscilsStatus[(int)(sender as Button).Tag] >= 4)
@@ -902,7 +904,6 @@ namespace ScopeSetupApp
 							loadOscNum = 0;
                             CountTemp = 0;
                         }
-
 					} break;
 
 				case 1:
@@ -936,7 +937,6 @@ namespace ScopeSetupApp
 									downloadedData[downloadedData.Count - 1][i] = loadParamPart[i];
                                 }
 
-
                                 loadOscDataSubStep = 0;
                                 loadOscilIndex = (2*CountTemp*1000)/ScopeConfig.OscilSize;
                                 
@@ -953,7 +953,6 @@ namespace ScopeSetupApp
 									UpdateLoadDataProgressBarInvoke();
                                     CountTemp = 0;
                                 }
-
 							}
 						}
 						else
@@ -961,7 +960,6 @@ namespace ScopeSetupApp
 							loadOscData = false;
 							loadOscDataStep = 0;
                             CountTemp = 0;
-
                         }
 
 					} break;
@@ -1005,15 +1003,18 @@ namespace ScopeSetupApp
             }
 			return (loadOscilTemp - 32);
 		}
+        #endregion
 
-		//СОЗДАНИЕ ФАЙЛА
+        //СОЗДАНИЕ ФАЙЛА
 		string HexToPercent(ushort value)
 		{
 			double f = (short)value / 40.96;
 			return (f.ToString("F2"));
 		}
-
-		string FileHeaderLine()
+        // Save to .txt
+        #region
+        
+        string FileHeaderLine()
 		{
 			string str = "";
 			int i = 0;
@@ -1105,37 +1106,6 @@ namespace ScopeSetupApp
 			return str;
 		}
 
-        ushort[] ChFormat = new ushort[32]; 
-
-        void ChFormats(){
-            
-            for (int i = 0; i < ScopeConfig.ChannelCount; i++)
-            {
-                if (ScopeSysType.ChannelFormatsName[i] == "Percent")        ChFormat[i] = 0;
-                if(ScopeSysType.ChannelFormatsName[i] == "uint16")          ChFormat[i] = 1;
-                if(ScopeSysType.ChannelFormatsName[i] == "int16")           ChFormat[i] = 2;
-                if(ScopeSysType.ChannelFormatsName[i] == "Freq standart")   ChFormat[i] = 3;
-                if(ScopeSysType.ChannelFormatsName[i] == "8.8")             ChFormat[i] = 4;
-                if(ScopeSysType.ChannelFormatsName[i] == "0.16")            ChFormat[i] = 5;
-                if(ScopeSysType.ChannelFormatsName[i] == "Slide")           ChFormat[i] = 6;
-                if(ScopeSysType.ChannelFormatsName[i] == "Digits")          ChFormat[i] = 7;
-                if(ScopeSysType.ChannelFormatsName[i] == "RegulMode")       ChFormat[i] = 8;
-                if(ScopeSysType.ChannelFormatsName[i] == "AVR type")        ChFormat[i] = 9;
-                if(ScopeSysType.ChannelFormatsName[i] == "Int/10")          ChFormat[i] = 10;
-                if(ScopeSysType.ChannelFormatsName[i] == "Hex")             ChFormat[i] = 11;
-                if(ScopeSysType.ChannelFormatsName[i] == "*0.135 (Uf)")     ChFormat[i] = 12;
-                if(ScopeSysType.ChannelFormatsName[i] == "FreqNew")         ChFormat[i] = 13;
-                if(ScopeSysType.ChannelFormatsName[i] == "Current trans")   ChFormat[i] = 14;
-                if(ScopeSysType.ChannelFormatsName[i] == "trans alarm")     ChFormat[i] = 15;
-                if(ScopeSysType.ChannelFormatsName[i] == "int/8")           ChFormat[i] = 16;
-                if(ScopeSysType.ChannelFormatsName[i] == "uint/1000")       ChFormat[i] = 17;
-                if(ScopeSysType.ChannelFormatsName[i] == "percent/4")       ChFormat[i] = 18;
-                if(ScopeSysType.ChannelFormatsName[i] == "FreqNew2")        ChFormat[i] = 19;
-                if(ScopeSysType.ChannelFormatsName[i] == "Percent upp")     ChFormat[i] = 20;
-                if(ScopeSysType.ChannelFormatsName[i] == "Freq UPTF")       ChFormat[i] = 21;
-                else ChFormat[i] = 0;            }
-        }
-
 		string FileParamLine(ushort[] paramLine, int lineNum)
 		{
 			string str = "";
@@ -1156,6 +1126,41 @@ namespace ScopeSetupApp
 			}
 			return str;
 		}
+        #endregion
+
+
+        ushort[] ChFormat = new ushort[32];
+
+        void ChFormats()
+        {
+
+            for (int i = 0; i < ScopeConfig.ChannelCount; i++)
+            {
+                if (ScopeSysType.ChannelFormatsName[i] == "Percent") ChFormat[i] = 0;
+                if (ScopeSysType.ChannelFormatsName[i] == "uint16") ChFormat[i] = 1;
+                if (ScopeSysType.ChannelFormatsName[i] == "int16") ChFormat[i] = 2;
+                if (ScopeSysType.ChannelFormatsName[i] == "Freq standart") ChFormat[i] = 3;
+                if (ScopeSysType.ChannelFormatsName[i] == "8.8") ChFormat[i] = 4;
+                if (ScopeSysType.ChannelFormatsName[i] == "0.16") ChFormat[i] = 5;
+                if (ScopeSysType.ChannelFormatsName[i] == "Slide") ChFormat[i] = 6;
+                if (ScopeSysType.ChannelFormatsName[i] == "Digits") ChFormat[i] = 7;
+                if (ScopeSysType.ChannelFormatsName[i] == "RegulMode") ChFormat[i] = 8;
+                if (ScopeSysType.ChannelFormatsName[i] == "AVR type") ChFormat[i] = 9;
+                if (ScopeSysType.ChannelFormatsName[i] == "Int/10") ChFormat[i] = 10;
+                if (ScopeSysType.ChannelFormatsName[i] == "Hex") ChFormat[i] = 11;
+                if (ScopeSysType.ChannelFormatsName[i] == "*0.135 (Uf)") ChFormat[i] = 12;
+                if (ScopeSysType.ChannelFormatsName[i] == "FreqNew") ChFormat[i] = 13;
+                if (ScopeSysType.ChannelFormatsName[i] == "Current trans") ChFormat[i] = 14;
+                if (ScopeSysType.ChannelFormatsName[i] == "trans alarm") ChFormat[i] = 15;
+                if (ScopeSysType.ChannelFormatsName[i] == "int/8") ChFormat[i] = 16;
+                if (ScopeSysType.ChannelFormatsName[i] == "uint/1000") ChFormat[i] = 17;
+                if (ScopeSysType.ChannelFormatsName[i] == "percent/4") ChFormat[i] = 18;
+                if (ScopeSysType.ChannelFormatsName[i] == "FreqNew2") ChFormat[i] = 19;
+                if (ScopeSysType.ChannelFormatsName[i] == "Percent upp") ChFormat[i] = 20;
+                if (ScopeSysType.ChannelFormatsName[i] == "Freq UPTF") ChFormat[i] = 21;
+                else ChFormat[i] = 0;
+            }
+        }
 
         string CommOnPoint(ushort[] paramLine ,int i)
         {
@@ -1193,7 +1198,7 @@ namespace ScopeSetupApp
         {
             string str = "";
             ChFormats();
-            str = (lineNum + 1).ToString() + ",";
+            str = (lineNum + 1).ToString() + "," ;
             for (int i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
@@ -1211,6 +1216,23 @@ namespace ScopeSetupApp
                 }
             }
             return str;
+        }
+
+        float CalculA(int Num, int resolution)
+        {
+            float a = (float)(ScopeSysType.ChannelMax[ScopeConfig.OscillParams[Num]] - ScopeSysType.ChannelMin[ScopeConfig.OscillParams[Num]]) / (float) resolution;
+            return a;
+        }
+
+        float CalculB(int Num, int resolution)
+        {
+            int j, all = ScopeSysType.ChannelMax[ScopeConfig.OscillParams[Num]] - ScopeSysType.ChannelMin[ScopeConfig.OscillParams[Num]];
+            for (j = 1; all / (int)Math.Pow(10, j) != 0; j++) ;
+            float a = (float)(all) / (float)resolution;
+            float ax = (float)Math.Pow(10, j) * a;
+            float b = (0 - ax);
+           
+            return b;
         }
 
         string Line1( int FilterIndex)
@@ -1248,14 +1270,18 @@ namespace ScopeSetupApp
             string str = "";
 
             string ch_id = ScopeSysType.ChannelNames[ScopeConfig.OscillParams[Num]];
-            string ph = "";
-            string ccbm = "";
+            string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscillParams[Num]];
+            string ccbm = ScopeSysType.ChannelCCBM[ScopeConfig.OscillParams[Num]];
             string uu = ScopeSysType.ChannelDimension[ScopeConfig.OscillParams[Num]];
-            int a = 1;
-            int b = 0;
+            //string a = Convert.ToString(CalculA(Num, 4096));
+            //a = a.Replace(",", ".");
+            //string b = Convert.ToString(CalculB(Num, 4096));
+            //b = b.Replace(",", ".");
+            string a = "1";
+            string b = "0";
             int skew = 0;
-            int min = ScopeSysType.ChannelMin[ScopeConfig.OscillParams[Num]];;
-            int max = ScopeSysType.ChannelMax[ScopeConfig.OscillParams[Num]];;
+            int min = ScopeSysType.ChannelMin[ScopeConfig.OscillParams[Num]];
+            int max = ScopeSysType.ChannelMax[ScopeConfig.OscillParams[Num]];
             int primary = 1; 
             int secondary = 1;
             string ps = "P";
@@ -1271,8 +1297,8 @@ namespace ScopeSetupApp
             string str = "";
 
             string ch_id = ScopeSysType.ChannelNames[ScopeConfig.OscillParams[Num]];
-            string ph = "";
-            string ccbm = "";
+            string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscillParams[Num]];
+            string ccbm = ScopeSysType.ChannelCCBM[ScopeConfig.OscillParams[Num]];
             int y = 0;
             
             str = nD + "," + ch_id + "," + ph + "," + ccbm + "," + y ;
@@ -1347,8 +1373,6 @@ namespace ScopeSetupApp
             sfd.Filter = "Text Files (*.txt)|*.txt|COMTRADE rev. 1999 (*.cfg)|*.cfg|COMTRADE rev. 2013 (*.cfg)|*.cfg"; // Filter files by extension
 
             if (sfd.ShowDialog() != DialogResult.OK) { return; }
-
-            
 
             // Save to .txt
             #region 

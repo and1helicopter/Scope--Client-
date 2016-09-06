@@ -79,7 +79,6 @@
             this.sampleRate_label = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -108,7 +107,7 @@
             this.addLineButton});
             this.mailToolStrip.Location = new System.Drawing.Point(0, 0);
             this.mailToolStrip.Name = "mailToolStrip";
-            this.mailToolStrip.Size = new System.Drawing.Size(852, 38);
+            this.mailToolStrip.Size = new System.Drawing.Size(826, 38);
             this.mailToolStrip.TabIndex = 0;
             this.mailToolStrip.Text = "toolStrip1";
             // 
@@ -153,7 +152,7 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 440);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(852, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(826, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -188,7 +187,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(852, 152);
+            this.tabControl1.Size = new System.Drawing.Size(826, 152);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 23;
             this.tabControl1.TabStop = false;
@@ -201,7 +200,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(844, 124);
+            this.tabPage1.Size = new System.Drawing.Size(818, 124);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Oscil Config";
             // 
@@ -234,7 +233,7 @@
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Margin = new System.Windows.Forms.Padding(0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(844, 124);
+            this.panel5.Size = new System.Drawing.Size(818, 124);
             this.panel5.TabIndex = 3;
             // 
             // FlagNeed_ConfigTextBox
@@ -450,7 +449,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(844, 124);
+            this.tabPage2.Size = new System.Drawing.Size(818, 124);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = " COMETRADE Config";
             // 
@@ -609,7 +608,6 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.label1);
@@ -621,34 +619,24 @@
             this.panel2.Location = new System.Drawing.Point(0, 190);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(852, 24);
+            this.panel2.Size = new System.Drawing.Size(826, 24);
             this.panel2.TabIndex = 24;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(655, 5);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 17);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Макс.";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(558, 5);
+            this.label3.Location = new System.Drawing.Point(582, 5);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 17);
+            this.label3.Size = new System.Drawing.Size(75, 17);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Мин.";
+            this.label3.Text = "Мин./Макс.";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(496, 5);
+            this.label2.Location = new System.Drawing.Point(9, 5);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 17);
             this.label2.TabIndex = 5;
@@ -658,17 +646,17 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(153, 5);
+            this.label1.Location = new System.Drawing.Point(234, 5);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 17);
+            this.label1.Size = new System.Drawing.Size(62, 17);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Размер.";
+            this.label1.Text = "Размерн.";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label13.Location = new System.Drawing.Point(432, 5);
+            this.label13.Location = new System.Drawing.Point(492, 5);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(47, 17);
             this.label13.TabIndex = 3;
@@ -678,7 +666,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.Location = new System.Drawing.Point(296, 5);
+            this.label12.Location = new System.Drawing.Point(387, 5);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(54, 17);
             this.label12.TabIndex = 2;
@@ -688,7 +676,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.Location = new System.Drawing.Point(213, 5);
+            this.label11.Location = new System.Drawing.Point(300, 5);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(43, 17);
             this.label11.TabIndex = 1;
@@ -698,21 +686,22 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(10, 5);
+            this.label10.Location = new System.Drawing.Point(82, 5);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(67, 17);
+            this.label10.Size = new System.Drawing.Size(151, 17);
             this.label10.TabIndex = 0;
-            this.label10.Text = "Параметр";
+            this.label10.Text = "Параметр (фаза, линия)";
             // 
             // configPanel
             // 
             this.configPanel.AutoScroll = true;
-            this.configPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.configPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.configPanel.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.configPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.configPanel.Location = new System.Drawing.Point(0, 214);
             this.configPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.configPanel.Name = "configPanel";
-            this.configPanel.Size = new System.Drawing.Size(852, 226);
+            this.configPanel.Size = new System.Drawing.Size(826, 226);
             this.configPanel.TabIndex = 25;
             // 
             // ScopeConfigForm
@@ -720,7 +709,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(852, 462);
+            this.ClientSize = new System.Drawing.Size(826, 462);
             this.Controls.Add(this.configPanel);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.tabControl1);
@@ -786,7 +775,6 @@
         private System.Windows.Forms.TextBox OscilStatus_TextBox;
         private System.Windows.Forms.Label OscilStatus_label;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;

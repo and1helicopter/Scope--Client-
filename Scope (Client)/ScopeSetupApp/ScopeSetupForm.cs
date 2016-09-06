@@ -724,6 +724,8 @@ namespace ScopeSetupApp
                     xmlOut.WriteStartElement("MeasureParam" + (i + 1).ToString());
 
                     xmlOut.WriteAttributeString("Name", ScopeSysType.ChannelNames[i]);
+                    xmlOut.WriteAttributeString("Phase", Convert.ToString(ScopeSysType.ChannelPhase));
+                    xmlOut.WriteAttributeString("CCBM", Convert.ToString(ScopeSysType.ChannelCCBM));
                     xmlOut.WriteAttributeString("Dimension", ScopeSysType.ChannelDimension[i]);
                     xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ChannelAddrs[i]));
                     xmlOut.WriteAttributeString("Color", Convert.ToString(ScopeSysType.ChannelColors[i].ToArgb()));

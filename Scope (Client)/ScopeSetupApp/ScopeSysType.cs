@@ -11,6 +11,8 @@ namespace ScopeSetupApp
     {
         public static string xmlFileName = "ScopeSysType.xml";
         public static List<string> ChannelNames = new List<string>();
+        public static List<string> ChannelPhase = new List<string>();
+        public static List<string> ChannelCCBM = new List<string>();
         public static List<string> ChannelDimension = new List<string>();
         public static List<ushort> ChannelAddrs = new List<ushort>();
         public static List<Color> ChannelColors = new List<Color>();
@@ -134,6 +136,8 @@ namespace ScopeSetupApp
             LoadNameFromXML("leapsec", doc, out leapsec);
             
             ChannelNames = new List<string>();
+            ChannelPhase = new List<string>();
+            ChannelCCBM = new List<string>();
             ChannelDimension = new List<string>();
             ChannelAddrs = new List<ushort>();
             ChannelColors = new List<Color>();
@@ -151,15 +155,17 @@ namespace ScopeSetupApp
             for (int i = 1; i < (count + 1); i++)
             {
                 xmls = doc.GetElementsByTagName("MeasureParam"+i.ToString());
-                if (xmls.Count != 1)
+              /*  if (xmls.Count != 1)
                 {
                     throw new Exception("Ошибки в файле: " + xmlFileName + "!");
-                }
+                }*/
                 xmlline = xmls[0];
 
                 try
                 {
                     ChannelNames.Add(Convert.ToString(xmlline.Attributes["Name"].Value));
+                    ChannelPhase.Add(Convert.ToString(xmlline.Attributes["Phase"].Value));
+                    ChannelCCBM.Add(Convert.ToString(xmlline.Attributes["CCBM"].Value));
                     ChannelDimension.Add(Convert.ToString(xmlline.Attributes["Dimension"].Value));
                     ChannelAddrs.Add(Convert.ToUInt16(xmlline.Attributes["Addr"].Value));
                     int ic = Convert.ToInt32(xmlline.Attributes["Color"].Value);
@@ -174,7 +180,7 @@ namespace ScopeSetupApp
                 }
                 catch
                 {
-                    throw new Exception("Ошибки в файле: " + xmlFileName + "!");
+                   throw new Exception("Ошибки в файле: " + xmlFileName + "!");
                 }
             }
 
