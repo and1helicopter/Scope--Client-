@@ -242,8 +242,6 @@ namespace ScopeSetupApp
             LayoutPanel[i].Width = 800;
             LayoutPanel[i].Height = 58;
             LayoutPanel[i].BorderStyle = BorderStyle.FixedSingle;
-
-            
             
             configPanel.Controls.Add(LayoutPanel[i]);
             LayoutPanel[i].Controls.Add(nameTextBoxs[i]);
@@ -580,6 +578,8 @@ namespace ScopeSetupApp
             sfd.Filter = "XML|*.xml"; // Filter files by extension
             if (sfd.ShowDialog() == DialogResult.OK)
             {
+                ScopeSysType.xmlFileName = sfd.FileName;
+
                 FileStream fs = new FileStream(sfd.FileName, FileMode.Create);
                 XmlTextWriter xmlOut = new XmlTextWriter(fs, Encoding.Unicode);
                 xmlOut.Formatting = Formatting.Indented;
@@ -712,11 +712,9 @@ namespace ScopeSetupApp
                 xmlOut.Close();
                 fs.Close();
 
-
+                ScopeSysType.InitScopeSysType();
             }
-
         }
-
 
     }
 }

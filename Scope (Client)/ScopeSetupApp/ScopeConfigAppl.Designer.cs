@@ -601,7 +601,7 @@
             this.tabPage3.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(844, 124);
+            this.tabPage3.Size = new System.Drawing.Size(818, 124);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Save to Memory";
             // 

@@ -90,7 +90,6 @@ namespace ScopeSetupApp
 				{
 					add.Attributes["Height"].Value = this.Height.ToString();
 					add.Attributes["Width"].Value = this.Width.ToString();
-
 				}
 				doc.Save(comPortXMLName);
 			}
@@ -140,11 +139,6 @@ namespace ScopeSetupApp
 			catch { }
 		}
 
-		private void LoadOscillConfig()
-		{
-
-
-		}
 
 		//************************** ВЫЗОВЫ ДОЧЕРНИХ ОКОН ***************************************//
 		//***************************************************************************************//
@@ -1198,7 +1192,7 @@ namespace ScopeSetupApp
         {
             string str = "";
             ChFormats();
-            str = (lineNum + 1).ToString() + "," ;
+            str = (lineNum + 1).ToString() + "," ;//+ (lineNum * 40).ToString();
             for (int i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
@@ -1320,7 +1314,8 @@ namespace ScopeSetupApp
         string Line7()
         {
             string str = "";
-            int samp = ScopeSysType.OscilSampleRate * ScopeSysType.FrequncyCount;
+            string samp = Convert.ToString((float)ScopeSysType.OscilSampleRate / (float)ScopeConfig.ScopeFreq);
+            samp = samp.Replace(",", ".");
             string endsamp = InitParamsLines().Count.ToString();
             str = samp + "," + endsamp;
             return str;
