@@ -1,2 +1,0 @@
-C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\bin\Test\ModBusLibrary.dll
-C:\Users\User\OneDrive\project\Oscil\C PROJECTS\ExMonApplication\ModBusLibrary\obj\Test\ModBusLibrary.dll
