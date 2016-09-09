@@ -287,26 +287,14 @@ namespace ScopeSetupApp
 			   
 				modBusUnit.GetData((ushort)(ScopeSysType.TimeStampAddr + i * 8), 8);
 			}
-            else if (requestStep == 4)
-            {
-                loadTimeStampStep = i;
-
-                modBusUnit.GetData((ushort)(ScopeSysType.TimeStampAddr + 256 + i * 8), 8);
-            }
 		}
 		private void EndTimeStampRequest()
 		{
             if (!modBusUnit.modBusData.RequestError && requestStep == 3)
 			{
 				UpdateTimeStampInvoke();
-                requestStep = 4;
-			}
-            else if (!modBusUnit.modBusData.RequestError && requestStep == 4)
-            {
-                UpdateStartTimeStampInvoke();
                 loadTimeStampStep++;
-                requestStep = 3;
-            }
+			}
             else
             {
                 MessageBox.Show("TimeStamp error");
@@ -743,22 +731,6 @@ namespace ScopeSetupApp
 			}
 			catch { }
 		}
-        private void UpdateStartTimeStamp()
-        {
-            string str1, str2, str3;
-            str1 = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
-            str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H   
-            str3 = (modBusUnit.modBusData.ReadData[4]).ToString("000") + "000";
-            oscStartTimeDates[loadTimeStampStep] = str1 + "," + str2 + "." + str3;
-        }
-        private void UpdateStartTimeStampInvoke ()
-        {
-            try
-            {
-                Invoke(new NoParamDelegate(UpdateStartTimeStamp), null);
-            }
-            catch { }
-        }
 
 		private void UpdateLoadDataProgressBar()
 		{
