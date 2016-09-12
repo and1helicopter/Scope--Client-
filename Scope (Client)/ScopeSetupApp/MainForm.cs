@@ -1076,7 +1076,7 @@ namespace ScopeSetupApp
 		{
 			string str = "";
 			int i = 0;
-            ChFormats();
+           // ChFormats();
 			str = lineNum.ToString() + "\t";
 			for (i = 0; i < ScopeConfig.ChannelCount; i++)
 			{
@@ -1097,7 +1097,7 @@ namespace ScopeSetupApp
 
         ushort[] ChFormat = new ushort[32];
 
-        void ChFormats()
+       /* void ChFormats()
         {
 
             for (int i = 0; i < ScopeConfig.ChannelCount; i++)
@@ -1127,6 +1127,7 @@ namespace ScopeSetupApp
                 else ChFormat[i] = 0;
             }
         }
+        * */
 
         string CommOnPoint(ushort[] paramLine ,int i)
         {
@@ -1163,7 +1164,7 @@ namespace ScopeSetupApp
         string FileParamLineData(ushort[] paramLine, int lineNum)
         {
             string str = "";
-            ChFormats();
+           //ChFormats();
             str = (lineNum + 1).ToString() + "," ;//+ (lineNum * 40).ToString();
             for (int i = 0; i < ScopeConfig.ChannelCount; i++)
             {

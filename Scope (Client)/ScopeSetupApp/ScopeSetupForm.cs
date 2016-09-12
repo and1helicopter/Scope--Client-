@@ -275,14 +275,14 @@ namespace ScopeSetupApp
                 for (writeNameStep = 0; writeNameStep < nowMaxChannelCount + 1; writeNameStep++)
                 {
                     CalcNewOscillConfig(writeNameStep);
-                    for (int i = 0; i < 48; i++) Console.WriteLine("[{0}] = {1}", i, newOscillConfig[i]);
+                    for (int i = 0; i < 35; i++) Console.WriteLine("[{0}] = {1}", i, newOscillConfig[i]);
                     Console.WriteLine("____________ \n");
                 }
             }
             else
             {
                 CalcNewOscillConfig( writeNameStep );
-                for(int i = 0; i < 48; i++) Console.WriteLine("[{0}] = {1}",i , newOscillConfig[i]);
+                for(int i = 0; i < 35; i++) Console.WriteLine("[{0}] = {1}",i , newOscillConfig[i]);
             }
             
             
@@ -291,7 +291,9 @@ namespace ScopeSetupApp
         //**************ИЗМЕНЕНИЕ КОНФИГУРАЦИИ ОСЦИЛЛОГРАФА *********************************************//
         //***********************************************************************************************//
         //***********************************************************************************************//
-        ushort[] newOscillConfig = new ushort[48];
+        ushort[] newOscillConfig = new ushort[35];
+        ushort[] OscillConfig = new ushort[2096];
+
         int writeConfigStep = 0;
         ushort writeNameStep = 0;
  
@@ -337,23 +339,7 @@ namespace ScopeSetupApp
             return (OscS);
         }
        //////////////////////////////////////////
-        // Channel Formats 
-        private List<string> ChannelFormats()
-        {
-            List<string> ChannelFormat = new List<string>();
-            for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
-            {
-                if (currentLabels[i].Visible) 
-                {
-                    ChannelFormat.Add(ScopeSysType.ChannelFormatsName[i]);
 
-                }
-            }
-
-            if (ChannelFormat.Count > nowMaxChannelCount) { ChannelFormat.Clear(); }
-
-            return ChannelFormat;
-        }
 
         //OscilEnable
         private ushort OscilEnable() {
@@ -380,44 +366,38 @@ namespace ScopeSetupApp
 
         private void CalcNewOscillConfig(ushort NumFrame)  
         {
-            newOscillConfig = new ushort[48];
+        }
 
-            if (NumFrame == 0) 
-            {            
-                newOscillConfig[0] = 0x0001;                    //Флаг изменения конфигурации
-                newOscillConfig[1] = NumFrame;                  //Номер кадра
+        //Конфигурирование параметрв осциллограммы 
+        private void CalcOscillConfig()  
+        {
+            OscillConfig = new ushort[2096];
 
-                List<ushort> ChAddrs = ChannelAddrs();          //Адреса
+            List<ushort> ChAddrs = ChannelAddrs();          //Адреса
             
-                if (nowMaxChannelCount < ChAddrs.Count || nowMaxChannelCount > ChAddrs.Count)
-                {
-                    MessageBox.Show("Количество осциллографируемых и выбранных каналов не совпадает");
-                    return;
-                }
-
-                for (int i = 0; i < 32; i++)
-                {
-                    if (i < ChAddrs.Count) { newOscillConfig[2 + i] = ChAddrs[i]; }
-                    else { newOscillConfig[2 + i] = 0; }
-                }
-
-                newOscillConfig[34] = Convert.ToUInt16((OscilSize(ScopeSysType.OscilAllSize) << 16) >> 16); 
-                newOscillConfig[35] = Convert.ToUInt16(OscilSize(ScopeSysType.OscilAllSize) >> 16);
-                                        
-                newOscillConfig[36] = nowScopeCount;            //Колличество формируемых осциллограмм
-                newOscillConfig[37] = nowMaxChannelCount;       //Колличество каналов
-                newOscillConfig[38] = nowHystory;               //Предыстория
-                newOscillConfig[39] = nowOscFreq;               //Как часто нужно записывать данные 
-                newOscillConfig[40] = OscilEnable();            //Включен или выключен осциллограф и нужно ли выполнять запись в память 
- 
-                
-                newOscillConfig[47] = 0x0001;                   //Флаг изменения конфигурации
+            if (nowMaxChannelCount < ChAddrs.Count || nowMaxChannelCount > ChAddrs.Count)
+            {
+                MessageBox.Show("Количество осциллографируемых и выбранных каналов не совпадает");
+                return;
             }
 
-            if (OscilEnable() == 2 && NumFrame != 0)
+            for (int i = 0; i < 32; i++)
             {
-                 newOscillConfig[0] = 0x0001;
-                 newOscillConfig[1] = NumFrame;                  //Номер кадра (канала) 
+                if (i < ChAddrs.Count) { OscillConfig[i] = ChAddrs[i]; }
+                else { OscillConfig[i] = 0; }
+            }
+
+            OscillConfig[32] = Convert.ToUInt16((OscilSize(ScopeSysType.OscilAllSize) << 16) >> 16);  //размер под осциллограмму 
+            OscillConfig[33] = Convert.ToUInt16(OscilSize(ScopeSysType.OscilAllSize) >> 16);
+                                        
+            OscillConfig[34] = nowScopeCount;            //Колличество формируемых осциллограмм
+            OscillConfig[35] = nowMaxChannelCount;       //Колличество каналов
+            OscillConfig[36] = nowHystory;               //Предыстория
+            OscillConfig[37] = nowOscFreq;               //Как часто нужно записывать данные 
+            OscillConfig[38] = OscilEnable();            //Включен или выключен осциллограф и нужно ли выполнять запись в память 
+       
+
+       /*
                  //Запись названия канала
                  List<string> ChName = ChNames();                //Название каналов в Cp1251
 
@@ -461,11 +441,13 @@ namespace ScopeSetupApp
                  }
                        
                  newOscillConfig[47] = 0x0001;  
-            }
+                 */
+         
         }
 
         private void WriteConfigToSystem()
         {
+            CalcOscillConfig();
             writeConfigStep = 0;
             CalcNewOscillConfig( writeNameStep );
             WritePartConfigToSystem();
@@ -731,7 +713,6 @@ namespace ScopeSetupApp
                     xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ChannelAddrs[i]));
                     xmlOut.WriteAttributeString("Color", Convert.ToString(ScopeSysType.ChannelColors[i].ToArgb()));
                     xmlOut.WriteAttributeString("Format", Convert.ToString(ScopeSysType.ChannelFormats[i]));
-                    xmlOut.WriteAttributeString("FormatName", Convert.ToString(ScopeSysType.ChannelFormatsName[i]));
                     xmlOut.WriteAttributeString("StepLine", Convert.ToString(ScopeSysType.ChannelStepLines[i]));
                     xmlOut.WriteAttributeString("TypeAD", Convert.ToString(ScopeSysType.ChannelTypeAD[i]));
                     xmlOut.WriteAttributeString("Min", Convert.ToString(ScopeSysType.ChannelMin[i]));

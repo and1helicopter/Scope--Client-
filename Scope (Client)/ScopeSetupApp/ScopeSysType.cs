@@ -17,7 +17,6 @@ namespace ScopeSetupApp
         public static List<ushort> ChannelAddrs = new List<ushort>();
         public static List<Color> ChannelColors = new List<Color>();
         public static List<ushort> ChannelFormats = new List<ushort>();
-        public static List<string> ChannelFormatsName = new List<string>();
         public static List<int> ChannelStepLines = new List<int>();
         public static List<int> ChannelTypeAD = new List<int>();
         public static List<int> ChannelMin = new List<int>();
@@ -142,7 +141,6 @@ namespace ScopeSetupApp
             ChannelAddrs = new List<ushort>();
             ChannelColors = new List<Color>();
             ChannelFormats = new List<ushort>();
-            ChannelFormatsName = new List<string>();
             ChannelStepLines = new List<int>();
             ChannelTypeAD = new List<int>();
             ChannelMin = new List<int>();
@@ -171,7 +169,6 @@ namespace ScopeSetupApp
                     int ic = Convert.ToInt32(xmlline.Attributes["Color"].Value);
                     ChannelColors.Add(Color.FromArgb(ic));
                     ChannelFormats.Add(Convert.ToUInt16(xmlline.Attributes["Format"].Value));
-                    ChannelFormatsName.Add(Convert.ToString(xmlline.Attributes["FormatName"].Value));
                     ChannelStepLines.Add(Convert.ToInt32(xmlline.Attributes["StepLine"].Value));
                     ChannelTypeAD.Add(Convert.ToInt32(xmlline.Attributes["TypeAD"].Value));
                     ChannelMin.Add(Convert.ToInt32(xmlline.Attributes["Min"].Value));

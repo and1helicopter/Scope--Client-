@@ -56,28 +56,28 @@ namespace ScopeSetupApp
         //List<> Line = new List<?>();
 
         object[] format = new object[]{
-            "Percent",
-            "uint16",
-            "int16",
-            "Freq standart",
-            "8.8",
-            "0.16",
-            "Slide",
-            "Digits",
-            "RegulMode",
-            "AVR type",
-            "Int/10",
-            "Hex",
-            "*0.135 (Uf)",
-            "FreqNew",
-            "Current trans",
-            "trans alarm",
-            "int/8",
-            "uint/1000",
-            "percent/4",
-            "FreqNew2",
-            "Percent upp",
-            "Freq UPTF",
+            "0 - Percent",
+            "1 - uint16",
+            "2 - int16",
+            "3 - Freq standart",
+            "4 - 8.8",
+            "5 - 0.16",
+            "6 - Slide",
+            "7 - Digits",
+            "8 - RegulMode",
+            "9 - AVR type",
+            "10 - Int/10",
+            "11 - Hex",
+            "12 - *0.135 (Uf)",
+            "13 - FreqNew",
+            "14 - Current trans",
+            "15 - trans alarm",
+            "16 - int/8",
+            "17 - uint/1000",
+            "18 - percent/4",
+            "19 - FreqNew2",
+            "20 - Percent upp",
+            "21 - Freq UPTF"
         };
 
         object[] sizeFormat = new object[]{
@@ -91,7 +91,7 @@ namespace ScopeSetupApp
         };
  
 
-        private void AddParamLine(string lineName, string linePhase, string lineCCBM, string lineDimension, int lineAddr, Color clr, int formatData, string formatName, int stepLine, int lineTypeAD, int min, int max)
+        private void AddParamLine(string lineName, string linePhase, string lineCCBM, string lineDimension, int lineAddr, Color clr, int formatData,  int stepLine, int lineTypeAD, int min, int max)
         {
             int i;
 
@@ -185,12 +185,12 @@ namespace ScopeSetupApp
             formatComboBox[i].Tag = i;
             formatComboBox[i].Dock = DockStyle.None;
             formatComboBox[i].Font = new Font("Arial", 9);
-            formatComboBox[i].DropDownStyle = ComboBoxStyle.DropDown;
+            formatComboBox[i].DropDownStyle = ComboBoxStyle.DropDownList;
             formatComboBox[i].Items.AddRange(format);
             formatComboBox[i].Width = 100;
             formatComboBox[i].Left = 382;
             formatComboBox[i].Top = 30;
-            formatComboBox[i].Text = formatName;
+            formatComboBox[i].Text =  Convert.ToString(formatData);
             
             stepLineCheckBoxs.Add(new ComboBox());
             stepLineCheckBoxs[i].Tag = i;
@@ -322,7 +322,7 @@ namespace ScopeSetupApp
 
         private void addLineButton_Click(object sender, EventArgs e)
         {
-            AddParamLine("Параметр ", "", "","NONE", addrTextBoxs.Count, Color.Black, 16, "Custom", 1, 0, -1, 1);
+            AddParamLine("Параметр ", "", "","NONE", addrTextBoxs.Count, Color.Black, 16, 1, 0, -1, 1);
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -424,7 +424,6 @@ namespace ScopeSetupApp
                                     ScopeSysType.ChannelAddrs[i1],
                                     ScopeSysType.ChannelColors[i1],
                                     ScopeSysType.ChannelFormats[i1],
-                                    ScopeSysType.ChannelFormatsName[i1],
                                     ScopeSysType.ChannelStepLines[i1], 
                                     ScopeSysType.ChannelTypeAD[i1],
                                     ScopeSysType.ChannelMin[i1],
@@ -663,8 +662,7 @@ namespace ScopeSetupApp
                     xmlOut.WriteAttributeString("Dimension", dimensionComboBox[i].Text);
                     xmlOut.WriteAttributeString("Addr", paramAddrStrs[i]);
                     xmlOut.WriteAttributeString("Color", colorLabels[i].BackColor.ToArgb().ToString());
-                    xmlOut.WriteAttributeString("Format", formatComboBoxNumeric[i].Text);
-                    xmlOut.WriteAttributeString("FormatName", formatComboBox[i].Text);
+                    xmlOut.WriteAttributeString("Format", ((Convert.ToInt32(formatComboBoxNumeric[i].Text) << 8) + Convert.ToInt32(formatComboBox[i].SelectedIndex)).ToString());
                     xmlOut.WriteAttributeString("StepLine", stepLineCheckBoxs[i].SelectedIndex.ToString());
                     xmlOut.WriteAttributeString("TypeAD", AnalogDigitalComboBox[i].SelectedIndex.ToString());
                     xmlOut.WriteAttributeString("Min", minTextBoxs[i].Text);
@@ -672,12 +670,13 @@ namespace ScopeSetupApp
                     xmlOut.WriteAttributeString("Checked", Convert.ToString("False"));
                     
                     xmlOut.WriteEndElement();
+                    
                 }
 
                 xmlOut.WriteEndElement();
                 
                 /////////////////////////////////////////////////////////////
-                xmlOut.WriteStartElement("COMETRADEConfig");
+                xmlOut.WriteStartElement("COMTRADEConfig");
 
                 xmlOut.WriteStartElement("StationName", stationName_textBox.Text);
                 xmlOut.WriteEndElement();
