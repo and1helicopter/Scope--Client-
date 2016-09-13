@@ -270,42 +270,51 @@ namespace ScopeSetupApp
  
         private void reloadBtn_Click(object sender, EventArgs e)
         {
-            if (checkBox1.Checked) 
-            {
-                for (writeNameStep = 0; writeNameStep < nowMaxChannelCount + 1; writeNameStep++)
-                {
-                    CalcNewOscillConfig(writeNameStep);
-                    for (int i = 0; i < 35; i++) Console.WriteLine("[{0}] = {1}", i, newOscillConfig[i]);
-                    Console.WriteLine("____________ \n");
-                }
-            }
-            else
-            {
-                CalcNewOscillConfig( writeNameStep );
-                for(int i = 0; i < 35; i++) Console.WriteLine("[{0}] = {1}",i , newOscillConfig[i]);
-            }
-            
-            
+            List<ushort> ChFormats = ChannelFormats(); 
+            List<ushort> ChannelAdd = ChannelAddrs();               
         }
    
         //**************ИЗМЕНЕНИЕ КОНФИГУРАЦИИ ОСЦИЛЛОГРАФА *********************************************//
         //***********************************************************************************************//
         //***********************************************************************************************//
         ushort[] newOscillConfig = new ushort[35];
-        ushort[] OscillConfig = new ushort[2096];
+        ushort[] OscillConfig = new ushort[1280];
+        int[] ChannelSeries = new int[32];
 
         int writeConfigStep = 0;
         ushort writeNameStep = 0;
+
+        //Конфигурирование осциллограммы 
+        #region
+        private List<ushort> ChannelFormats()
+        {
+            int j = 0;
+            List<ushort> l = new List<ushort>();
+            for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
+            {
+                if (currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 3) { ChannelSeries[j++] = i; l.Add(ScopeSysType.ChannelFormats[i]); }
+            }
+            for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
+            {
+                if (currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 2) { ChannelSeries[j++] = i; l.Add(ScopeSysType.ChannelFormats[i]); }
+            }
+            for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
+            {
+                if (currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 1) { ChannelSeries[j++] = i; l.Add(ScopeSysType.ChannelFormats[i]); }
+            }
+            if (l.Count > nowMaxChannelCount) { l.Clear(); }
+
+            return l;
+        }
  
         // Channel Addrs
         private List<ushort> ChannelAddrs()
         {
             List<ushort> l = new List<ushort>();
-            for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
+            for (int i = 0, j = 0; i < ScopeSysType.ChannelNames.Count; i++)
             {
-                if (currentLabels[i].Visible) { l.Add(ScopeSysType.ChannelAddrs[i]); }
+                if (currentLabels[i].Visible) { l.Add(ScopeSysType.ChannelAddrs[ChannelSeries[j++]]); }
             }
-
             if (l.Count > nowMaxChannelCount) { l.Clear(); }
 
             return l;
@@ -314,55 +323,110 @@ namespace ScopeSetupApp
         // OscilSize
         public uint OscilSize(uint AllSize)
         {
-            uint OscilMaxMultiplicity;
-
-            List<ushort> ChannelFormat = new List<ushort>();
+            uint sfb_count = 0, ttb_count = 0, stb_count = 0;
+            uint SampleSize;
             for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
             {
-                if (currentLabels[i].Visible)
-                {
-                    ChannelFormat.Add(ScopeSysType.ChannelFormats[i]);
-                }
+                if (currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 3) { sfb_count++; }
             }
-            OscilMaxMultiplicity = ChannelFormat.Max();
+            for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
+            {
+                if (currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 2) { ttb_count++; }
+            }
+            for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
+            {
+                if (currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 1) { stb_count++; }
+            }
 
-            if (OscilMaxMultiplicity == 16) OscilMaxMultiplicity = 2;
-            if (OscilMaxMultiplicity == 32) OscilMaxMultiplicity = 4;
-            if (OscilMaxMultiplicity == 64) OscilMaxMultiplicity = 8;
+            SampleSize = sfb_count*8 + ttb_count*4 + stb_count*2;
+            if ((sfb_count != 0 || ttb_count != 0) && stb_count % 2 != 0) { SampleSize += 2; } // Выравнивание на 4 байта
 
             uint OscS = (AllSize * 1024) / Convert.ToUInt32(nowScopeCount);
-            while (OscS % OscilMaxMultiplicity != 0 || OscS % nowMaxChannelCount != 0 || OscS % 64 != 0)   //Проверка на кратность слова с учетом колличества каналов  
+
+            while (OscS % 64 != 0 || OscS % SampleSize != 0)   // 
             { 		
                 OscS--;
             }
                     
             return (OscS);
         }
-       //////////////////////////////////////////
+
 
 
         //OscilEnable
-        private ushort OscilEnable() {
-            ushort status = 0; 
-            if (!enaScopeCheckBox.Checked ) status = 0;                              //Осциллограффирование отключено 
+        private ushort OscilEnable()
+        {
+            ushort status = 0;
+            if (!enaScopeCheckBox.Checked) status = 0;                              //Осциллограффирование отключено 
             if (enaScopeCheckBox.Checked && !checkBox1.Checked) status = 1;          //Осциллограффирование включено но без сокранения на карту пмяти
             if (enaScopeCheckBox.Checked && checkBox1.Checked) status = 2;           //Осциллограффирование включено с сохранением на карту пмяти
             return status;
         }
-      ///////////////////////////////
+
         // Channel Names
         private List<string> ChNames()
         {
             List<string> ChName = new List<string>();
-            for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
+            for (int i = 0, j = 0; i < ScopeSysType.ChannelNames.Count; i++)
             {
-                if (currentLabels[i].Visible) { ChName.Add(ScopeSysType.ChannelNames[i]); }
+                if (currentLabels[i].Visible) { ChName.Add(ScopeSysType.ChannelNames[ChannelSeries[j++]]); }
             }
-
             if (ChName.Count > nowMaxChannelCount) { ChName.Clear(); }
 
             return ChName;
         }
+       //////////////////////////////////////////
+       //For Comtrade 
+        private List<string> ChPhase()
+        {
+            List<string> l = new List<string>();
+            for (int i = 0, j = 0; i < ScopeSysType.ChannelPhase.Count; i++)
+            {
+                if (currentLabels[i].Visible) { l.Add(ScopeSysType.ChannelPhase[ChannelSeries[j++]]); }
+            }
+            if (l.Count > nowMaxChannelCount) { l.Clear(); }
+
+            return l;
+        }
+
+        private List<string> ChCCBM()
+        {
+            List<string> l = new List<string>();
+            for (int i = 0, j = 0; i < ScopeSysType.ChannelCCBM.Count; i++)
+            {
+                if (currentLabels[i].Visible) { l.Add(ScopeSysType.ChannelCCBM[ChannelSeries[j++]]); }
+            }
+            if (l.Count > nowMaxChannelCount) { l.Clear(); }
+
+            return l;
+        }
+
+        private List<string> ChDemension()
+        {
+            List<string> l = new List<string>();
+            for (int i = 0, j = 0; i < ScopeSysType.ChannelDimension.Count; i++)
+            {
+                if (currentLabels[i].Visible) { l.Add(ScopeSysType.ChannelDimension[ChannelSeries[j++]]); }
+            }
+            if (l.Count > nowMaxChannelCount) { l.Clear(); }
+
+            return l;
+        }
+
+        private List<ushort> ChTypeAD()
+        {
+            List<ushort> l = new List<ushort>();
+            for (int i = 0, j = 0; i < ScopeSysType.ChannelTypeAD.Count; i++)
+            {
+                if (currentLabels[i].Visible) { l.Add(ScopeSysType.ChannelTypeAD[ChannelSeries[j++]]); }
+            }
+            if (l.Count > nowMaxChannelCount) { l.Clear(); }
+
+            return l;
+        }
+
+        #endregion
+
 
         private void CalcNewOscillConfig(ushort NumFrame)  
         {
@@ -371,78 +435,234 @@ namespace ScopeSetupApp
         //Конфигурирование параметрв осциллограммы 
         private void CalcOscillConfig()  
         {
-            OscillConfig = new ushort[2096];
+            OscillConfig = new ushort[1280];
 
-            List<ushort> ChAddrs = ChannelAddrs();          //Адреса
-            
-            if (nowMaxChannelCount < ChAddrs.Count || nowMaxChannelCount > ChAddrs.Count)
-            {
-                MessageBox.Show("Количество осциллографируемых и выбранных каналов не совпадает");
-                return;
-            }
+            List<ushort> ChFormats = ChannelFormats();          //Идентификатор формата данных в каналах
 
             for (int i = 0; i < 32; i++)
             {
-                if (i < ChAddrs.Count) { OscillConfig[i] = ChAddrs[i]; }
+                if (i < ChFormats.Count) { OscillConfig[i] = ChFormats[i]; }
+                else { OscillConfig[i] = 0; }
+            }           
+            
+            List<ushort> ChAddrs = ChannelAddrs();          //Адреса
+            
+            for (int i = 0; i < 32; i++)
+            {
+                if (i < ChAddrs.Count) { OscillConfig[i + 32] = ChAddrs[i]; }
                 else { OscillConfig[i] = 0; }
             }
 
-            OscillConfig[32] = Convert.ToUInt16((OscilSize(ScopeSysType.OscilAllSize) << 16) >> 16);  //размер под осциллограмму 
-            OscillConfig[33] = Convert.ToUInt16(OscilSize(ScopeSysType.OscilAllSize) >> 16);
+            OscillConfig[64] = Convert.ToUInt16((OscilSize(ScopeSysType.OscilAllSize) << 16) >> 16);  //размер под осциллограмму 
+            OscillConfig[65] = Convert.ToUInt16(OscilSize(ScopeSysType.OscilAllSize) >> 16);
                                         
-            OscillConfig[34] = nowScopeCount;            //Колличество формируемых осциллограмм
-            OscillConfig[35] = nowMaxChannelCount;       //Колличество каналов
-            OscillConfig[36] = nowHystory;               //Предыстория
-            OscillConfig[37] = nowOscFreq;               //Как часто нужно записывать данные 
-            OscillConfig[38] = OscilEnable();            //Включен или выключен осциллограф и нужно ли выполнять запись в память 
-       
+            OscillConfig[66] = nowScopeCount;            //Колличество формируемых осциллограмм
+            OscillConfig[67] = nowMaxChannelCount;       //Колличество каналов
+            OscillConfig[68] = nowHystory;               //Предыстория
+            OscillConfig[69] = nowOscFreq;               //Как часто нужно записывать данные 
+            OscillConfig[70] = OscilEnable();            //Включен или выключен осциллограф и нужно ли выполнять запись в память 
 
-       /*
-                 //Запись названия канала
-                 List<string> ChName = ChNames();                //Название каналов в Cp1251
+            if (OscilEnable() == 2)
+            {
+                //Дополнительные параметры 
+                //Запись названия канала
+                List<string> ChName = ChNames();                //Название каналов в Cp1251
 
-                 string ChNameString = ChName[NumFrame - 1];
-                 byte[] ChNameStr = new Byte[32];
-                 byte[] TempChNameStr = new Byte[32];
-                 ChNameStr = Encoding.Default.GetBytes(ChNameString);
+                for (int i = 0; i < ChName.Count; i++) 
+                { 
+                    string ChNameString = ChName[i];
+                    byte[] ChNameStr = new Byte[32];
+                    byte[] TempChNameStr = new Byte[32];
+                    ChNameStr = Encoding.Default.GetBytes(ChNameString);
 
-                 for (int j = 0; j < 32; j++)
-                 {
-                    if (j < ChNameString.Length) TempChNameStr[j] = ChNameStr[j];
-                    else TempChNameStr[j] = 32;
-                 }
-                 for (int j = 1; j < 32; j += 2)
-                 {
-                    newOscillConfig[2 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(TempChNameStr[j - 1]) << 8);
-                    newOscillConfig[2 + (j / 2)] += Convert.ToUInt16(TempChNameStr[j]);
-                 }
-                               
-                 //
-                 List<string> ChFormats = ChannelFormats();          //Идентификатор формата данных в каналах
+                    for (int j = 0; j < 32; j++)
+                    {
+                        if (j < ChNameString.Length) TempChNameStr[j] = ChNameStr[j];
+                        else TempChNameStr[j] = 32;
+                    }
+                    for (int j = 1; j < 32; j += 2)
+                    {
+                        OscillConfig[71 + 16 * i + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(TempChNameStr[j - 1]) << 8);
+                        OscillConfig[71 + 16 * i + (j / 2)] += Convert.ToUInt16(TempChNameStr[j]);
+                    }
+                }
 
-                 string ChFormatString = ChFormats[NumFrame - 1];
-                 byte[] ChFormatStr = new Byte[16];
-                 byte[] TempChFormatStr = new Byte[16];
-                 ChFormatStr = Encoding.Default.GetBytes(ChFormatString);
+                //for Comtrade
+                #region
+                List<string> ChPhases = ChPhase();                //в Cp1251
 
-                 if (ScopeSysType.ChannelFormats[NumFrame - 1] == 16) { TempChFormatStr[0] = 0; TempChFormatStr[1] = 0; }
-                 if (ScopeSysType.ChannelFormats[NumFrame - 1] == 32) { TempChFormatStr[0] = 0; TempChFormatStr[1] = 1; }
-                 if (ScopeSysType.ChannelFormats[NumFrame - 1] == 64) { TempChFormatStr[0] = 1; TempChFormatStr[1] = 1; }
+                for (int i = 0; i < ChPhases.Count; i++)
+                {
+                    string ChPhaseString = ChPhases[i];
+                    byte[] ChPhaseStr = new Byte[2];
+                    byte[] TempChPhaseStr = new Byte[2];
+                    ChPhaseStr = Encoding.Default.GetBytes(ChPhaseString);
 
-                 for (int l = 0; l < ChFormatStr.Length; l++)     
-                 {
-                    TempChFormatStr[l + 2] = ChFormatStr[l];
-                 } 
-                        
-                 for (int l = 1; l < 8; l += 2)
-                 {
-                    newOscillConfig[18 + l / 2] = Convert.ToUInt16(Convert.ToUInt32(TempChFormatStr[l - 1]) << 8);
-                    newOscillConfig[18 + l / 2] += Convert.ToUInt16(TempChFormatStr[l]);  
-                 }
-                       
-                 newOscillConfig[47] = 0x0001;  
-                 */
-         
+                    for (int j = 0; j < 2; j++)
+                    {
+                        if (j < ChPhaseString.Length) TempChPhaseStr[j] = ChPhaseStr[j];
+                        else TempChPhaseStr[j] = 32;
+                    }
+                    for (int j = 1; j < 2; j += 2)
+                    {
+                        OscillConfig[583 + i + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(TempChPhaseStr[j - 1]) << 8);
+                        OscillConfig[583 + i + (j / 2)] += Convert.ToUInt16(TempChPhaseStr[j]);
+                    }
+                }
+
+                List<string> ChCCBMs = ChCCBM();                // в Cp1251
+
+                for (int i = 0; i < ChCCBMs.Count; i++)
+                {
+                    string ChCCBMString = ChCCBMs[i];
+                    byte[] ChCCBMStr = new Byte[16];
+                    byte[] TempChCCBMStr = new Byte[16];
+                    ChCCBMStr = Encoding.Default.GetBytes(ChCCBMString);
+
+                    for (int j = 0; j < 16; j++)
+                    {
+                        if (j < ChCCBMString.Length) TempChCCBMStr[j] = ChCCBMStr[j];
+                        else TempChCCBMStr[j] = 32;
+                    }
+                    for (int j = 1; j < 16; j += 2)
+                    {
+                        OscillConfig[615 + i * 8 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(TempChCCBMStr[j - 1]) << 8);
+                        OscillConfig[615 + i * 8 + (j / 2)] += Convert.ToUInt16(TempChCCBMStr[j]);
+                    }
+                }
+                List<string> ChDemensions = ChDemension();                //в Cp1251
+
+                for (int i = 0; i < ChDemensions.Count; i++)
+                {
+                    string ChDemensionString = ChDemensions[i];
+                    byte[] ChDemensionStr = new Byte[8];
+                    byte[] TempChDemensionStr = new Byte[8];
+                    ChDemensionStr = Encoding.Default.GetBytes(ChDemensionString);
+
+                    for (int j = 0; j < 8; j++)
+                    {
+                        if (j < ChDemensionString.Length) TempChDemensionStr[j] = ChDemensionStr[j];
+                        else TempChDemensionStr[j] = 32;
+                    }
+                    for (int j = 1; j < 8; j += 2)
+                    {
+                        OscillConfig[871 + i * 4 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(TempChDemensionStr[j - 1]) << 8);
+                        OscillConfig[871 + i * 4 + (j / 2)] += Convert.ToUInt16(TempChDemensionStr[j]);
+                    }
+                }
+
+                List<ushort> ChaTypeAD = ChTypeAD();          //
+
+                for (int i = 0; i < ChaTypeAD.Count; i++)
+                {
+                    if (i < ChaTypeAD.Count) { OscillConfig[999 + i] = ChaTypeAD[i]; }
+                    else { OscillConfig[999 + i] = 0; }
+                }  
+
+                String StationName = ScopeSysType.StationName;                //
+
+                byte[] StationNameStr = new Byte[32];
+                byte[] TempStationNameStr = new Byte[32];
+                StationNameStr = Encoding.Default.GetBytes(StationName);
+
+                for (int j = 0; j < 32; j++)
+                {
+                    if (j < StationName.Length) TempStationNameStr[j] = StationNameStr[j];
+                    else TempStationNameStr[j] = 32;
+                }
+                for (int j = 1; j < 32; j += 2)
+                {
+                    OscillConfig[1031 +  (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(TempStationNameStr[j - 1]) << 8);
+                    OscillConfig[1031 +  (j / 2)] += Convert.ToUInt16(TempStationNameStr[j]);
+                }
+
+                String RecordingID = ScopeSysType.RecordingDevice;            //
+
+                byte[] RecordingIDStr = new Byte[16];
+                byte[] TempRecordingIDStr = new Byte[16];
+                RecordingIDStr = Encoding.Default.GetBytes(RecordingID);
+
+                for (int j = 0; j < 16; j++)
+                {
+                    if (j < RecordingID.Length) TempRecordingIDStr[j] = RecordingIDStr[j];
+                    else TempRecordingIDStr[j] = 32;
+                }
+                for (int j = 1; j < 16; j += 2)
+                {
+                    OscillConfig[1047 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(TempRecordingIDStr[j - 1]) << 8);
+                    OscillConfig[1047 + (j / 2)] += Convert.ToUInt16(TempRecordingIDStr[j]);
+                }
+
+                String TimeCode = ScopeSysType.TimeCode;     //
+
+                byte[] TimeCodeStr = new Byte[16];
+                byte[] TempTimeCodeStr = new Byte[16];
+                TimeCodeStr = Encoding.Default.GetBytes(TimeCode);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    if (j < TimeCode.Length) TempTimeCodeStr[j] = TimeCodeStr[j];
+                    else TempTimeCodeStr[j] = 32;
+                }
+                for (int j = 1; j < 8; j += 2)
+                {
+                    OscillConfig[1055 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(TempTimeCodeStr[j - 1]) << 8);
+                    OscillConfig[1055 + (j / 2)] += Convert.ToUInt16(TempTimeCodeStr[j]);
+                }
+
+                String LocalCode = ScopeSysType.TimeCode;     //
+
+                byte[] LocalCodeStr = new Byte[16];
+                byte[] TempLocalCodeStr = new Byte[16];
+                LocalCodeStr = Encoding.Default.GetBytes(LocalCode);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    if (j < LocalCode.Length) TempLocalCodeStr[j] = LocalCodeStr[j];
+                    else TempLocalCodeStr[j] = 32;
+                }
+                for (int j = 1; j < 8; j += 2)
+                {
+                    OscillConfig[1059 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(TempLocalCodeStr[j - 1]) << 8);
+                    OscillConfig[1059 + (j / 2)] += Convert.ToUInt16(TempLocalCodeStr[j]);
+                }
+
+                String tmqCode = ScopeSysType.tmqCode;     //
+
+                byte[] tmqCodeStr = new Byte[16];
+                byte[] TemptmqCodeStr = new Byte[16];
+                tmqCodeStr = Encoding.Default.GetBytes(tmqCode);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    if (j < tmqCode.Length) TemptmqCodeStr[j] = tmqCodeStr[j];
+                    else TemptmqCodeStr[j] = 32;
+                }
+                for (int j = 1; j < 8; j += 2)
+                {
+                    OscillConfig[1063 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(TemptmqCodeStr[j - 1]) << 8);
+                    OscillConfig[1063 + (j / 2)] += Convert.ToUInt16(TemptmqCodeStr[j]);
+                }
+
+                String leapsec = ScopeSysType.leapsec;     //
+
+                byte[] leapsecStr = new Byte[16];
+                byte[] TempleapsecStr = new Byte[16];
+                leapsecStr = Encoding.Default.GetBytes(leapsec);
+
+                for (int j = 0; j < 8; j++)
+                {
+                    if (j < leapsec.Length) TempleapsecStr[j] = leapsecStr[j];
+                    else TempleapsecStr[j] = 32;
+                }
+                for (int j = 1; j < 8; j += 2)
+                {
+                    OscillConfig[1067 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(TempleapsecStr[j - 1]) << 8);
+                    OscillConfig[1067 + (j / 2)] += Convert.ToUInt16(TempleapsecStr[j]);
+                }
+
+                #endregion
+            }
         }
 
         private void WriteConfigToSystem()
@@ -612,6 +832,8 @@ namespace ScopeSetupApp
             
         }
 
+        //Сохранение осциллограммы 
+        #region
         private void saveButton2_Click(object sender, EventArgs e)
         {
             if (nowMaxChannelCount != ChNames().Count)
@@ -762,5 +984,7 @@ namespace ScopeSetupApp
                 ScopeSysType.InitScopeSysType();
             }
         }
+        #endregion
+
     }
 }
