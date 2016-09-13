@@ -18,7 +18,7 @@ namespace ScopeSetupApp
         public static List<Color> ChannelColors = new List<Color>();
         public static List<ushort> ChannelFormats = new List<ushort>();
         public static List<int> ChannelStepLines = new List<int>();
-        public static List<int> ChannelTypeAD = new List<int>();
+        public static List<ushort> ChannelTypeAD = new List<ushort>();
         public static List<int> ChannelMin = new List<int>();
         public static List<int> ChannelMax = new List<int>();
         public static List<bool> ChannelChecked = new List<bool>();
@@ -142,7 +142,7 @@ namespace ScopeSetupApp
             ChannelColors = new List<Color>();
             ChannelFormats = new List<ushort>();
             ChannelStepLines = new List<int>();
-            ChannelTypeAD = new List<int>();
+            ChannelTypeAD = new List<ushort>();
             ChannelMin = new List<int>();
             ChannelMax = new List<int>();
             ChannelChecked = new List<bool>();
@@ -170,7 +170,7 @@ namespace ScopeSetupApp
                     ChannelColors.Add(Color.FromArgb(ic));
                     ChannelFormats.Add(Convert.ToUInt16(xmlline.Attributes["Format"].Value));
                     ChannelStepLines.Add(Convert.ToInt32(xmlline.Attributes["StepLine"].Value));
-                    ChannelTypeAD.Add(Convert.ToInt32(xmlline.Attributes["TypeAD"].Value));
+                    ChannelTypeAD.Add(Convert.ToUInt16(xmlline.Attributes["TypeAD"].Value));
                     ChannelMin.Add(Convert.ToInt32(xmlline.Attributes["Min"].Value));
                     ChannelMax.Add(Convert.ToInt32(xmlline.Attributes["Max"].Value));
                     ChannelChecked.Add(Convert.ToBoolean(xmlline.Attributes["Checked"].Value));
