@@ -282,7 +282,7 @@ namespace ScopeSetupApp
         int[] ChannelSeries = new int[32];
 
         int writeConfigStep = 0;
-        ushort writeNameStep = 0;
+        ushort writeStep = 0;
 
         //Конфигурирование осциллограммы 
         #region
@@ -428,8 +428,15 @@ namespace ScopeSetupApp
         #endregion
 
 
-        private void CalcNewOscillConfig(ushort NumFrame)  
+        private void CalcNewOscillConfig(ushort writeStep)  
         {
+            newOscillConfig[0] = 1; 
+            newOscillConfig[1] = writeStep;
+            for (int i = 0; i < 32; i++)
+            {           
+                newOscillConfig[2 + i] = OscillConfig[i + 32*writeStep];
+            }
+            newOscillConfig[34] = 1; 
         }
 
         //Конфигурирование параметрв осциллограммы 
@@ -669,7 +676,7 @@ namespace ScopeSetupApp
         {
             CalcOscillConfig();
             writeConfigStep = 0;
-            CalcNewOscillConfig( writeNameStep );
+            CalcNewOscillConfig(writeStep);
             WritePartConfigToSystem();
         }
 
@@ -701,10 +708,11 @@ namespace ScopeSetupApp
                 if (writeConfigStep < 6) { WritePartConfigToSystem(); }     //Отправляю новую конфигурацию 
                 else 
                 {
-                    if (OscilEnable() == 2 && writeNameStep < nowMaxChannelCount ) { writeNameStep++; WriteConfigToSystem(); }
+                    if (OscilEnable() != 2 && writeStep < 3)        { writeStep++; CalcNewOscillConfig(writeStep); writeConfigStep = 0;} 
+                    else if (OscilEnable() == 2 && writeStep < 40)  { writeStep++; CalcNewOscillConfig(writeStep); writeConfigStep = 0;}
                     else
                     {
-                        writeNameStep = 0;
+                        writeStep = 0;
                         MessageBox.Show("Конфигурация осциллографа была изменена!", "Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ScopeConfig.ChangeScopeConfig = true;
                     }
