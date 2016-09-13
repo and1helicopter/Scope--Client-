@@ -178,8 +178,10 @@ namespace ScopeSetupApp
             formatComboBoxNumeric[i].Width = 100;
             formatComboBoxNumeric[i].Left = 382;
             formatComboBoxNumeric[i].Top = 3;
-            formatComboBoxNumeric[i].Text = Convert.ToString(formatData);
+            formatComboBoxNumeric[i].SelectedIndex = (formatData >> 8) - 1;
             formatComboBoxNumeric[i].DropDownStyle = ComboBoxStyle.DropDownList;
+
+            //(Convert.ToInt32(formatComboBoxNumeric[i].Text) << 8) + Convert.ToInt32(formatComboBox[i].SelectedIndex)).ToString()
             
             formatComboBox.Add(new ComboBox());
             formatComboBox[i].Tag = i;
@@ -190,7 +192,7 @@ namespace ScopeSetupApp
             formatComboBox[i].Width = 100;
             formatComboBox[i].Left = 382;
             formatComboBox[i].Top = 30;
-            formatComboBox[i].Text =  Convert.ToString(formatData);
+            formatComboBox[i].SelectedIndex = formatData & 0x00FF ;
             
             stepLineCheckBoxs.Add(new ComboBox());
             stepLineCheckBoxs[i].Tag = i;
@@ -662,7 +664,7 @@ namespace ScopeSetupApp
                     xmlOut.WriteAttributeString("Dimension", dimensionComboBox[i].Text);
                     xmlOut.WriteAttributeString("Addr", paramAddrStrs[i]);
                     xmlOut.WriteAttributeString("Color", colorLabels[i].BackColor.ToArgb().ToString());
-                    xmlOut.WriteAttributeString("Format", ((Convert.ToInt32(formatComboBoxNumeric[i].Text) << 8) + Convert.ToInt32(formatComboBox[i].SelectedIndex)).ToString());
+                    xmlOut.WriteAttributeString("Format", ((Convert.ToInt32(formatComboBoxNumeric[i].SelectedIndex + 1) << 8) + Convert.ToInt32(formatComboBox[i].SelectedIndex)).ToString());
                     xmlOut.WriteAttributeString("StepLine", stepLineCheckBoxs[i].SelectedIndex.ToString());
                     xmlOut.WriteAttributeString("TypeAD", AnalogDigitalComboBox[i].SelectedIndex.ToString());
                     xmlOut.WriteAttributeString("Min", minTextBoxs[i].Text);
