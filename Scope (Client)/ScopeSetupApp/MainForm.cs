@@ -337,7 +337,7 @@ namespace ScopeSetupApp
 
             if (loadConfigStep == 5)
 			{
-				modBusUnit.GetData(0x0200, 32);
+				modBusUnit.GetData(0x0220, 32);
 				return;
 			}
 
