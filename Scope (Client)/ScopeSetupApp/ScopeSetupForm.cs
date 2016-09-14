@@ -20,7 +20,9 @@ namespace ScopeSetupApp
         private ushort nowMaxChannelCount = 1 ;    //Количество каналов
         private ushort nowOscFreq = 1;             //Делитель     
         private uint oscilAllSize = 1;
-       
+
+        //Динамическое заполнение формы 
+        #region
         private List<Label> possibleLabels;
         private List<Label> currentLabels;
         private List<CheckBox> checkBoxs;
@@ -80,21 +82,21 @@ namespace ScopeSetupApp
         {
             for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
             {
-            if (checkBoxs[i].Checked) 
-            {
-                currentLabels[i].Visible = true; 
-                possibleLabels[i].BackColor = System.Drawing.Color.LightSteelBlue;
-                radioButton.Text = Convert.ToString(VisibleCount());
+                if (checkBoxs[i].Checked) 
+                {
+                    currentLabels[i].Visible = true; 
+                    possibleLabels[i].BackColor = System.Drawing.Color.LightSteelBlue;
+                    radioButton.Text = Convert.ToString(VisibleCount());
                 
-            }
-            else
-            {
-                currentLabels[i].Visible = false;
-                possibleLabels[i].BackColor = System.Drawing.SystemColors.ButtonHighlight;
-                if (VisibleCount() != 0) radioButton.Text = Convert.ToString(VisibleCount());
-                else radioButton.Clear();
-                checkBox2.Checked = false;
-            }
+                }
+                else
+                {
+                    currentLabels[i].Visible = false;
+                    possibleLabels[i].BackColor = System.Drawing.SystemColors.ButtonHighlight;
+                    if (VisibleCount() != 0) radioButton.Text = Convert.ToString(VisibleCount());
+                    else radioButton.Clear();
+                    checkBox2.Checked = false;
+                }
             }
 
         }
@@ -134,7 +136,8 @@ namespace ScopeSetupApp
                 }
             }
         }
-           
+        #endregion
+
         public ScopeSetupForm()
         {
             InitializeComponent();
@@ -156,9 +159,9 @@ namespace ScopeSetupApp
         //****************************************************************************//
         //****************************************************************************//
         //****************************************************************************//
+        //Обработка полей формы
+        #region  
         //Количество осциллограмм
-
-
         private void chCountRadioButton_KeyPress(object sender, KeyPressEventArgs e)
         {
             char number = e.KeyChar;
@@ -273,11 +276,12 @@ namespace ScopeSetupApp
             List<ushort> ChFormats = ChannelFormats(); 
             List<ushort> ChannelAdd = ChannelAddrs();               
         }
+        #endregion
    
         //**************ИЗМЕНЕНИЕ КОНФИГУРАЦИИ ОСЦИЛЛОГРАФА *********************************************//
         //***********************************************************************************************//
         //***********************************************************************************************//
-        ushort[] newOscillConfig = new ushort[35];
+        ushort[] newOscillConfig = new ushort[40];
         ushort[] OscillConfig = new ushort[1280];
         int[] ChannelSeries = new int[32];
 
@@ -430,6 +434,8 @@ namespace ScopeSetupApp
 
         private void CalcNewOscillConfig(ushort writeStep)  
         {
+            newOscillConfig = new ushort[40];
+
             newOscillConfig[0] = 1; 
             newOscillConfig[1] = writeStep;
             for (int i = 0; i < 32; i++)
@@ -705,11 +711,11 @@ namespace ScopeSetupApp
             else
             {
                 writeConfigStep++;
-                if (writeConfigStep < 6) { WritePartConfigToSystem(); }     //Отправляю новую конфигурацию 
+                if (writeConfigStep < 5) { WritePartConfigToSystem(); }     //Отправляю новую конфигурацию 
                 else 
                 {
-                    if (OscilEnable() != 2 && writeStep < 3)        { writeStep++; CalcNewOscillConfig(writeStep); writeConfigStep = 0;} 
-                    else if (OscilEnable() == 2 && writeStep < 40)  { writeStep++; CalcNewOscillConfig(writeStep); writeConfigStep = 0;}
+                    if (writeStep < 39)         { writeStep++; CalcNewOscillConfig(writeStep); writeConfigStep = 0; WritePartConfigToSystem(); }
+                   // else if (OscilEnable() == 2 && writeStep < 39)   { writeStep++; CalcNewOscillConfig(writeStep); writeConfigStep = 0; WritePartConfigToSystem(); }
                     else
                     {
                         writeStep = 0;
@@ -770,6 +776,7 @@ namespace ScopeSetupApp
 
 
         //Загрузка из файла
+        #region
         private void openButton2_Click(object sender, EventArgs e)
         {
            // List<string> ChannelNamesTemp = ChNames();
@@ -839,8 +846,9 @@ namespace ScopeSetupApp
 
             
         }
+        #endregion
 
-        //Сохранение осциллограммы 
+        //Сохранение осциллограммы в файл
         #region
         private void saveButton2_Click(object sender, EventArgs e)
         {
