@@ -327,23 +327,23 @@ namespace ScopeSetupApp
         // OscilSize
         public uint OscilSize(uint AllSize)
         {
-            uint sfb_count = 0, ttb_count = 0, stb_count = 0;
+            uint count64 = 0, count32 = 0, count16 = 0;
             uint SampleSize;
             for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
             {
-                if (currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 3) { sfb_count++; }
+                if (currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 3) { count64++; }
             }
             for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
             {
-                if (currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 2) { ttb_count++; }
+                if (currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 2) { count32++; }
             }
             for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
             {
-                if (currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 1) { stb_count++; }
+                if (currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 1) { count16++; }
             }
 
-            SampleSize = sfb_count*8 + ttb_count*4 + stb_count*2;
-            if ((sfb_count != 0 || ttb_count != 0) && stb_count % 2 != 0) { SampleSize += 2; } // Выравнивание на 4 байта
+            SampleSize = count64 * 8 + count32 * 4 + count16 * 2;
+            if ((count64 != 0 || count32 != 0) && count16 % 2 != 0) { SampleSize += 2; } // Выравнивание на 4 байта
 
             uint OscS = (AllSize * 1024) / Convert.ToUInt32(nowScopeCount);
 
