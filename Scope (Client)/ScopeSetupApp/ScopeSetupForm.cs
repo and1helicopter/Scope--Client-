@@ -673,7 +673,6 @@ namespace ScopeSetupApp
                     OscillConfig[1067 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(TempleapsecStr[j - 1]) << 8);
                     OscillConfig[1067 + (j / 2)] += Convert.ToUInt16(TempleapsecStr[j]);
                 }
-
                 #endregion
             }
         }
@@ -715,7 +714,6 @@ namespace ScopeSetupApp
                 else 
                 {
                     if (writeStep < 39)         { writeStep++; CalcNewOscillConfig(writeStep); writeConfigStep = 0; WritePartConfigToSystem(); }
-                   // else if (OscilEnable() == 2 && writeStep < 39)   { writeStep++; CalcNewOscillConfig(writeStep); writeConfigStep = 0; WritePartConfigToSystem(); }
                     else
                     {
                         writeStep = 0;
