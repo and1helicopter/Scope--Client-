@@ -31,14 +31,26 @@ namespace ScopeSetupApp
             catch { }
         }
 
-        //Текущая предыстория
-        static ushort history = 1;
-        public static ushort History
+        //Частота выборки
+        static ushort sampl = 1;
+        public static ushort SampleRate
         {
-            get { return history; }
+            get { return sampl; }
             set
             {
-                history = value;
+                sampl = value;
+            }
+
+        }
+
+        //Размер выборки
+        static ushort samplSize = 1;
+        public static ushort SampleSize
+        {
+            get { return samplSize; }
+            set
+            {
+                samplSize = value;
             }
 
         }
