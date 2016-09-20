@@ -1120,8 +1120,10 @@ namespace ScopeSetupApp
         List<ushort[]> InitParamsLines()
         {
             List<ushort[]> paramsLines = new List<ushort[]>();
+            List<ushort[]> paramsSortLines = new List<ushort[]>();
             int k = 0;
             int j = 0;
+            int l = 0;
             for (int i = 0; i < downloadedData.Count; i++)
             {
                 while (j < 32)
@@ -1137,7 +1139,36 @@ namespace ScopeSetupApp
                 }
                 j = 0;
             }
-            return paramsLines;
+            paramsLines.RemoveAt(paramsLines.Count-1);
+            
+
+            //StartLoadSample
+            //int j = 0;
+            for(int i = 0; i < paramsLines.Count - 1; i++)
+            {
+                if ((i + (int)StartLoadSample + 1) >= paramsLines.Count)
+                {
+                    k = 0;
+                    paramsSortLines.Add(new ushort[ScopeConfig.SampleSize >> 1]);
+                    while (k < (ScopeConfig.SampleSize >> 1))
+                    {
+                        paramsSortLines[i][k] = paramsLines[l][k];
+                        k++;
+                    }
+                    l++;
+                }
+                else
+                {
+                    k = 0;
+                    paramsSortLines.Add(new ushort[ScopeConfig.SampleSize >> 1]);
+                    while (k < (ScopeConfig.SampleSize >> 1))
+                    {
+                        paramsSortLines[i][k] = paramsLines[i + (int)StartLoadSample + 1][k];
+                        k++;
+                    }
+                }
+            }
+            return paramsSortLines;
         }
   
         //Save to cometrade
