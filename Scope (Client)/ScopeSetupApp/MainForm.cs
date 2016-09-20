@@ -1081,13 +1081,17 @@ namespace ScopeSetupApp
                     if ((ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]] >> 8) == 3)
                     {
                         ULTemp = 0;
-                        for (int j = 0; j < 4; j++) ULTemp += (ulong)(paramLine[count64 + j]) << 8 * j;
+                        ULTemp += (ulong)(paramLine[count64 + 0]) << 8 * 2;
+                        ULTemp += (ulong)(paramLine[count64 + 1]) << 8 * 3;
+                        ULTemp += (ulong)(paramLine[count64 + 2]) << 8 * 0;
+                        ULTemp += (ulong)(paramLine[count64 + 3]) << 8 * 1;
                         count64 += 4;
                     }
                     if ((ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]] >> 8) == 2)
                     {
                         ULTemp = 0;
-                        for (int j = 0; j < 2; j++) ULTemp += (ulong)(paramLine[count64 + count32 + j]) << 8 * j;
+                        ULTemp += (ulong)(paramLine[count64 + count32 + 0]) << 8 * 0;
+                        ULTemp += (ulong)(paramLine[count64 + count32 + 1]) << 8 * 1;
                         count32 += 2; 
                     }
                     if ((ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]] >> 8) == 1)
@@ -1100,23 +1104,20 @@ namespace ScopeSetupApp
                     // MessageBox.Show(ScopeSysType.ChannelNames[i]+" "+ScopeSysType.ChannelFormats[i].ToString());
                     //MessageBox.Show(ScopeSysType.ChannelFormats[i].ToString());
 
-                    str = str + AdvanceConvert.HexToFormat((ushort)ULTemp, (byte)ChFormat[ScopeConfig.OscillParams[i]]) + "\t";
+                    str = str + AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]]) + "\t";
                 }
             }
             return str;
         }
         #endregion
 
-
-        ushort[] ChFormat = new ushort[32];
-
         string CommOnPoint(ushort[] paramLine ,int i)
         {
-            string str = AdvanceConvert.HexToFormat(paramLine[i], (byte)ChFormat[ScopeConfig.OscillParams[i]]);
+            string str = AdvanceConvert.HexToFormat(paramLine[i], (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]]);
             str = str.Replace(",", ".");
             return str;
         }
- 
+
         List<ushort[]> InitParamsLines()
         {
             List<ushort[]> paramsLines = new List<ushort[]>();
@@ -1140,32 +1141,21 @@ namespace ScopeSetupApp
                 j = 0;
             }
             paramsLines.RemoveAt(paramsLines.Count-1);
-            
-
-            //StartLoadSample
-            //int j = 0;
-            for(int i = 0; i < paramsLines.Count - 1; i++)
+            //Формирую список начиная с предыстории 
+            for(int i = 0; i < paramsLines.Count; i++)
             {
                 if ((i + (int)StartLoadSample + 1) >= paramsLines.Count)
                 {
                     k = 0;
                     paramsSortLines.Add(new ushort[ScopeConfig.SampleSize >> 1]);
-                    while (k < (ScopeConfig.SampleSize >> 1))
-                    {
-                        paramsSortLines[i][k] = paramsLines[l][k];
-                        k++;
-                    }
+                    paramsSortLines[i] = paramsLines[l];
                     l++;
                 }
                 else
                 {
                     k = 0;
                     paramsSortLines.Add(new ushort[ScopeConfig.SampleSize >> 1]);
-                    while (k < (ScopeConfig.SampleSize >> 1))
-                    {
-                        paramsSortLines[i][k] = paramsLines[i + (int)StartLoadSample + 1][k];
-                        k++;
-                    }
+                    paramsSortLines[i] = paramsLines[i + (int)StartLoadSample + 1];
                 }
             }
             return paramsSortLines;
