@@ -54,6 +54,17 @@ namespace ScopeSetupApp
             }
 
         }
+        //Количество выборок в предыстории 
+        static uint oscilHistCount = 1;
+        public static uint OscilHistCount
+        {
+            get { return oscilHistCount; }
+            set
+            {
+                oscilHistCount = value;
+            }
+        }
+        
 
         //Количество осциллограмм 
         static ushort scopeCount = 1;

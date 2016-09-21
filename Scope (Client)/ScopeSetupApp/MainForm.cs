@@ -252,8 +252,7 @@ namespace ScopeSetupApp
                                   0, 0, 0, 0,   0, 0, 0, 0,  0, 0, 0, 0,     0, 0, 0, 0,  0};
 
         string[] oscilTitls = new string[32];
-        string[] oscTimeDates = new string[32];
-        string[] oscStartTimeDates = new string[32];
+        DateTime [] date = new DateTime[32];
 
         private void SendTimeStampRequest()
         {
@@ -339,12 +338,18 @@ namespace ScopeSetupApp
                 modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 1), 1);
                 return;
             }
-
             if (loadConfigStep == 6)
+            {
+                modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 6), 2);
+                return;
+            }
+
+            if (loadConfigStep == 7)
             {
                 modBusUnit.GetData(0x0220, 32);
                 return;
             }
+
 
         }
         private void EndLoadConfig()
@@ -396,15 +401,21 @@ namespace ScopeSetupApp
                             loadConfigStep = 6;
                             LoadConfig();
                         } break;
-
                     case 6:
+                        {
+                            ScopeConfig.OscilHistCount = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
+                            ScopeConfig.OscilHistCount += modBusUnit.modBusData.ReadData[0];
+                            loadConfigStep = 7;
+                            LoadConfig();
+
+                        } break;
+                    case 7:
                         {
                             ScopeConfig.InitOscillParams(modBusUnit.modBusData.ReadData);
                             loadConfigStep = 0;
                             configLoaded = true;
                             buttonsAlreadyCreated = false;
                         } break;
-
 
                 }
                 return;
@@ -713,13 +724,14 @@ namespace ScopeSetupApp
 
         private void UpdateTimeStamp()
         {
-            string str1, str2, str3;
+            string str, str1, str2, str3;
             str1 = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
             str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H   
             str3 = (modBusUnit.modBusData.ReadData[4]).ToString("000") + "000";
             statusButtons[loadTimeStampStep].Text = "№" + (loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
             oscilTitls[loadTimeStampStep] = "Осциллограмма №" + (loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
-            oscTimeDates[loadTimeStampStep] = str1 + "," + str2 + "." + str3;
+            str = str1 + "," + str2 + "." + str3;
+            date[loadTimeStampStep] = DateTime.Parse(str);
         }
         private void UpdateTimeStampInvoke()
         {
@@ -1286,7 +1298,7 @@ namespace ScopeSetupApp
         string Line7()
         {
             string str = "";
-            string samp = Convert.ToString((float)ScopeSysType.OscilSampleRate / (float)ScopeConfig.ScopeFreq);
+            string samp = Convert.ToString(ScopeConfig.SampleRate);
             samp = samp.Replace(",", ".");
             string endsamp = InitParamsLines().Count.ToString();
             str = samp + "," + endsamp;
@@ -1295,12 +1307,16 @@ namespace ScopeSetupApp
 
         string Line8(int numOsc)
         {
-            return oscStartTimeDates[numOsc];;
+           // string str;
+            double milsec = 1000*(double)ScopeConfig.OscilHistCount/ScopeConfig.SampleRate;
+            DateTime dateTemp = date[numOsc].AddMilliseconds(-milsec);
+            return dateTemp.ToString("dd'/'MM'/'yyyy,HH:mm:ss.fff000");
         }
-
+        
         string Line9(int numOsc)
         {
-            return oscTimeDates[numOsc]; ;
+            DateTime dateTemp = date[numOsc];
+            return dateTemp.ToString("dd'/'MM'/'yyyy,HH:mm:ss.fff000");
         }
 
         string Line10()
@@ -1360,7 +1376,8 @@ namespace ScopeSetupApp
 
                 try
                 {
-                    sw.WriteLine(oscTimeDates[createFileNum]);
+                    DateTime dateTemp = date[createFileNum];
+                    sw.WriteLine(dateTemp.ToString("dd'/'MM'/'yyyy,HH:mm:ss.fff000"));
                     //sw.WriteLine(ScopeConfig.ScopeFreq.ToString());
                     sw.WriteLine("1");
                     sw.WriteLine(FileHeaderLine());
