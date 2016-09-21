@@ -1076,43 +1076,20 @@ namespace ScopeSetupApp
             return str;
         }
 
+        int count64, count32 , count16;
         string FileParamLine(ushort[] paramLine, int lineNum)
         {
             string str = "";
             ulong ULTemp = 0;
+            int i;
            // ChFormats();
             str = lineNum.ToString() + "\t";
-            for (int i = 0, count64 = 0, count32 = 0, count16 = 0; i < ScopeConfig.ChannelCount; i++)
+            for (i = 0, count64 = 0, count32 = 0, count16 = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
                 if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
                 {
-                    if ((ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]] >> 8) == 3)
-                    {
-                        ULTemp = 0;
-                        ULTemp += (ulong)(paramLine[count64 + 0]) << 8 * 2;
-                        ULTemp += (ulong)(paramLine[count64 + 1]) << 8 * 3;
-                        ULTemp += (ulong)(paramLine[count64 + 2]) << 8 * 0;
-                        ULTemp += (ulong)(paramLine[count64 + 3]) << 8 * 1;
-                        count64 += 4;
-                    }
-                    if ((ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]] >> 8) == 2)
-                    {
-                        ULTemp = 0;
-                        ULTemp += (ulong)(paramLine[count64 + count32 + 0]) << 8 * 0;
-                        ULTemp += (ulong)(paramLine[count64 + count32 + 1]) << 8 * 1;
-                        count32 += 2; 
-                    }
-                    if ((ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]] >> 8) == 1)
-                    {
-                        ULTemp = (ulong)(paramLine[count64 + count32 + count16]);
-                        count16 += 1;
-                    }
-
-                    //  str = str + HexToPercent(paramLine[i]) + "\t";
-                    // MessageBox.Show(ScopeSysType.ChannelNames[i]+" "+ScopeSysType.ChannelFormats[i].ToString());
-                    //MessageBox.Show(ScopeSysType.ChannelFormats[i].ToString());
-
+                    ULTemp = ParseArr(i, paramLine);
                     str = str + AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]]) + "\t";
                 }
             }
@@ -1120,11 +1097,31 @@ namespace ScopeSetupApp
         }
         #endregion
 
-        string CommOnPoint(ushort[] paramLine ,int i)
+        ulong ParseArr(int i, ushort[] paramLine)
         {
-            string str = AdvanceConvert.HexToFormat(paramLine[i], (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]]);
-            str = str.Replace(",", ".");
-            return str;
+            ulong ULTemp = 0;
+            if ((ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]] >> 8) == 3)
+            {
+               ULTemp = 0;
+               ULTemp += (ulong)(paramLine[count64 + 0]) << 8 * 2;
+               ULTemp += (ulong)(paramLine[count64 + 1]) << 8 * 3;
+               ULTemp += (ulong)(paramLine[count64 + 2]) << 8 * 0;
+               ULTemp += (ulong)(paramLine[count64 + 3]) << 8 * 1;
+               count64 += 4;
+            }
+            if ((ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]] >> 8) == 2)
+            {
+                ULTemp = 0;
+                ULTemp += (ulong)(paramLine[count64 + count32 + 0]) << 8 * 0;
+                ULTemp += (ulong)(paramLine[count64 + count32 + 1]) << 8 * 1;
+                count32 += 2; 
+            }
+            if ((ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]] >> 8) == 1)
+            {
+                ULTemp = (ulong)(paramLine[count64 + count32 + count16]);
+                count16 += 1;
+            }
+            return ULTemp;
         }
 
         List<ushort[]> InitParamsLines()
@@ -1174,23 +1171,41 @@ namespace ScopeSetupApp
         #region
         string FileParamLineData(ushort[] paramLine, int lineNum)
         {
-            string str = "";
-           //ChFormats();
-            str = (lineNum + 1).ToString() + "," ;//+ (lineNum * 40).ToString();
-            for (int i = 0; i < ScopeConfig.ChannelCount; i++)
+            string str1 = "" , str = "";
+            int i;
+            ulong ULTemp = 0;
+            count64 = 0; 
+            count32 = 0; 
+            count16 = 0;
+            str = (lineNum + 1).ToString() + "," ;
+            for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
                 if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
                 {
-                    if (ScopeSysType.ChannelTypeAD[i] == 0) str = str + "," + CommOnPoint(paramLine, i);
+                    if (ScopeSysType.ChannelTypeAD[i] == 0)
+                    {
+                        ULTemp = ParseArr(i, paramLine);
+                        str1 = AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]]);
+                        str1 = str1.Replace(",", ".");
+                        str = str + "," + str1;
+                    }
+
+
                 }
             }
-            for (int i = 0; i < ScopeConfig.ChannelCount; i++)
+            for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
                 if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
                 {
-                    if (ScopeSysType.ChannelTypeAD[i] == 1) str = str + "," + CommOnPoint(paramLine, i);
+                    if (ScopeSysType.ChannelTypeAD[i] == 1)
+                    {
+                        ULTemp = ParseArr(i, paramLine);
+                        str1 = AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]]);
+                        str1 = str1.Replace(",", ".");
+                        str = str + "," + str1;
+                    }
                 }
             }
             return str;
