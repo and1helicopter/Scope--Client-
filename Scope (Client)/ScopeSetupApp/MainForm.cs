@@ -888,7 +888,6 @@ namespace ScopeSetupApp
                                         for (int i = 0; i < 8; i++)
                                         {
                                             loadParamPart[i + (loadOscDataSubStep - 1) * 8] = modBusUnit.modBusData.ReadData[i];
-                                           // Console.WriteLine(loadParamPart[i]);
                                         }
                                     }break;
                             }
@@ -911,10 +910,10 @@ namespace ScopeSetupApp
                                     loadOscilIndex = 0;
                                     createFileNum = loadOscNum;
                                     createFileFlag = true;
-                                    //CreateFileInvoke();
                                     loadOscData = false;
                                     loadOscDataStep = 0;
                                     UpdateLoadDataProgressBarInvoke();
+                                    loadOscilTemp = 0;
                                     CountTemp = 0;
                                 }
                             }
@@ -958,16 +957,14 @@ namespace ScopeSetupApp
 
         uint CalcOscilLoadTemp(int nowLoadOscNum)
         {
-            OscilStartTemp = ((uint)nowLoadOscNum * ScopeConfig.OscilSize >> 1);
-            OscilEndTemp = (((uint)nowLoadOscNum + 1) * ScopeConfig.OscilSize >> 1);
-            //  OscilEndTemp - OscilStartTemp
-            if (CountTemp < (ScopeConfig.OscilSize >> 1))
+            OscilStartTemp = ((uint)nowLoadOscNum * (ScopeConfig.OscilSize >> 1));      //Начало осциллограммы 
+            OscilEndTemp = (((uint)nowLoadOscNum + 1) * (ScopeConfig.OscilSize >> 1));  //Конец осциллограммы 
+            if (CountTemp < (ScopeConfig.OscilSize >> 1))                               //Проход по осциллограмме 
             {
-                if (loadOscilTemp >= (OscilEndTemp >> 1)) loadOscilTemp = OscilStartTemp;
-                loadOscilTemp += 32;
+                loadOscilTemp += 32;                                                    //Какую чпмть осциллограммы грузим 
                 CountTemp += 32;
             }
-            return (loadOscilTemp - 32);
+            return (loadOscilTemp - 32 + OscilStartTemp);                               //+Положение относительно начала массива
         }
         #endregion
 
