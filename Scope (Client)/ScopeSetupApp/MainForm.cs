@@ -835,7 +835,7 @@ namespace ScopeSetupApp
                 //Загрузка номера выборки на котором заканчивается осциллограмма 
                 case 0:
                     {
-                        modBusUnit.GetData((ushort)(ScopeSysType.StartTemptAddr + loadOscNum), 1);
+                        modBusUnit.GetData((ushort)(ScopeSysType.StartTemptAddr + loadOscNum*2), 2);
                     }   break;
 
                 //Загрузка данных
@@ -870,7 +870,8 @@ namespace ScopeSetupApp
                     {
                         if (!modBusUnit.modBusData.RequestError)
                         {
-                            StartLoadSample = modBusUnit.modBusData.ReadData[0];
+                            StartLoadSample = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
+                            StartLoadSample += modBusUnit.modBusData.ReadData[0];
                             loadOscDataStep = 1;
                         }
                         else
