@@ -31,11 +31,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScopeSetupForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.writeToSystemBtn = new System.Windows.Forms.ToolStripButton();
-            this.reloadBtn = new System.Windows.Forms.ToolStripButton();
             this.openButton2 = new System.Windows.Forms.ToolStripButton();
             this.saveButton2 = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.oscSize = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.oscFreqRadioButton = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
@@ -57,12 +60,9 @@
             this.possibleTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.sampleNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.oscFreqRadioButton = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.panel7.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -70,7 +70,6 @@
             this.panel2.SuspendLayout();
             this.possibleParamPanel.SuspendLayout();
             this.possibleTableLayoutPanel.SuspendLayout();
-            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -82,7 +81,6 @@
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.writeToSystemBtn,
-            this.reloadBtn,
             this.openButton2,
             this.saveButton2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -103,18 +101,6 @@
             this.writeToSystemBtn.Size = new System.Drawing.Size(32, 32);
             this.writeToSystemBtn.Text = "Загрузиь конфигурацию в систему";
             this.writeToSystemBtn.Click += new System.EventHandler(this.writeToSystemBtn_Click);
-            // 
-            // reloadBtn
-            // 
-            this.reloadBtn.AutoSize = false;
-            this.reloadBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.reloadBtn.Image = ((System.Drawing.Image)(resources.GetObject("reloadBtn.Image")));
-            this.reloadBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.reloadBtn.Margin = new System.Windows.Forms.Padding(3);
-            this.reloadBtn.Name = "reloadBtn";
-            this.reloadBtn.Size = new System.Drawing.Size(32, 32);
-            this.reloadBtn.Text = "Обновить";
-            this.reloadBtn.Click += new System.EventHandler(this.reloadBtn_Click);
             // 
             // openButton2
             // 
@@ -167,6 +153,48 @@
             this.oscSize.TabIndex = 8;
             this.oscSize.Text = "Размер под осциллограмму:";
             this.oscSize.Visible = false;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel4.Controls.Add(this.label5);
+            this.panel4.Controls.Add(this.oscFreqRadioButton);
+            this.panel4.Controls.Add(this.label7);
+            this.panel4.Location = new System.Drawing.Point(5, 107);
+            this.panel4.Margin = new System.Windows.Forms.Padding(5, 4, 3, 4);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(399, 33);
+            this.panel4.TabIndex = 7;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(309, 8);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(33, 17);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "От 1";
+            // 
+            // oscFreqRadioButton
+            // 
+            this.oscFreqRadioButton.Location = new System.Drawing.Point(173, 5);
+            this.oscFreqRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.oscFreqRadioButton.Name = "oscFreqRadioButton";
+            this.oscFreqRadioButton.Size = new System.Drawing.Size(130, 24);
+            this.oscFreqRadioButton.TabIndex = 4;
+            this.oscFreqRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.oscFreqRadioButton.TextChanged += new System.EventHandler(this.oscFreqRadioButton_TextChanged);
+            this.oscFreqRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.oscFreqRadioButton_KeyPress);
+            // 
+            // label7
+            // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 8);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(68, 17);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Делитель:";
             // 
             // checkBox1
             // 
@@ -412,48 +440,6 @@
             this.label2.Text = "Возможные для осциллографирования параметры";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label7
-            // 
-            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 8);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(68, 17);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "Делитель:";
-            // 
-            // oscFreqRadioButton
-            // 
-            this.oscFreqRadioButton.Location = new System.Drawing.Point(173, 5);
-            this.oscFreqRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.oscFreqRadioButton.Name = "oscFreqRadioButton";
-            this.oscFreqRadioButton.Size = new System.Drawing.Size(130, 24);
-            this.oscFreqRadioButton.TabIndex = 4;
-            this.oscFreqRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.oscFreqRadioButton.TextChanged += new System.EventHandler(this.oscFreqRadioButton_TextChanged);
-            this.oscFreqRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.oscFreqRadioButton_KeyPress);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(309, 8);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(33, 17);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "От 1";
-            // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel4.Controls.Add(this.label5);
-            this.panel4.Controls.Add(this.oscFreqRadioButton);
-            this.panel4.Controls.Add(this.label7);
-            this.panel4.Location = new System.Drawing.Point(5, 107);
-            this.panel4.Margin = new System.Windows.Forms.Padding(5, 4, 3, 4);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(399, 33);
-            this.panel4.TabIndex = 7;
-            // 
             // ScopeSetupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -473,6 +459,8 @@
             this.toolStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
             this.panel6.ResumeLayout(false);
@@ -486,8 +474,6 @@
             this.possibleParamPanel.PerformLayout();
             this.possibleTableLayoutPanel.ResumeLayout(false);
             this.possibleTableLayoutPanel.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -503,7 +489,6 @@
         private System.Windows.Forms.Label sampleNameLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton reloadBtn;
         private System.Windows.Forms.ToolStripButton writeToSystemBtn;
         private System.Windows.Forms.CheckBox enaScopeCheckBox;
         private System.Windows.Forms.TextBox radioButton;

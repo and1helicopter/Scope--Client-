@@ -716,6 +716,5 @@ namespace ScopeSetupApp
                 ScopeSysType.InitScopeSysType();
             }
         }
-
     }
 }

@@ -355,8 +355,6 @@ namespace ScopeSetupApp
             return (OscS);
         }
 
-
-
         //OscilEnable
         private ushort OscilEnable()
         {
@@ -720,8 +718,7 @@ namespace ScopeSetupApp
                         MessageBox.Show("Конфигурация осциллографа была изменена!", "Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ScopeConfig.ChangeScopeConfig = true;
                     }
-                }
-                
+                }       
             }
         }
 
@@ -737,7 +734,6 @@ namespace ScopeSetupApp
                 ) { return; }
 
             WriteConfigToSystem();
-            //ScopeSysType.InitScopeSysType();
         }
 
 
@@ -784,16 +780,12 @@ namespace ScopeSetupApp
                 ChannelNamesTemp.Add(ScopeSysType.ChannelNames[i]);
             }
 
-
-
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.DefaultExt = ".xml"; // Default file extension
             ofd.Filter = "XML|*.xml"; // Filter files by extension
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-
-                ScopeSysType.xmlFileName = ofd.FileName;
-                
+                ScopeSysType.xmlFileName = ofd.FileName;   
                 try
                 {
                     ScopeSysType.InitScopeSysType();
@@ -826,7 +818,6 @@ namespace ScopeSetupApp
             if (ScopeSysType.OscilCount != 0) chCountRadioButton.Text = Convert.ToString(ScopeSysType.OscilCount);
             else chCountRadioButton.Clear();
             radioButton.Clear();
-            
 
             InitPossiblePanel() ;
  
@@ -838,11 +829,8 @@ namespace ScopeSetupApp
                     currentLabels[i].Visible = true;
                     possibleLabels[i].BackColor = System.Drawing.Color.LightSteelBlue;
                     radioButton.Text = Convert.ToString(VisibleCount());
-
                 }
             }
-
-            
         }
         #endregion
 
@@ -995,7 +983,7 @@ namespace ScopeSetupApp
                 xmlOut.Close();
                 fs.Close();
 
-                ScopeSysType.InitScopeSysType();
+                //ScopeSysType.InitScopeSysType();
             }
         }
         #endregion

@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScopeConfigForm));
             this.mailToolStrip = new System.Windows.Forms.ToolStrip();
-            this.openButton = new System.Windows.Forms.ToolStripButton();
             this.saveButton = new System.Windows.Forms.ToolStripButton();
             this.addLineButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -77,7 +76,6 @@
             this.localCode_textBox = new System.Windows.Forms.TextBox();
             this.sampleRate_textBox = new System.Windows.Forms.TextBox();
             this.sampleRate_label = new System.Windows.Forms.Label();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -87,6 +85,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.configPanel = new System.Windows.Forms.Panel();
+            this.openButton = new System.Windows.Forms.ToolStripButton();
             this.mailToolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -110,18 +109,6 @@
             this.mailToolStrip.Size = new System.Drawing.Size(826, 38);
             this.mailToolStrip.TabIndex = 0;
             this.mailToolStrip.Text = "toolStrip1";
-            // 
-            // openButton
-            // 
-            this.openButton.AutoSize = false;
-            this.openButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openButton.Image = ((System.Drawing.Image)(resources.GetObject("openButton.Image")));
-            this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openButton.Margin = new System.Windows.Forms.Padding(3);
-            this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(32, 32);
-            this.openButton.Text = "Открыть файл";
-            this.openButton.Click += new System.EventHandler(this.openButton_Click);
             // 
             // saveButton
             // 
@@ -178,7 +165,6 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabControl1.ItemSize = new System.Drawing.Size(130, 20);
             this.tabControl1.Location = new System.Drawing.Point(0, 38);
@@ -596,15 +582,6 @@
             this.sampleRate_label.TabIndex = 25;
             this.sampleRate_label.Text = "Sample rate (Hz)";
             // 
-            // tabPage3
-            // 
-            this.tabPage3.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage3.Location = new System.Drawing.Point(4, 24);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(818, 124);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Save to Memory";
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -704,6 +681,18 @@
             this.configPanel.Size = new System.Drawing.Size(826, 226);
             this.configPanel.TabIndex = 25;
             // 
+            // openButton
+            // 
+            this.openButton.AutoSize = false;
+            this.openButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openButton.Image = ((System.Drawing.Image)(resources.GetObject("openButton.Image")));
+            this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openButton.Margin = new System.Windows.Forms.Padding(3);
+            this.openButton.Name = "openButton";
+            this.openButton.Size = new System.Drawing.Size(32, 32);
+            this.openButton.Text = "Открыть файл";
+            this.openButton.Click += new System.EventHandler(this.openButton_Click);
+            // 
             // ScopeConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -743,7 +732,6 @@
 
         private System.Windows.Forms.ToolStrip mailToolStrip;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripButton openButton;
         private System.Windows.Forms.ToolStripButton saveButton;
         private System.Windows.Forms.ToolStripButton addLineButton;
         private System.Windows.Forms.TextBox nominalFrequency_textBox;
@@ -785,7 +773,6 @@
         private System.Windows.Forms.Panel configPanel;
         private System.Windows.Forms.TextBox sampleRate_textBox;
         private System.Windows.Forms.Label sampleRate_label;
-        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox leapsec_textBox;
         private System.Windows.Forms.TextBox timeCode_textBox;
@@ -799,6 +786,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox stationName_textBox;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ToolStripButton openButton;
     }
 }
 
