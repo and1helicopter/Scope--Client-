@@ -178,6 +178,8 @@ namespace ModBusLibrary
             serialPort.PortName = "COM" + newPortIndex.ToString();
         }
 
+        byte ErrorMAssageBox = 0;
+
         public void Send(byte[] tosend, byte sendCount)
         {
             if (!nowPortOpen) { return; }
@@ -185,15 +187,16 @@ namespace ModBusLibrary
             try { serialPort.Write(tosend, 0, sendCount); }
             catch
             {
-                MessageBox.Show("Ошибка при запись в COM-порт! Приложение будет закрыто!\n"+
-                                "Код ошибки 0x03-"+ModBusClient.Tresh.ToString()+"  "+
-                                ModBusClient.portBusy.ToString(),
-                    
-                                "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
+                if (ErrorMAssageBox == 0){
+                    ErrorMAssageBox++;
+                     MessageBox.Show("Ошибка при запись в COM-порт! Приложение будет закрыто!\n" +
+                     "Код ошибки 0x03-" + ModBusClient.Tresh.ToString() + "  " + ModBusClient.portBusy.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                     ErrorMAssageBox = 0;
+                     Application.Exit();
+                }
+                //Application.Exit();
             }
         }
-
     }
 
 }
