@@ -57,7 +57,7 @@ namespace ADSPLibrary
         public static short StrToShort(string Value)
         {
             short s = 0;
-            if (((Value.Contains("0x")) || (Value.Contains("0X")))&&(!Value.Contains("-")))
+            if (((Value.Contains("0x")) || (Value.Contains("0X"))) && (!Value.Contains("-")))
             {
                 try
                 {
@@ -151,32 +151,32 @@ namespace ADSPLibrary
             return ("0x" + value.ToString("X4"));
         }
 
-        public static string ToHex(this ulong value)
+        public static string ToHex(this ushort value)
         {
             return HexToHex(value);
         }
-        public static string ToHex(this long value)
+        public static string ToHex(this int value)
         {
-            ulong w = (ulong)value;
+            ushort w = (ushort)value;
             return (w.ToHex());
         }
 
         public static string HexToPercent(ulong value)
         {
-            double f = (long)value / 40.96;
+            double f = (short)value / 40.96;
             return (f.ToString("F2"));
         }
-        public static string ToPercent(this ulong value)
+        public static string ToPercent(this ushort value)
         {
             return HexToPercent(value);
         }
-        public static double ToPercentDouble(this ulong value)
+        public static double ToPercentDouble(this ushort value)
         {
-            double f = (long)value / 40.96;
+            double f = (short)value / 40.96;
             return f;
         }
 
-        public static string ToPercent(this ulong value, ushort DigitCount)
+        public static string ToPercent(this ushort value, ushort DigitCount)
         {
             return HexToPercent(value, DigitCount);
         }
@@ -184,15 +184,14 @@ namespace ADSPLibrary
         public static string HexToPercent(ulong value, ushort digitCount)
         {
             if (digitCount > 5) { digitCount = 5; }
-            double f = (long)value / 40.96;
-            //return f.ToString("0.###", System.Globalization.CultureInfo.GetCultureInfo("en-US"));
-             return (f.ToString("F" + digitCount.ToString()));   
+            double f = (short)value / 40.96;
+            return (f.ToString("F" + digitCount.ToString()));
         }
 
         public static string HexToPercent(ulong value, ushort digitCount, out double OutValue)
         {
             if (digitCount > 5) { digitCount = 5; }
-            double f = (long)value / 40.96;
+            double f = (short)value / 40.96;
             OutValue = f;
             return (f.ToString("F" + digitCount.ToString()));
         }
@@ -200,24 +199,24 @@ namespace ADSPLibrary
         public static string HexToPercentUpp(ulong value, ushort digitCount)
         {
             if (digitCount > 5) { digitCount = 5; }
-            double f = (long)value / 20.48;
+            double f = (short)value / 20.48;
             return (f.ToString("F" + digitCount.ToString()));
         }
-        public static string ToPercentUpp(this ulong value, ushort DigitCount)
+        public static string ToPercentUpp(this ushort value, ushort DigitCount)
         {
             return HexToPercentUpp(value, DigitCount);
         }
 
         public static string HexToPercent4(ulong value)
         {
-            double f = (long)value / 10.24;
+            double f = (short)value / 10.24;
             return (f.ToString("F2"));
         }
-        public static string ToPercent4(this ulong value)
+        public static string ToPercent4(this ushort value)
         {
             return HexToPercent4(value);
         }
-        
+
         public static string HexToUint(ulong value)
         {
             return (value.ToString());
@@ -229,7 +228,7 @@ namespace ADSPLibrary
             return (f.ToString("F3"));
         }
 
-        public static string ToUint1000(this ulong value)
+        public static string ToUint1000(this ushort value)
         {
             return HexToUint1000(value);
         }
@@ -274,12 +273,12 @@ namespace ADSPLibrary
 
             double f = value * 4000;
             return ((ushort)(f + 0.5));
-        } 
-          
+        }
+
 
         public static string HexToInt(ulong value)
         {
-            return (((int)value).ToString());
+            return (((short)value).ToString());
         }
         public static string ToInt(this ulong value)
         {
@@ -288,14 +287,14 @@ namespace ADSPLibrary
 
         public static string HexToInt10(ulong value)
         {
-            double f = (long)value / 10.0;
+            double f = (short)value / 10.0;
             return (f.ToString("F1"));
         }
 
         public static string HexToInt100(ushort value, int digitCount)
         {
             double f = (short)value / 100.0;
-            return (f.ToString("F"+digitCount.ToString()));
+            return (f.ToString("F" + digitCount.ToString()));
         }
 
 
@@ -307,7 +306,7 @@ namespace ADSPLibrary
 
         public static ushort Int10ToHex(double value)
         {
-            int i= (int)(Math.Round(value * 10));
+            int i = (int)(Math.Round(value * 10));
             return ((ushort)i);
         }
 
@@ -318,8 +317,8 @@ namespace ADSPLibrary
 
         public static string HexToInt10(ulong value, ushort digitCount)
         {
-            double f = (long)value / 10.0;
-            return (f.ToString("F"+digitCount.ToString()));
+            double f = (short)value / 10.0;
+            return (f.ToString("F" + digitCount.ToString()));
         }
         public static string ToInt10(this ushort value, ushort digitCount)
         {
@@ -331,19 +330,19 @@ namespace ADSPLibrary
 
         public static string HexToInt8(ulong value)
         {
-            double f = (long)value / 8.0;
+            double f = (short)value / 8.0;
             return (f.ToString("F0"));
         }
         public static string HexToInt8(ulong value, int digitCount)
         {
-            double f = (long)value / 8.0;
-            return (f.ToString("F"+digitCount.ToString()));
+            double f = (short)value / 8.0;
+            return (f.ToString("F" + digitCount.ToString()));
         }
-        public static string ToInt8(this ulong value, ushort digitCount)
+        public static string ToInt8(this ushort value, ushort digitCount)
         {
             return (HexToInt8(value, digitCount));
         }
-        public static string ToInt8(this ulong value)
+        public static string ToInt8(this ushort value)
         {
             return (HexToInt8(value, 0));
         }
@@ -371,13 +370,13 @@ namespace ADSPLibrary
             if (value <= 0) { return 0; }
             else if
                 (value >= 100) { return 80; }
-            else {return ((ushort)(8000.0/value));}
+            else { return ((ushort)(8000.0 / value)); }
         }
 
 
         public static string HexToFreqNew(ulong value)
         {
-            double f = (ulong)value / 500.0;
+            double f = (ushort)value / 500.0;
             return (f.ToString("F1"));
         }
 
@@ -395,20 +394,20 @@ namespace ADSPLibrary
         }
         public static string HexTo8_8(ulong value)
         {
-            double f = (long)value / 256.0;
+            double f = (short)value / 256.0;
             return (f.ToString("F2"));
         }
         public static string HexTo8_8(ulong value, ushort digitCount)
         {
-            if (digitCount>5) {digitCount=5;}
-            double f = (long)value / 256.0;
-            return (f.ToString("F"+digitCount.ToString()));
+            if (digitCount > 5) { digitCount = 5; }
+            double f = (short)value / 256.0;
+            return (f.ToString("F" + digitCount.ToString()));
         }
 
 
         public static string HexTo0_16(ulong value)
         {
-            double f = (ulong)(value) / 65536.0;
+            double f = (ushort)(value) / 65536.0;
             return (f.ToString("F3"));
 
         }
@@ -421,15 +420,15 @@ namespace ADSPLibrary
 
         public static string HexToSlide(ulong value)
         {
-            double f = (ulong)value / 327.68;
+            double f = (ushort)value / 327.68;
             if (value == 320) { f = 0; }
             return (f.ToString("F2"));
         }
 
-        public static string HexToCoefStatSTS(ushort value,int DigitCount)
+        public static string HexToCoefStatSTS(ushort value, int DigitCount)
         {
             double f = (short)value / 327.68;
-            return (f.ToString("F"+DigitCount.ToString()));
+            return (f.ToString("F" + DigitCount.ToString()));
         }
 
         public static ushort CoefStatSTSToHex(double value)
@@ -442,9 +441,9 @@ namespace ADSPLibrary
         public static string HexToSlide(ulong value, ushort digitCount)
         {
             if (digitCount > 5) { digitCount = 5; }
-            double f = (ulong)value / 327.68;
+            double f = (ushort)value / 327.68;
             if (value == 320) { f = 0; }
-            return (f.ToString("F"+digitCount.ToString()));
+            return (f.ToString("F" + digitCount.ToString()));
         }
         public static string HexToDigits(ulong value)
         {
@@ -458,7 +457,7 @@ namespace ADSPLibrary
                 {
                     if ((value2 & 1) != 0) { str = "1" + str; }
                     else { str = "0" + str; }
-                    value2 = (ulong)(value2 >> 1);
+                    value2 = (ushort)(value2 >> 1);
                 }
                 if (i != 3) { str = " " + str; }
             }
@@ -492,7 +491,7 @@ namespace ADSPLibrary
 
         public static string HexToUf(ulong value)
         {
-            double f = (long)value * 0.135;
+            double f = (short)value * 0.135;
             return (f.ToString("F1"));
         }
 
@@ -501,17 +500,17 @@ namespace ADSPLibrary
             if (value < 0x0010) { return ("Ошибка"); }
             else
             {
-                double f = 2560.0 / (long)(value);
+                double f = 2560.0 / (short)(value);
                 return (f.ToString("F2"));
             }
         }
 
-        public static string HexToTT(long value, bool invert)
+        public static string HexToTT(ulong value, bool invert)
         {
             if (value < 0x0010) { return ("Ошибка"); }
             else
             {
-                double f = 2560.0 / (ulong)(value);
+                double f = 2560.0 / (short)(value);
                 if (invert) { f = -f; }
                 return (f.ToString("F2"));
             }
@@ -541,14 +540,14 @@ namespace ADSPLibrary
             if (value > 5.0) { return 0x0200; }
 
             double f = 2560.0 / value;
-            if (invert) {f=-f;}
+            if (invert) { f = -f; }
             return ((ushort)f);
 
         }
 
         public static string HexToTransAlarm(ulong value)
         {
-            double f = (long)value * 0.00172633491500621954199424893092;
+            double f = (short)value * 0.00172633491500621954199424893092;
             return (f.ToString("F1"));
         }
 
@@ -556,12 +555,12 @@ namespace ADSPLibrary
         {
             if (!atomFormat)
             {
-                double f = (long)value * 0.00172633491500621954199424893092;
+                double f = (short)value * 0.00172633491500621954199424893092;
                 return (f.ToString("F1"));
             }
             else
             {
-                double f = (long)value * 0.00244498777506112469437652811736;
+                double f = (short)value * 0.00244498777506112469437652811736;
                 return (f.ToString("F1"));
             }
         }
@@ -569,8 +568,8 @@ namespace ADSPLibrary
         public static ushort TransAlarmToHex(double value)
         {
             double f = value;
-            if (f>70) {f=70;}
-            if (f<0) {f=0;}
+            if (f > 70) { f = 70; }
+            if (f < 0) { f = 0; }
             f = f / 0.00172633491500621954199424893092;
             return ((ushort)f);
         }
@@ -610,18 +609,18 @@ namespace ADSPLibrary
         public static ushort CalcKIf(double GenIf, ushort nomIf)
         {
             double f;
-            if ((ushort)GenIf > (5*nomIf)) { return 0x0200; }
+            if ((ushort)GenIf > (5 * nomIf)) { return 0x0200; }
             if ((ushort)GenIf < 0) { return 0x0200; }
 
             f = (double)nomIf / GenIf;
-            f = 512.0 * f+0.5;
+            f = 512.0 * f + 0.5;
             return ((ushort)f);
         }
 
         public static string HexToTi(ushort value)
         {
-            if (value==0) {return ("0");}
-            double f = 65535.0/(double)value;
+            if (value == 0) { return ("0"); }
+            double f = 65535.0 / (double)value;
             return (f.ToString("F0"));
         }
 
@@ -637,7 +636,7 @@ namespace ADSPLibrary
             {
                 if (value == 0) { return ("Откл."); }
                 double f = 65535.0 / (double)value;
-                return (f.ToString("F0")+" мс");
+                return (f.ToString("F0") + " мс");
 
             }
         }
@@ -652,11 +651,11 @@ namespace ADSPLibrary
 
         public static ushort F8_8ToHex(double value)
         {
-            if (value>127.99) {return (0x7FFF);}
-            if (value<-127.99) {return (0x8000);}
+            if (value > 127.99) { return (0x7FFF); }
+            if (value < -127.99) { return (0x8000); }
 
-            double f = value*256.0;
-            return ((ushort)(f+0.5));
+            double f = value * 256.0;
+            return ((ushort)(f + 0.5));
 
         }
 
@@ -671,20 +670,20 @@ namespace ADSPLibrary
         public static ushort SlowTiToHex(double value)
         {
             if (value <= 0.005) { return 0; }
-            if (value >= 5) { return 5;}
+            if (value >= 5) { return 5; }
             double f = 24.4140625 / value;
-            return((ushort)(f+0.5));
+            return ((ushort)(f + 0.5));
         }
 
         public static ushort SlideToHex(double value)
         {
 
             double f = value;
-            if (value<0) {value = 0;}
+            if (value < 0) { value = 0; }
             if (value > 150) { value = 150; }
 
             value = value * 327.68;
-            return ((ushort)(value+0.5));
+            return ((ushort)(value + 0.5));
 
         }
 
@@ -692,7 +691,7 @@ namespace ADSPLibrary
         {
             if (value == 0) { return "0"; }
             double f = 67109.0 / (double)value;
-            return(f.ToString("F0"));
+            return (f.ToString("F0"));
         }
 
         public static string HexToOverHeatTi(ushort value, out double tiValue)
@@ -707,7 +706,7 @@ namespace ADSPLibrary
         {
             if (value < 2) { value = 2; }
             double f = 67109.0 / value;
-            return ((ushort)(f+0.5));
+            return ((ushort)(f + 0.5));
         }
 
         public static ushort PercentToHex(double value)
@@ -715,27 +714,27 @@ namespace ADSPLibrary
             double f = value;
             if (f < -790) { f = -790; }
             if (f > 790) { f = 790; }
-            return ((ushort)((f*40.96)+0.5));
+            return ((ushort)((f * 40.96) + 0.5));
         }
 
         public static ushort CalcAngle(double value)
         {
             int i;
-            i = (int)(System.Math.Tan(value*3.141592/180.0)*32768);
+            i = (int)(System.Math.Tan(value * 3.141592 / 180.0) * 32768);
             return ((ushort)i);
         }
 
         public static string LongHexToVHz(ushort valueHi, ushort valueLo)
         {
-            double temp = (double)(valueHi) + (double)((UInt16)(valueLo)/65536.0);
-		    temp = ((UInt16)(80000.0/temp+0.5))/10.0;
+            double temp = (double)(valueHi) + (double)((UInt16)(valueLo) / 65536.0);
+            temp = ((UInt16)(80000.0 / temp + 0.5)) / 10.0;
             return (temp.ToString("F1"));
         }
 
         public static void VHzToLongHex(double value, out ushort valueLo, out ushort valueHi)
         {
-	        if (value<40) {value=40;}
-	        double temp=8000.0/value;
+            if (value < 40) { value = 40; }
+            double temp = 8000.0 / value;
 
             valueHi = (ushort)(temp);
             valueLo = (ushort)(temp * 65536.0);
@@ -754,15 +753,15 @@ namespace ADSPLibrary
         {
             if (digitCount > 5) { digitCount = 5; }
             double f;
-            if (cellsCount == 8) {f = (short)value*2.44140625;} 
-            else { f = (short)value*1.46484375;}
+            if (cellsCount == 8) { f = (short)value * 2.44140625; }
+            else { f = (short)value * 1.46484375; }
             return (f.ToString("F" + digitCount.ToString()));
         }
 
         public static string HexToPowerKVT(ushort value, ushort nomU, ushort nomI)
         {
             double f = (short)value / 4096;
-            f = 1.732*nomU*nomI * f/1000.0;
+            f = 1.732 * nomU * nomI * f / 1000.0;
             return (f.ToString("F0"));
 
 
@@ -783,8 +782,8 @@ namespace ADSPLibrary
 
         public static string HexToFCRefFreq(ulong value, int digitCount)
         {
-            double f = (long)value / 156.24;
-            return (f.ToString("F"+digitCount.ToString()));
+            double f = (short)value / 156.24;
+            return (f.ToString("F" + digitCount.ToString()));
         }
 
         public static double HexToFCRefFreqDouble(ushort value)
@@ -813,7 +812,7 @@ namespace ADSPLibrary
             d = Math.Atan2(Qf, Pf);
             d = Math.Cos(d);
             string st = d.ToString("F2");
-            if (Qf<0) {st = st + " C";} else {st=st+ " L";}
+            if (Qf < 0) { st = st + " C"; } else { st = st + " L"; }
 
             return st;
         }
@@ -826,7 +825,7 @@ namespace ADSPLibrary
             double d;
             d = Math.Atan2(Qf, Pf);
 
-            if (!Absolute) { return ((180.0*d/Math.PI).ToString("F0")); }
+            if (!Absolute) { return ((180.0 * d / Math.PI).ToString("F0")); }
 
             d = Math.Cos(d);
             string st = d.ToString("F2");
@@ -860,7 +859,7 @@ namespace ADSPLibrary
         {
             double f = (short)value / 4096.0;
             f = Nom * f;
-            return (f.ToString("F"+digits.ToString()));
+            return (f.ToString("F" + digits.ToString()));
         }
 
 
@@ -969,13 +968,12 @@ namespace ADSPLibrary
 
         public static ushort TermoToHex(double Temp, int TermoFormat)
         {
-            ushort[] TermoVolt = 
-            {1747,2061,2421,2599,2781,3110,3390,3613,3702,3781,3846,3901,3949,3988,4022,4052};	
+            ushort[] TermoVolt = { 1747, 2061, 2421, 2599, 2781, 3110, 3390, 3613, 3702, 3781, 3846, 3901, 3949, 3988, 4022, 4052 };
 
-			   
-            ushort[] Temps = {0,10,20,25,30,40,50,60,65,70,75,80,85,90,95,100};
 
-            double tlo, thi;	
+            ushort[] Temps = { 0, 10, 20, 25, 30, 40, 50, 60, 65, 70, 75, 80, 85, 90, 95, 100 };
+
+            double tlo, thi;
             double tvlo, tvhi;
 
             double TermoV;
@@ -984,28 +982,28 @@ namespace ADSPLibrary
             ushort TermoIndex;
             ushort TermoV1;
 
-            if (Temp <= 10)   {if (TermoFormat!=0) {return(2061>>4);} else {return 2061;}}
-            if (Temp >= 100)  {if (TermoFormat!=0) {return(4052>>4);} else {return 4052;}}
-  
-            TermoIndex  = 1;
-  
-            while (Temps[TermoIndex]<Temp)
+            if (Temp <= 10) { if (TermoFormat != 0) { return (2061 >> 4); } else { return 2061; } }
+            if (Temp >= 100) { if (TermoFormat != 0) { return (4052 >> 4); } else { return 4052; } }
+
+            TermoIndex = 1;
+
+            while (Temps[TermoIndex] < Temp)
             {
-  	            TermoIndex++;  
+                TermoIndex++;
             }
 
-  
-            thi  = (double)(Temps[TermoIndex ]);     tlo  = (double)(Temps[TermoIndex-1]);
-            tvhi = (double)(TermoVolt[TermoIndex ]); tvlo = (double)(TermoVolt[TermoIndex-1]);
 
-  	
+            thi = (double)(Temps[TermoIndex]); tlo = (double)(Temps[TermoIndex - 1]);
+            tvhi = (double)(TermoVolt[TermoIndex]); tvlo = (double)(TermoVolt[TermoIndex - 1]);
 
-            TermoV = Temp*(tvhi-tvlo) - tvhi*tlo+ tvlo*thi;
-            TermoV = TermoV/(thi-tlo);
 
-            TermoV1 = (ushort)(TermoV+0.5);
 
-            if (TermoFormat!=0) {TermoV1 = (ushort)((TermoV1+0x08)>>4);}
+            TermoV = Temp * (tvhi - tvlo) - tvhi * tlo + tvlo * thi;
+            TermoV = TermoV / (thi - tlo);
+
+            TermoV1 = (ushort)(TermoV + 0.5);
+
+            if (TermoFormat != 0) { TermoV1 = (ushort)((TermoV1 + 0x08) >> 4); }
 
             return (TermoV1);
         }
@@ -1013,25 +1011,25 @@ namespace ADSPLibrary
         #region ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ ВОЛГОДОНСКА
         static string HexToUStatVolgodonsk(ulong value)
         {
-            double f = (long)value / 40.96;
+            double f = (short)value / 40.96;
             f = 63 * f;
             return (f.ToString("F0"));
         }
         static string HexToIStatVolgodonsk(ulong value)
         {
-            double f = (long)value / 40.96;
+            double f = (short)value / 40.96;
             f = 7.24 * f;
             return (f.ToString("F0"));
         }
         static string HexToPowerVolgodonsk(ulong value)
         {
-            double f = (long)value / 40.96;
+            double f = (short)value / 40.96;
             f = 0.07900230143483163111237388252877 * f;
             return (f.ToString("F2"));
         }
         static string HexToIfVolgodonsk(ulong value)
         {
-            double f = (long)value / 40.96;
+            double f = (short)value / 40.96;
             f = 5.12 * f;
             return (f.ToString("F0"));
         }
@@ -1049,16 +1047,16 @@ namespace ADSPLibrary
             string str;
             switch (format)
             {
-                case 0:  { str = HexToPercent(value,1); } break;
-                case 1:  { str = HexToUint(value); } break;
-                case 2:  { str = HexToInt(value); } break;
-                case 3:  { str = HexToFreq(value); } break;
-                case 4:  { str = HexTo8_8(value); } break;
-                case 5:  { str = HexTo0_16(value); } break;
-                case 6:  { str = HexToSlide(value); } break;
-                case 7:  { str = HexToDigits(value); } break;
-                case 8:  { str = HexRegulMode(value); } break;
-                case 9:  { str = HexToAVRType(value); } break;
+                case 0: { str = HexToPercent(value, 1); } break;
+                case 1: { str = HexToUint(value); } break;
+                case 2: { str = HexToInt(value); } break;
+                case 3: { str = HexToFreq(value); } break;
+                case 4: { str = HexTo8_8(value); } break;
+                case 5: { str = HexTo0_16(value); } break;
+                case 6: { str = HexToSlide(value); } break;
+                case 7: { str = HexToDigits(value); } break;
+                case 8: { str = HexRegulMode(value); } break;
+                case 9: { str = HexToAVRType(value); } break;
                 case 10: { str = HexToInt10(value); } break;
                 case 11: { str = HexToHex(value); } break;
                 case 12: { str = HexToUf(value); } break;
@@ -1069,18 +1067,18 @@ namespace ADSPLibrary
                 case 17: { str = HexToUint1000(value); } break;
                 case 18: { str = HexToPercent4(value); } break;
                 case 19: { str = HexToFreqNew2(value); } break;
-                case 20: { str = HexToPercentUpp(value,1); } break;
+                case 20: { str = HexToPercentUpp(value, 1); } break;
                 case 21: { str = HexToFreqUPTF(value); } break;
-                case 22: { str = HexToFCRefFreq(value,1); } break;
-                
+                case 22: { str = HexToFCRefFreq(value, 1); } break;
+
                 //Функции, сделанные под конкретного заказчика
                 case 200: { str = HexToUStatVolgodonsk(value); } break;
                 case 201: { str = HexToIStatVolgodonsk(value); } break;
                 case 202: { str = HexToPowerVolgodonsk(value); } break;
                 case 203: { str = HexToIfVolgodonsk(value); } break;
-                
 
-                
+
+
                 default: { str = "Неизв. формат"; } break;
 
             }
