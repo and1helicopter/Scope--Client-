@@ -411,6 +411,7 @@ namespace ScopeSetupApp
                         {
                             ScopeConfig.InitOscilFormat(modBusUnit.modBusData.ReadData);
                             ScopeConfig.InitOscilParams(ScopeConfig.OscilAddr,ScopeConfig.OscilFormat);
+                            loadConfigStep = 0;
                             configLoaded = true;
                             buttonsAlreadyCreated = false;
                         } break;
