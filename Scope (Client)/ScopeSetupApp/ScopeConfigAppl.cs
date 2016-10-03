@@ -347,8 +347,8 @@ namespace ScopeSetupApp
         private void openButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.DefaultExt = ".xml"; // Default file extension
-            ofd.Filter = "XML|*.xml"; // Filter files by extension
+            ofd.DefaultExt = ".scxml"; // Default file extension
+            ofd.Filter = "System Configuration XML|*.scxml|XML|*.xml|All files (*.*)|*.*"; // Filter files by extension
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 ScopeSysType.xmlFileName = ofd.FileName;
@@ -575,8 +575,9 @@ namespace ScopeSetupApp
             }
 
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.DefaultExt = ".xml"; // Default file extension
-            sfd.Filter = "XML|*.xml"; // Filter files by extension
+            sfd.DefaultExt = ".scxml"; // Default file extension
+            sfd.Filter = "System Configuration XML|*.scxml|XML|*.xml";
+           // sfd.Filter = "XML|*.xml"; // Filter files by extension
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 ScopeSysType.xmlFileName = sfd.FileName;
