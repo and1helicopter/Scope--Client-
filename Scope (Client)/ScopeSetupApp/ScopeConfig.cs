@@ -36,11 +36,7 @@ namespace ScopeSetupApp
         public static ushort SampleRate
         {
             get { return sampl; }
-            set
-            {
-                sampl = value;
-            }
-
+            set { sampl = value; }
         }
 
         //Размер выборки
@@ -48,33 +44,23 @@ namespace ScopeSetupApp
         public static ushort SampleSize
         {
             get { return samplSize; }
-            set
-            {
-                samplSize = value;
-            }
-
+            set { samplSize = value; }
         }
+
         //Количество выборок в предыстории 
         static uint oscilHistCount = 1;
         public static uint OscilHistCount
         {
             get { return oscilHistCount; }
-            set
-            {
-                oscilHistCount = value;
-            }
+            set { oscilHistCount = value;  }
         }
-        
 
         //Количество осциллограмм 
         static ushort scopeCount = 1;
         public static ushort ScopeCount
         {
             get { return scopeCount; }
-            set
-            {
-                scopeCount = value;
-            }
+            set { scopeCount = value; }
         }
 
         //Количество каналов
@@ -82,10 +68,7 @@ namespace ScopeSetupApp
         public static ushort ChannelCount
         {
             get { return channelCount; }
-            set
-            {
-                channelCount = value;
-            }
+            set { channelCount = value; }
         }
 
         //Размер осциллограммы 
@@ -93,59 +76,72 @@ namespace ScopeSetupApp
         public static uint OscilSize
         {
             get { return oscilSize; }
-            set
-            {
-                oscilSize = value;
-            }
+            set { oscilSize = value; }
         }
 
-        //Дискретность осциллографа
-        static ushort scopeFreq = 1;
-        public static ushort ScopeFreq
+        //Адреса каналов 
+        static List<ushort> oscilAddr = new List<ushort>();
+        public static List<ushort> OscilAddr
         {
-            get { return scopeFreq; }
-            set
-            {
-                scopeFreq = value;
-            }
-
+            get { return oscilAddr; }
+            set{}
         }
-
-        //Осциллограф включен
-        public static bool ScopeEnabled = true;
-
-        //Осциллографирумые параметры
-        static List<int> oscillParams = new List<int>();
-        public static List<int> OscillParams
+        public static void InitOscilAddr(ushort[] loadParams)
         {
-            get { return oscillParams; }
-            set
+            int i;
+            oscilAddr.Clear();
+            for (i = 0; i < channelCount; i++)
             {
-
+                oscilAddr.Add(loadParams[i]);
             }
         }
 
-        public static int FindParamIndex(ushort paramAddr)
+        //Формат каналов 
+        static List<ushort> oscilFormat = new List<ushort>();
+        public static List<ushort> OscilFormat
+        {
+            get { return oscilFormat; }
+            set { }
+        }
+        public static void InitOscilFormat(ushort[] loadParams)
+        {
+            int i;
+            oscilFormat.Clear();
+            for (i = 0; i < channelCount; i++)
+            {
+                oscilFormat.Add(loadParams[i]);
+            }
+        }
+
+        //Осциллографирумые параметры (получаем список параметров которые будем осциллогофировать)
+        static List<int> oscilParams = new List<int>();
+        public static List<int> OscilParams
+        {
+            get { return oscilParams; }
+            set {}
+        }
+        //Проверка по адресу и формату 
+        public static int FindParamIndex(ushort paramAddr, ushort paramFormat) 
         {
             int i = 0;
-            while ((i < ScopeSysType.ChannelAddrs.Count) && (paramAddr != ScopeSysType.ChannelAddrs[i]))
+            while ((i < ScopeSysType.ChannelAddrs.Count) && ((paramAddr != ScopeSysType.ChannelAddrs[i]) || (paramFormat != ScopeSysType.ChannelFormats[i])))
             {
                 i++;
             }
 
-
             return i;
         }
-        public static void InitOscillParams(ushort[] loadParams)
+        public static void InitOscilParams(List<ushort> OscilAddr, List<ushort> oscilFormat)
         {
             int i;
-            oscillParams.Clear();
+            oscilParams.Clear();
             for (i = 0; i < channelCount; i++)
             {
-                oscillParams.Add(FindParamIndex(loadParams[i]));
+                oscilParams.Add(FindParamIndex(oscilAddr[i], oscilFormat[i]));
             }
         }
 
-
+        //Осциллограф включен
+        public static bool ScopeEnabled = true;
     }
 }

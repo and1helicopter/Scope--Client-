@@ -302,51 +302,50 @@ namespace ScopeSetupApp
 
         private void LoadConfig()
         {
-            if (loadConfigStep == 0)
+            if (loadConfigStep == 0)                //Количество каналов 
             {
                 modBusUnit.GetData(ScopeSysType.ChannelCountAddr, 1);
                 return;
             }
 
-            if (loadConfigStep == 1)
+            if (loadConfigStep == 1)                //Количество осциллограмм 
             {
                 modBusUnit.GetData(ScopeSysType.ScopeCountAddr, 1);
                 return;
             }
 
-            if (loadConfigStep == 2)
-            {
-                modBusUnit.GetData(ScopeSysType.OscilFreqAddr, 1);
-                return;
-            }
-
-
-            if (loadConfigStep == 3)
+            if (loadConfigStep == 2)                //Размер осциллограммы 
             {
                 modBusUnit.GetData((ushort)(ScopeSysType.ScopeCountAddr - 2), 2);
                 return;
             }
 
-            if (loadConfigStep == 4)
+            if (loadConfigStep == 3)                //Частота выборки
             {
                 modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 2), 1);
                 return;
             }
 
-            if (loadConfigStep == 5)
+            if (loadConfigStep == 4)                //Размер одной выборки
             {
                 modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 1), 1);
                 return;
             }
-            if (loadConfigStep == 6)
+            if (loadConfigStep == 5)                //Количество выборок на предысторию 
             {
                 modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 6), 2);
                 return;
             }
 
-            if (loadConfigStep == 7)
+            if (loadConfigStep == 6)                //Адреса каналов 
             {
                 modBusUnit.GetData(0x0220, 32);
+                return;
+            }
+
+            if (loadConfigStep == 7)                //Формат каналов 
+            {
+                modBusUnit.GetData(0x0200, 32);
                 return;
             }
 
@@ -358,65 +357,63 @@ namespace ScopeSetupApp
             {
                 switch (loadConfigStep)
                 {
-                    case 0:
+                    case 0:                     //Количество каналов 
                         {
                             ScopeConfig.ChannelCount = modBusUnit.modBusData.ReadData[0];
                             loadConfigStep = 1;
                             LoadConfig();
                         } break;
 
-                    case 1:
+                    case 1:                     //Количество осциллограмм
                         {
                             ScopeConfig.ScopeCount = modBusUnit.modBusData.ReadData[0];
                             loadConfigStep = 2;
                             LoadConfig();
                         } break;
 
-                    case 2:
+                    case 2:                     //Размер осциллограммы 
                         {
-                            ScopeConfig.ScopeFreq = modBusUnit.modBusData.ReadData[0];
+                            ScopeConfig.OscilSize = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
+                            ScopeConfig.OscilSize += modBusUnit.modBusData.ReadData[0];
                             loadConfigStep = 3;
                             LoadConfig();
                         } break;
 
-                    case 3:
-                        {
-                            ScopeConfig.OscilSize = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
-                            ScopeConfig.OscilSize += modBusUnit.modBusData.ReadData[0] ;
-                            loadConfigStep = 4;
-                            LoadConfig();
-                        }    break;
-
-                    case 4:
+                    case 3:                     //Частота выборки
                         {
                             ScopeConfig.SampleRate = modBusUnit.modBusData.ReadData[0];
                             ScopeConfig.ScopeEnabled = true;
+                            loadConfigStep = 4;
+                            LoadConfig();
+                        } break;
+
+                    case 4:                     //Размер одной выборки
+                        {
+                            ScopeConfig.SampleSize = modBusUnit.modBusData.ReadData[0];
                             loadConfigStep = 5;
                             LoadConfig();
                         } break;
-
-                    case 5:
-                        {
-                            ScopeConfig.SampleSize = modBusUnit.modBusData.ReadData[0];
-                            loadConfigStep = 6;
-                            LoadConfig();
-                        } break;
-                    case 6:
+                    case 5:                     //Количество выборок на предысторию
                         {
                             ScopeConfig.OscilHistCount = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
                             ScopeConfig.OscilHistCount += modBusUnit.modBusData.ReadData[0];
-                            loadConfigStep = 7;
+                            loadConfigStep = 6;
                             LoadConfig();
 
                         } break;
-                    case 7:
+                    case 6:                     //Адреса каналов 
                         {
-                            ScopeConfig.InitOscillParams(modBusUnit.modBusData.ReadData);
-                            loadConfigStep = 0;
+                            ScopeConfig.InitOscilAddr(modBusUnit.modBusData.ReadData);
+                            loadConfigStep = 7;
+                            LoadConfig();
+                        } break;
+                    case 7:                     //Формат каналов 
+                        {
+                            ScopeConfig.InitOscilFormat(modBusUnit.modBusData.ReadData);
+                            ScopeConfig.InitOscilParams(ScopeConfig.OscilAddr,ScopeConfig.OscilFormat);
                             configLoaded = true;
                             buttonsAlreadyCreated = false;
                         } break;
-
                 }
                 return;
             }
@@ -993,9 +990,9 @@ namespace ScopeSetupApp
             for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
-                    str = str + ScopeSysType.ChannelNames[ScopeConfig.OscillParams[i]] + "\t";
+                    str = str + ScopeSysType.ChannelNames[ScopeConfig.OscilParams[i]] + "\t";
                 }
             }
             return str;
@@ -1008,9 +1005,9 @@ namespace ScopeSetupApp
             for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
-                    str = str + ScopeSysType.ChannelColors[ScopeConfig.OscillParams[i]].ToArgb().ToString() + "\t";
+                    str = str + ScopeSysType.ChannelColors[ScopeConfig.OscilParams[i]].ToArgb().ToString() + "\t";
                 }
             }
             return str;
@@ -1023,7 +1020,7 @@ namespace ScopeSetupApp
             for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
                     str = str + "0,00000" + "\t";
                 }
@@ -1038,7 +1035,7 @@ namespace ScopeSetupApp
             for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
                     str = str + "1,00000" + "\t";
                 }
@@ -1054,7 +1051,7 @@ namespace ScopeSetupApp
             for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
                     str = str + "0" + "\t";
                 }
@@ -1069,9 +1066,9 @@ namespace ScopeSetupApp
             for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
-                    str = str + ScopeSysType.ChannelStepLines[ScopeConfig.OscillParams[i]].ToString()+ "\t";
+                    str = str + ScopeSysType.ChannelStepLines[ScopeConfig.OscilParams[i]].ToString()+ "\t";
                 }
             }
             return str;
@@ -1088,10 +1085,10 @@ namespace ScopeSetupApp
             for (i = 0, count64 = 0, count32 = 0, count16 = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
                     ULTemp = ParseArr(i, paramLine);
-                    str = str + AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]]) + "\t";
+                    str = str + AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]]) + "\t";
                 }
             }
             return str;
@@ -1101,7 +1098,7 @@ namespace ScopeSetupApp
         ulong ParseArr(int i, ushort[] paramLine)
         {
             ulong ULTemp = 0;
-            if ((ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]] >> 8) == 3)
+            if ((ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]] >> 8) == 3)
             {
                ULTemp = 0;
                ULTemp += (ulong)(paramLine[count64 + 0]) << 8 * 2;
@@ -1110,14 +1107,14 @@ namespace ScopeSetupApp
                ULTemp += (ulong)(paramLine[count64 + 3]) << 8 * 1;
                count64 += 4;
             }
-            if ((ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]] >> 8) == 2)
+            if ((ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]] >> 8) == 2)
             {
                 ULTemp = 0;
                 ULTemp += (ulong)(paramLine[count64 + count32 + 0]) << 8 * 0;
                 ULTemp += (ulong)(paramLine[count64 + count32 + 1]) << 8 * 1;
                 count32 += 2; 
             }
-            if ((ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]] >> 8) == 1)
+            if ((ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]] >> 8) == 1)
             {
                 ULTemp = (ulong)(paramLine[count64 + count32 + count16]);
                 count16 += 1;
@@ -1182,12 +1179,12 @@ namespace ScopeSetupApp
             for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
                     if (ScopeSysType.ChannelTypeAD[i] == 0)
                     {
                         ULTemp = ParseArr(i, paramLine);
-                        str1 = AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]]);
+                        str1 = AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]]);
                         str1 = str1.Replace(",", ".");
                         str = str + "," + str1;
                     }
@@ -1198,12 +1195,12 @@ namespace ScopeSetupApp
             for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
                     if (ScopeSysType.ChannelTypeAD[i] == 1)
                     {
                         ULTemp = ParseArr(i, paramLine);
-                        str1 = AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscillParams[i]]);
+                        str1 = AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]]);
                         str1 = str1.Replace(",", ".");
                         str = str + "," + str1;
                     }
@@ -1214,13 +1211,13 @@ namespace ScopeSetupApp
 
         float CalculA(int Num, int resolution)
         {
-            float a = (float)(ScopeSysType.ChannelMax[ScopeConfig.OscillParams[Num]] - ScopeSysType.ChannelMin[ScopeConfig.OscillParams[Num]]) / (float) resolution;
+            float a = (float)(ScopeSysType.ChannelMax[ScopeConfig.OscilParams[Num]] - ScopeSysType.ChannelMin[ScopeConfig.OscilParams[Num]]) / (float) resolution;
             return a;
         }
 
         float CalculB(int Num, int resolution)
         {
-            int j, all = ScopeSysType.ChannelMax[ScopeConfig.OscillParams[Num]] - ScopeSysType.ChannelMin[ScopeConfig.OscillParams[Num]];
+            int j, all = ScopeSysType.ChannelMax[ScopeConfig.OscilParams[Num]] - ScopeSysType.ChannelMin[ScopeConfig.OscilParams[Num]];
             for (j = 1; all / (int)Math.Pow(10, j) != 0; j++) ;
             float a = (float)(all) / (float)resolution;
             float ax = (float)Math.Pow(10, j) * a;
@@ -1248,7 +1245,7 @@ namespace ScopeSetupApp
             for (int i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
                     if (ScopeSysType.ChannelTypeAD[i] == 0) nA += 1;
                     if (ScopeSysType.ChannelTypeAD[i] == 1) nD += 1;
@@ -1263,10 +1260,10 @@ namespace ScopeSetupApp
         {
             string str = "";
 
-            string ch_id = ScopeSysType.ChannelNames[ScopeConfig.OscillParams[Num]];
-            string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscillParams[Num]];
-            string ccbm = ScopeSysType.ChannelCCBM[ScopeConfig.OscillParams[Num]];
-            string uu = ScopeSysType.ChannelDimension[ScopeConfig.OscillParams[Num]];
+            string ch_id = ScopeSysType.ChannelNames[ScopeConfig.OscilParams[Num]];
+            string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscilParams[Num]];
+            string ccbm = ScopeSysType.ChannelCCBM[ScopeConfig.OscilParams[Num]];
+            string uu = ScopeSysType.ChannelDimension[ScopeConfig.OscilParams[Num]];
             //string a = Convert.ToString(CalculA(Num, 4096));
             //a = a.Replace(",", ".");
             //string b = Convert.ToString(CalculB(Num, 4096));
@@ -1274,8 +1271,8 @@ namespace ScopeSetupApp
             string a = "1";
             string b = "0";
             int skew = 0;
-            int min = ScopeSysType.ChannelMin[ScopeConfig.OscillParams[Num]];
-            int max = ScopeSysType.ChannelMax[ScopeConfig.OscillParams[Num]];
+            int min = ScopeSysType.ChannelMin[ScopeConfig.OscilParams[Num]];
+            int max = ScopeSysType.ChannelMax[ScopeConfig.OscilParams[Num]];
             int primary = 1; 
             int secondary = 1;
             string ps = "P";
@@ -1290,9 +1287,9 @@ namespace ScopeSetupApp
         {
             string str = "";
 
-            string ch_id = ScopeSysType.ChannelNames[ScopeConfig.OscillParams[Num]];
-            string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscillParams[Num]];
-            string ccbm = ScopeSysType.ChannelCCBM[ScopeConfig.OscillParams[Num]];
+            string ch_id = ScopeSysType.ChannelNames[ScopeConfig.OscilParams[Num]];
+            string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscilParams[Num]];
+            string ccbm = ScopeSysType.ChannelCCBM[ScopeConfig.OscilParams[Num]];
             int y = 0;
             
             str = nD + "," + ch_id + "," + ph + "," + ccbm + "," + y ;
@@ -1452,14 +1449,14 @@ namespace ScopeSetupApp
 
                      for (int i = 0, j = 0; i < ScopeConfig.ChannelCount; i++) 
                      { 
-                        if(ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count) 
+                        if(ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count) 
                         {
                             if (ScopeSysType.ChannelTypeAD[i] == 0) {sw.WriteLine(Line3(i, j+1)); j++; }
                         }
                      }
                      for (int i = 0, j = 0; i < ScopeConfig.ChannelCount; i++)
                      {
-                         if (ScopeConfig.OscillParams[i] < ScopeSysType.ChannelNames.Count)
+                         if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                          {
                              if (ScopeSysType.ChannelTypeAD[i] == 1) { sw.WriteLine(Line4(i, j + 1)); j++; }
                          }
