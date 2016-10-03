@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScopeConfigForm));
             this.mailToolStrip = new System.Windows.Forms.ToolStrip();
+            this.openButton = new System.Windows.Forms.ToolStripButton();
             this.saveButton = new System.Windows.Forms.ToolStripButton();
             this.addLineButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -60,7 +61,7 @@
             this.ChannelCount_label = new System.Windows.Forms.Label();
             this.OscilStatus_TextBox = new System.Windows.Forms.TextBox();
             this.OscilStatus_label = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.recordingDevice_textBox = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.stationName_textBox = new System.Windows.Forms.TextBox();
@@ -74,8 +75,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.localCode_textBox = new System.Windows.Forms.TextBox();
-            this.sampleRate_textBox = new System.Windows.Forms.TextBox();
-            this.sampleRate_label = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -85,14 +84,18 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.configPanel = new System.Windows.Forms.Panel();
-            this.openButton = new System.Windows.Forms.ToolStripButton();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.sampleRate_textBox = new System.Windows.Forms.TextBox();
+            this.sampleRate_label = new System.Windows.Forms.Label();
             this.mailToolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // mailToolStrip
@@ -109,6 +112,18 @@
             this.mailToolStrip.Size = new System.Drawing.Size(826, 38);
             this.mailToolStrip.TabIndex = 0;
             this.mailToolStrip.Text = "toolStrip1";
+            // 
+            // openButton
+            // 
+            this.openButton.AutoSize = false;
+            this.openButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openButton.Image = ((System.Drawing.Image)(resources.GetObject("openButton.Image")));
+            this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openButton.Margin = new System.Windows.Forms.Padding(3);
+            this.openButton.Name = "openButton";
+            this.openButton.Size = new System.Drawing.Size(32, 32);
+            this.openButton.Text = "Открыть файл";
+            this.openButton.Click += new System.EventHandler(this.openButton_Click);
             // 
             // saveButton
             // 
@@ -165,6 +180,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabControl1.ItemSize = new System.Drawing.Size(130, 20);
             this.tabControl1.Location = new System.Drawing.Point(0, 38);
@@ -193,6 +209,8 @@
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel5.Controls.Add(this.sampleRate_textBox);
+            this.panel5.Controls.Add(this.sampleRate_label);
             this.panel5.Controls.Add(this.FlagNeed_ConfigTextBox);
             this.panel5.Controls.Add(this.OscilSizeData_TextBox);
             this.panel5.Controls.Add(this.FlagNeed_label);
@@ -420,24 +438,22 @@
             this.OscilStatus_label.Text = "Oscill Status Address";
             this.OscilStatus_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // tabPage2
+            // tabPage3
             // 
-            this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage2.Controls.Add(this.recordingDevice_textBox);
-            this.tabPage2.Controls.Add(this.label9);
-            this.tabPage2.Controls.Add(this.stationName_textBox);
-            this.tabPage2.Controls.Add(this.label14);
-            this.tabPage2.Controls.Add(this.groupBox1);
-            this.tabPage2.Controls.Add(this.sampleRate_textBox);
-            this.tabPage2.Controls.Add(this.sampleRate_label);
-            this.tabPage2.Controls.Add(this.nominalFrequency_textBox);
-            this.tabPage2.Controls.Add(this.nominalFrequency_label);
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(0);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(818, 124);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = " COMETRADE Config";
+            this.tabPage3.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage3.Controls.Add(this.recordingDevice_textBox);
+            this.tabPage3.Controls.Add(this.label9);
+            this.tabPage3.Controls.Add(this.stationName_textBox);
+            this.tabPage3.Controls.Add(this.label14);
+            this.tabPage3.Controls.Add(this.groupBox1);
+            this.tabPage3.Controls.Add(this.nominalFrequency_textBox);
+            this.tabPage3.Controls.Add(this.nominalFrequency_label);
+            this.tabPage3.Location = new System.Drawing.Point(4, 24);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(0);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(818, 124);
+            this.tabPage3.TabIndex = 1;
+            this.tabPage3.Text = " COMETRADE Config";
             // 
             // recordingDevice_textBox
             // 
@@ -564,24 +580,6 @@
             this.localCode_textBox.TabIndex = 30;
             this.localCode_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // sampleRate_textBox
-            // 
-            this.sampleRate_textBox.Location = new System.Drawing.Point(156, 91);
-            this.sampleRate_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.sampleRate_textBox.Name = "sampleRate_textBox";
-            this.sampleRate_textBox.Size = new System.Drawing.Size(116, 24);
-            this.sampleRate_textBox.TabIndex = 26;
-            this.sampleRate_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // sampleRate_label
-            // 
-            this.sampleRate_label.AutoSize = true;
-            this.sampleRate_label.Location = new System.Drawing.Point(48, 94);
-            this.sampleRate_label.Name = "sampleRate_label";
-            this.sampleRate_label.Size = new System.Drawing.Size(102, 17);
-            this.sampleRate_label.TabIndex = 25;
-            this.sampleRate_label.Text = "Sample rate (Hz)";
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -681,17 +679,41 @@
             this.configPanel.Size = new System.Drawing.Size(826, 226);
             this.configPanel.TabIndex = 25;
             // 
-            // openButton
+            // tabPage2
             // 
-            this.openButton.AutoSize = false;
-            this.openButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openButton.Image = ((System.Drawing.Image)(resources.GetObject("openButton.Image")));
-            this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openButton.Margin = new System.Windows.Forms.Padding(3);
-            this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(32, 32);
-            this.openButton.Text = "Открыть файл";
-            this.openButton.Click += new System.EventHandler(this.openButton_Click);
+            this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage2.Controls.Add(this.CommentRichTextBox);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(818, 124);
+            this.tabPage2.TabIndex = 2;
+            this.tabPage2.Text = "Comment\t";
+            // 
+            // CommentRichTextBox
+            // 
+            this.CommentRichTextBox.Location = new System.Drawing.Point(3, 3);
+            this.CommentRichTextBox.Name = "CommentRichTextBox";
+            this.CommentRichTextBox.Size = new System.Drawing.Size(812, 118);
+            this.CommentRichTextBox.TabIndex = 0;
+            this.CommentRichTextBox.Text = "";
+            // 
+            // sampleRate_textBox
+            // 
+            this.sampleRate_textBox.Location = new System.Drawing.Point(695, 91);
+            this.sampleRate_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.sampleRate_textBox.Name = "sampleRate_textBox";
+            this.sampleRate_textBox.Size = new System.Drawing.Size(116, 24);
+            this.sampleRate_textBox.TabIndex = 28;
+            this.sampleRate_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // sampleRate_label
+            // 
+            this.sampleRate_label.AutoSize = true;
+            this.sampleRate_label.Location = new System.Drawing.Point(587, 94);
+            this.sampleRate_label.Name = "sampleRate_label";
+            this.sampleRate_label.Size = new System.Drawing.Size(102, 17);
+            this.sampleRate_label.TabIndex = 27;
+            this.sampleRate_label.Text = "Sample rate (Hz)";
             // 
             // ScopeConfigForm
             // 
@@ -717,12 +739,13 @@
             this.tabPage1.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -738,7 +761,7 @@
         private System.Windows.Forms.Label nominalFrequency_label;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.TextBox FlagNeed_ConfigTextBox;
         private System.Windows.Forms.TextBox OscilSizeData_TextBox;
@@ -771,8 +794,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Panel configPanel;
-        private System.Windows.Forms.TextBox sampleRate_textBox;
-        private System.Windows.Forms.Label sampleRate_label;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox leapsec_textBox;
         private System.Windows.Forms.TextBox timeCode_textBox;
@@ -787,6 +808,10 @@
         private System.Windows.Forms.TextBox stationName_textBox;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ToolStripButton openButton;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.RichTextBox CommentRichTextBox;
+        private System.Windows.Forms.TextBox sampleRate_textBox;
+        private System.Windows.Forms.Label sampleRate_label;
     }
 }
 

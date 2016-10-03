@@ -373,6 +373,7 @@ namespace ScopeSetupApp
                 FlagNeed_ConfigTextBox.Text = "0x" + ScopeSysType.FlagNeedAddr.ToString("X4");
                 NewConfig_TextBox.Text = "0x" + ScopeSysType.NewConfigAddr.ToString("X4");
                 OscilSizeData_TextBox.Text = "0x" + ScopeSysType.OscilAllSize.ToString("X4");
+                CommentRichTextBox.Text = ScopeSysType.OscilComment.ToString();
                 //For COMETRADE
                 stationName_textBox.Text = ScopeSysType.StationName.ToString();
                 recordingDevice_textBox.Text = ScopeSysType.RecordingDevice.ToString();
@@ -634,25 +635,13 @@ namespace ScopeSetupApp
                 xmlOut.WriteStartElement("OscilAllSize");
                 xmlOut.WriteAttributeString("Count", Convert.ToString(oscillSizeDataStr));
                 xmlOut.WriteEndElement();
+                
+                xmlOut.WriteStartElement("OscilSampleRate");
+                xmlOut.WriteAttributeString("Count", sampleRate_textBox.Text);
+                xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("MeasureParams");
                 xmlOut.WriteAttributeString("Count", nameTextBoxs.Count.ToString());
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("Oscil");
-                xmlOut.WriteAttributeString("Count", Convert.ToString("0"));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("Channel");
-                xmlOut.WriteAttributeString("Count", Convert.ToString("0"));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("Story");
-                xmlOut.WriteAttributeString("Count", Convert.ToString("1"));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("Frequency");
-                xmlOut.WriteAttributeString("Count", Convert.ToString("1"));
                 xmlOut.WriteEndElement();
 
                 for (int i = 0; i < paramAddrStrs.Count; i++)
@@ -670,14 +659,14 @@ namespace ScopeSetupApp
                     xmlOut.WriteAttributeString("TypeAD", AnalogDigitalComboBox[i].SelectedIndex.ToString());
                     xmlOut.WriteAttributeString("Min", minTextBoxs[i].Text);
                     xmlOut.WriteAttributeString("Max", maxTextBoxs[i].Text);
-                    xmlOut.WriteAttributeString("Checked", Convert.ToString("False"));
                     
                     xmlOut.WriteEndElement();
-                    
                 }
 
+                xmlOut.WriteStartElement("Comment", CommentRichTextBox.Text);
                 xmlOut.WriteEndElement();
-                
+
+                xmlOut.WriteEndElement();                
                 /////////////////////////////////////////////////////////////
                 xmlOut.WriteStartElement("COMTRADEConfig");
 
@@ -689,10 +678,6 @@ namespace ScopeSetupApp
 
                 xmlOut.WriteStartElement("OscilNominalFrequency");
                 xmlOut.WriteAttributeString("Count", nominalFrequency_textBox.Text);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("OscilSampleRate");
-                xmlOut.WriteAttributeString("Count", sampleRate_textBox.Text);
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("TimeCode", timeCode_textBox.Text);
