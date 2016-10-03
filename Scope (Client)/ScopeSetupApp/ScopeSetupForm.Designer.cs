@@ -52,7 +52,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.hystoryRadioButton = new System.Windows.Forms.TextBox();
-            this.enaScopeCheckBox = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -60,7 +59,8 @@
             this.possibleTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.sampleNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.enaScopeCheckBox = new System.Windows.Forms.CheckBox();
+            this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
@@ -131,7 +131,7 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.CommentRichTextBox);
             this.panel1.Controls.Add(this.oscSize);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.checkBox1);
@@ -149,7 +149,7 @@
             // oscSize
             // 
             this.oscSize.AutoSize = true;
-            this.oscSize.Location = new System.Drawing.Point(410, 17);
+            this.oscSize.Location = new System.Drawing.Point(661, 118);
             this.oscSize.Name = "oscSize";
             this.oscSize.Size = new System.Drawing.Size(174, 17);
             this.oscSize.TabIndex = 8;
@@ -201,7 +201,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(410, 80);
+            this.checkBox1.Location = new System.Drawing.Point(410, 114);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(125, 21);
@@ -333,17 +333,6 @@
             this.hystoryRadioButton.TextChanged += new System.EventHandler(this.hystoryRadioButton_TextChanged);
             this.hystoryRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.hystoryRadioButton_KeyPress);
             // 
-            // enaScopeCheckBox
-            // 
-            this.enaScopeCheckBox.AutoSize = true;
-            this.enaScopeCheckBox.Location = new System.Drawing.Point(410, 46);
-            this.enaScopeCheckBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.enaScopeCheckBox.Name = "enaScopeCheckBox";
-            this.enaScopeCheckBox.Size = new System.Drawing.Size(228, 21);
-            this.enaScopeCheckBox.TabIndex = 5;
-            this.enaScopeCheckBox.Text = "Осциллографирование включено";
-            this.enaScopeCheckBox.UseVisualStyleBackColor = true;
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.AutoScroll = true;
@@ -442,15 +431,25 @@
             this.label2.Text = "Возможные для осциллографирования параметры";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button1
+            // enaScopeCheckBox
             // 
-            this.button1.Location = new System.Drawing.Point(684, 13);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(115, 39);
-            this.button1.TabIndex = 11;
-            this.button1.TabStop = false;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.enaScopeCheckBox.AutoSize = true;
+            this.enaScopeCheckBox.Location = new System.Drawing.Point(410, 80);
+            this.enaScopeCheckBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.enaScopeCheckBox.Name = "enaScopeCheckBox";
+            this.enaScopeCheckBox.Size = new System.Drawing.Size(228, 21);
+            this.enaScopeCheckBox.TabIndex = 5;
+            this.enaScopeCheckBox.Text = "Осциллографирование включено";
+            this.enaScopeCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // CommentRichTextBox
+            // 
+            this.CommentRichTextBox.Location = new System.Drawing.Point(411, 10);
+            this.CommentRichTextBox.Name = "CommentRichTextBox";
+            this.CommentRichTextBox.ReadOnly = true;
+            this.CommentRichTextBox.Size = new System.Drawing.Size(522, 63);
+            this.CommentRichTextBox.TabIndex = 11;
+            this.CommentRichTextBox.Text = "";
             // 
             // ScopeSetupForm
             // 
@@ -502,7 +501,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton writeToSystemBtn;
-        private System.Windows.Forms.CheckBox enaScopeCheckBox;
         private System.Windows.Forms.TextBox radioButton;
         private System.Windows.Forms.TextBox chCountRadioButton;
         private System.Windows.Forms.TextBox hystoryRadioButton;
@@ -524,7 +522,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox oscFreqRadioButton;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button button1;
+        protected internal System.Windows.Forms.RichTextBox CommentRichTextBox;
+        private System.Windows.Forms.CheckBox enaScopeCheckBox;
 
         /*
         private System.Windows.Forms.RadioButton radioButton3;

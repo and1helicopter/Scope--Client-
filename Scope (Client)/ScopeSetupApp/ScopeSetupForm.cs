@@ -34,6 +34,8 @@ namespace ScopeSetupApp
             currentLabels = new List<Label>();
             oscilAllSize = ScopeSysType.OscilAllSize;
 
+            CommentRichTextBox.Text = ScopeSysType.OscilComment.ToString();
+
             int i;
 
             for (i = 0; i < ScopeSysType.ChannelNames.Count; i++)
@@ -773,23 +775,29 @@ namespace ScopeSetupApp
         #region
         private void openButton2_Click(object sender, EventArgs e)
         {
-           // List<string> ChannelNamesTemp = ChNames();
-            List<string> ChannelNamesTemp = new List<string>();
+            List<string> OscilChannelNames = new List<string>();
+            List<ushort> OscilChannelAddrs = new List<ushort>();
+            List<ushort> OscilChannelFormats = new List<ushort>();
+            OscilChannelNames = new List<string>();
+            OscilChannelAddrs = new List<ushort>();
+            OscilChannelFormats = new List<ushort>();
+             
             for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
             {
-                ChannelNamesTemp.Add(ScopeSysType.ChannelNames[i]);
+                checkBoxs[i].Checked = false;
+                currentLabels[i].Visible = false;
+                possibleLabels[i].BackColor = System.Drawing.SystemColors.ButtonHighlight;
             }
-
+            
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.DefaultExt = ".xml"; // Default file extension
-            ofd.Filter = "XML|*.xml"; // Filter files by extension
+            ofd.DefaultExt = ".ocxml"; // Default file extension
+            ofd.Filter = "Oscil Configuration XML|*.ocxml|XML|*.xml|All files|*.*"; // Filter files by extension
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 ScopeSysType.xmlFileName = ofd.FileName;   
                 try
                 {
-                    ScopeSysType.InitScopeSysType();
-                    for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++) Console.WriteLine(ScopeSysType.ChannelNames[i]);
+                    ScopeSysType.InitScopeOscilType();
                 }
                 catch
                 {
@@ -798,37 +806,25 @@ namespace ScopeSetupApp
                 }
             }
 
-            if (ChannelNamesTemp.SequenceEqual(ScopeSysType.ChannelNames)){;}
-            else MessageBox.Show("Конфигурация не соответсвует");
-
-            for (int i = possibleLabels.Count - 1; i >= 0; i--)
-            {            
-                possibleTableLayoutPanel.Controls.Remove(possibleLabels[i]); 
-                possibleLabels.Remove(possibleLabels[i]);  
-                checkBoxs.Remove(checkBoxs[i]);
-                currentLabels.Remove(currentLabels[i]); 
-            }
-          
             if (ScopeSysType.OscilCount != 0) chCountRadioButton.Text = Convert.ToString(ScopeSysType.OscilCount);
             else chCountRadioButton.Clear();
             if (ScopeSysType.HistoryCount != 0) hystoryRadioButton.Text = Convert.ToString(ScopeSysType.HistoryCount);
             else hystoryRadioButton.Clear();
             if (ScopeSysType.FrequncyCount != 0) oscFreqRadioButton.Text = Convert.ToString(ScopeSysType.FrequncyCount);
             else oscFreqRadioButton.Clear();
-            if (ScopeSysType.OscilCount != 0) chCountRadioButton.Text = Convert.ToString(ScopeSysType.OscilCount);
-            else chCountRadioButton.Clear();
             radioButton.Clear();
 
-            InitPossiblePanel() ;
- 
-            for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
+            for (int i = 0; i < ScopeSysType.OscilChannelNames.Count ; i++)
             {
-                if (ScopeSysType.ChannelChecked[i] == true)
-                {
-                    checkBoxs[i].Checked = true;
-                    currentLabels[i].Visible = true;
-                    possibleLabels[i].BackColor = System.Drawing.Color.LightSteelBlue;
-                    radioButton.Text = Convert.ToString(VisibleCount());
+                for(int j = 0; j < ScopeSysType.ChannelNames.Count; j++)
+                {    
+                    if (ScopeSysType.OscilChannelFormats[i] == ScopeSysType.ChannelFormats[j] && ScopeSysType.OscilChannelAddrs[i] == ScopeSysType.ChannelAddrs[j])
+                    {
+                        checkBoxs[j].Checked = true;
+                        currentLabels[j].Visible = true;
+                        possibleLabels[j].BackColor = System.Drawing.Color.LightSteelBlue;
+                        radioButton.Text = Convert.ToString(VisibleCount());
+                    }
                 }
             }
         }
@@ -847,8 +843,8 @@ namespace ScopeSetupApp
             List<string> paramAddrStrs = new List<string>();
             
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.DefaultExt = ".xml"; // Default file extension
-            sfd.Filter = "XML|*.xml"; // Filter files by extension
+            sfd.DefaultExt = ".ocxml"; // Default file extension
+            sfd.Filter = "Oscil Configuration XML|*.ocxml|XML|*.xml"; // Filter files by extension
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 ScopeSysType.xmlFileName = sfd.FileName;
@@ -859,56 +855,6 @@ namespace ScopeSetupApp
                 xmlOut.WriteStartDocument();
                 xmlOut.WriteStartElement("Setup");
                 /////////////////////////////////////////////////////////////
-
-                xmlOut.WriteStartElement("OscilConfig");
-
-                xmlOut.WriteStartElement("ScopeCount");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ScopeCountAddr));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("ChannelCount");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ChannelCountAddr));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("History");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.HistoryAddr));
-                xmlOut.WriteEndElement();
-                
-                xmlOut.WriteStartElement("OscilFreq");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.OscilFreqAddr));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("OscilStatus");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.OscilStatusAddr));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("StartTemp");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.StartTemptAddr));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("LoadOscilStart");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.OscilLoadAddr));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("NewConfig");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.NewConfigAddr));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("FlagNeed");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.FlagNeedAddr));
-                xmlOut.WriteEndElement();
-                
-                xmlOut.WriteStartElement("TimeStamp");
-                xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.TimeStampAddr));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("OscilAllSize");
-                xmlOut.WriteAttributeString("Count", Convert.ToString(oscilAllSize));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("MeasureParams");
-                xmlOut.WriteAttributeString("Count", Convert.ToString(possibleLabels.Count));
-                xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("Oscil");
                 xmlOut.WriteAttributeString("Count", Convert.ToString(nowScopeCount));
@@ -926,57 +872,21 @@ namespace ScopeSetupApp
                 xmlOut.WriteAttributeString("Count", Convert.ToString(nowOscFreq));
                 xmlOut.WriteEndElement();
                              
-                for (int i = 0; i < possibleLabels.Count; i++)
+                for (int i = 0, j = 0; i < possibleLabels.Count; i++)
                 {
-                    xmlOut.WriteStartElement("MeasureParam" + (i + 1).ToString());
+                    if(currentLabels[i].Visible == true)
+                    {                    
+                        xmlOut.WriteStartElement("MeasureParam" + (++j).ToString());
 
-                    xmlOut.WriteAttributeString("Name", ScopeSysType.ChannelNames[i]);
-                    xmlOut.WriteAttributeString("Phase", Convert.ToString(ScopeSysType.ChannelPhase[i]));
-                    xmlOut.WriteAttributeString("CCBM", Convert.ToString(ScopeSysType.ChannelCCBM[i]));
-                    xmlOut.WriteAttributeString("Dimension", ScopeSysType.ChannelDimension[i]);
-                    xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ChannelAddrs[i]));
-                    xmlOut.WriteAttributeString("Color", Convert.ToString(ScopeSysType.ChannelColors[i].ToArgb()));
-                    xmlOut.WriteAttributeString("Format", Convert.ToString(ScopeSysType.ChannelFormats[i]));
-                    xmlOut.WriteAttributeString("StepLine", Convert.ToString(ScopeSysType.ChannelStepLines[i]));
-                    xmlOut.WriteAttributeString("TypeAD", Convert.ToString(ScopeSysType.ChannelTypeAD[i]));
-                    xmlOut.WriteAttributeString("Min", Convert.ToString(ScopeSysType.ChannelMin[i]));
-                    xmlOut.WriteAttributeString("Max", Convert.ToString(ScopeSysType.ChannelMax[i]));
-                    xmlOut.WriteAttributeString("Checked", Convert.ToString(checkBoxs[i].Checked));
+                        xmlOut.WriteAttributeString("Name", ScopeSysType.ChannelNames[i]);
+                        xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ChannelAddrs[i]));
+                        xmlOut.WriteAttributeString("Format", Convert.ToString(ScopeSysType.ChannelFormats[i]));
                     
-                    xmlOut.WriteEndElement();
+                        xmlOut.WriteEndElement();
+                    }
+
                 }
 
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("COMETRADEConfig");
-
-                xmlOut.WriteStartElement("StationName", ScopeSysType.StationName);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("RecordingDevice", ScopeSysType.RecordingDevice);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("OscilNominalFrequency");
-                xmlOut.WriteAttributeString("Count", Convert.ToString(ScopeSysType.OscilNominalFrequency));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("OscilSampleRate");
-                xmlOut.WriteAttributeString("Count", Convert.ToString(ScopeSysType.OscilSampleRate));
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("TimeCode", ScopeSysType.TimeCode);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("LocalCode", ScopeSysType.LocalCode);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("tmqCode",  ScopeSysType.tmqCode);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("leapsec", ScopeSysType.leapsec);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteEndElement();
                 /////////////////////////////////////////////////////////////
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
