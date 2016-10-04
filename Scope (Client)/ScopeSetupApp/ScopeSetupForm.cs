@@ -149,14 +149,14 @@ namespace ScopeSetupApp
         }
 
         private ushort CalcCurrentParams()
-                {
-                    ushort u = 0;
-                    for (int i1 = 0; i1 < ScopeSysType.ChannelNames.Count; i1++)
-                    {
-                        if (currentLabels[i1].Visible) { u++; }
-                    }
-                    return u;
-                }
+        {
+            ushort u = 0;
+            for (int i1 = 0; i1 < ScopeSysType.ChannelNames.Count; i1++)
+            {
+                if (currentLabels[i1].Visible) { u++; }
+            }
+            return u;
+        }
 
         //****************************************************************************//
         //****************************************************************************//
@@ -178,6 +178,7 @@ namespace ScopeSetupApp
             if (chCountRadioButton.Text != "" && chCountRadioButton.Text != "-")
             {
                 nowScopeCount = Convert.ToUInt16(chCountRadioButton.Text);
+                if (radioButton.Text != "") DelayOscil();
                 if (nowScopeCount < 1 || nowScopeCount > 32)
                 {
                     MessageBox.Show("Ошибка в поле Количество осциллограмм");
@@ -203,6 +204,7 @@ namespace ScopeSetupApp
             if (radioButton.Text != "" && radioButton.Text != "-")
             {
                 nowMaxChannelCount = Convert.ToUInt16(radioButton.Text);
+                DelayOscil();
                 if (nowMaxChannelCount < 1 || nowMaxChannelCount > 32)
                 {
                     MessageBox.Show("Ошибка в поле Колличество каналов");
@@ -238,7 +240,6 @@ namespace ScopeSetupApp
         }
 
         //Делитель
-
         private void oscFreqRadioButton_KeyPress(object sender, KeyPressEventArgs e)
         {
             char number = e.KeyChar;
@@ -262,21 +263,14 @@ namespace ScopeSetupApp
             }
         }
 
-        //Размер под осциллограммы:
-        private void maskedTextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        //Длительность осциллограммы:
+        private void DelayOscil()
         {
-            char number = e.KeyChar;
-            if (!Char.IsDigit(number) && number != 8)  // цифры и клавиша BackSpace
-            {
-                e.Handled = true;
-            }
-        }
-
- 
-        private void reloadBtn_Click(object sender, EventArgs e)
-        {
-            List<ushort> ChFormats = ChannelFormats(); 
-            List<ushort> ChannelAdd = ChannelAddrs();               
+            double SampleCount = (double)OscilSize(oscilAllSize, false)/OscilSize(oscilAllSize, true);
+            double Freq = (double)ScopeSysType.OscilSampleRate/nowOscFreq;
+            double TimeSec = (double)SampleCount/Freq;
+            DelayOsc.Text = "Длительность: " + TimeSec.ToString("0.0000") + " сек";   
+            DelayOsc.Visible = true;          
         }
         #endregion
    
@@ -327,7 +321,7 @@ namespace ScopeSetupApp
         }
 
         // OscilSize
-        public uint OscilSize(uint AllSize)
+        public uint OscilSize(uint AllSize, bool WR)
         {
             uint count64 = 0, count32 = 0, count16 = 0;
             uint SampleSize;
@@ -353,8 +347,10 @@ namespace ScopeSetupApp
             { 		
                 OscS--;
             }
-                    
-            return (OscS);
+
+            if (WR == false) return OscS;
+            if (WR == true) return SampleSize;
+            return 0;
         }
 
         //OscilEnable
@@ -466,8 +462,8 @@ namespace ScopeSetupApp
                 else { OscillConfig[i] = 0; }
             }
 
-            OscillConfig[64] = Convert.ToUInt16((OscilSize(ScopeSysType.OscilAllSize) << 16) >> 16);  //размер под осциллограмму 
-            OscillConfig[65] = Convert.ToUInt16(OscilSize(ScopeSysType.OscilAllSize) >> 16);
+            OscillConfig[64] = Convert.ToUInt16((OscilSize(ScopeSysType.OscilAllSize, false) << 16) >> 16);  //размер под осциллограмму 
+            OscillConfig[65] = Convert.ToUInt16(OscilSize(ScopeSysType.OscilAllSize, false) >> 16);
                                         
             OscillConfig[66] = nowScopeCount;            //Колличество формируемых осциллограмм
             OscillConfig[67] = nowMaxChannelCount;       //Колличество каналов
