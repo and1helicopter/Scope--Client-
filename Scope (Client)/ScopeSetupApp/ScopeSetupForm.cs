@@ -775,12 +775,10 @@ namespace ScopeSetupApp
         #region
         private void openButton2_Click(object sender, EventArgs e)
         {
-            List<string> OscilChannelNames = new List<string>();
-            List<ushort> OscilChannelAddrs = new List<ushort>();
-            List<ushort> OscilChannelFormats = new List<ushort>();
-            OscilChannelNames = new List<string>();
-            OscilChannelAddrs = new List<ushort>();
-            OscilChannelFormats = new List<ushort>();
+            bool [] ChannelInList = new bool [32];
+            bool ChannelInLists = false;
+            string str = "Параметра нет в списке: \n";
+            for (int i = 0; i < 32; i++) { ChannelInList[i] = false; }
              
             for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
             {
@@ -820,13 +818,25 @@ namespace ScopeSetupApp
                 {    
                     if (ScopeSysType.OscilChannelFormats[i] == ScopeSysType.ChannelFormats[j] && ScopeSysType.OscilChannelAddrs[i] == ScopeSysType.ChannelAddrs[j])
                     {
+                        ChannelInList[i] = true;
                         checkBoxs[j].Checked = true;
                         currentLabels[j].Visible = true;
                         possibleLabels[j].BackColor = System.Drawing.Color.LightSteelBlue;
                         radioButton.Text = Convert.ToString(VisibleCount());
+                        break;
                     }
                 }
             }
+
+            for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++) 
+            {
+                if (ChannelInList[i] == false) 
+                {
+                    str += ScopeSysType.OscilChannelNames[i].ToString() + " Адрес:" + ScopeSysType.OscilChannelAddrs[i].ToString("X4") + " Формат:" + ScopeSysType.OscilChannelFormats[i].ToString() + "\n";
+                    ChannelInLists =true;
+                }
+            }
+            if (ChannelInLists == true) MessageBox.Show(str);
         }
         #endregion
 
