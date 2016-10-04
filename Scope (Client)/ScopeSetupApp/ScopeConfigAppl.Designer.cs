@@ -39,6 +39,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.sampleRate_textBox = new System.Windows.Forms.TextBox();
+            this.sampleRate_label = new System.Windows.Forms.Label();
             this.FlagNeed_ConfigTextBox = new System.Windows.Forms.TextBox();
             this.OscilSizeData_TextBox = new System.Windows.Forms.TextBox();
             this.FlagNeed_label = new System.Windows.Forms.Label();
@@ -61,6 +63,8 @@
             this.ChannelCount_label = new System.Windows.Forms.Label();
             this.OscilStatus_TextBox = new System.Windows.Forms.TextBox();
             this.OscilStatus_label = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.recordingDevice_textBox = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -84,18 +88,17 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.configPanel = new System.Windows.Forms.Panel();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.sampleRate_textBox = new System.Windows.Forms.TextBox();
-            this.sampleRate_label = new System.Windows.Forms.Label();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.mailToolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // mailToolStrip
@@ -106,7 +109,8 @@
             this.mailToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openButton,
             this.saveButton,
-            this.addLineButton});
+            this.addLineButton,
+            this.toolStripButton1});
             this.mailToolStrip.Location = new System.Drawing.Point(0, 0);
             this.mailToolStrip.Name = "mailToolStrip";
             this.mailToolStrip.Size = new System.Drawing.Size(826, 38);
@@ -239,6 +243,24 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(818, 124);
             this.panel5.TabIndex = 3;
+            // 
+            // sampleRate_textBox
+            // 
+            this.sampleRate_textBox.Location = new System.Drawing.Point(695, 91);
+            this.sampleRate_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.sampleRate_textBox.Name = "sampleRate_textBox";
+            this.sampleRate_textBox.Size = new System.Drawing.Size(116, 24);
+            this.sampleRate_textBox.TabIndex = 28;
+            this.sampleRate_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // sampleRate_label
+            // 
+            this.sampleRate_label.AutoSize = true;
+            this.sampleRate_label.Location = new System.Drawing.Point(587, 94);
+            this.sampleRate_label.Name = "sampleRate_label";
+            this.sampleRate_label.Size = new System.Drawing.Size(102, 17);
+            this.sampleRate_label.TabIndex = 27;
+            this.sampleRate_label.Text = "Sample rate (Hz)";
             // 
             // FlagNeed_ConfigTextBox
             // 
@@ -437,6 +459,25 @@
             this.OscilStatus_label.TabIndex = 2;
             this.OscilStatus_label.Text = "Oscill Status Address";
             this.OscilStatus_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.tabPage2.Controls.Add(this.CommentRichTextBox);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(818, 124);
+            this.tabPage2.TabIndex = 2;
+            this.tabPage2.Text = "Comment\t";
+            // 
+            // CommentRichTextBox
+            // 
+            this.CommentRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CommentRichTextBox.Location = new System.Drawing.Point(0, 0);
+            this.CommentRichTextBox.Name = "CommentRichTextBox";
+            this.CommentRichTextBox.Size = new System.Drawing.Size(818, 124);
+            this.CommentRichTextBox.TabIndex = 0;
+            this.CommentRichTextBox.Text = "";
             // 
             // tabPage3
             // 
@@ -679,41 +720,25 @@
             this.configPanel.Size = new System.Drawing.Size(826, 226);
             this.configPanel.TabIndex = 25;
             // 
-            // tabPage2
+            // toolStripButton1
             // 
-            this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage2.Controls.Add(this.CommentRichTextBox);
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(818, 124);
-            this.tabPage2.TabIndex = 2;
-            this.tabPage2.Text = "Comment\t";
+            this.toolStripButton1.AutoSize = false;
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Margin = new System.Windows.Forms.Padding(3);
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(32, 32);
+            this.toolStripButton1.Text = "Печать";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
-            // CommentRichTextBox
+            // printDialog1
             // 
-            this.CommentRichTextBox.Location = new System.Drawing.Point(3, 3);
-            this.CommentRichTextBox.Name = "CommentRichTextBox";
-            this.CommentRichTextBox.Size = new System.Drawing.Size(812, 118);
-            this.CommentRichTextBox.TabIndex = 0;
-            this.CommentRichTextBox.Text = "";
+            this.printDialog1.UseEXDialog = true;
             // 
-            // sampleRate_textBox
+            // printDocument1
             // 
-            this.sampleRate_textBox.Location = new System.Drawing.Point(695, 91);
-            this.sampleRate_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.sampleRate_textBox.Name = "sampleRate_textBox";
-            this.sampleRate_textBox.Size = new System.Drawing.Size(116, 24);
-            this.sampleRate_textBox.TabIndex = 28;
-            this.sampleRate_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // sampleRate_label
-            // 
-            this.sampleRate_label.AutoSize = true;
-            this.sampleRate_label.Location = new System.Drawing.Point(587, 94);
-            this.sampleRate_label.Name = "sampleRate_label";
-            this.sampleRate_label.Size = new System.Drawing.Size(102, 17);
-            this.sampleRate_label.TabIndex = 27;
-            this.sampleRate_label.Text = "Sample rate (Hz)";
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
             // 
             // ScopeConfigForm
             // 
@@ -739,13 +764,13 @@
             this.tabPage1.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -812,6 +837,9 @@
         private System.Windows.Forms.RichTextBox CommentRichTextBox;
         private System.Windows.Forms.TextBox sampleRate_textBox;
         private System.Windows.Forms.Label sampleRate_label;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.PrintDialog printDialog1;
+        private System.Drawing.Printing.PrintDocument printDocument1;
     }
 }
 
