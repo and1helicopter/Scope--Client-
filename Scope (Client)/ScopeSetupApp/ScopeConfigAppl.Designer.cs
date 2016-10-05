@@ -33,6 +33,7 @@
             this.openButton = new System.Windows.Forms.ToolStripButton();
             this.saveButton = new System.Windows.Forms.ToolStripButton();
             this.addLineButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.nominalFrequency_label = new System.Windows.Forms.Label();
             this.nominalFrequency_textBox = new System.Windows.Forms.TextBox();
@@ -88,9 +89,9 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.configPanel = new System.Windows.Forms.Panel();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.printDialog1 = new System.Windows.Forms.PrintDialog();
-            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.SCPrintDialog = new System.Windows.Forms.PrintDialog();
+            this.SCPrintDocument = new System.Drawing.Printing.PrintDocument();
+            this.SCPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
             this.mailToolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -152,6 +153,18 @@
             this.addLineButton.Size = new System.Drawing.Size(32, 32);
             this.addLineButton.Text = "Добавить строку";
             this.addLineButton.Click += new System.EventHandler(this.addLineButton_Click);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.AutoSize = false;
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Margin = new System.Windows.Forms.Padding(3);
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(32, 32);
+            this.toolStripButton1.Text = "Печать";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // statusStrip1
             // 
@@ -472,10 +485,9 @@
             // 
             // CommentRichTextBox
             // 
-            this.CommentRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CommentRichTextBox.Location = new System.Drawing.Point(0, 0);
+            this.CommentRichTextBox.Location = new System.Drawing.Point(3, 3);
             this.CommentRichTextBox.Name = "CommentRichTextBox";
-            this.CommentRichTextBox.Size = new System.Drawing.Size(818, 124);
+            this.CommentRichTextBox.Size = new System.Drawing.Size(591, 64);
             this.CommentRichTextBox.TabIndex = 0;
             this.CommentRichTextBox.Text = "";
             // 
@@ -720,25 +732,23 @@
             this.configPanel.Size = new System.Drawing.Size(826, 226);
             this.configPanel.TabIndex = 25;
             // 
-            // toolStripButton1
+            // SCPrintDialog
             // 
-            this.toolStripButton1.AutoSize = false;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Margin = new System.Windows.Forms.Padding(3);
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(32, 32);
-            this.toolStripButton1.Text = "Печать";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.SCPrintDialog.UseEXDialog = true;
             // 
-            // printDialog1
+            // SCPrintDocument
             // 
-            this.printDialog1.UseEXDialog = true;
+            this.SCPrintDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.SCPrintDocument_PrintPage);
             // 
-            // printDocument1
+            // SCPrintPreviewDialog
             // 
-            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            this.SCPrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.SCPrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.SCPrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
+            this.SCPrintPreviewDialog.Enabled = true;
+            this.SCPrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("SCPrintPreviewDialog.Icon")));
+            this.SCPrintPreviewDialog.Name = "SCPrintPreviewDialog";
+            this.SCPrintPreviewDialog.Visible = false;
             // 
             // ScopeConfigForm
             // 
@@ -838,8 +848,9 @@
         private System.Windows.Forms.TextBox sampleRate_textBox;
         private System.Windows.Forms.Label sampleRate_label;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.PrintDialog printDialog1;
-        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.PrintDialog SCPrintDialog;
+        private System.Drawing.Printing.PrintDocument SCPrintDocument;
+        private System.Windows.Forms.PrintPreviewDialog SCPrintPreviewDialog;
     }
 }
 
