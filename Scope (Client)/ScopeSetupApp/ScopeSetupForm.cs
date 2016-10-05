@@ -254,6 +254,7 @@ namespace ScopeSetupApp
             if (oscFreqRadioButton.Text != "" && oscFreqRadioButton.Text != "-")
             {
                 nowOscFreq = Convert.ToUInt16(oscFreqRadioButton.Text);
+                if (radioButton.Text != "") DelayOscil();
                 if (nowOscFreq < 1 || nowOscFreq > 1000)
                 {
                     MessageBox.Show("Ошибка в поле Предыстория");
@@ -784,8 +785,8 @@ namespace ScopeSetupApp
             }
             
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.DefaultExt = ".ocxml"; // Default file extension
-            ofd.Filter = "Oscil Configuration XML|*.ocxml|XML|*.xml|All files|*.*"; // Filter files by extension
+            ofd.DefaultExt = ".xoc"; // Default file extension
+            ofd.Filter = "XML Oscil Configuration |*.xoc|XML|*.xml|All files|*.*"; // Filter files by extension
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 ScopeSysType.xmlFileName = ofd.FileName;   
@@ -849,8 +850,8 @@ namespace ScopeSetupApp
             List<string> paramAddrStrs = new List<string>();
             
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.DefaultExt = ".ocxml"; // Default file extension
-            sfd.Filter = "Oscil Configuration XML|*.ocxml|XML|*.xml"; // Filter files by extension
+            sfd.DefaultExt = ".xoc"; // Default file extension
+            sfd.Filter = "XML Oscil Configuration|*.xoc|XML|*.xml"; // Filter files by extension
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 ScopeSysType.xmlFileName = sfd.FileName;
