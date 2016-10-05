@@ -151,7 +151,7 @@
             this.CommentRichTextBox.Location = new System.Drawing.Point(410, 5);
             this.CommentRichTextBox.Name = "CommentRichTextBox";
             this.CommentRichTextBox.ReadOnly = true;
-            this.CommentRichTextBox.Size = new System.Drawing.Size(540, 54);
+            this.CommentRichTextBox.Size = new System.Drawing.Size(540, 63);
             this.CommentRichTextBox.TabIndex = 11;
             this.CommentRichTextBox.Text = "";
             // 
