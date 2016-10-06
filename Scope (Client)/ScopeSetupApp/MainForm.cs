@@ -259,7 +259,6 @@ namespace ScopeSetupApp
             int i1 = requestStep;
             int i  = loadTimeStampStep;
 
-
             if (i >= ScopeConfig.ScopeCount)
             {
                 requestStep = 0;
@@ -284,7 +283,7 @@ namespace ScopeSetupApp
             {
                 loadTimeStampStep = i;
                
-                modBusUnit.GetData((ushort)(ScopeSysType.TimeStampAddr + i * 8), 8);
+                modBusUnit.GetData((ushort)(ScopeSysType.TimeStampAddr + i * 6), 6);
             }
         }
         private void EndTimeStampRequest()
@@ -333,7 +332,7 @@ namespace ScopeSetupApp
             }
             if (loadConfigStep == 5)                //Количество выборок на предысторию 
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 6), 2);
+                modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 4), 2);
                 return;
             }
 
@@ -723,13 +722,13 @@ namespace ScopeSetupApp
         private void UpdateTimeStamp()
         {
             string str, str1, str2, str3;
-            str1 = (modBusUnit.modBusData.ReadData[5] & 0x3F).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[6] & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[7] & 0xFF).ToString("X2");     //D.M.Y врямя 
-            str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[1] & 0x7F).ToString("X2");      //S.M.H   
+            str1 = (modBusUnit.modBusData.ReadData[0] & 0xFF).ToString("X2") + "/" + (modBusUnit.modBusData.ReadData[0] & 0xFFFF).ToString("X4") + "/" + (modBusUnit.modBusData.ReadData[1] & 0xFFFF).ToString("X4");     //D.M.Y врямя 
+            str2 = (modBusUnit.modBusData.ReadData[2] & 0xFF).ToString("X4") + ":" + (modBusUnit.modBusData.ReadData[3] & 0xFFFF).ToString("X4") ;//+ ":" + (modBusUnit.modBusData.ReadData[5] & 0x7F).ToString("X2");      //S.M.H   
             str3 = (modBusUnit.modBusData.ReadData[4]).ToString("000") + "000";
             statusButtons[loadTimeStampStep].Text = "№" + (loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
             oscilTitls[loadTimeStampStep] = "Осциллограмма №" + (loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
             str = str1 + "," + str2 + "." + str3;
-            date[loadTimeStampStep] = DateTime.Parse(str);
+            //date[loadTimeStampStep] = DateTime.Parse(str);
         }
         private void UpdateTimeStampInvoke()
         {
