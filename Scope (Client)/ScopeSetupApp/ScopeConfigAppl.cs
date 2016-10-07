@@ -677,20 +677,22 @@ namespace ScopeSetupApp
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            /*  SCPrintPreviewDialog.Document = SCPrintDocument;
+             SCPrintPreviewDialog.Document = SCPrintDocument;
              SCPrintPreviewDialog.ShowDialog();
-           */
-           SCPrintDialog.Document = SCPrintDocument;
-           if (SCPrintDialog.ShowDialog() == DialogResult.OK)
-           {
-               SCPrintDocument.Print();
-           }
+            /*
+            SCPrintDialog.Document = SCPrintDocument;
+            if (SCPrintDialog.ShowDialog() == DialogResult.OK)
+            {
+                SCPrintDocument.Print();
+            }
+              */
         }
         bool FirstPage = true;
         int paramNum = 0;
 
         private void SCPrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
+            string str = "";
             int yPos = 30;
             int xPos1 = 25;
             int xPos2 = 200;
@@ -699,86 +701,86 @@ namespace ScopeSetupApp
 
             if (FirstPage == true)
             {
-                yPos = 160;
-                e.Graphics.DrawString("Title", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 40));
-                e.Graphics.DrawString("Date: " + DateTime.Now.ToShortDateString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 60));
+                yPos = 150;
+                e.Graphics.DrawString("Title", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 40));
+                e.Graphics.DrawString("Date: " + DateTime.Now.ToShortDateString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 60));
                 e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 70));
-                e.Graphics.DrawString("Comment:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 80));
-                e.Graphics.DrawString(ScopeSysType.OscilComment.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 100));
-                e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 150));
-                e.Graphics.DrawString("Oscil Config", new Font("Arial", 12, FontStyle.Bold), Brushes.Black, new Point(xPos1, 160));
-                e.Graphics.DrawString("COMTRADE Config", new Font("Arial", 12, FontStyle.Bold), Brushes.Black, new Point(xPos3, 160));
-                e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 170));
-                e.Graphics.DrawString("ScopeCount Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.ScopeCountAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
-                e.Graphics.DrawString("StationName:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.StationName.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("ChannelCount Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.ChannelCountAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
-                e.Graphics.DrawString("RecordingDevice:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.RecordingDevice.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("OscilStatus Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.OscilStatusAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("NominalFrequency:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.OscilNominalFrequency.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("StartTemp Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.StartTemptAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("TimeCode:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.TimeCode.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));                
-                e.Graphics.DrawString("LoadOscilStart Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.OscilLoadAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("LocalCode:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.LocalCode.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("NewConfig Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.NewConfigAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("tmqCode:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.tmqCode.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("FlagNeed Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.FlagNeedAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("leapsec:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.leapsec.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("TimeStamp Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.TimeStampAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("OscilAllSize (KB):", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString(ScopeSysType.OscilAllSize.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("OscilSampleRate:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString(ScopeSysType.OscilSampleRate.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("MeasureParams:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString(ScopeSysType.ChannelNames.Count.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("Comment:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 80));
+                e.Graphics.DrawString(ScopeSysType.OscilComment.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 100));
+                e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 140));
+                e.Graphics.DrawString("Oscil Config", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, new Point(xPos1, 150));
+                e.Graphics.DrawString("COMTRADE Config", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, new Point(xPos3, 150));
+                e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 160));
+                e.Graphics.DrawString("ScopeCount Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.ScopeCountAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
+                e.Graphics.DrawString("StationName:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
+                e.Graphics.DrawString(ScopeSysType.StationName.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString("ChannelCount Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.ChannelCountAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
+                e.Graphics.DrawString("RecordingDevice:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
+                e.Graphics.DrawString(ScopeSysType.RecordingDevice.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString("OscilStatus Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.OscilStatusAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("NominalFrequency:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
+                e.Graphics.DrawString(ScopeSysType.OscilNominalFrequency.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString("StartTemp Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.StartTemptAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("TimeCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
+                e.Graphics.DrawString(ScopeSysType.TimeCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString("LoadOscilStart Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.OscilLoadAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("LocalCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
+                e.Graphics.DrawString(ScopeSysType.LocalCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString("NewConfig Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.NewConfigAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("tmqCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
+                e.Graphics.DrawString(ScopeSysType.tmqCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString("FlagNeed Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.FlagNeedAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("leapsec:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
+                e.Graphics.DrawString(ScopeSysType.leapsec.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString("TimeStamp Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.TimeStampAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("OscilAllSize (KB):", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString(ScopeSysType.OscilAllSize.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("OscilSampleRate:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString(ScopeSysType.OscilSampleRate.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("MeasureParams:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString(ScopeSysType.ChannelNames.Count.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
             }
             
-           // if()
             e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 10));
-            e.Graphics.DrawString("№", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos + 10));
-            e.Graphics.DrawString("Channel Name", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 35, yPos + 10));
-            e.Graphics.DrawString("Address", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 240, yPos + 10));
-            e.Graphics.DrawString("Format", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 320, yPos + 10));
-            e.Graphics.DrawString("Dimension", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 390, yPos + 10));
-            e.Graphics.DrawString("TypeLine", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 480, yPos + 10));
-            e.Graphics.DrawString("Phase", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 570, yPos + 10));
-            e.Graphics.DrawString("CCBM", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 630, yPos + 10));
-            e.Graphics.DrawString("TypeAD", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 690, yPos + 10));
-            e.Graphics.DrawString("Min", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 300, yPos + 30));
-            e.Graphics.DrawString("Max", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 370, yPos + 30));
-            e.Graphics.DrawString("Color", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 440, yPos + 30));
-            e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos + 40));
+            e.Graphics.DrawString("№", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos + 10));
+            e.Graphics.DrawString("Channel Name", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 35, yPos + 10));
+            e.Graphics.DrawString("Address", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 200, yPos + 10));
+            e.Graphics.DrawString("Format", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 260, yPos + 10));
+            e.Graphics.DrawString("Dimension", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 320, yPos + 10));
+            e.Graphics.DrawString("TypeLine", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 400, yPos + 10));
+            e.Graphics.DrawString("Phase", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 470, yPos + 10));
+            e.Graphics.DrawString("CCBM", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 520, yPos + 10));
+            e.Graphics.DrawString("TypeAD", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 570, yPos + 10));
+            e.Graphics.DrawString("Min", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 630, yPos + 10));
+            e.Graphics.DrawString("Max", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 690, yPos + 10));
+            e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 15));
             for (int i = paramNum, j = 0; i < ScopeSysType.ChannelNames.Count;j++, i++)
             {
-                e.Graphics.DrawString((i + 1).ToString() + ".", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 50));
-                e.Graphics.DrawString(ScopeSysType.ChannelNames[i], new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 35, yPos));
-                e.Graphics.DrawString("0x" + ScopeSysType.ChannelAddrs[i].ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 240, yPos));
-                e.Graphics.DrawString(ScopeSysType.ChannelFormats[i].ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 330, yPos));
-                e.Graphics.DrawString(ScopeSysType.ChannelDimension[i].ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 420, yPos));
-                e.Graphics.DrawString(ScopeSysType.ChannelStepLines[i].ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 510, yPos));
-                e.Graphics.DrawString(ScopeSysType.ChannelPhase[i].ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 580, yPos));
-                e.Graphics.DrawString(ScopeSysType.ChannelCCBM[i].ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 630, yPos));
-                e.Graphics.DrawString(ScopeSysType.ChannelTypeAD[i].ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 720, yPos));
-
-                e.Graphics.DrawString(ScopeSysType.ChannelMin[i].ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 290, yPos + 20));
-                e.Graphics.DrawString(ScopeSysType.ChannelMax[i].ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 365, yPos + 20));
-                e.Graphics.DrawString(ScopeSysType.ChannelColors[i].ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 430, yPos + 20));
-                if (FirstPage == true && j == 12) { paramNum += (j + 1); e.HasMorePages = true; FirstPage = false; break; }
-                if (FirstPage == false && j == 20) { paramNum += (j + 1); e.HasMorePages = true; break; }
+                e.Graphics.DrawString((i + 1).ToString() + ".", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString(ScopeSysType.ChannelNames[i], new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 35, yPos));
+                e.Graphics.DrawString("0x" + ScopeSysType.ChannelAddrs[i].ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 200, yPos));
+                e.Graphics.DrawString(ScopeSysType.ChannelFormats[i].ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 260, yPos));
+                e.Graphics.DrawString(ScopeSysType.ChannelDimension[i], new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 320, yPos));
+                if (ScopeSysType.ChannelStepLines[i] == 0) str = "Smooth";
+                else str = "Step";
+                e.Graphics.DrawString(str, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 400, yPos));
+                e.Graphics.DrawString(ScopeSysType.ChannelPhase[i].ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 470, yPos));
+                e.Graphics.DrawString(ScopeSysType.ChannelCCBM[i].ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 520, yPos));
+                if (ScopeSysType.ChannelTypeAD[i] == 0) str = "Analog";
+                else str = "Digital";
+                e.Graphics.DrawString(str, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 570, yPos));
+                e.Graphics.DrawString(ScopeSysType.ChannelMin[i].ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 630, yPos));
+                e.Graphics.DrawString(ScopeSysType.ChannelMax[i].ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 690, yPos));
+                if (FirstPage == true && j == 35) { paramNum += (j + 1); e.HasMorePages = true; FirstPage = false; break; }
+                if (FirstPage == false && j == 52) { paramNum += (j + 1); e.HasMorePages = true; break; }
                 if (i == ScopeSysType.ChannelNames.Count - 1) { FirstPage = true; paramNum = 0; e.HasMorePages = false; }
             }
         }
