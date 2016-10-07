@@ -24,8 +24,6 @@ namespace ScopeSetupApp
 
         public static ushort ScopeCountAddr;
         public static ushort ChannelCountAddr;
-        public static ushort HistoryAddr;
-        public static ushort OscilFreqAddr;
         public static ushort OscilStatusAddr;
         public static ushort StartTemptAddr;
         public static ushort OscilLoadAddr;
@@ -111,8 +109,6 @@ namespace ScopeSetupApp
 
             LoadFromXML("ScopeCount", "Addr", doc, out ScopeCountAddr);
             LoadFromXML("ChannelCount", "Addr", doc, out ChannelCountAddr);
-            LoadFromXML("History", "Addr", doc, out HistoryAddr);
-            LoadFromXML("OscilFreq", "Addr", doc, out OscilFreqAddr);
             LoadFromXML("OscilStatus", "Addr", doc, out OscilStatusAddr);
             LoadFromXML("StartTemp", "Addr", doc, out StartTemptAddr);
             LoadFromXML("LoadOscilStart", "Addr", doc, out OscilLoadAddr);

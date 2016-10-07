@@ -48,10 +48,6 @@
             this.OscilSizeData_label = new System.Windows.Forms.Label();
             this.timeStampTextBox = new System.Windows.Forms.TextBox();
             this.TimeStamp_label = new System.Windows.Forms.Label();
-            this.OscilFreq_TextBox = new System.Windows.Forms.TextBox();
-            this.OscilFreq_label = new System.Windows.Forms.Label();
-            this.History_TextBox = new System.Windows.Forms.TextBox();
-            this.History_label = new System.Windows.Forms.Label();
             this.NewConfig_TextBox = new System.Windows.Forms.TextBox();
             this.NewConfig_label = new System.Windows.Forms.Label();
             this.OscilLoad_TextBox = new System.Windows.Forms.TextBox();
@@ -64,8 +60,6 @@
             this.ChannelCount_label = new System.Windows.Forms.Label();
             this.OscilStatus_TextBox = new System.Windows.Forms.TextBox();
             this.OscilStatus_label = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.recordingDevice_textBox = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -92,11 +86,11 @@
             this.SCPrintDialog = new System.Windows.Forms.PrintDialog();
             this.SCPrintDocument = new System.Drawing.Printing.PrintDocument();
             this.SCPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+            this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
             this.mailToolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -196,7 +190,6 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabControl1.ItemSize = new System.Drawing.Size(130, 20);
@@ -226,6 +219,7 @@
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel5.Controls.Add(this.CommentRichTextBox);
             this.panel5.Controls.Add(this.sampleRate_textBox);
             this.panel5.Controls.Add(this.sampleRate_label);
             this.panel5.Controls.Add(this.FlagNeed_ConfigTextBox);
@@ -234,10 +228,6 @@
             this.panel5.Controls.Add(this.OscilSizeData_label);
             this.panel5.Controls.Add(this.timeStampTextBox);
             this.panel5.Controls.Add(this.TimeStamp_label);
-            this.panel5.Controls.Add(this.OscilFreq_TextBox);
-            this.panel5.Controls.Add(this.OscilFreq_label);
-            this.panel5.Controls.Add(this.History_TextBox);
-            this.panel5.Controls.Add(this.History_label);
             this.panel5.Controls.Add(this.NewConfig_TextBox);
             this.panel5.Controls.Add(this.NewConfig_label);
             this.panel5.Controls.Add(this.OscilLoad_TextBox);
@@ -313,7 +303,7 @@
             // 
             // timeStampTextBox
             // 
-            this.timeStampTextBox.Location = new System.Drawing.Point(695, 37);
+            this.timeStampTextBox.Location = new System.Drawing.Point(424, 91);
             this.timeStampTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.timeStampTextBox.Name = "timeStampTextBox";
             this.timeStampTextBox.Size = new System.Drawing.Size(116, 24);
@@ -322,52 +312,16 @@
             // 
             // TimeStamp_label
             // 
-            this.TimeStamp_label.Location = new System.Drawing.Point(552, 35);
+            this.TimeStamp_label.Location = new System.Drawing.Point(281, 89);
             this.TimeStamp_label.Name = "TimeStamp_label";
             this.TimeStamp_label.Size = new System.Drawing.Size(134, 26);
             this.TimeStamp_label.TabIndex = 0;
             this.TimeStamp_label.Text = "Time Stamp Address";
             this.TimeStamp_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // OscilFreq_TextBox
-            // 
-            this.OscilFreq_TextBox.Location = new System.Drawing.Point(156, 91);
-            this.OscilFreq_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.OscilFreq_TextBox.Name = "OscilFreq_TextBox";
-            this.OscilFreq_TextBox.Size = new System.Drawing.Size(116, 24);
-            this.OscilFreq_TextBox.TabIndex = 19;
-            this.OscilFreq_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // OscilFreq_label
-            // 
-            this.OscilFreq_label.Location = new System.Drawing.Point(9, 89);
-            this.OscilFreq_label.Name = "OscilFreq_label";
-            this.OscilFreq_label.Size = new System.Drawing.Size(144, 26);
-            this.OscilFreq_label.TabIndex = 18;
-            this.OscilFreq_label.Text = "Oscill Freq Address";
-            this.OscilFreq_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // History_TextBox
-            // 
-            this.History_TextBox.Location = new System.Drawing.Point(156, 64);
-            this.History_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.History_TextBox.Name = "History_TextBox";
-            this.History_TextBox.Size = new System.Drawing.Size(116, 24);
-            this.History_TextBox.TabIndex = 17;
-            this.History_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // History_label
-            // 
-            this.History_label.Location = new System.Drawing.Point(6, 62);
-            this.History_label.Name = "History_label";
-            this.History_label.Size = new System.Drawing.Size(147, 26);
-            this.History_label.TabIndex = 16;
-            this.History_label.Text = "History Address";
-            this.History_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // NewConfig_TextBox
             // 
-            this.NewConfig_TextBox.Location = new System.Drawing.Point(424, 91);
+            this.NewConfig_TextBox.Location = new System.Drawing.Point(695, 37);
             this.NewConfig_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.NewConfig_TextBox.Name = "NewConfig_TextBox";
             this.NewConfig_TextBox.Size = new System.Drawing.Size(116, 24);
@@ -376,7 +330,7 @@
             // 
             // NewConfig_label
             // 
-            this.NewConfig_label.Location = new System.Drawing.Point(281, 88);
+            this.NewConfig_label.Location = new System.Drawing.Point(552, 34);
             this.NewConfig_label.Name = "NewConfig_label";
             this.NewConfig_label.Size = new System.Drawing.Size(137, 26);
             this.NewConfig_label.TabIndex = 14;
@@ -385,7 +339,7 @@
             // 
             // OscilLoad_TextBox
             // 
-            this.OscilLoad_TextBox.Location = new System.Drawing.Point(424, 64);
+            this.OscilLoad_TextBox.Location = new System.Drawing.Point(424, 37);
             this.OscilLoad_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.OscilLoad_TextBox.Name = "OscilLoad_TextBox";
             this.OscilLoad_TextBox.Size = new System.Drawing.Size(116, 24);
@@ -394,7 +348,7 @@
             // 
             // OscilLoad_label
             // 
-            this.OscilLoad_label.Location = new System.Drawing.Point(276, 62);
+            this.OscilLoad_label.Location = new System.Drawing.Point(276, 35);
             this.OscilLoad_label.Name = "OscilLoad_label";
             this.OscilLoad_label.Size = new System.Drawing.Size(142, 26);
             this.OscilLoad_label.TabIndex = 10;
@@ -403,7 +357,7 @@
             // 
             // ScopeCount_TextBox
             // 
-            this.ScopeCount_TextBox.Location = new System.Drawing.Point(156, 10);
+            this.ScopeCount_TextBox.Location = new System.Drawing.Point(159, 64);
             this.ScopeCount_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ScopeCount_TextBox.Name = "ScopeCount_TextBox";
             this.ScopeCount_TextBox.Size = new System.Drawing.Size(116, 24);
@@ -412,7 +366,7 @@
             // 
             // ScopeCount_label
             // 
-            this.ScopeCount_label.Location = new System.Drawing.Point(6, 10);
+            this.ScopeCount_label.Location = new System.Drawing.Point(9, 64);
             this.ScopeCount_label.Name = "ScopeCount_label";
             this.ScopeCount_label.Size = new System.Drawing.Size(147, 26);
             this.ScopeCount_label.TabIndex = 8;
@@ -421,7 +375,7 @@
             // 
             // StartTemp_TextBox
             // 
-            this.StartTemp_TextBox.Location = new System.Drawing.Point(424, 37);
+            this.StartTemp_TextBox.Location = new System.Drawing.Point(424, 64);
             this.StartTemp_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.StartTemp_TextBox.Name = "StartTemp_TextBox";
             this.StartTemp_TextBox.Size = new System.Drawing.Size(116, 24);
@@ -430,7 +384,7 @@
             // 
             // StartTemp_label
             // 
-            this.StartTemp_label.Location = new System.Drawing.Point(281, 35);
+            this.StartTemp_label.Location = new System.Drawing.Point(281, 62);
             this.StartTemp_label.Name = "StartTemp_label";
             this.StartTemp_label.Size = new System.Drawing.Size(137, 26);
             this.StartTemp_label.TabIndex = 6;
@@ -439,7 +393,7 @@
             // 
             // ChannelCount_TextBox
             // 
-            this.ChannelCount_TextBox.Location = new System.Drawing.Point(156, 37);
+            this.ChannelCount_TextBox.Location = new System.Drawing.Point(159, 91);
             this.ChannelCount_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ChannelCount_TextBox.Name = "ChannelCount_TextBox";
             this.ChannelCount_TextBox.Size = new System.Drawing.Size(116, 24);
@@ -448,7 +402,7 @@
             // 
             // ChannelCount_label
             // 
-            this.ChannelCount_label.Location = new System.Drawing.Point(6, 35);
+            this.ChannelCount_label.Location = new System.Drawing.Point(9, 89);
             this.ChannelCount_label.Name = "ChannelCount_label";
             this.ChannelCount_label.Size = new System.Drawing.Size(147, 26);
             this.ChannelCount_label.TabIndex = 4;
@@ -472,24 +426,6 @@
             this.OscilStatus_label.TabIndex = 2;
             this.OscilStatus_label.Text = "Oscill Status Address";
             this.OscilStatus_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage2.Controls.Add(this.CommentRichTextBox);
-            this.tabPage2.Location = new System.Drawing.Point(4, 24);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(818, 124);
-            this.tabPage2.TabIndex = 2;
-            this.tabPage2.Text = "Comment\t";
-            // 
-            // CommentRichTextBox
-            // 
-            this.CommentRichTextBox.Location = new System.Drawing.Point(3, 3);
-            this.CommentRichTextBox.Name = "CommentRichTextBox";
-            this.CommentRichTextBox.Size = new System.Drawing.Size(591, 64);
-            this.CommentRichTextBox.TabIndex = 0;
-            this.CommentRichTextBox.Text = "";
             // 
             // tabPage3
             // 
@@ -750,6 +686,14 @@
             this.SCPrintPreviewDialog.Name = "SCPrintPreviewDialog";
             this.SCPrintPreviewDialog.Visible = false;
             // 
+            // CommentRichTextBox
+            // 
+            this.CommentRichTextBox.Location = new System.Drawing.Point(12, 10);
+            this.CommentRichTextBox.Name = "CommentRichTextBox";
+            this.CommentRichTextBox.Size = new System.Drawing.Size(263, 50);
+            this.CommentRichTextBox.TabIndex = 29;
+            this.CommentRichTextBox.Text = "";
+            // 
             // ScopeConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -774,7 +718,6 @@
             this.tabPage1.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -804,10 +747,6 @@
         private System.Windows.Forms.Label OscilSizeData_label;
         private System.Windows.Forms.TextBox timeStampTextBox;
         private System.Windows.Forms.Label TimeStamp_label;
-        private System.Windows.Forms.TextBox OscilFreq_TextBox;
-        private System.Windows.Forms.Label OscilFreq_label;
-        private System.Windows.Forms.TextBox History_TextBox;
-        private System.Windows.Forms.Label History_label;
         private System.Windows.Forms.TextBox NewConfig_TextBox;
         private System.Windows.Forms.Label NewConfig_label;
         private System.Windows.Forms.TextBox OscilLoad_TextBox;
@@ -843,14 +782,13 @@
         private System.Windows.Forms.TextBox stationName_textBox;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ToolStripButton openButton;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.RichTextBox CommentRichTextBox;
         private System.Windows.Forms.TextBox sampleRate_textBox;
         private System.Windows.Forms.Label sampleRate_label;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.PrintDialog SCPrintDialog;
         private System.Drawing.Printing.PrintDocument SCPrintDocument;
         private System.Windows.Forms.PrintPreviewDialog SCPrintPreviewDialog;
+        private System.Windows.Forms.RichTextBox CommentRichTextBox;
     }
 }
 

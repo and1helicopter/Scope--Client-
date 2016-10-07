@@ -364,10 +364,8 @@ namespace ScopeSetupApp
 
                 timeStampTextBox.Text = "0x" + ScopeSysType.TimeStampAddr.ToString("X4");
                 OscilStatus_TextBox.Text = "0x" + ScopeSysType.OscilStatusAddr.ToString("X4");
-                History_TextBox.Text = "0x" + ScopeSysType.HistoryAddr.ToString("X4");
                 ChannelCount_TextBox.Text = "0x" + ScopeSysType.ChannelCountAddr.ToString("X4");
                 StartTemp_TextBox.Text = "0x" + ScopeSysType.StartTemptAddr.ToString("X4");
-                OscilFreq_TextBox.Text = "0x" + ScopeSysType.OscilFreqAddr.ToString("X4");
                 ScopeCount_TextBox.Text = "0x" + ScopeSysType.ScopeCountAddr.ToString("X4");
                 OscilLoad_TextBox.Text = "0x" + ScopeSysType.OscilLoadAddr.ToString("X4");
                 FlagNeed_ConfigTextBox.Text = "0x" + ScopeSysType.FlagNeedAddr.ToString("X4");
@@ -440,8 +438,8 @@ namespace ScopeSetupApp
         private void saveButton_Click(object sender, EventArgs e)
         {
             string timeStampStr, oscilStatusStr, scopeCountStr,
-                   historyStr, channelCountStr, dataStartStr,
-                   oscilFreqStr, loadOscilStartStr, paramLoadConfigStr,
+                   channelCountStr, dataStartStr,
+                   loadOscilStartStr, paramLoadConfigStr,
                    paramLoadDataStr, oscillSizeDataStr;
             List<string> paramAddrStrs = new List<string>();
 
@@ -477,15 +475,6 @@ namespace ScopeSetupApp
                 scopeCountStr = AdvanceConvert.uValue.ToString();
             }
 
-            if (!AdvanceConvert.StrToInt(History_TextBox.Text))
-            {
-                MessageBox.Show("Ошибка в поле hystoryText");
-                return;
-            }
-            else
-            {
-                historyStr = AdvanceConvert.uValue.ToString();
-            }
 
 
             if (!AdvanceConvert.StrToInt(ChannelCount_TextBox.Text))
@@ -509,15 +498,6 @@ namespace ScopeSetupApp
                 dataStartStr = AdvanceConvert.uValue.ToString();
             }
 
-            if (!AdvanceConvert.StrToInt(OscilFreq_TextBox.Text))
-            {
-                MessageBox.Show("Ошибка в поле oscilFreq");
-                return;
-            }
-            else
-            {
-                oscilFreqStr = AdvanceConvert.uValue.ToString();
-            }
 
             if (!AdvanceConvert.StrToInt(OscilLoad_TextBox.Text))
             {
@@ -598,14 +578,6 @@ namespace ScopeSetupApp
 
                 xmlOut.WriteStartElement("ChannelCount");
                 xmlOut.WriteAttributeString("Addr", channelCountStr);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("History");
-                xmlOut.WriteAttributeString("Addr", historyStr);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("OscilFreq");
-                xmlOut.WriteAttributeString("Addr", oscilFreqStr);
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("OscilStatus");
@@ -745,30 +717,26 @@ namespace ScopeSetupApp
                 e.Graphics.DrawString("0x" + ScopeSysType.ChannelCountAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
                 e.Graphics.DrawString("RecordingDevice:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
                 e.Graphics.DrawString(ScopeSysType.RecordingDevice.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("History Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.HistoryAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("OscilStatus Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.OscilStatusAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
                 e.Graphics.DrawString("NominalFrequency:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
                 e.Graphics.DrawString(ScopeSysType.OscilNominalFrequency.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("OscilFreq Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("StartTemp Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.StartTemptAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
                 e.Graphics.DrawString("TimeCode:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.TimeCode.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("0x" + ScopeSysType.OscilFreqAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("OscilStatus Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString(ScopeSysType.TimeCode.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));                
+                e.Graphics.DrawString("LoadOscilStart Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.OscilLoadAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
                 e.Graphics.DrawString("LocalCode:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
                 e.Graphics.DrawString(ScopeSysType.LocalCode.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("0x" + ScopeSysType.OscilStatusAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("StartTemp Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("tmqCode:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.tmqCode.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("0x" + ScopeSysType.StartTemptAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("LoadOscilStart Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("leapsec:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.leapsec.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("0x" + ScopeSysType.OscilLoadAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
                 e.Graphics.DrawString("NewConfig Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
                 e.Graphics.DrawString("0x" + ScopeSysType.NewConfigAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("tmqCode:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
+                e.Graphics.DrawString(ScopeSysType.tmqCode.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
                 e.Graphics.DrawString("FlagNeed Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
                 e.Graphics.DrawString("0x" + ScopeSysType.FlagNeedAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("leapsec:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
+                e.Graphics.DrawString(ScopeSysType.leapsec.ToString(), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
                 e.Graphics.DrawString("TimeStamp Addr:", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
                 e.Graphics.DrawString("0x" + ScopeSysType.TimeStampAddr.ToString("X4"), new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
                 e.Graphics.DrawString("OscilAllSize (KB):", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
