@@ -87,6 +87,7 @@
             this.SCPrintDocument = new System.Drawing.Printing.PrintDocument();
             this.SCPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
             this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.mailToolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -572,6 +573,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.label1);
@@ -590,7 +592,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(582, 5);
+            this.label3.Location = new System.Drawing.Point(616, 5);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(75, 17);
             this.label3.TabIndex = 6;
@@ -600,7 +602,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(9, 5);
+            this.label2.Location = new System.Drawing.Point(38, 5);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 17);
             this.label2.TabIndex = 5;
@@ -610,7 +612,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(234, 5);
+            this.label1.Location = new System.Drawing.Point(265, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 17);
             this.label1.TabIndex = 4;
@@ -620,7 +622,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label13.Location = new System.Drawing.Point(492, 5);
+            this.label13.Location = new System.Drawing.Point(522, 5);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(47, 17);
             this.label13.TabIndex = 3;
@@ -630,7 +632,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.Location = new System.Drawing.Point(387, 5);
+            this.label12.Location = new System.Drawing.Point(418, 5);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(54, 17);
             this.label12.TabIndex = 2;
@@ -640,7 +642,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.Location = new System.Drawing.Point(300, 5);
+            this.label11.Location = new System.Drawing.Point(332, 5);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(43, 17);
             this.label11.TabIndex = 1;
@@ -650,7 +652,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(82, 5);
+            this.label10.Location = new System.Drawing.Point(111, 5);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(151, 17);
             this.label10.TabIndex = 0;
@@ -693,6 +695,16 @@
             this.CommentRichTextBox.Size = new System.Drawing.Size(263, 50);
             this.CommentRichTextBox.TabIndex = 29;
             this.CommentRichTextBox.Text = "";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(9, 5);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(20, 17);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "№";
             // 
             // ScopeConfigForm
             // 
@@ -789,6 +801,7 @@
         private System.Drawing.Printing.PrintDocument SCPrintDocument;
         private System.Windows.Forms.PrintPreviewDialog SCPrintPreviewDialog;
         private System.Windows.Forms.RichTextBox CommentRichTextBox;
+        private System.Windows.Forms.Label label4;
     }
 }
 
