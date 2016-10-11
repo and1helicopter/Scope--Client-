@@ -56,14 +56,9 @@ namespace ScopeSetupApp
         {
             XmlNodeList xmls;
             XmlNode xmlline;
-
             
             xmls = doc.GetElementsByTagName(paramName);
-            /*if (xmls.Count != 1)
-            {
-                addr = 0;
-                throw new Exception("Ошибки в файле: "+xmlFileName+"!");
-            }*/
+
             xmlline = xmls[0];
 
             try
@@ -73,7 +68,6 @@ namespace ScopeSetupApp
             catch 
             {
                 addr = 0;
-               // throw new Exception("Ошибки в файле: "+xmlFileName+"!");
             }
         }
 
@@ -92,7 +86,6 @@ namespace ScopeSetupApp
             {
                 str = "";
             }
-            
         }
        
         public static void InitScopeSysType()
@@ -153,10 +146,6 @@ namespace ScopeSetupApp
             for (int i = 1; i < (count + 1); i++)
             {
                 xmls = doc.GetElementsByTagName("MeasureParam"+i.ToString());
-              /*  if (xmls.Count != 1)
-                {
-                    throw new Exception("Ошибки в файле: " + xmlFileName + "!");
-                }*/
                 xmlline = xmls[0];
 
                 try

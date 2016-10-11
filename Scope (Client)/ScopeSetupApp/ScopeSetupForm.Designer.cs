@@ -87,7 +87,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(956, 38);
+            this.toolStrip1.Size = new System.Drawing.Size(905, 38);
             this.toolStrip1.TabIndex = 7;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -143,15 +143,15 @@
             this.panel1.Location = new System.Drawing.Point(0, 38);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(956, 147);
+            this.panel1.Size = new System.Drawing.Size(905, 147);
             this.panel1.TabIndex = 0;
             // 
             // CommentRichTextBox
             // 
-            this.CommentRichTextBox.Location = new System.Drawing.Point(410, 5);
+            this.CommentRichTextBox.Location = new System.Drawing.Point(410, 14);
             this.CommentRichTextBox.Name = "CommentRichTextBox";
             this.CommentRichTextBox.ReadOnly = true;
-            this.CommentRichTextBox.Size = new System.Drawing.Size(540, 54);
+            this.CommentRichTextBox.Size = new System.Drawing.Size(263, 50);
             this.CommentRichTextBox.TabIndex = 11;
             this.CommentRichTextBox.Text = "";
             // 
@@ -367,7 +367,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(956, 342);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(905, 342);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // panel2
@@ -379,7 +379,7 @@
             this.panel2.Location = new System.Drawing.Point(4, 5);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(948, 332);
+            this.panel2.Size = new System.Drawing.Size(897, 332);
             this.panel2.TabIndex = 2;
             // 
             // checkBox2
@@ -388,7 +388,7 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox2.Location = new System.Drawing.Point(929, 7);
+            this.checkBox2.Location = new System.Drawing.Point(878, 7);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -407,7 +407,7 @@
             this.possibleParamPanel.Location = new System.Drawing.Point(0, 35);
             this.possibleParamPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.possibleParamPanel.Name = "possibleParamPanel";
-            this.possibleParamPanel.Size = new System.Drawing.Size(948, 297);
+            this.possibleParamPanel.Size = new System.Drawing.Size(897, 297);
             this.possibleParamPanel.TabIndex = 6;
             // 
             // possibleTableLayoutPanel
@@ -423,7 +423,7 @@
             this.possibleTableLayoutPanel.Name = "possibleTableLayoutPanel";
             this.possibleTableLayoutPanel.RowCount = 1;
             this.possibleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
-            this.possibleTableLayoutPanel.Size = new System.Drawing.Size(948, 39);
+            this.possibleTableLayoutPanel.Size = new System.Drawing.Size(897, 39);
             this.possibleTableLayoutPanel.TabIndex = 7;
             // 
             // sampleNameLabel
@@ -446,7 +446,7 @@
             this.label2.Font = new System.Drawing.Font("Open Sans", 10F);
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(948, 35);
+            this.label2.Size = new System.Drawing.Size(897, 35);
             this.label2.TabIndex = 4;
             this.label2.Text = "Возможные для осциллографирования параметры";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -456,7 +456,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(956, 527);
+            this.ClientSize = new System.Drawing.Size(905, 527);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip1);

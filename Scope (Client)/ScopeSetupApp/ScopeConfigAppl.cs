@@ -111,7 +111,7 @@ namespace ScopeSetupApp
 
             NumLabels.Add(new Label());
             NumLabels[i].Text = Convert.ToString(i + 1) + ".";
-            NumLabels[i].Left = 3;
+            NumLabels[i].Left = 2;
             NumLabels[i].Top = 6;
 
             AnalogDigitalComboBox.Add(new ComboBox());
@@ -441,7 +441,6 @@ namespace ScopeSetupApp
                                  );
                 }
             }
-
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -684,18 +683,89 @@ namespace ScopeSetupApp
             }
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private string convert_text(object Obj, string del)
         {
+            int i = 0;
+            string str = "";
+            str = Convert.ToString(Obj);
+            if (str == "") str = "0";
+            if (del == "0x") i = Convert.ToInt32(str, 16);
+            if (del == "") i = Convert.ToInt32(str);
+            str = Convert.ToString(i);
+            //if (del != "") str = str.Replace(del, "");
+            return str;
+        }
+
+        private void Update_Oscil()
+        {
+            ScopeSysType.ScopeCountAddr = Convert.ToUInt16(convert_text(ScopeCount_TextBox.Text, "0x"));
+            ScopeSysType.ChannelCountAddr = Convert.ToUInt16(convert_text(ChannelCount_TextBox.Text, "0x"));
+            ScopeSysType.OscilStatusAddr = Convert.ToUInt16(convert_text(OscilStatus_TextBox.Text, "0x"));
+            ScopeSysType.StartTemptAddr = Convert.ToUInt16(convert_text(StartTemp_TextBox.Text, "0x"));
+            ScopeSysType.OscilLoadAddr = Convert.ToUInt16(convert_text(OscilLoad_TextBox.Text, "0x"));
+            ScopeSysType.NewConfigAddr = Convert.ToUInt16(convert_text(NewConfig_TextBox.Text, "0x"));
+            ScopeSysType.FlagNeedAddr = Convert.ToUInt16(convert_text(FlagNeed_ConfigTextBox.Text, "0x"));
+            ScopeSysType.TimeStampAddr = Convert.ToUInt16(convert_text(timeStampTextBox.Text, "0x"));
+            ScopeSysType.OscilAllSize = Convert.ToUInt16(convert_text(OscilSizeData_TextBox.Text, "0x"));
+            ScopeSysType.OscilSampleRate = Convert.ToUInt16(convert_text(sampleRate_textBox.Text, ""));
+            ScopeSysType.OscilComment = Convert.ToString(CommentRichTextBox.Text);
+
+            ScopeSysType.StationName = Convert.ToString(stationName_textBox.Text);
+            ScopeSysType.RecordingDevice = Convert.ToString(recordingDevice_textBox.Text);
+            ScopeSysType.OscilNominalFrequency = Convert.ToUInt16(convert_text(nominalFrequency_textBox.Text, ""));
+            ScopeSysType.TimeCode = Convert.ToString(timeCode_textBox.Text);
+            ScopeSysType.LocalCode = Convert.ToString(localCode_textBox.Text);
+            ScopeSysType.tmqCode = Convert.ToString(tmqCode_textBox.Text);
+            ScopeSysType.leapsec = Convert.ToString(leapsec_textBox.Text);
+            
+            ScopeSysType.ChannelNames.Clear();
+            ScopeSysType.ChannelPhase.Clear();
+            ScopeSysType.ChannelCCBM.Clear();
+            ScopeSysType.ChannelDimension.Clear();
+            ScopeSysType.ChannelAddrs.Clear();
+            ScopeSysType.ChannelColors.Clear();
+            ScopeSysType.ChannelFormats.Clear();
+            ScopeSysType.ChannelStepLines.Clear();
+            ScopeSysType.ChannelTypeAD.Clear();
+            ScopeSysType.ChannelMin.Clear();
+            ScopeSysType.ChannelMax.Clear();
+            
+            for (int i = 0; i < addrTextBoxs.Count; i++)
+            {
+                ScopeSysType.ChannelNames.Add(nameTextBoxs[i].Text);
+                ScopeSysType.ChannelPhase.Add(phaseTextBoxs[i].Text);
+                ScopeSysType.ChannelCCBM.Add(ccbmTextBoxs[i].Text);
+                ScopeSysType.ChannelDimension.Add(dimensionComboBox[i].Text);
+                ScopeSysType.ChannelAddrs.Add(Convert.ToUInt16(convert_text(addrTextBoxs[i].Text, "0x")));
+                ScopeSysType.ChannelColors.Add(Color.FromArgb(colorLabels[i].BackColor.ToArgb()));
+                ScopeSysType.ChannelFormats.Add(Convert.ToUInt16(((Convert.ToUInt16(formatComboBoxNumeric[i].SelectedIndex + 1) << 8) + Convert.ToInt32(formatComboBox[i].SelectedIndex)).ToString()));
+                ScopeSysType.ChannelStepLines.Add(Convert.ToInt32(stepLineCheckBoxs[i].SelectedIndex.ToString()));
+                ScopeSysType.ChannelTypeAD.Add(Convert.ToUInt16(AnalogDigitalComboBox[i].SelectedIndex.ToString()));
+                ScopeSysType.ChannelMin.Add(Convert.ToInt32(minTextBoxs[i].Text));
+                ScopeSysType.ChannelMax.Add(Convert.ToInt32(maxTextBoxs[i].Text));
+            }   
+        }
+    
+
+        private void View_toolStripButton_Click(object sender, EventArgs e)
+        {
+             Update_Oscil();
+
              SCPrintPreviewDialog.Document = SCPrintDocument;
              SCPrintPreviewDialog.ShowDialog();
-            /*
+        }
+
+        private void Print_toolStripButton_Click(object sender, EventArgs e)
+        {
+            Update_Oscil();
+
             SCPrintDialog.Document = SCPrintDocument;
             if (SCPrintDialog.ShowDialog() == DialogResult.OK)
             {
                 SCPrintDocument.Print();
             }
-              */
         }
+
         bool FirstPage = true;
         int paramNum = 0;
 
@@ -793,6 +863,7 @@ namespace ScopeSetupApp
                 if (i == ScopeSysType.ChannelNames.Count - 1) { FirstPage = true; paramNum = 0; e.HasMorePages = false; }
             }
         }
+
     }
 }
 

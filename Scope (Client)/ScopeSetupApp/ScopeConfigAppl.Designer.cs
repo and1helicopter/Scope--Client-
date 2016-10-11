@@ -33,13 +33,15 @@
             this.openButton = new System.Windows.Forms.ToolStripButton();
             this.saveButton = new System.Windows.Forms.ToolStripButton();
             this.addLineButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.View_toolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.Print_toolStripButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.nominalFrequency_label = new System.Windows.Forms.Label();
             this.nominalFrequency_textBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
             this.sampleRate_textBox = new System.Windows.Forms.TextBox();
             this.sampleRate_label = new System.Windows.Forms.Label();
             this.FlagNeed_ConfigTextBox = new System.Windows.Forms.TextBox();
@@ -75,6 +77,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.localCode_textBox = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -86,8 +89,6 @@
             this.SCPrintDialog = new System.Windows.Forms.PrintDialog();
             this.SCPrintDocument = new System.Drawing.Printing.PrintDocument();
             this.SCPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
-            this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.mailToolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -106,7 +107,8 @@
             this.openButton,
             this.saveButton,
             this.addLineButton,
-            this.toolStripButton1});
+            this.View_toolStripButton,
+            this.Print_toolStripButton});
             this.mailToolStrip.Location = new System.Drawing.Point(0, 0);
             this.mailToolStrip.Name = "mailToolStrip";
             this.mailToolStrip.Size = new System.Drawing.Size(826, 38);
@@ -149,17 +151,29 @@
             this.addLineButton.Text = "Добавить строку";
             this.addLineButton.Click += new System.EventHandler(this.addLineButton_Click);
             // 
-            // toolStripButton1
+            // View_toolStripButton
             // 
-            this.toolStripButton1.AutoSize = false;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Margin = new System.Windows.Forms.Padding(3);
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(32, 32);
-            this.toolStripButton1.Text = "Печать";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.View_toolStripButton.AutoSize = false;
+            this.View_toolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.View_toolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("View_toolStripButton.Image")));
+            this.View_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.View_toolStripButton.Margin = new System.Windows.Forms.Padding(3);
+            this.View_toolStripButton.Name = "View_toolStripButton";
+            this.View_toolStripButton.Size = new System.Drawing.Size(32, 32);
+            this.View_toolStripButton.Text = "Просмотр";
+            this.View_toolStripButton.Click += new System.EventHandler(this.View_toolStripButton_Click);
+            // 
+            // Print_toolStripButton
+            // 
+            this.Print_toolStripButton.AutoSize = false;
+            this.Print_toolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Print_toolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("Print_toolStripButton.Image")));
+            this.Print_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Print_toolStripButton.Margin = new System.Windows.Forms.Padding(3);
+            this.Print_toolStripButton.Name = "Print_toolStripButton";
+            this.Print_toolStripButton.Size = new System.Drawing.Size(32, 32);
+            this.Print_toolStripButton.Text = "Печать";
+            this.Print_toolStripButton.Click += new System.EventHandler(this.Print_toolStripButton_Click);
             // 
             // statusStrip1
             // 
@@ -247,6 +261,14 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(818, 124);
             this.panel5.TabIndex = 3;
+            // 
+            // CommentRichTextBox
+            // 
+            this.CommentRichTextBox.Location = new System.Drawing.Point(12, 10);
+            this.CommentRichTextBox.Name = "CommentRichTextBox";
+            this.CommentRichTextBox.Size = new System.Drawing.Size(263, 50);
+            this.CommentRichTextBox.TabIndex = 29;
+            this.CommentRichTextBox.Text = "";
             // 
             // sampleRate_textBox
             // 
@@ -588,6 +610,16 @@
             this.panel2.Size = new System.Drawing.Size(826, 24);
             this.panel2.TabIndex = 24;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(9, 5);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(20, 17);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "№";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -688,24 +720,6 @@
             this.SCPrintPreviewDialog.Name = "SCPrintPreviewDialog";
             this.SCPrintPreviewDialog.Visible = false;
             // 
-            // CommentRichTextBox
-            // 
-            this.CommentRichTextBox.Location = new System.Drawing.Point(12, 10);
-            this.CommentRichTextBox.Name = "CommentRichTextBox";
-            this.CommentRichTextBox.Size = new System.Drawing.Size(263, 50);
-            this.CommentRichTextBox.TabIndex = 29;
-            this.CommentRichTextBox.Text = "";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(9, 5);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(20, 17);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "№";
-            // 
             // ScopeConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -796,12 +810,13 @@
         private System.Windows.Forms.ToolStripButton openButton;
         private System.Windows.Forms.TextBox sampleRate_textBox;
         private System.Windows.Forms.Label sampleRate_label;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton Print_toolStripButton;
         private System.Windows.Forms.PrintDialog SCPrintDialog;
         private System.Drawing.Printing.PrintDocument SCPrintDocument;
         private System.Windows.Forms.PrintPreviewDialog SCPrintPreviewDialog;
         private System.Windows.Forms.RichTextBox CommentRichTextBox;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripButton View_toolStripButton;
     }
 }
 

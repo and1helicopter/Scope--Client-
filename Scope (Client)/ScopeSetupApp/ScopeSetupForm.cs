@@ -270,7 +270,7 @@ namespace ScopeSetupApp
             double SampleCount = (double)OscilSize(oscilAllSize, false)/OscilSize(oscilAllSize, true);
             double Freq = (double)ScopeSysType.OscilSampleRate/nowOscFreq;
             double TimeSec = (double)SampleCount/Freq;
-            DelayOsc.Text = "Длительность: " + TimeSec.ToString("0.0000") + " сек";   
+            DelayOsc.Text = "Длительность: " + TimeSec.ToString("0.000") + " сек";   
             DelayOsc.Visible = true;          
         }
         #endregion
