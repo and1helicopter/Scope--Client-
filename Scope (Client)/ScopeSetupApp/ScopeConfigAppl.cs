@@ -749,7 +749,7 @@ namespace ScopeSetupApp
 
         private void View_toolStripButton_Click(object sender, EventArgs e)
         {
-             Update_Oscil();
+            Update_Oscil();
 
              SCPrintPreviewDialog.Document = SCPrintDocument;
              SCPrintPreviewDialog.ShowDialog();
@@ -764,6 +764,11 @@ namespace ScopeSetupApp
             {
                 SCPrintDocument.Print();
             }
+        }
+
+        private void Update_toolStripButton_Click(object sender, EventArgs e)
+        {
+            Update_Oscil();
         }
 
         bool FirstPage = true;
@@ -863,7 +868,6 @@ namespace ScopeSetupApp
                 if (i == ScopeSysType.ChannelNames.Count - 1) { FirstPage = true; paramNum = 0; e.HasMorePages = false; }
             }
         }
-
     }
 }
 
