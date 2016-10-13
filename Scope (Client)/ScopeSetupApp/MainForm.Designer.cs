@@ -65,7 +65,7 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 444);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(725, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(730, 22);
             this.statusStrip1.TabIndex = 12;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -87,7 +87,7 @@
             this.nowStatusFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.nowStatusFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.nowStatusFlowLayoutPanel.Name = "nowStatusFlowLayoutPanel";
-            this.nowStatusFlowLayoutPanel.Size = new System.Drawing.Size(481, 444);
+            this.nowStatusFlowLayoutPanel.Size = new System.Drawing.Size(486, 444);
             this.nowStatusFlowLayoutPanel.TabIndex = 2;
             this.nowStatusFlowLayoutPanel.Tag = "";
             // 
@@ -238,13 +238,13 @@
             this.toolStripContainer1.ContentPanel.Controls.Add(this.toolStrip1);
             this.toolStripContainer1.ContentPanel.ImeMode = System.Windows.Forms.ImeMode.On;
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(725, 444);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(730, 444);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.toolStripContainer1.Name = "toolStripContainer1";
             this.toolStripContainer1.RightToolStripPanelVisible = false;
-            this.toolStripContainer1.Size = new System.Drawing.Size(725, 444);
+            this.toolStripContainer1.Size = new System.Drawing.Size(730, 444);
             this.toolStripContainer1.TabIndex = 14;
             this.toolStripContainer1.Text = "toolStripContainer1";
             this.toolStripContainer1.TopToolStripPanelVisible = false;
@@ -256,14 +256,14 @@
             this.panel1.Location = new System.Drawing.Point(244, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(481, 444);
+            this.panel1.Size = new System.Drawing.Size(486, 444);
             this.panel1.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(725, 466);
+            this.ClientSize = new System.Drawing.Size(730, 466);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Font = new System.Drawing.Font("Open Sans", 9F);
