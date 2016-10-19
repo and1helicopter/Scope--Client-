@@ -633,7 +633,6 @@ namespace ScopeSetupApp
         }
 
 
-
         //**************** ДИНАМИЧЕСКОЕ СОЗДАНИЕ КОНТРОЛОВ***************************************//
         //***************************************************************************************//
         //***************************************************************************************//
@@ -845,10 +844,10 @@ namespace ScopeSetupApp
                             uint oscilLoadTemp = (CalcOscilLoadTemp(loadOscNum));
                            
                             writeArr[0] = 0x0001;
-                            writeArr[1] = (ushort)loadOscNum;
+                            writeArr[1] = Convert.ToUInt16((oscilLoadTemp << 16) >> 16); 
                             writeArr[2] = Convert.ToUInt16(oscilLoadTemp >> 16);
-                            writeArr[3] = Convert.ToUInt16((oscilLoadTemp << 16) >> 16);
-                            modBusUnit.SetData((ushort)(ScopeSysType.FlagNeedAddr + 1), 4, writeArr);
+
+                            modBusUnit.SetData((ushort)(ScopeSysType.FlagNeedAddr + 1), 3, writeArr);
                         }
                         else
                         {
@@ -869,6 +868,7 @@ namespace ScopeSetupApp
                         {
                             StartLoadSample = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
                             StartLoadSample += modBusUnit.modBusData.ReadData[0];
+                            loadOscilIndex = 0;
                             loadOscDataStep = 1;
                         }
                         else
