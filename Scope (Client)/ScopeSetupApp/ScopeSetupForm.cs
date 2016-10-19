@@ -267,11 +267,15 @@ namespace ScopeSetupApp
         //Длительность осциллограммы:
         private void DelayOscil()
         {
-            double SampleCount = (double)OscilSize(oscilAllSize, false)/OscilSize(oscilAllSize, true);
-            double Freq = (double)ScopeSysType.OscilSampleRate/nowOscFreq;
-            double TimeSec = (double)SampleCount/Freq;
-            DelayOsc.Text = "Длительность: " + TimeSec.ToString("0.000") + " сек";   
-            DelayOsc.Visible = true;          
+            if (nowScopeCount != 0)
+            { 
+                double SampleCount = (double)OscilSize(oscilAllSize, false)/OscilSize(oscilAllSize, true);
+                double Freq = (double)ScopeSysType.OscilSampleRate/nowOscFreq;
+                double TimeSec = (double)SampleCount/Freq;
+                DelayOsc.Text = "Длительность: " + TimeSec.ToString("0.000") + " сек";   
+                DelayOsc.Visible = true; 
+            }
+         
         }
         #endregion
    

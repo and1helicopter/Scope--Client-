@@ -745,7 +745,6 @@ namespace ScopeSetupApp
                 ScopeSysType.ChannelMax.Add(Convert.ToInt32(maxTextBoxs[i].Text));
             }   
         }
-    
 
         private void View_toolStripButton_Click(object sender, EventArgs e)
         {
