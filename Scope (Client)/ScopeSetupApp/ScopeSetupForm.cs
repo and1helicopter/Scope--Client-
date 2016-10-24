@@ -143,7 +143,13 @@ namespace ScopeSetupApp
         public ScopeSetupForm()
         {
             InitializeComponent();
-            InitPossiblePanel();        
+            InitPossiblePanel();
+
+            if (!ModBusClient.ModBusOpened)
+            {
+                reloadButton.Enabled = false;
+                writeToSystemBtn.Enabled = false;
+            }      
 
             ModBusUnits.ScopeSetupModbusUnit.RequestFinished += new EventHandler(EndRequest);
         }
@@ -345,6 +351,11 @@ namespace ScopeSetupApp
 
             SampleSize = count64 * 8 + count32 * 4 + count16 * 2;
             if ((count64 != 0 || count32 != 0) && count16 % 2 != 0) { SampleSize += 2; } // Выравнивание на 4 байта
+            if (SampleSize == 0)
+            {
+                //MessageBox.Show("Не выбрано ни одного канала для осциллографирования");
+                return 0;
+            }
 
             uint OscS = (AllSize * 1024) / Convert.ToUInt32(nowScopeCount);
 
@@ -362,9 +373,11 @@ namespace ScopeSetupApp
         private ushort OscilEnable()
         {
             ushort status = 0;
-            if (!enaScopeCheckBox.Checked) status = 0;                              //Осциллограффирование отключено 
+            if (!enaScopeCheckBox.Checked) status = 0;                               //Осциллограффирование отключено 
             if (enaScopeCheckBox.Checked && !checkBox1.Checked) status = 1;          //Осциллограффирование включено но без сокранения на карту пмяти
             if (enaScopeCheckBox.Checked && checkBox1.Checked) status = 2;           //Осциллограффирование включено с сохранением на карту пмяти
+            if (enaScopeCheckBox.Checked && !checkBox1.Checked && checkBox3.Checked) status = 3;          //Осциллограффирование включено но без сокранения на карту пмяти, перезаписью старых осциллограмм
+            if (enaScopeCheckBox.Checked && checkBox1.Checked && checkBox3.Checked) status = 4;           //Осциллограффирование включено с сохранением на карту пмяти, перезаписью старых осциллограмм
             return status;
         }
 
@@ -813,6 +826,12 @@ namespace ScopeSetupApp
             else oscFreqRadioButton.Clear();
             radioButton.Clear();
 
+            if (ScopeSysType.OscilEnable == 0) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false;}
+            if (ScopeSysType.OscilEnable == 1) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false;}
+            if (ScopeSysType.OscilEnable == 2) { enaScopeCheckBox.Checked = true; checkBox1.Checked = true; checkBox3.Checked = false; }
+            if (ScopeSysType.OscilEnable == 3) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = true; }
+            if (ScopeSysType.OscilEnable == 4) { enaScopeCheckBox.Checked = true; checkBox1.Checked = true; checkBox3.Checked = true; }
+
             for (int i = 0; i < ScopeSysType.OscilChannelNames.Count ; i++)
             {
                 for(int j = 0; j < ScopeSysType.ChannelNames.Count; j++)
@@ -882,6 +901,11 @@ namespace ScopeSetupApp
                 xmlOut.WriteStartElement("Frequency");
                 xmlOut.WriteAttributeString("Count", Convert.ToString(nowOscFreq));
                 xmlOut.WriteEndElement();
+
+                xmlOut.WriteStartElement("OscilEnable");
+                xmlOut.WriteAttributeString("Count", Convert.ToString(OscilEnable()));
+                xmlOut.WriteEndElement();
+                
                              
                 for (int i = 0, j = 0; i < possibleLabels.Count; i++)
                 {
@@ -909,5 +933,48 @@ namespace ScopeSetupApp
         }
         #endregion
 
+        private void reloadButton_Click(object sender, EventArgs e)
+        {
+            bool[] ChannelInList = new bool[32];
+            for (int i = 0; i < 32; i++) { ChannelInList[i] = false; }
+
+            for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
+            {
+                checkBoxs[i].Checked = false;
+                currentLabels[i].Visible = false;
+                possibleLabels[i].BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            }
+
+            if (ScopeConfig.ScopeCount != 0) chCountRadioButton.Text = Convert.ToString(ScopeConfig.ScopeCount);
+            else chCountRadioButton.Clear();
+            if (ScopeConfig.HistoryCount != 0) hystoryRadioButton.Text = Convert.ToString(ScopeConfig.HistoryCount);
+            else hystoryRadioButton.Clear();
+            if (ScopeConfig.ChannelCount != 0) radioButton.Text = Convert.ToString(ScopeConfig.ChannelCount);
+            else oscFreqRadioButton.Clear();
+            if (ScopeConfig.FreqCount != 0) oscFreqRadioButton.Text = Convert.ToString(ScopeConfig.FreqCount);
+            else hystoryRadioButton.Clear();
+
+            if (ScopeConfig.OscilEnable == 0) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
+            if (ScopeConfig.OscilEnable == 1) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
+            if (ScopeConfig.OscilEnable == 2) { enaScopeCheckBox.Checked = true; checkBox1.Checked = true; checkBox3.Checked = false; }
+            if (ScopeConfig.OscilEnable == 3) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = true; }
+            if (ScopeConfig.OscilEnable == 4) { enaScopeCheckBox.Checked = true; checkBox1.Checked = true; checkBox3.Checked = true; }
+            
+            for (int i = 0; i < ScopeConfig.OscilFormat.Count; i++)
+            {
+                for (int j = 0; j < ScopeSysType.ChannelNames.Count; j++)
+                {
+                    if (ScopeConfig.OscilFormat[i] == ScopeSysType.ChannelFormats[j] && ScopeConfig.OscilAddr[i] == ScopeSysType.ChannelAddrs[j])
+                    {
+                        ChannelInList[i] = true;
+                        checkBoxs[j].Checked = true;
+                        currentLabels[j].Visible = true;
+                        possibleLabels[j].BackColor = System.Drawing.Color.LightSteelBlue;
+                        radioButton.Text = Convert.ToString(VisibleCount());
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

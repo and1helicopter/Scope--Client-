@@ -70,6 +70,28 @@ namespace ScopeSetupApp
             get { return channelCount; }
             set { channelCount = value; }
         }
+        //Предыстория 
+        static ushort historyCount = 1;
+        public static ushort HistoryCount
+        {
+            get { return historyCount; }
+            set { historyCount = value; }
+        }
+        //Делитель 
+        static ushort freqCount = 1;
+        public static ushort FreqCount
+        {
+            get { return freqCount; }
+            set { freqCount = value; }
+        }
+
+        //Режим работы 
+        static ushort oscilEnable = 0;
+        public static ushort OscilEnable
+        {
+            get { return oscilEnable; }
+            set { oscilEnable = value; }
+        }
 
         //Размер осциллограммы 
         static uint oscilSize = 1;

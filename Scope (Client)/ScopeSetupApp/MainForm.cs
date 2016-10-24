@@ -313,36 +313,54 @@ namespace ScopeSetupApp
                 return;
             }
 
-            if (loadConfigStep == 2)                //Размер осциллограммы 
+            if (loadConfigStep == 2)                //Предыстория 
+            {
+                modBusUnit.GetData((ushort)(ScopeSysType.ChannelCountAddr + 1), 1);
+                return;
+            }
+
+            if (loadConfigStep == 3)                //Делитель
+            {
+                modBusUnit.GetData((ushort)(ScopeSysType.ChannelCountAddr + 2), 1);
+                return;
+            }
+
+            if (loadConfigStep == 4)                //Режим работы
+            {
+                modBusUnit.GetData((ushort)(ScopeSysType.ChannelCountAddr + 3), 1);
+                return;
+            }
+
+            if (loadConfigStep == 5)                //Размер осциллограммы 
             {
                 modBusUnit.GetData((ushort)(ScopeSysType.ScopeCountAddr - 2), 2);
                 return;
             }
 
-            if (loadConfigStep == 3)                //Частота выборки
+            if (loadConfigStep == 6)                //Частота выборки
             {
                 modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 2), 1);
                 return;
             }
 
-            if (loadConfigStep == 4)                //Размер одной выборки
+            if (loadConfigStep == 7)                //Размер одной выборки
             {
                 modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 1), 1);
                 return;
             }
-            if (loadConfigStep == 5)                //Количество выборок на предысторию 
+            if (loadConfigStep == 8)                //Количество выборок на предысторию 
             {
                 modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 4), 2);
                 return;
             }
 
-            if (loadConfigStep == 6)                //Адреса каналов 
+            if (loadConfigStep == 9)                //Адреса каналов 
             {
                 modBusUnit.GetData(0x0220, 32);
                 return;
             }
 
-            if (loadConfigStep == 7)                //Формат каналов 
+            if (loadConfigStep == 10)                //Формат каналов 
             {
                 modBusUnit.GetData(0x0200, 32);
                 return;
@@ -370,43 +388,64 @@ namespace ScopeSetupApp
                             LoadConfig();
                         } break;
 
-                    case 2:                     //Размер осциллограммы 
+                    case 2:                     //Предыстория 
                         {
-                            ScopeConfig.OscilSize = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
-                            ScopeConfig.OscilSize += modBusUnit.modBusData.ReadData[0];
+                            ScopeConfig.HistoryCount = modBusUnit.modBusData.ReadData[0];
                             loadConfigStep = 3;
                             LoadConfig();
                         } break;
 
-                    case 3:                     //Частота выборки
+                    case 3:                     //Делитель
                         {
-                            ScopeConfig.SampleRate = modBusUnit.modBusData.ReadData[0];
-                            ScopeConfig.ScopeEnabled = true;
+                            ScopeConfig.FreqCount = modBusUnit.modBusData.ReadData[0];
                             loadConfigStep = 4;
                             LoadConfig();
                         } break;
 
-                    case 4:                     //Размер одной выборки
+                    case 4:                     //Режим работы
                         {
-                            ScopeConfig.SampleSize = modBusUnit.modBusData.ReadData[0];
+                            ScopeConfig.OscilEnable = modBusUnit.modBusData.ReadData[0];
                             loadConfigStep = 5;
                             LoadConfig();
                         } break;
-                    case 5:                     //Количество выборок на предысторию
+
+                    case 5:                     //Размер осциллограммы 
                         {
-                            ScopeConfig.OscilHistCount = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
-                            ScopeConfig.OscilHistCount += modBusUnit.modBusData.ReadData[0];
+                            ScopeConfig.OscilSize = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
+                            ScopeConfig.OscilSize += modBusUnit.modBusData.ReadData[0];
                             loadConfigStep = 6;
                             LoadConfig();
-
                         } break;
-                    case 6:                     //Адреса каналов 
+
+                    case 6:                     //Частота выборки
                         {
-                            ScopeConfig.InitOscilAddr(modBusUnit.modBusData.ReadData);
+                            ScopeConfig.SampleRate = modBusUnit.modBusData.ReadData[0];
+                            ScopeConfig.ScopeEnabled = true;
                             loadConfigStep = 7;
                             LoadConfig();
                         } break;
-                    case 7:                     //Формат каналов 
+
+                    case 7:                     //Размер одной выборки
+                        {
+                            ScopeConfig.SampleSize = modBusUnit.modBusData.ReadData[0];
+                            loadConfigStep = 8;
+                            LoadConfig();
+                        } break;
+                    case 8:                     //Количество выборок на предысторию
+                        {
+                            ScopeConfig.OscilHistCount = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
+                            ScopeConfig.OscilHistCount += modBusUnit.modBusData.ReadData[0];
+                            loadConfigStep = 9;
+                            LoadConfig();
+
+                        } break;
+                    case 9:                     //Адреса каналов 
+                        {
+                            ScopeConfig.InitOscilAddr(modBusUnit.modBusData.ReadData);
+                            loadConfigStep = 10;
+                            LoadConfig();
+                        } break;
+                    case 10:                     //Формат каналов 
                         {
                             ScopeConfig.InitOscilFormat(modBusUnit.modBusData.ReadData);
                             ScopeConfig.InitOscilParams(ScopeConfig.OscilAddr,ScopeConfig.OscilFormat);
@@ -436,7 +475,7 @@ namespace ScopeSetupApp
             {
                 try
                 {
-                    Invoke(new SetStringDelegate(SetTimeLabel), "Нет связи");
+                    Invoke(new SetStringDelegate(SetTimeLabel), "NO CONNECT");
                 }
                 catch { }
             }
@@ -608,7 +647,7 @@ namespace ScopeSetupApp
             if (requestStep==0)
             {
                 modBusUnit.GetData(0x202, 8);
-                }
+            }
             else if (requestStep == 1)
                 {modBusUnit.GetData(ScopeSysType.OscilStatusAddr, 16);}
 
@@ -727,7 +766,11 @@ namespace ScopeSetupApp
             statusButtons[loadTimeStampStep].Text = "№" + (loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
             oscilTitls[loadTimeStampStep] = "Осциллограмма №" + (loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
             str = str1 + "," + str2 + "." + str3;
-            date[loadTimeStampStep] = DateTime.Parse(str);
+            try
+            {
+                date[loadTimeStampStep] = DateTime.Parse(str);
+            }
+            catch{ }
         }
         private void UpdateTimeStampInvoke()
         {

@@ -36,20 +36,13 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
             this.DelayOsc = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.oscFreqRadioButton = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.panel7 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.chCountRadioButton = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.panel6 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.radioButton = new System.Windows.Forms.TextBox();
-            this.panel5 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.hystoryRadioButton = new System.Windows.Forms.TextBox();
@@ -61,12 +54,13 @@
             this.possibleTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.sampleNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.reloadButton = new System.Windows.Forms.ToolStripButton();
+            this.label7 = new System.Windows.Forms.Label();
+            this.oscFreqRadioButton = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panel7.SuspendLayout();
-            this.panel6.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.possibleParamPanel.SuspendLayout();
@@ -82,12 +76,13 @@
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.writeToSystemBtn,
+            this.reloadButton,
             this.openButton2,
             this.saveButton2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(905, 38);
+            this.toolStrip1.Size = new System.Drawing.Size(863, 38);
             this.toolStrip1.TabIndex = 7;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -131,109 +126,64 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.checkBox3);
+            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.hystoryRadioButton);
+            this.panel1.Controls.Add(this.oscFreqRadioButton);
             this.panel1.Controls.Add(this.CommentRichTextBox);
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.chCountRadioButton);
+            this.panel1.Controls.Add(this.radioButton);
+            this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.DelayOsc);
-            this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.checkBox1);
-            this.panel1.Controls.Add(this.panel7);
-            this.panel1.Controls.Add(this.panel6);
-            this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.enaScopeCheckBox);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 38);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(905, 147);
+            this.panel1.Size = new System.Drawing.Size(863, 147);
             this.panel1.TabIndex = 0;
             // 
             // CommentRichTextBox
             // 
-            this.CommentRichTextBox.Location = new System.Drawing.Point(410, 14);
+            this.CommentRichTextBox.Location = new System.Drawing.Point(411, 8);
             this.CommentRichTextBox.Name = "CommentRichTextBox";
             this.CommentRichTextBox.ReadOnly = true;
-            this.CommentRichTextBox.Size = new System.Drawing.Size(263, 50);
+            this.CommentRichTextBox.Size = new System.Drawing.Size(271, 45);
             this.CommentRichTextBox.TabIndex = 11;
             this.CommentRichTextBox.Text = "";
             // 
             // DelayOsc
             // 
             this.DelayOsc.AutoSize = true;
-            this.DelayOsc.Location = new System.Drawing.Point(637, 81);
+            this.DelayOsc.Location = new System.Drawing.Point(6, 118);
             this.DelayOsc.Name = "DelayOsc";
             this.DelayOsc.Size = new System.Drawing.Size(197, 17);
             this.DelayOsc.TabIndex = 8;
             this.DelayOsc.Text = "Длительность осциллограммы: ";
             this.DelayOsc.Visible = false;
             // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel4.Controls.Add(this.label5);
-            this.panel4.Controls.Add(this.oscFreqRadioButton);
-            this.panel4.Controls.Add(this.label7);
-            this.panel4.Location = new System.Drawing.Point(5, 107);
-            this.panel4.Margin = new System.Windows.Forms.Padding(5, 4, 3, 4);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(399, 33);
-            this.panel4.TabIndex = 7;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(309, 8);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(33, 17);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "От 1";
-            // 
-            // oscFreqRadioButton
-            // 
-            this.oscFreqRadioButton.Location = new System.Drawing.Point(173, 5);
-            this.oscFreqRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.oscFreqRadioButton.Name = "oscFreqRadioButton";
-            this.oscFreqRadioButton.Size = new System.Drawing.Size(130, 24);
-            this.oscFreqRadioButton.TabIndex = 4;
-            this.oscFreqRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.oscFreqRadioButton.TextChanged += new System.EventHandler(this.oscFreqRadioButton_TextChanged);
-            this.oscFreqRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.oscFreqRadioButton_KeyPress);
-            // 
-            // label7
-            // 
-            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 8);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(68, 17);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "Делитель:";
-            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(411, 80);
+            this.checkBox1.Location = new System.Drawing.Point(411, 89);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(125, 21);
+            this.checkBox1.Size = new System.Drawing.Size(271, 21);
             this.checkBox1.TabIndex = 7;
-            this.checkBox1.Text = "Запись в память";
+            this.checkBox1.Text = "Сохронение осциллограммы на SD карту";
             this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // panel7
-            // 
-            this.panel7.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel7.Controls.Add(this.label10);
-            this.panel7.Controls.Add(this.chCountRadioButton);
-            this.panel7.Controls.Add(this.label11);
-            this.panel7.Location = new System.Drawing.Point(5, 5);
-            this.panel7.Margin = new System.Windows.Forms.Padding(5, 4, 3, 4);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(399, 33);
-            this.panel7.TabIndex = 10;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(309, 8);
+            this.label10.Location = new System.Drawing.Point(312, 8);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(67, 17);
             this.label10.TabIndex = 1;
@@ -241,7 +191,7 @@
             // 
             // chCountRadioButton
             // 
-            this.chCountRadioButton.Location = new System.Drawing.Point(173, 5);
+            this.chCountRadioButton.Location = new System.Drawing.Point(176, 5);
             this.chCountRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chCountRadioButton.Name = "chCountRadioButton";
             this.chCountRadioButton.Size = new System.Drawing.Size(130, 24);
@@ -253,28 +203,16 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(3, 8);
+            this.label11.Location = new System.Drawing.Point(6, 8);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(170, 17);
             this.label11.TabIndex = 3;
             this.label11.Text = "Количество осциллограмм:";
             // 
-            // panel6
-            // 
-            this.panel6.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel6.Controls.Add(this.label3);
-            this.panel6.Controls.Add(this.label9);
-            this.panel6.Controls.Add(this.radioButton);
-            this.panel6.Location = new System.Drawing.Point(5, 39);
-            this.panel6.Margin = new System.Windows.Forms.Padding(5, 4, 3, 4);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(399, 33);
-            this.panel6.TabIndex = 9;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(309, 8);
+            this.label3.Location = new System.Drawing.Point(312, 36);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(67, 17);
             this.label3.TabIndex = 1;
@@ -283,7 +221,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 8);
+            this.label9.Location = new System.Drawing.Point(6, 36);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(132, 17);
             this.label9.TabIndex = 3;
@@ -291,7 +229,7 @@
             // 
             // radioButton
             // 
-            this.radioButton.Location = new System.Drawing.Point(173, 5);
+            this.radioButton.Location = new System.Drawing.Point(176, 33);
             this.radioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.radioButton.Name = "radioButton";
             this.radioButton.Size = new System.Drawing.Size(130, 24);
@@ -300,22 +238,10 @@
             this.radioButton.TextChanged += new System.EventHandler(this.radioButton_TextChanged);
             this.radioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.radioButton_KeyPress);
             // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel5.Controls.Add(this.label8);
-            this.panel5.Controls.Add(this.label6);
-            this.panel5.Controls.Add(this.hystoryRadioButton);
-            this.panel5.Location = new System.Drawing.Point(5, 73);
-            this.panel5.Margin = new System.Windows.Forms.Padding(5, 4, 3, 4);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(399, 33);
-            this.panel5.TabIndex = 8;
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 8);
+            this.label8.Location = new System.Drawing.Point(6, 63);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(91, 17);
             this.label8.TabIndex = 3;
@@ -325,7 +251,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Open Sans", 9F);
-            this.label6.Location = new System.Drawing.Point(309, 8);
+            this.label6.Location = new System.Drawing.Point(312, 63);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(80, 17);
             this.label6.TabIndex = 2;
@@ -333,7 +259,7 @@
             // 
             // hystoryRadioButton
             // 
-            this.hystoryRadioButton.Location = new System.Drawing.Point(173, 5);
+            this.hystoryRadioButton.Location = new System.Drawing.Point(176, 60);
             this.hystoryRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.hystoryRadioButton.Name = "hystoryRadioButton";
             this.hystoryRadioButton.Size = new System.Drawing.Size(130, 24);
@@ -345,7 +271,7 @@
             // enaScopeCheckBox
             // 
             this.enaScopeCheckBox.AutoSize = true;
-            this.enaScopeCheckBox.Location = new System.Drawing.Point(411, 114);
+            this.enaScopeCheckBox.Location = new System.Drawing.Point(411, 115);
             this.enaScopeCheckBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.enaScopeCheckBox.Name = "enaScopeCheckBox";
             this.enaScopeCheckBox.Size = new System.Drawing.Size(228, 21);
@@ -367,7 +293,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(905, 342);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(863, 342);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // panel2
@@ -379,7 +305,7 @@
             this.panel2.Location = new System.Drawing.Point(4, 5);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(897, 332);
+            this.panel2.Size = new System.Drawing.Size(855, 332);
             this.panel2.TabIndex = 2;
             // 
             // checkBox2
@@ -388,7 +314,7 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox2.Location = new System.Drawing.Point(878, 7);
+            this.checkBox2.Location = new System.Drawing.Point(836, 7);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -407,7 +333,7 @@
             this.possibleParamPanel.Location = new System.Drawing.Point(0, 35);
             this.possibleParamPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.possibleParamPanel.Name = "possibleParamPanel";
-            this.possibleParamPanel.Size = new System.Drawing.Size(897, 297);
+            this.possibleParamPanel.Size = new System.Drawing.Size(855, 297);
             this.possibleParamPanel.TabIndex = 6;
             // 
             // possibleTableLayoutPanel
@@ -423,7 +349,7 @@
             this.possibleTableLayoutPanel.Name = "possibleTableLayoutPanel";
             this.possibleTableLayoutPanel.RowCount = 1;
             this.possibleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
-            this.possibleTableLayoutPanel.Size = new System.Drawing.Size(897, 39);
+            this.possibleTableLayoutPanel.Size = new System.Drawing.Size(855, 39);
             this.possibleTableLayoutPanel.TabIndex = 7;
             // 
             // sampleNameLabel
@@ -446,17 +372,69 @@
             this.label2.Font = new System.Drawing.Font("Open Sans", 10F);
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(897, 35);
+            this.label2.Size = new System.Drawing.Size(855, 35);
             this.label2.TabIndex = 4;
             this.label2.Text = "Возможные для осциллографирования параметры";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(411, 62);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(188, 21);
+            this.checkBox3.TabIndex = 12;
+            this.checkBox3.Text = "Перезапись осциллограмм";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // reloadButton
+            // 
+            this.reloadButton.AutoSize = false;
+            this.reloadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.reloadButton.Image = ((System.Drawing.Image)(resources.GetObject("reloadButton.Image")));
+            this.reloadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.reloadButton.Margin = new System.Windows.Forms.Padding(3);
+            this.reloadButton.Name = "reloadButton";
+            this.reloadButton.Size = new System.Drawing.Size(32, 32);
+            this.reloadButton.Text = "Считать конфигурацию  из системы";
+            this.reloadButton.Click += new System.EventHandler(this.reloadButton_Click);
+            // 
+            // label7
+            // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 90);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(68, 17);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Делитель:";
+            // 
+            // oscFreqRadioButton
+            // 
+            this.oscFreqRadioButton.Location = new System.Drawing.Point(176, 87);
+            this.oscFreqRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.oscFreqRadioButton.Name = "oscFreqRadioButton";
+            this.oscFreqRadioButton.Size = new System.Drawing.Size(130, 24);
+            this.oscFreqRadioButton.TabIndex = 4;
+            this.oscFreqRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.oscFreqRadioButton.TextChanged += new System.EventHandler(this.oscFreqRadioButton_TextChanged);
+            this.oscFreqRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.oscFreqRadioButton_KeyPress);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(312, 90);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(33, 17);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "От 1";
             // 
             // ScopeSetupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(905, 527);
+            this.ClientSize = new System.Drawing.Size(863, 527);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip1);
@@ -470,14 +448,6 @@
             this.toolStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.panel7.ResumeLayout(false);
-            this.panel7.PerformLayout();
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -506,11 +476,8 @@
         private System.Windows.Forms.TextBox hystoryRadioButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox checkBox1;
@@ -518,12 +485,13 @@
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.ToolStripButton openButton2;
         private System.Windows.Forms.ToolStripButton saveButton2;
-        private System.Windows.Forms.Panel panel4;
+        protected internal System.Windows.Forms.RichTextBox CommentRichTextBox;
+        private System.Windows.Forms.CheckBox enaScopeCheckBox;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.ToolStripButton reloadButton;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox oscFreqRadioButton;
         private System.Windows.Forms.Label label7;
-        protected internal System.Windows.Forms.RichTextBox CommentRichTextBox;
-        private System.Windows.Forms.CheckBox enaScopeCheckBox;
 
         /*
         private System.Windows.Forms.RadioButton radioButton3;

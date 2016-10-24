@@ -36,8 +36,12 @@ namespace ScopeSetupApp
         public static ushort ChannelCount;
         public static ushort HistoryCount;
         public static ushort FrequncyCount;
+
         public static ushort OscilSampleRate;
         public static string OscilComment;
+
+        public static ushort OscilEnable;
+
         //Cometrade format
         public static string StationName;
         public static string RecordingDevice;
@@ -186,6 +190,7 @@ namespace ScopeSetupApp
             LoadFromXML("Channel", "Count", doc, out ChannelCount);
             LoadFromXML("Story", "Count", doc, out HistoryCount);
             LoadFromXML("Frequency", "Count", doc, out FrequncyCount);
+            LoadFromXML("OscilEnable", "Count", doc, out OscilEnable);
 
             OscilChannelNames = new List<string>();
             OscilChannelAddrs = new List<ushort>();
