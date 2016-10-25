@@ -145,13 +145,27 @@ namespace ScopeSetupApp
             InitializeComponent();
             InitPossiblePanel();
 
-            if (!ModBusClient.ModBusOpened)
+            ModBusUnits.ScopeSetupModbusUnit.RequestFinished += new EventHandler(EndRequest);
+        }
+
+        private void timer1_Tick_1(object sender, EventArgs e)
+        {
+            timer1.Enabled = false;
+
+            if (ModBusClient.ModBusOpened == false || ScopeConfig.ConnectMCU == false)
             {
                 reloadButton.Enabled = false;
                 writeToSystemBtn.Enabled = false;
-            }      
+            }
+            else
+            {
+                reloadButton.Enabled = true;
+                writeToSystemBtn.Enabled = true;
+            }
 
-            ModBusUnits.ScopeSetupModbusUnit.RequestFinished += new EventHandler(EndRequest);
+            DelayOscil();
+
+            timer1.Enabled = true;
         }
 
         private ushort CalcCurrentParams()
@@ -184,7 +198,6 @@ namespace ScopeSetupApp
             if (chCountRadioButton.Text != "" && chCountRadioButton.Text != "-")
             {
                 nowScopeCount = Convert.ToUInt16(chCountRadioButton.Text);
-                if (radioButton.Text != "") DelayOscil();
                 if (nowScopeCount < 1 || nowScopeCount > 32)
                 {
                     MessageBox.Show("Ошибка в поле Количество осциллограмм");
@@ -210,7 +223,6 @@ namespace ScopeSetupApp
             if (radioButton.Text != "" && radioButton.Text != "-")
             {
                 nowMaxChannelCount = Convert.ToUInt16(radioButton.Text);
-                DelayOscil();
                 if (nowMaxChannelCount < 1 || nowMaxChannelCount > 32)
                 {
                     MessageBox.Show("Ошибка в поле Колличество каналов");
@@ -260,7 +272,6 @@ namespace ScopeSetupApp
             if (oscFreqRadioButton.Text != "" && oscFreqRadioButton.Text != "-")
             {
                 nowOscFreq = Convert.ToUInt16(oscFreqRadioButton.Text);
-                if (radioButton.Text != "") DelayOscil();
                 if (nowOscFreq < 1 || nowOscFreq > 1000)
                 {
                     MessageBox.Show("Ошибка в поле Предыстория");
@@ -274,14 +285,24 @@ namespace ScopeSetupApp
         private void DelayOscil()
         {
             if (nowScopeCount != 0)
-            { 
-                double SampleCount = (double)OscilSize(oscilAllSize, false)/OscilSize(oscilAllSize, true);
-                double Freq = (double)ScopeSysType.OscilSampleRate/nowOscFreq;
-                double TimeSec = (double)SampleCount/Freq;
-                DelayOsc.Text = "Длительность: " + TimeSec.ToString("0.000") + " сек";   
-                DelayOsc.Visible = true; 
+            {
+                if (ModBusClient.ModBusOpened == true && ScopeConfig.ConnectMCU == true)
+                {
+                    double SampleCount = (double)ScopeConfig.OscilAllSize / OscilSize(oscilAllSize, true);
+                    double Freq = (double)ScopeConfig.SampleRate / nowOscFreq;
+                    double TimeSec = (double)SampleCount / Freq;
+                    DelayOsc.Text = "Длительность: " + TimeSec.ToString("0.000") + " сек";
+                    DelayOsc.Visible = true;
+                }
+                else
+                {
+                    double SampleCount = (double)OscilSize(oscilAllSize, false) / OscilSize(oscilAllSize, true);
+                    double Freq = (double)ScopeSysType.OscilSampleRate / nowOscFreq;
+                    double TimeSec = (double)SampleCount / Freq;
+                    DelayOsc.Text = "Длительность: " + TimeSec.ToString("0.000") + " сек";
+                    DelayOsc.Visible = true;
+                }
             }
-         
         }
         #endregion
    
@@ -722,7 +743,7 @@ namespace ScopeSetupApp
                 LinkErrorInvoke();
             }
             else
-            {
+            {   
                 writeConfigStep++;
                 if (writeConfigStep < 5) { WritePartConfigToSystem(); }     //Отправляю новую конфигурацию 
                 else 
@@ -737,6 +758,7 @@ namespace ScopeSetupApp
                 }       
             }
         }
+
 
         private void writeToSystemBtn_Click(object sender, EventArgs e)
         {
@@ -791,7 +813,7 @@ namespace ScopeSetupApp
         {
             bool [] ChannelInList = new bool [32];
             bool ChannelInLists = false;
-            string str = "Параметра нет в списке: \n";
+            string str = "Канала нет в списке: \n";
             for (int i = 0; i < 32; i++) { ChannelInList[i] = false; }
              
             for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
@@ -852,7 +874,7 @@ namespace ScopeSetupApp
             {
                 if (ChannelInList[i] == false) 
                 {
-                    str += ScopeSysType.OscilChannelNames[i].ToString() + " Адрес:" + ScopeSysType.OscilChannelAddrs[i].ToString("X4") + " Формат:" + ScopeSysType.OscilChannelFormats[i].ToString() + "\n";
+                    str += ScopeSysType.OscilChannelNames[i].ToString() + " Адрес: 0x" + ScopeSysType.OscilChannelAddrs[i].ToString("X4") + " Формат: " + ScopeSysType.OscilChannelFormats[i].ToString() + "\n";
                     ChannelInLists =true;
                 }
             }
@@ -935,6 +957,8 @@ namespace ScopeSetupApp
 
         private void reloadButton_Click(object sender, EventArgs e)
         {
+            string str = "Следующих каналов из системы нет в списке:\n";
+            bool ChannelInLists = false;
             bool[] ChannelInList = new bool[32];
             for (int i = 0; i < 32; i++) { ChannelInList[i] = false; }
 
@@ -975,6 +999,16 @@ namespace ScopeSetupApp
                     }
                 }
             }
+
+            for (int i = 0; i < ScopeConfig.OscilAddr.Count; i++)
+            {
+                if (ChannelInList[i] == false)
+                {
+                    str += "Адрес: 0x" + ScopeConfig.OscilAddr[i].ToString("X4") + " Формат: " + ScopeConfig.OscilFormat[i].ToString() + "\n";
+                    ChannelInLists = true;
+                }
+            }
+            if (ChannelInLists == true) MessageBox.Show(str);
         }
     }
 }

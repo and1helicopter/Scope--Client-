@@ -31,7 +31,14 @@ namespace ScopeSetupApp
             catch { }
         }
 
-        //Частота выборки
+        static bool connectMCU = false;
+        public static bool ConnectMCU
+        {
+            get { return connectMCU; }
+            set { connectMCU = value; }
+        }
+
+        //Частота выборки без делителя
         static ushort sampl = 1;
         public static ushort SampleRate
         {
@@ -39,8 +46,16 @@ namespace ScopeSetupApp
             set { sampl = value; }
         }
 
+        //Размер всей памяти 
+        static ulong oscilAllSize = 0;
+        public static ulong OscilAllSize
+        {
+            get { return oscilAllSize; }
+            set { oscilAllSize = value; }
+        }
+
         //Размер выборки
-        static ushort samplSize = 1;
+        static ushort samplSize = 0;
         public static ushort SampleSize
         {
             get { return samplSize; }
@@ -48,7 +63,7 @@ namespace ScopeSetupApp
         }
 
         //Количество выборок в предыстории 
-        static uint oscilHistCount = 1;
+        static uint oscilHistCount = 0;
         public static uint OscilHistCount
         {
             get { return oscilHistCount; }
@@ -71,7 +86,7 @@ namespace ScopeSetupApp
             set { channelCount = value; }
         }
         //Предыстория 
-        static ushort historyCount = 1;
+        static ushort historyCount = 0;
         public static ushort HistoryCount
         {
             get { return historyCount; }
@@ -94,7 +109,7 @@ namespace ScopeSetupApp
         }
 
         //Размер осциллограммы 
-        static uint oscilSize = 1;
+        static uint oscilSize = 0;
         public static uint OscilSize
         {
             get { return oscilSize; }

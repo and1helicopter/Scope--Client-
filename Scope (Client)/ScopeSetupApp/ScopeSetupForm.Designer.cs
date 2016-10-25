@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScopeSetupForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.writeToSystemBtn = new System.Windows.Forms.ToolStripButton();
@@ -59,6 +60,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.oscFreqRadioButton = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -90,6 +92,7 @@
             // 
             this.writeToSystemBtn.AutoSize = false;
             this.writeToSystemBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.writeToSystemBtn.Enabled = false;
             this.writeToSystemBtn.Image = ((System.Drawing.Image)(resources.GetObject("writeToSystemBtn.Image")));
             this.writeToSystemBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.writeToSystemBtn.Margin = new System.Windows.Forms.Padding(3);
@@ -382,15 +385,16 @@
             this.checkBox3.AutoSize = true;
             this.checkBox3.Location = new System.Drawing.Point(411, 62);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(188, 21);
+            this.checkBox3.Size = new System.Drawing.Size(255, 21);
             this.checkBox3.TabIndex = 12;
-            this.checkBox3.Text = "Перезапись осциллограмм";
+            this.checkBox3.Text = "Отключить перезапись осциллограмм";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
             // reloadButton
             // 
             this.reloadButton.AutoSize = false;
             this.reloadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.reloadButton.Enabled = false;
             this.reloadButton.Image = ((System.Drawing.Image)(resources.GetObject("reloadButton.Image")));
             this.reloadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.reloadButton.Margin = new System.Windows.Forms.Padding(3);
@@ -428,6 +432,12 @@
             this.label5.Size = new System.Drawing.Size(33, 17);
             this.label5.TabIndex = 4;
             this.label5.Text = "От 1";
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 250;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick_1);
             // 
             // ScopeSetupForm
             // 
@@ -492,6 +502,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox oscFreqRadioButton;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Timer timer1;
 
         /*
         private System.Windows.Forms.RadioButton radioButton3;

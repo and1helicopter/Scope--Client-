@@ -343,24 +343,30 @@ namespace ScopeSetupApp
                 return;
             }
 
-            if (loadConfigStep == 7)                //Размер одной выборки
+            if (loadConfigStep == 7)                //Весь размер под осциллограммы 
+            {
+                modBusUnit.GetData((ushort)(0x1174), 4);
+                return;
+            }
+
+            if (loadConfigStep == 8)                //Размер одной выборки
             {
                 modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 1), 1);
                 return;
             }
-            if (loadConfigStep == 8)                //Количество выборок на предысторию 
+            if (loadConfigStep == 9)                //Количество выборок на предысторию 
             {
                 modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 4), 2);
                 return;
             }
 
-            if (loadConfigStep == 9)                //Адреса каналов 
+            if (loadConfigStep == 10)                //Адреса каналов 
             {
                 modBusUnit.GetData(0x0220, 32);
                 return;
             }
 
-            if (loadConfigStep == 10)                //Формат каналов 
+            if (loadConfigStep == 11)                //Формат каналов 
             {
                 modBusUnit.GetData(0x0200, 32);
                 return;
@@ -425,27 +431,37 @@ namespace ScopeSetupApp
                             LoadConfig();
                         } break;
 
-                    case 7:                     //Размер одной выборки
+                    case 7:                     //Размер осциллограммы 
                         {
-                            ScopeConfig.SampleSize = modBusUnit.modBusData.ReadData[0];
+                            ScopeConfig.OscilAllSize = (ulong)((int)modBusUnit.modBusData.ReadData[1] << 16);
+                            ScopeConfig.OscilAllSize += (uint)((int)modBusUnit.modBusData.ReadData[0]);
+                            ScopeConfig.OscilAllSize += (uint)((int)modBusUnit.modBusData.ReadData[3] << 48);
+                            ScopeConfig.OscilAllSize += (uint)((int)modBusUnit.modBusData.ReadData[2] << 32);
                             loadConfigStep = 8;
                             LoadConfig();
                         } break;
-                    case 8:                     //Количество выборок на предысторию
+
+                    case 8:                     //Размер одной выборки
+                        {
+                            ScopeConfig.SampleSize = modBusUnit.modBusData.ReadData[0];
+                            loadConfigStep = 9;
+                            LoadConfig();
+                        } break;
+                    case 9:                     //Размер всей памяти 
                         {
                             ScopeConfig.OscilHistCount = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
                             ScopeConfig.OscilHistCount += modBusUnit.modBusData.ReadData[0];
-                            loadConfigStep = 9;
+                            loadConfigStep = 10;
                             LoadConfig();
 
                         } break;
-                    case 9:                     //Адреса каналов 
+                    case 10:                     //Адреса каналов 
                         {
                             ScopeConfig.InitOscilAddr(modBusUnit.modBusData.ReadData);
-                            loadConfigStep = 10;
+                            loadConfigStep = 11;
                             LoadConfig();
                         } break;
-                    case 10:                     //Формат каналов 
+                    case 11:                     //Формат каналов 
                         {
                             ScopeConfig.InitOscilFormat(modBusUnit.modBusData.ReadData);
                             ScopeConfig.InitOscilParams(ScopeConfig.OscilAddr,ScopeConfig.OscilFormat);
@@ -545,6 +561,7 @@ namespace ScopeSetupApp
         {
             if (modBusUnit.modBusData.RequestError)
             {
+                ScopeConfig.ConnectMCU = false;
                 ScopeConfig.ChangeScopeConfig = false;
                 RemoveButtonsInvoke();
                 HideProgressBarInvoke();
@@ -557,6 +574,8 @@ namespace ScopeSetupApp
                 lineBusy = false;
                 return;
             }
+
+            ScopeConfig.ConnectMCU = true;
 
             if (loadOscData)
             {
