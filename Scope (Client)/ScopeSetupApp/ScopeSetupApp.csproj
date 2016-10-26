@@ -143,6 +143,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Electrical_Threshold-50.ico" />
+    <None Include="Resources\Upload-50.png" />
+    <None Include="Resources\Stocks-50.png" />
+    <None Include="Resources\Save-50.png" />
+    <None Include="Resources\Save as-50.png" />
+    <None Include="Resources\Refresh-50.png" />
+    <None Include="Resources\Print-50.png" />
+    <None Include="Resources\Plus-50.png" />
+    <None Include="Resources\Paste-50.png" />
+    <None Include="Resources\Open Folder-50.png" />
+    <None Include="Resources\Minus-50.png" />
+    <None Include="Resources\Fine Print-50.png" />
+    <None Include="Resources\Electrical Threshold-50.png" />
+    <None Include="Resources\Download-50.png" />
+    <None Include="Resources\Copy-50.png" />
+    <None Include="Resources\Connected-50.png" />
+    <None Include="Resources\Chromatography-50.png" />
+    <None Include="Resources\Checkmark-50.png" />
+    <None Include="Resources\Checked-50.png" />
+    <None Include="Resources\Cancel-50.png" />
+    <None Include="Resources\Add Database-50.png" />
+    <None Include="Resources\Minus.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ExMonApplication\ADSPLibrary\ADSPLibrary.csproj">
@@ -157,9 +178,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
       <Visible>False</Visible>

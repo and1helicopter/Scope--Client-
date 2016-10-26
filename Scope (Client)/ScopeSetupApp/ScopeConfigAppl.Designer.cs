@@ -32,37 +32,27 @@
             this.mailToolStrip = new System.Windows.Forms.ToolStrip();
             this.openButton = new System.Windows.Forms.ToolStripButton();
             this.saveButton = new System.Windows.Forms.ToolStripButton();
-            this.Update_toolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.addLineButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.View_toolStripButton = new System.Windows.Forms.ToolStripButton();
             this.Print_toolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.Update_toolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.SetDefault_toolStripButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.nominalFrequency_label = new System.Windows.Forms.Label();
             this.nominalFrequency_textBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.ConfigAddr_textBox = new System.Windows.Forms.TextBox();
+            this.ConfigAddr_label = new System.Windows.Forms.Label();
+            this.OscilCmndAddr_textBox = new System.Windows.Forms.TextBox();
+            this.OscilCmndAddr_label = new System.Windows.Forms.Label();
             this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
             this.sampleRate_textBox = new System.Windows.Forms.TextBox();
             this.sampleRate_label = new System.Windows.Forms.Label();
-            this.FlagNeed_ConfigTextBox = new System.Windows.Forms.TextBox();
             this.OscilSizeData_TextBox = new System.Windows.Forms.TextBox();
-            this.FlagNeed_label = new System.Windows.Forms.Label();
             this.OscilSizeData_label = new System.Windows.Forms.Label();
-            this.timeStampTextBox = new System.Windows.Forms.TextBox();
-            this.TimeStamp_label = new System.Windows.Forms.Label();
-            this.NewConfig_TextBox = new System.Windows.Forms.TextBox();
-            this.NewConfig_label = new System.Windows.Forms.Label();
-            this.OscilLoad_TextBox = new System.Windows.Forms.TextBox();
-            this.OscilLoad_label = new System.Windows.Forms.Label();
-            this.ScopeCount_TextBox = new System.Windows.Forms.TextBox();
-            this.ScopeCount_label = new System.Windows.Forms.Label();
-            this.StartTemp_TextBox = new System.Windows.Forms.TextBox();
-            this.StartTemp_label = new System.Windows.Forms.Label();
-            this.ChannelCount_TextBox = new System.Windows.Forms.TextBox();
-            this.ChannelCount_label = new System.Windows.Forms.Label();
-            this.OscilStatus_TextBox = new System.Windows.Forms.TextBox();
-            this.OscilStatus_label = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.recordingDevice_textBox = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -78,6 +68,12 @@
             this.label8 = new System.Windows.Forms.Label();
             this.localCode_textBox = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -90,6 +86,7 @@
             this.SCPrintDialog = new System.Windows.Forms.PrintDialog();
             this.SCPrintDocument = new System.Drawing.Printing.PrintDocument();
             this.SCPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+            this.ConfigToSystem_label = new System.Windows.Forms.Label();
             this.mailToolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -97,6 +94,7 @@
             this.tabPage3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // mailToolStrip
@@ -107,13 +105,15 @@
             this.mailToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openButton,
             this.saveButton,
-            this.Update_toolStripButton,
-            this.addLineButton,
+            this.toolStripSeparator2,
             this.View_toolStripButton,
-            this.Print_toolStripButton});
+            this.Print_toolStripButton,
+            this.toolStripSeparator1,
+            this.Update_toolStripButton,
+            this.SetDefault_toolStripButton});
             this.mailToolStrip.Location = new System.Drawing.Point(0, 0);
             this.mailToolStrip.Name = "mailToolStrip";
-            this.mailToolStrip.Size = new System.Drawing.Size(826, 38);
+            this.mailToolStrip.Size = new System.Drawing.Size(885, 38);
             this.mailToolStrip.TabIndex = 0;
             this.mailToolStrip.Text = "toolStrip1";
             // 
@@ -125,6 +125,7 @@
             this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openButton.Margin = new System.Windows.Forms.Padding(3);
             this.openButton.Name = "openButton";
+            this.openButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.openButton.Size = new System.Drawing.Size(32, 32);
             this.openButton.Text = "Открыть файл";
             this.openButton.Click += new System.EventHandler(this.openButton_Click);
@@ -136,34 +137,18 @@
             this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
             this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveButton.Margin = new System.Windows.Forms.Padding(3);
+            this.saveButton.MergeIndex = 0;
             this.saveButton.Name = "saveButton";
+            this.saveButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.saveButton.Size = new System.Drawing.Size(32, 32);
             this.saveButton.Text = "Сохранить файл";
+            this.saveButton.ToolTipText = "Сохранить в файл";
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // Update_toolStripButton
+            // toolStripSeparator2
             // 
-            this.Update_toolStripButton.AutoSize = false;
-            this.Update_toolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Update_toolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("Update_toolStripButton.Image")));
-            this.Update_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Update_toolStripButton.Margin = new System.Windows.Forms.Padding(3);
-            this.Update_toolStripButton.Name = "Update_toolStripButton";
-            this.Update_toolStripButton.Size = new System.Drawing.Size(32, 32);
-            this.Update_toolStripButton.Text = "Обновить конфигурацию системы";
-            this.Update_toolStripButton.Click += new System.EventHandler(this.Update_toolStripButton_Click);
-            // 
-            // addLineButton
-            // 
-            this.addLineButton.AutoSize = false;
-            this.addLineButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.addLineButton.Image = ((System.Drawing.Image)(resources.GetObject("addLineButton.Image")));
-            this.addLineButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.addLineButton.Margin = new System.Windows.Forms.Padding(3);
-            this.addLineButton.Name = "addLineButton";
-            this.addLineButton.Size = new System.Drawing.Size(32, 32);
-            this.addLineButton.Text = "Добавить строку";
-            this.addLineButton.Click += new System.EventHandler(this.addLineButton_Click);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
             // 
             // View_toolStripButton
             // 
@@ -173,6 +158,7 @@
             this.View_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.View_toolStripButton.Margin = new System.Windows.Forms.Padding(3);
             this.View_toolStripButton.Name = "View_toolStripButton";
+            this.View_toolStripButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.View_toolStripButton.Size = new System.Drawing.Size(32, 32);
             this.View_toolStripButton.Text = "Просмотр";
             this.View_toolStripButton.Click += new System.EventHandler(this.View_toolStripButton_Click);
@@ -189,12 +175,43 @@
             this.Print_toolStripButton.Text = "Печать";
             this.Print_toolStripButton.Click += new System.EventHandler(this.Print_toolStripButton_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
+            // 
+            // Update_toolStripButton
+            // 
+            this.Update_toolStripButton.AutoSize = false;
+            this.Update_toolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Update_toolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("Update_toolStripButton.Image")));
+            this.Update_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Update_toolStripButton.Margin = new System.Windows.Forms.Padding(3);
+            this.Update_toolStripButton.Name = "Update_toolStripButton";
+            this.Update_toolStripButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Update_toolStripButton.Size = new System.Drawing.Size(32, 32);
+            this.Update_toolStripButton.Text = "Применить конфигурацию";
+            this.Update_toolStripButton.Click += new System.EventHandler(this.Update_toolStripButton_Click);
+            // 
+            // SetDefault_toolStripButton
+            // 
+            this.SetDefault_toolStripButton.AutoSize = false;
+            this.SetDefault_toolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.SetDefault_toolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("SetDefault_toolStripButton.Image")));
+            this.SetDefault_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SetDefault_toolStripButton.Margin = new System.Windows.Forms.Padding(3);
+            this.SetDefault_toolStripButton.Name = "SetDefault_toolStripButton";
+            this.SetDefault_toolStripButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.SetDefault_toolStripButton.Size = new System.Drawing.Size(32, 32);
+            this.SetDefault_toolStripButton.Text = "Применить конфигурацию по умолчанию ";
+            this.SetDefault_toolStripButton.Click += new System.EventHandler(this.SetDefault_toolStripButton_Click);
+            // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 440);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 455);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(826, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(885, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -228,7 +245,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(826, 152);
+            this.tabControl1.Size = new System.Drawing.Size(885, 123);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 23;
             this.tabControl1.TabStop = false;
@@ -241,44 +258,68 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(818, 124);
+            this.tabPage1.Size = new System.Drawing.Size(877, 95);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Oscil Config";
             // 
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel5.Controls.Add(this.ConfigAddr_textBox);
+            this.panel5.Controls.Add(this.ConfigAddr_label);
+            this.panel5.Controls.Add(this.OscilCmndAddr_textBox);
+            this.panel5.Controls.Add(this.OscilCmndAddr_label);
             this.panel5.Controls.Add(this.CommentRichTextBox);
             this.panel5.Controls.Add(this.sampleRate_textBox);
             this.panel5.Controls.Add(this.sampleRate_label);
-            this.panel5.Controls.Add(this.FlagNeed_ConfigTextBox);
             this.panel5.Controls.Add(this.OscilSizeData_TextBox);
-            this.panel5.Controls.Add(this.FlagNeed_label);
             this.panel5.Controls.Add(this.OscilSizeData_label);
-            this.panel5.Controls.Add(this.timeStampTextBox);
-            this.panel5.Controls.Add(this.TimeStamp_label);
-            this.panel5.Controls.Add(this.NewConfig_TextBox);
-            this.panel5.Controls.Add(this.NewConfig_label);
-            this.panel5.Controls.Add(this.OscilLoad_TextBox);
-            this.panel5.Controls.Add(this.OscilLoad_label);
-            this.panel5.Controls.Add(this.ScopeCount_TextBox);
-            this.panel5.Controls.Add(this.ScopeCount_label);
-            this.panel5.Controls.Add(this.StartTemp_TextBox);
-            this.panel5.Controls.Add(this.StartTemp_label);
-            this.panel5.Controls.Add(this.ChannelCount_TextBox);
-            this.panel5.Controls.Add(this.ChannelCount_label);
-            this.panel5.Controls.Add(this.OscilStatus_TextBox);
-            this.panel5.Controls.Add(this.OscilStatus_label);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Margin = new System.Windows.Forms.Padding(0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(818, 124);
+            this.panel5.Size = new System.Drawing.Size(877, 95);
             this.panel5.TabIndex = 3;
+            // 
+            // ConfigAddr_textBox
+            // 
+            this.ConfigAddr_textBox.Location = new System.Drawing.Point(426, 10);
+            this.ConfigAddr_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ConfigAddr_textBox.Name = "ConfigAddr_textBox";
+            this.ConfigAddr_textBox.Size = new System.Drawing.Size(116, 24);
+            this.ConfigAddr_textBox.TabIndex = 33;
+            this.ConfigAddr_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // ConfigAddr_label
+            // 
+            this.ConfigAddr_label.Location = new System.Drawing.Point(276, 10);
+            this.ConfigAddr_label.Name = "ConfigAddr_label";
+            this.ConfigAddr_label.Size = new System.Drawing.Size(147, 26);
+            this.ConfigAddr_label.TabIndex = 32;
+            this.ConfigAddr_label.Text = "Configuration Address";
+            this.ConfigAddr_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // OscilCmndAddr_textBox
+            // 
+            this.OscilCmndAddr_textBox.Location = new System.Drawing.Point(426, 37);
+            this.OscilCmndAddr_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.OscilCmndAddr_textBox.Name = "OscilCmndAddr_textBox";
+            this.OscilCmndAddr_textBox.Size = new System.Drawing.Size(116, 24);
+            this.OscilCmndAddr_textBox.TabIndex = 31;
+            this.OscilCmndAddr_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // OscilCmndAddr_label
+            // 
+            this.OscilCmndAddr_label.Location = new System.Drawing.Point(276, 35);
+            this.OscilCmndAddr_label.Name = "OscilCmndAddr_label";
+            this.OscilCmndAddr_label.Size = new System.Drawing.Size(147, 26);
+            this.OscilCmndAddr_label.TabIndex = 30;
+            this.OscilCmndAddr_label.Text = "Oscil Cmnd Address";
+            this.OscilCmndAddr_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CommentRichTextBox
             // 
-            this.CommentRichTextBox.Location = new System.Drawing.Point(12, 10);
+            this.CommentRichTextBox.Location = new System.Drawing.Point(8, 8);
             this.CommentRichTextBox.Name = "CommentRichTextBox";
             this.CommentRichTextBox.Size = new System.Drawing.Size(263, 50);
             this.CommentRichTextBox.TabIndex = 29;
@@ -286,7 +327,7 @@
             // 
             // sampleRate_textBox
             // 
-            this.sampleRate_textBox.Location = new System.Drawing.Point(695, 91);
+            this.sampleRate_textBox.Location = new System.Drawing.Point(725, 37);
             this.sampleRate_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.sampleRate_textBox.Name = "sampleRate_textBox";
             this.sampleRate_textBox.Size = new System.Drawing.Size(116, 24);
@@ -296,173 +337,29 @@
             // sampleRate_label
             // 
             this.sampleRate_label.AutoSize = true;
-            this.sampleRate_label.Location = new System.Drawing.Point(587, 94);
+            this.sampleRate_label.Location = new System.Drawing.Point(617, 40);
             this.sampleRate_label.Name = "sampleRate_label";
             this.sampleRate_label.Size = new System.Drawing.Size(102, 17);
             this.sampleRate_label.TabIndex = 27;
             this.sampleRate_label.Text = "Sample rate (Hz)";
             // 
-            // FlagNeed_ConfigTextBox
-            // 
-            this.FlagNeed_ConfigTextBox.Location = new System.Drawing.Point(695, 10);
-            this.FlagNeed_ConfigTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.FlagNeed_ConfigTextBox.Name = "FlagNeed_ConfigTextBox";
-            this.FlagNeed_ConfigTextBox.Size = new System.Drawing.Size(116, 24);
-            this.FlagNeed_ConfigTextBox.TabIndex = 13;
-            this.FlagNeed_ConfigTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
             // OscilSizeData_TextBox
             // 
-            this.OscilSizeData_TextBox.Location = new System.Drawing.Point(695, 64);
+            this.OscilSizeData_TextBox.Location = new System.Drawing.Point(725, 10);
             this.OscilSizeData_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.OscilSizeData_TextBox.Name = "OscilSizeData_TextBox";
             this.OscilSizeData_TextBox.Size = new System.Drawing.Size(116, 24);
             this.OscilSizeData_TextBox.TabIndex = 21;
             this.OscilSizeData_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // FlagNeed_label
-            // 
-            this.FlagNeed_label.Location = new System.Drawing.Point(552, 10);
-            this.FlagNeed_label.Name = "FlagNeed_label";
-            this.FlagNeed_label.Size = new System.Drawing.Size(137, 26);
-            this.FlagNeed_label.TabIndex = 12;
-            this.FlagNeed_label.Text = "Flag Need Address";
-            this.FlagNeed_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // OscilSizeData_label
             // 
-            this.OscilSizeData_label.Location = new System.Drawing.Point(547, 62);
+            this.OscilSizeData_label.Location = new System.Drawing.Point(577, 8);
             this.OscilSizeData_label.Name = "OscilSizeData_label";
             this.OscilSizeData_label.Size = new System.Drawing.Size(142, 26);
             this.OscilSizeData_label.TabIndex = 22;
             this.OscilSizeData_label.Text = "Oscill Size Data (Kbyte)";
             this.OscilSizeData_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // timeStampTextBox
-            // 
-            this.timeStampTextBox.Location = new System.Drawing.Point(424, 91);
-            this.timeStampTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.timeStampTextBox.Name = "timeStampTextBox";
-            this.timeStampTextBox.Size = new System.Drawing.Size(116, 24);
-            this.timeStampTextBox.TabIndex = 1;
-            this.timeStampTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // TimeStamp_label
-            // 
-            this.TimeStamp_label.Location = new System.Drawing.Point(281, 89);
-            this.TimeStamp_label.Name = "TimeStamp_label";
-            this.TimeStamp_label.Size = new System.Drawing.Size(134, 26);
-            this.TimeStamp_label.TabIndex = 0;
-            this.TimeStamp_label.Text = "Time Stamp Address";
-            this.TimeStamp_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NewConfig_TextBox
-            // 
-            this.NewConfig_TextBox.Location = new System.Drawing.Point(695, 37);
-            this.NewConfig_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.NewConfig_TextBox.Name = "NewConfig_TextBox";
-            this.NewConfig_TextBox.Size = new System.Drawing.Size(116, 24);
-            this.NewConfig_TextBox.TabIndex = 15;
-            this.NewConfig_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // NewConfig_label
-            // 
-            this.NewConfig_label.Location = new System.Drawing.Point(552, 34);
-            this.NewConfig_label.Name = "NewConfig_label";
-            this.NewConfig_label.Size = new System.Drawing.Size(137, 26);
-            this.NewConfig_label.TabIndex = 14;
-            this.NewConfig_label.Text = "New Config Address";
-            this.NewConfig_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // OscilLoad_TextBox
-            // 
-            this.OscilLoad_TextBox.Location = new System.Drawing.Point(424, 37);
-            this.OscilLoad_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.OscilLoad_TextBox.Name = "OscilLoad_TextBox";
-            this.OscilLoad_TextBox.Size = new System.Drawing.Size(116, 24);
-            this.OscilLoad_TextBox.TabIndex = 11;
-            this.OscilLoad_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // OscilLoad_label
-            // 
-            this.OscilLoad_label.Location = new System.Drawing.Point(276, 35);
-            this.OscilLoad_label.Name = "OscilLoad_label";
-            this.OscilLoad_label.Size = new System.Drawing.Size(142, 26);
-            this.OscilLoad_label.TabIndex = 10;
-            this.OscilLoad_label.Text = "Oscil Load Address";
-            this.OscilLoad_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // ScopeCount_TextBox
-            // 
-            this.ScopeCount_TextBox.Location = new System.Drawing.Point(159, 64);
-            this.ScopeCount_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ScopeCount_TextBox.Name = "ScopeCount_TextBox";
-            this.ScopeCount_TextBox.Size = new System.Drawing.Size(116, 24);
-            this.ScopeCount_TextBox.TabIndex = 9;
-            this.ScopeCount_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // ScopeCount_label
-            // 
-            this.ScopeCount_label.Location = new System.Drawing.Point(9, 64);
-            this.ScopeCount_label.Name = "ScopeCount_label";
-            this.ScopeCount_label.Size = new System.Drawing.Size(147, 26);
-            this.ScopeCount_label.TabIndex = 8;
-            this.ScopeCount_label.Text = "Scope Count Address";
-            this.ScopeCount_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // StartTemp_TextBox
-            // 
-            this.StartTemp_TextBox.Location = new System.Drawing.Point(424, 64);
-            this.StartTemp_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.StartTemp_TextBox.Name = "StartTemp_TextBox";
-            this.StartTemp_TextBox.Size = new System.Drawing.Size(116, 24);
-            this.StartTemp_TextBox.TabIndex = 7;
-            this.StartTemp_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // StartTemp_label
-            // 
-            this.StartTemp_label.Location = new System.Drawing.Point(281, 62);
-            this.StartTemp_label.Name = "StartTemp_label";
-            this.StartTemp_label.Size = new System.Drawing.Size(137, 26);
-            this.StartTemp_label.TabIndex = 6;
-            this.StartTemp_label.Text = "Start Temp Address";
-            this.StartTemp_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // ChannelCount_TextBox
-            // 
-            this.ChannelCount_TextBox.Location = new System.Drawing.Point(159, 91);
-            this.ChannelCount_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ChannelCount_TextBox.Name = "ChannelCount_TextBox";
-            this.ChannelCount_TextBox.Size = new System.Drawing.Size(116, 24);
-            this.ChannelCount_TextBox.TabIndex = 5;
-            this.ChannelCount_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // ChannelCount_label
-            // 
-            this.ChannelCount_label.Location = new System.Drawing.Point(9, 89);
-            this.ChannelCount_label.Name = "ChannelCount_label";
-            this.ChannelCount_label.Size = new System.Drawing.Size(147, 26);
-            this.ChannelCount_label.TabIndex = 4;
-            this.ChannelCount_label.Text = "Channel Count Address";
-            this.ChannelCount_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // OscilStatus_TextBox
-            // 
-            this.OscilStatus_TextBox.Location = new System.Drawing.Point(424, 10);
-            this.OscilStatus_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.OscilStatus_TextBox.Name = "OscilStatus_TextBox";
-            this.OscilStatus_TextBox.Size = new System.Drawing.Size(116, 24);
-            this.OscilStatus_TextBox.TabIndex = 3;
-            this.OscilStatus_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // OscilStatus_label
-            // 
-            this.OscilStatus_label.Location = new System.Drawing.Point(278, 10);
-            this.OscilStatus_label.Name = "OscilStatus_label";
-            this.OscilStatus_label.Size = new System.Drawing.Size(140, 26);
-            this.OscilStatus_label.TabIndex = 2;
-            this.OscilStatus_label.Text = "Oscill Status Address";
-            this.OscilStatus_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tabPage3
             // 
@@ -477,7 +374,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(818, 124);
+            this.tabPage3.Size = new System.Drawing.Size(877, 95);
             this.tabPage3.TabIndex = 1;
             this.tabPage3.Text = " COMETRADE Config";
             // 
@@ -529,14 +426,14 @@
             this.groupBox1.Controls.Add(this.localCode_textBox);
             this.groupBox1.Location = new System.Drawing.Point(278, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(268, 118);
+            this.groupBox1.Size = new System.Drawing.Size(591, 88);
             this.groupBox1.TabIndex = 35;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "For rev. 2013";
             // 
             // leapsec_textBox
             // 
-            this.leapsec_textBox.Location = new System.Drawing.Point(146, 91);
+            this.leapsec_textBox.Location = new System.Drawing.Point(447, 37);
             this.leapsec_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.leapsec_textBox.Name = "leapsec_textBox";
             this.leapsec_textBox.Size = new System.Drawing.Size(116, 24);
@@ -545,7 +442,7 @@
             // 
             // timeCode_textBox
             // 
-            this.timeCode_textBox.Location = new System.Drawing.Point(146, 10);
+            this.timeCode_textBox.Location = new System.Drawing.Point(148, 10);
             this.timeCode_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.timeCode_textBox.Name = "timeCode_textBox";
             this.timeCode_textBox.Size = new System.Drawing.Size(116, 24);
@@ -555,7 +452,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(89, 94);
+            this.label7.Location = new System.Drawing.Point(390, 40);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(51, 17);
             this.label7.TabIndex = 33;
@@ -564,7 +461,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(72, 13);
+            this.label6.Location = new System.Drawing.Point(74, 13);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(68, 17);
             this.label6.TabIndex = 27;
@@ -572,7 +469,7 @@
             // 
             // tmqCode_textBox
             // 
-            this.tmqCode_textBox.Location = new System.Drawing.Point(146, 64);
+            this.tmqCode_textBox.Location = new System.Drawing.Point(447, 10);
             this.tmqCode_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tmqCode_textBox.Name = "tmqCode_textBox";
             this.tmqCode_textBox.Size = new System.Drawing.Size(116, 24);
@@ -582,7 +479,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(71, 40);
+            this.label5.Location = new System.Drawing.Point(73, 40);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(69, 17);
             this.label5.TabIndex = 29;
@@ -591,7 +488,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(78, 67);
+            this.label8.Location = new System.Drawing.Point(379, 13);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(62, 17);
             this.label8.TabIndex = 31;
@@ -599,7 +496,7 @@
             // 
             // localCode_textBox
             // 
-            this.localCode_textBox.Location = new System.Drawing.Point(146, 37);
+            this.localCode_textBox.Location = new System.Drawing.Point(148, 37);
             this.localCode_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.localCode_textBox.Name = "localCode_textBox";
             this.localCode_textBox.Size = new System.Drawing.Size(116, 24);
@@ -609,6 +506,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel2.Controls.Add(this.toolStrip1);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.label2);
@@ -618,17 +516,89 @@
             this.panel2.Controls.Add(this.label11);
             this.panel2.Controls.Add(this.label10);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(0, 190);
+            this.panel2.Location = new System.Drawing.Point(0, 161);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(826, 24);
+            this.panel2.Size = new System.Drawing.Size(885, 65);
             this.panel2.TabIndex = 24;
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton5,
+            this.toolStripSeparator3,
+            this.toolStripButton3,
+            this.toolStripButton2,
+            this.toolStripButton1});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(885, 38);
+            this.toolStrip1.TabIndex = 7;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButton5
+            // 
+            this.toolStripButton5.AutoSize = false;
+            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Margin = new System.Windows.Forms.Padding(3);
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.toolStripButton5.Size = new System.Drawing.Size(32, 32);
+            this.toolStripButton5.Text = "Добавить строку";
+            this.toolStripButton5.Click += new System.EventHandler(this.addLineButton_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 38);
+            // 
+            // toolStripButton3
+            // 
+            this.toolStripButton3.AutoSize = false;
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Margin = new System.Windows.Forms.Padding(3);
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.toolStripButton3.Size = new System.Drawing.Size(32, 32);
+            this.toolStripButton3.Text = "Добавить строку";
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.AutoSize = false;
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Margin = new System.Windows.Forms.Padding(3);
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.toolStripButton2.Size = new System.Drawing.Size(32, 32);
+            this.toolStripButton2.Text = "Добавить строку";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.AutoSize = false;
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Margin = new System.Windows.Forms.Padding(3);
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+            this.toolStripButton1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.toolStripButton1.Size = new System.Drawing.Size(32, 32);
+            this.toolStripButton1.Text = "Добавить строку";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(9, 5);
+            this.label4.Location = new System.Drawing.Point(9, 44);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(20, 17);
             this.label4.TabIndex = 6;
@@ -638,7 +608,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(616, 5);
+            this.label3.Location = new System.Drawing.Point(616, 44);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(75, 17);
             this.label3.TabIndex = 6;
@@ -648,7 +618,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(38, 5);
+            this.label2.Location = new System.Drawing.Point(38, 44);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(30, 17);
             this.label2.TabIndex = 5;
@@ -658,7 +628,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(265, 5);
+            this.label1.Location = new System.Drawing.Point(265, 44);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 17);
             this.label1.TabIndex = 4;
@@ -668,7 +638,7 @@
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label13.Location = new System.Drawing.Point(522, 5);
+            this.label13.Location = new System.Drawing.Point(522, 44);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(47, 17);
             this.label13.TabIndex = 3;
@@ -678,7 +648,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.Location = new System.Drawing.Point(418, 5);
+            this.label12.Location = new System.Drawing.Point(418, 44);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(54, 17);
             this.label12.TabIndex = 2;
@@ -688,7 +658,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.Location = new System.Drawing.Point(332, 5);
+            this.label11.Location = new System.Drawing.Point(332, 44);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(43, 17);
             this.label11.TabIndex = 1;
@@ -698,7 +668,7 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(111, 5);
+            this.label10.Location = new System.Drawing.Point(111, 44);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(151, 17);
             this.label10.TabIndex = 0;
@@ -710,10 +680,10 @@
             this.configPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.configPanel.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.configPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.configPanel.Location = new System.Drawing.Point(0, 214);
+            this.configPanel.Location = new System.Drawing.Point(0, 226);
             this.configPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.configPanel.Name = "configPanel";
-            this.configPanel.Size = new System.Drawing.Size(826, 226);
+            this.configPanel.Size = new System.Drawing.Size(885, 229);
             this.configPanel.TabIndex = 25;
             // 
             // SCPrintDialog
@@ -734,12 +704,24 @@
             this.SCPrintPreviewDialog.Name = "SCPrintPreviewDialog";
             this.SCPrintPreviewDialog.Visible = false;
             // 
+            // ConfigToSystem_label
+            // 
+            this.ConfigToSystem_label.AutoSize = true;
+            this.ConfigToSystem_label.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ConfigToSystem_label.Font = new System.Drawing.Font("Open Sans", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ConfigToSystem_label.Location = new System.Drawing.Point(427, 9);
+            this.ConfigToSystem_label.Name = "ConfigToSystem_label";
+            this.ConfigToSystem_label.Size = new System.Drawing.Size(132, 18);
+            this.ConfigToSystem_label.TabIndex = 34;
+            this.ConfigToSystem_label.Text = "Actual configuration:";
+            // 
             // ScopeConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(826, 462);
+            this.ClientSize = new System.Drawing.Size(885, 477);
+            this.Controls.Add(this.ConfigToSystem_label);
             this.Controls.Add(this.configPanel);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.tabControl1);
@@ -764,6 +746,8 @@
             this.groupBox1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -774,31 +758,14 @@
         private System.Windows.Forms.ToolStrip mailToolStrip;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripButton saveButton;
-        private System.Windows.Forms.ToolStripButton addLineButton;
         private System.Windows.Forms.TextBox nominalFrequency_textBox;
         private System.Windows.Forms.Label nominalFrequency_label;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.TextBox FlagNeed_ConfigTextBox;
         private System.Windows.Forms.TextBox OscilSizeData_TextBox;
-        private System.Windows.Forms.Label FlagNeed_label;
         private System.Windows.Forms.Label OscilSizeData_label;
-        private System.Windows.Forms.TextBox timeStampTextBox;
-        private System.Windows.Forms.Label TimeStamp_label;
-        private System.Windows.Forms.TextBox NewConfig_TextBox;
-        private System.Windows.Forms.Label NewConfig_label;
-        private System.Windows.Forms.TextBox OscilLoad_TextBox;
-        private System.Windows.Forms.Label OscilLoad_label;
-        private System.Windows.Forms.TextBox ScopeCount_TextBox;
-        private System.Windows.Forms.Label ScopeCount_label;
-        private System.Windows.Forms.TextBox StartTemp_TextBox;
-        private System.Windows.Forms.Label StartTemp_label;
-        private System.Windows.Forms.TextBox ChannelCount_TextBox;
-        private System.Windows.Forms.Label ChannelCount_label;
-        private System.Windows.Forms.TextBox OscilStatus_TextBox;
-        private System.Windows.Forms.Label OscilStatus_label;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
@@ -830,8 +797,22 @@
         private System.Windows.Forms.RichTextBox CommentRichTextBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripButton View_toolStripButton;
-        private System.Windows.Forms.ToolStripButton Update_toolStripButton;
         private System.Windows.Forms.ToolStripButton Print_toolStripButton;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton Update_toolStripButton;
+        private System.Windows.Forms.ToolStripButton SetDefault_toolStripButton;
+        private System.Windows.Forms.TextBox ConfigAddr_textBox;
+        private System.Windows.Forms.Label ConfigAddr_label;
+        private System.Windows.Forms.TextBox OscilCmndAddr_textBox;
+        private System.Windows.Forms.Label OscilCmndAddr_label;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.Label ConfigToSystem_label;
     }
 }
 

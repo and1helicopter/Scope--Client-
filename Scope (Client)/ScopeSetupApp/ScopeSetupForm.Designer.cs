@@ -32,21 +32,26 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScopeSetupForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.writeToSystemBtn = new System.Windows.Forms.ToolStripButton();
+            this.reloadButton = new System.Windows.Forms.ToolStripButton();
             this.openButton2 = new System.Windows.Forms.ToolStripButton();
             this.saveButton2 = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.hystoryRadioButton = new System.Windows.Forms.TextBox();
+            this.oscFreqRadioButton = new System.Windows.Forms.TextBox();
             this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.chCountRadioButton = new System.Windows.Forms.TextBox();
+            this.radioButton = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.DelayOsc = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.chCountRadioButton = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.radioButton = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.hystoryRadioButton = new System.Windows.Forms.TextBox();
             this.enaScopeCheckBox = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -55,12 +60,9 @@
             this.possibleTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.sampleNameLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.reloadButton = new System.Windows.Forms.ToolStripButton();
-            this.label7 = new System.Windows.Forms.Label();
-            this.oscFreqRadioButton = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.ConfigToSystem_label = new System.Windows.Forms.Label();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -79,6 +81,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.writeToSystemBtn,
             this.reloadButton,
+            this.toolStripSeparator1,
             this.openButton2,
             this.saveButton2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -100,6 +103,19 @@
             this.writeToSystemBtn.Size = new System.Drawing.Size(32, 32);
             this.writeToSystemBtn.Text = "Загрузиь конфигурацию в систему";
             this.writeToSystemBtn.Click += new System.EventHandler(this.writeToSystemBtn_Click);
+            // 
+            // reloadButton
+            // 
+            this.reloadButton.AutoSize = false;
+            this.reloadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.reloadButton.Enabled = false;
+            this.reloadButton.Image = ((System.Drawing.Image)(resources.GetObject("reloadButton.Image")));
+            this.reloadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.reloadButton.Margin = new System.Windows.Forms.Padding(3);
+            this.reloadButton.Name = "reloadButton";
+            this.reloadButton.Size = new System.Drawing.Size(32, 32);
+            this.reloadButton.Text = "Считать конфигурацию  из системы";
+            this.reloadButton.Click += new System.EventHandler(this.reloadButton_Click);
             // 
             // openButton2
             // 
@@ -153,6 +169,93 @@
             this.panel1.Size = new System.Drawing.Size(863, 147);
             this.panel1.TabIndex = 0;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 63);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(91, 17);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Предыстория:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(312, 36);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(67, 17);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "От 1 до 32";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(312, 90);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(33, 17);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "От 1";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(312, 8);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(67, 17);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "От 1 до 32";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Open Sans", 9F);
+            this.label6.Location = new System.Drawing.Point(312, 63);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(80, 17);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "От 1 до 99 %";
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(411, 62);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(255, 21);
+            this.checkBox3.TabIndex = 12;
+            this.checkBox3.Text = "Отключить перезапись осциллограмм";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 36);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(132, 17);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Количество каналов:";
+            // 
+            // hystoryRadioButton
+            // 
+            this.hystoryRadioButton.Location = new System.Drawing.Point(176, 60);
+            this.hystoryRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.hystoryRadioButton.Name = "hystoryRadioButton";
+            this.hystoryRadioButton.Size = new System.Drawing.Size(130, 24);
+            this.hystoryRadioButton.TabIndex = 3;
+            this.hystoryRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.hystoryRadioButton.TextChanged += new System.EventHandler(this.hystoryRadioButton_TextChanged);
+            this.hystoryRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.hystoryRadioButton_KeyPress);
+            // 
+            // oscFreqRadioButton
+            // 
+            this.oscFreqRadioButton.Location = new System.Drawing.Point(176, 87);
+            this.oscFreqRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.oscFreqRadioButton.Name = "oscFreqRadioButton";
+            this.oscFreqRadioButton.Size = new System.Drawing.Size(130, 24);
+            this.oscFreqRadioButton.TabIndex = 4;
+            this.oscFreqRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.oscFreqRadioButton.TextChanged += new System.EventHandler(this.oscFreqRadioButton_TextChanged);
+            this.oscFreqRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.oscFreqRadioButton_KeyPress);
+            // 
             // CommentRichTextBox
             // 
             this.CommentRichTextBox.Location = new System.Drawing.Point(411, 8);
@@ -161,6 +264,47 @@
             this.CommentRichTextBox.Size = new System.Drawing.Size(271, 45);
             this.CommentRichTextBox.TabIndex = 11;
             this.CommentRichTextBox.Text = "";
+            // 
+            // label7
+            // 
+            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 90);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(68, 17);
+            this.label7.TabIndex = 7;
+            this.label7.Text = "Делитель:";
+            // 
+            // chCountRadioButton
+            // 
+            this.chCountRadioButton.Location = new System.Drawing.Point(176, 5);
+            this.chCountRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chCountRadioButton.Name = "chCountRadioButton";
+            this.chCountRadioButton.Size = new System.Drawing.Size(130, 24);
+            this.chCountRadioButton.TabIndex = 1;
+            this.chCountRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.chCountRadioButton.TextChanged += new System.EventHandler(this.chCountRadioButton_TextChanged);
+            this.chCountRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.chCountRadioButton_KeyPress);
+            // 
+            // radioButton
+            // 
+            this.radioButton.Location = new System.Drawing.Point(176, 33);
+            this.radioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.radioButton.Name = "radioButton";
+            this.radioButton.Size = new System.Drawing.Size(130, 24);
+            this.radioButton.TabIndex = 2;
+            this.radioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.radioButton.TextChanged += new System.EventHandler(this.radioButton_TextChanged);
+            this.radioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.radioButton_KeyPress);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 8);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(170, 17);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "Количество осциллограмм:";
             // 
             // DelayOsc
             // 
@@ -182,94 +326,6 @@
             this.checkBox1.TabIndex = 7;
             this.checkBox1.Text = "Сохронение осциллограммы на SD карту";
             this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(312, 8);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(67, 17);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "От 1 до 32";
-            // 
-            // chCountRadioButton
-            // 
-            this.chCountRadioButton.Location = new System.Drawing.Point(176, 5);
-            this.chCountRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.chCountRadioButton.Name = "chCountRadioButton";
-            this.chCountRadioButton.Size = new System.Drawing.Size(130, 24);
-            this.chCountRadioButton.TabIndex = 1;
-            this.chCountRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.chCountRadioButton.TextChanged += new System.EventHandler(this.chCountRadioButton_TextChanged);
-            this.chCountRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.chCountRadioButton_KeyPress);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 8);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(170, 17);
-            this.label11.TabIndex = 3;
-            this.label11.Text = "Количество осциллограмм:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(312, 36);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 17);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "От 1 до 32";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 36);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(132, 17);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "Количество каналов:";
-            // 
-            // radioButton
-            // 
-            this.radioButton.Location = new System.Drawing.Point(176, 33);
-            this.radioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.radioButton.Name = "radioButton";
-            this.radioButton.Size = new System.Drawing.Size(130, 24);
-            this.radioButton.TabIndex = 2;
-            this.radioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.radioButton.TextChanged += new System.EventHandler(this.radioButton_TextChanged);
-            this.radioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.radioButton_KeyPress);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 63);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(91, 17);
-            this.label8.TabIndex = 3;
-            this.label8.Text = "Предыстория:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Open Sans", 9F);
-            this.label6.Location = new System.Drawing.Point(312, 63);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(80, 17);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "От 1 до 99 %";
-            // 
-            // hystoryRadioButton
-            // 
-            this.hystoryRadioButton.Location = new System.Drawing.Point(176, 60);
-            this.hystoryRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.hystoryRadioButton.Name = "hystoryRadioButton";
-            this.hystoryRadioButton.Size = new System.Drawing.Size(130, 24);
-            this.hystoryRadioButton.TabIndex = 3;
-            this.hystoryRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.hystoryRadioButton.TextChanged += new System.EventHandler(this.hystoryRadioButton_TextChanged);
-            this.hystoryRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.hystoryRadioButton_KeyPress);
             // 
             // enaScopeCheckBox
             // 
@@ -380,64 +436,27 @@
             this.label2.Text = "Возможные для осциллографирования параметры";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(411, 62);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(255, 21);
-            this.checkBox3.TabIndex = 12;
-            this.checkBox3.Text = "Отключить перезапись осциллограмм";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            // 
-            // reloadButton
-            // 
-            this.reloadButton.AutoSize = false;
-            this.reloadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.reloadButton.Enabled = false;
-            this.reloadButton.Image = ((System.Drawing.Image)(resources.GetObject("reloadButton.Image")));
-            this.reloadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.reloadButton.Margin = new System.Windows.Forms.Padding(3);
-            this.reloadButton.Name = "reloadButton";
-            this.reloadButton.Size = new System.Drawing.Size(32, 32);
-            this.reloadButton.Text = "Считать конфигурацию  из системы";
-            this.reloadButton.Click += new System.EventHandler(this.reloadButton_Click);
-            // 
-            // label7
-            // 
-            this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 90);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(68, 17);
-            this.label7.TabIndex = 7;
-            this.label7.Text = "Делитель:";
-            // 
-            // oscFreqRadioButton
-            // 
-            this.oscFreqRadioButton.Location = new System.Drawing.Point(176, 87);
-            this.oscFreqRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.oscFreqRadioButton.Name = "oscFreqRadioButton";
-            this.oscFreqRadioButton.Size = new System.Drawing.Size(130, 24);
-            this.oscFreqRadioButton.TabIndex = 4;
-            this.oscFreqRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.oscFreqRadioButton.TextChanged += new System.EventHandler(this.oscFreqRadioButton_TextChanged);
-            this.oscFreqRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.oscFreqRadioButton_KeyPress);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(312, 90);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(33, 17);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "От 1";
-            // 
             // timer1
             // 
             this.timer1.Enabled = true;
             this.timer1.Interval = 250;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick_1);
+            // 
+            // ConfigToSystem_label
+            // 
+            this.ConfigToSystem_label.AutoSize = true;
+            this.ConfigToSystem_label.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ConfigToSystem_label.Font = new System.Drawing.Font("Open Sans", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ConfigToSystem_label.Location = new System.Drawing.Point(410, 9);
+            this.ConfigToSystem_label.Name = "ConfigToSystem_label";
+            this.ConfigToSystem_label.Size = new System.Drawing.Size(132, 18);
+            this.ConfigToSystem_label.TabIndex = 35;
+            this.ConfigToSystem_label.Text = "Actual configuration:";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
             // 
             // ScopeSetupForm
             // 
@@ -445,6 +464,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(863, 527);
+            this.Controls.Add(this.ConfigToSystem_label);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip1);
@@ -503,6 +523,8 @@
         private System.Windows.Forms.TextBox oscFreqRadioButton;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label ConfigToSystem_label;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 
         /*
         private System.Windows.Forms.RadioButton radioButton3;

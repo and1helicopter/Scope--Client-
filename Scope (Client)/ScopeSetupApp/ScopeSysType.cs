@@ -22,14 +22,9 @@ namespace ScopeSetupApp
         public static List<int> ChannelMin = new List<int>();
         public static List<int> ChannelMax = new List<int>();
 
-        public static ushort ScopeCountAddr;
-        public static ushort ChannelCountAddr;
-        public static ushort OscilStatusAddr;
-        public static ushort StartTemptAddr;
-        public static ushort OscilLoadAddr;
-        public static ushort NewConfigAddr;
-        public static ushort FlagNeedAddr;
-        public static ushort TimeStampAddr;
+        public static ushort ConfigurationAddr;
+        public static ushort OscilCmndAddr; 
+
         public static ushort OscilAllSize;
           
         public static ushort OscilCount;
@@ -104,14 +99,10 @@ namespace ScopeSetupApp
                 throw new Exception("Не удалось открыть файл: " + xmlFileName + "!");
             }
 
-            LoadFromXML("ScopeCount", "Addr", doc, out ScopeCountAddr);
-            LoadFromXML("ChannelCount", "Addr", doc, out ChannelCountAddr);
-            LoadFromXML("OscilStatus", "Addr", doc, out OscilStatusAddr);
-            LoadFromXML("StartTemp", "Addr", doc, out StartTemptAddr);
-            LoadFromXML("LoadOscilStart", "Addr", doc, out OscilLoadAddr);
-            LoadFromXML("NewConfig", "Addr", doc, out NewConfigAddr);
-            LoadFromXML("FlagNeed", "Addr", doc, out FlagNeedAddr);
-            LoadFromXML("TimeStamp", "Addr", doc, out TimeStampAddr);
+
+            LoadFromXML("Configuration", "Addr", doc, out ConfigurationAddr);
+            LoadFromXML("OscilCmnd", "Addr", doc, out OscilCmndAddr);
+
             ushort count = 0;
             LoadFromXML("OscilAllSize", "Count", doc, out OscilAllSize);
             LoadFromXML("MeasureParams", "Count", doc, out count);

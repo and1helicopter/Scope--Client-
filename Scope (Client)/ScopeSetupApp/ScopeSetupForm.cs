@@ -143,6 +143,8 @@ namespace ScopeSetupApp
         public ScopeSetupForm()
         {
             InitializeComponent();
+
+            ConfigToSystem();
             InitPossiblePanel();
 
             ModBusUnits.ScopeSetupModbusUnit.RequestFinished += new EventHandler(EndRequest);
@@ -728,7 +730,7 @@ namespace ScopeSetupApp
             {
                 partParam[i] = newOscillConfig[i + writeConfigStep * 8];
             }
-            ModBusUnits.ScopeSetupModbusUnit.SetData((ushort)( ScopeSysType.NewConfigAddr + writeConfigStep * 8), 8, partParam);
+            ModBusUnits.ScopeSetupModbusUnit.SetData((ushort)( ScopeSysType.OscilCmndAddr + 328 + writeConfigStep * 8), 8, partParam);
             // MessageBox.Show(ModBusUnits.ScopeSetupModbusUnit.modBusData.StartAddr.ToString("X4"));0x20 +
         }
 
@@ -1009,6 +1011,13 @@ namespace ScopeSetupApp
                 }
             }
             if (ChannelInLists == true) MessageBox.Show(str);
+        }
+
+        private void ConfigToSystem()
+        {
+            string str = "";
+            str = Path.GetFileName(ScopeSysType.xmlFileName);
+            ConfigToSystem_label.Text = "Actual configuration: " + str;
         }
     }
 }

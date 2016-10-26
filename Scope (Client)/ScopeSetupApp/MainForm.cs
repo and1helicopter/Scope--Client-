@@ -283,7 +283,7 @@ namespace ScopeSetupApp
             {
                 loadTimeStampStep = i;
                
-                modBusUnit.GetData((ushort)(ScopeSysType.TimeStampAddr + i * 6), 6);
+                modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 136 + i * 6), 6);
             }
         }
         private void EndTimeStampRequest()
@@ -303,72 +303,72 @@ namespace ScopeSetupApp
         {
             if (loadConfigStep == 0)                //Количество каналов 
             {
-                modBusUnit.GetData(ScopeSysType.ChannelCountAddr, 1);
+                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 67), 1);
                 return;
             }
 
             if (loadConfigStep == 1)                //Количество осциллограмм 
             {
-                modBusUnit.GetData(ScopeSysType.ScopeCountAddr, 1);
+                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 66), 1);
                 return;
             }
 
             if (loadConfigStep == 2)                //Предыстория 
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.ChannelCountAddr + 1), 1);
+                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 68), 1);
                 return;
             }
 
             if (loadConfigStep == 3)                //Делитель
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.ChannelCountAddr + 2), 1);
+                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 69), 1);
                 return;
             }
 
             if (loadConfigStep == 4)                //Режим работы
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.ChannelCountAddr + 3), 1);
+                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 70), 1);
                 return;
             }
 
             if (loadConfigStep == 5)                //Размер осциллограммы 
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.ScopeCountAddr - 2), 2);
+                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 64), 2);
                 return;
             }
 
             if (loadConfigStep == 6)                //Частота выборки
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 2), 1);
+                modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 2), 1);
                 return;
             }
 
             if (loadConfigStep == 7)                //Весь размер под осциллограммы 
             {
-                modBusUnit.GetData((ushort)(0x1174), 4);
+                modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 376), 4);
                 return;
             }
 
             if (loadConfigStep == 8)                //Размер одной выборки
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 1), 1);
+                modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 3), 1);
                 return;
             }
             if (loadConfigStep == 9)                //Количество выборок на предысторию 
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.FlagNeedAddr - 4), 2);
+                modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr), 2);
                 return;
             }
 
             if (loadConfigStep == 10)                //Адреса каналов 
             {
-                modBusUnit.GetData(0x0220, 32);
+                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 32), 32);
                 return;
             }
 
             if (loadConfigStep == 11)                //Формат каналов 
             {
-                modBusUnit.GetData(0x0200, 32);
+                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr), 32);
                 return;
             }
 
@@ -530,7 +530,7 @@ namespace ScopeSetupApp
                 return;
             }
 
-            ushort u = (ushort)(ScopeSysType.OscilStatusAddr + clearOscNum);
+            ushort u = (ushort)(ScopeSysType.OscilCmndAddr + 8 + clearOscNum);
             ushort[] uv = {0,0,0,0};
             modBusUnit.SetData(u,1,uv);
         }
@@ -546,7 +546,7 @@ namespace ScopeSetupApp
         bool initManStartFlag = false;
         private void ManStartRequest()
         {
-            ushort u = (ushort)(ScopeSysType.FlagNeedAddr);//
+            ushort u = (ushort)(ScopeSysType.OscilCmndAddr + 4);//
             //MessageBox.Show(u.ToString("X4"));
             ushort[] uv = { 1, 1, 1, 1 };
             modBusUnit.SetData(u, 1, uv);
@@ -668,10 +668,10 @@ namespace ScopeSetupApp
                 modBusUnit.GetData(0x202, 8);
             }
             else if (requestStep == 1)
-                {modBusUnit.GetData(ScopeSysType.OscilStatusAddr, 16);}
+            { modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 8), 16); }
 
             else if (requestStep == 2)
-                {modBusUnit.GetData((ushort)(ScopeSysType.OscilStatusAddr+16), 16); }
+            { modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 24), 16); }
 
             else if (requestStep == 3)
             {
@@ -893,7 +893,7 @@ namespace ScopeSetupApp
                 //Загрузка номера выборки на котором заканчивается осциллограмма 
                 case 0:
                     {
-                        modBusUnit.GetData((ushort)(ScopeSysType.StartTemptAddr + loadOscNum*2), 2);
+                        modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 72 + loadOscNum * 2), 2);
                     }   break;
 
                 //Загрузка данных
@@ -909,11 +909,11 @@ namespace ScopeSetupApp
                             writeArr[1] = Convert.ToUInt16((oscilLoadTemp << 16) >> 16); 
                             writeArr[2] = Convert.ToUInt16(oscilLoadTemp >> 16);
 
-                            modBusUnit.SetData((ushort)(ScopeSysType.FlagNeedAddr + 1), 3, writeArr);
+                            modBusUnit.SetData((ushort)(ScopeSysType.OscilCmndAddr + 5), 3, writeArr);
                         }
                         else
                         {
-                            modBusUnit.GetData((ushort)(ScopeSysType.OscilLoadAddr + (loadOscDataSubStep - 1) * 8), 8);
+                            modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 40 + (loadOscDataSubStep - 1) * 8), 8);
                         }
 
                     } break;

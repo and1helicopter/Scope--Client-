@@ -92,7 +92,9 @@ namespace ScopeSetupApp
         object[] dimension = new object []{
             "NONE",
         };
- 
+
+        
+
 
         private void AddParamLine(string lineName, string linePhase, string lineCCBM, string lineDimension, int lineAddr, Color clr, int formatData,  int stepLine, int lineTypeAD, int min, int max)
         {
@@ -235,15 +237,20 @@ namespace ScopeSetupApp
             maxTextBoxs[i].TextAlign = HorizontalAlignment.Right;
 
             removeButtons.Add(new Button());
-            removeButtons[i].Text = "Удалить";
             removeButtons[i].Tag = i;
+            removeButtons[i].Image = Properties.Resources.Minus_50;
+            removeButtons[i].ImageAlign = ContentAlignment.MiddleCenter;
+            
             removeButtons[i].Dock = DockStyle.None;
             removeButtons[i].Left = 716;
+            removeButtons[i].AutoSize = false;
+            removeButtons[i].Width = 36;
+            removeButtons[i].Height = 36;
             removeButtons[i].Top = 3;
             removeButtons[i].Click += new EventHandler(deleteButton_Click);
 
             LayoutPanel.Add(new Panel());
-            LayoutPanel[i].Dock = DockStyle.None;
+            LayoutPanel[i].Dock = DockStyle.Top;
             LayoutPanel[i].BackColor = Color.WhiteSmoke;
             LayoutPanel[i].Left = 5;
             LayoutPanel[i].Top = 5 + 63 * i;
@@ -324,6 +331,7 @@ namespace ScopeSetupApp
         public ScopeConfigForm()
         {
             InitializeComponent();
+            ConfigToSystem();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -370,15 +378,8 @@ namespace ScopeSetupApp
                     MessageBox.Show("Ошибка загрузки данных", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
-                timeStampTextBox.Text = "0x" + ScopeSysType.TimeStampAddr.ToString("X4");
-                OscilStatus_TextBox.Text = "0x" + ScopeSysType.OscilStatusAddr.ToString("X4");
-                ChannelCount_TextBox.Text = "0x" + ScopeSysType.ChannelCountAddr.ToString("X4");
-                StartTemp_TextBox.Text = "0x" + ScopeSysType.StartTemptAddr.ToString("X4");
-                ScopeCount_TextBox.Text = "0x" + ScopeSysType.ScopeCountAddr.ToString("X4");
-                OscilLoad_TextBox.Text = "0x" + ScopeSysType.OscilLoadAddr.ToString("X4");
-                FlagNeed_ConfigTextBox.Text = "0x" + ScopeSysType.FlagNeedAddr.ToString("X4");
-                NewConfig_TextBox.Text = "0x" + ScopeSysType.NewConfigAddr.ToString("X4");
+                ConfigAddr_textBox.Text = "0x" + ScopeSysType.ConfigurationAddr.ToString("X4");
+                OscilCmndAddr_textBox.Text = "0x" + ScopeSysType.OscilCmndAddr.ToString("X4");
                 OscilSizeData_TextBox.Text = "0x" + ScopeSysType.OscilAllSize.ToString("X4");
                 CommentRichTextBox.Text = ScopeSysType.OscilComment.ToString();
                 //For COMETRADE
@@ -443,132 +444,56 @@ namespace ScopeSetupApp
             }
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
+        private void Save_To_file(SaveFileDialog sfd)
         {
-            string timeStampStr, oscilStatusStr, scopeCountStr,
-                   channelCountStr, dataStartStr,
-                   loadOscilStartStr, paramLoadConfigStr,
-                   paramLoadDataStr, oscillSizeDataStr;
-            List<string> paramAddrStrs = new List<string>();
+                string oscillSizeDataStr, oscilCmndStr, configStr;
+                List<string> paramAddrStrs = new List<string>();
 
-            if (!AdvanceConvert.StrToInt(timeStampTextBox.Text))
-            {
-                MessageBox.Show("Ошибка в поле TimeStamp");
-                return;
-            }
-            else
-            {
-                timeStampStr = AdvanceConvert.uValue.ToString();
-            }
-
-
-            if (!AdvanceConvert.StrToInt(OscilStatus_TextBox.Text))
-            {
-                MessageBox.Show("Ошибка в поле oscillStatus");
-                return;
-            }
-            else
-            {
-                oscilStatusStr = AdvanceConvert.uValue.ToString();
-            }
-
-
-            if (!AdvanceConvert.StrToInt(ScopeCount_TextBox.Text))
-            {
-                MessageBox.Show("Ошибка в поле scopeCount");
-                return;
-            }
-            else
-            {
-                scopeCountStr = AdvanceConvert.uValue.ToString();
-            }
-
-
-
-            if (!AdvanceConvert.StrToInt(ChannelCount_TextBox.Text))
-            {
-                MessageBox.Show("Ошибка в поле channelCount");
-                return;
-            }
-            else
-            {
-                channelCountStr = AdvanceConvert.uValue.ToString();
-            }
-
-
-            if (!AdvanceConvert.StrToInt(StartTemp_TextBox.Text))
-            {
-                MessageBox.Show("Ошибка в поле dataStart");
-                return;
-            }
-            else
-            {
-                dataStartStr = AdvanceConvert.uValue.ToString();
-            }
-
-
-            if (!AdvanceConvert.StrToInt(OscilLoad_TextBox.Text))
-            {
-                MessageBox.Show("Ошибка в поле loadOscilStart");
-                return;
-            }
-            else
-            {
-                loadOscilStartStr = AdvanceConvert.uValue.ToString();
-            }
-
-            if (!AdvanceConvert.StrToInt(FlagNeed_ConfigTextBox.Text))
-            {
-                MessageBox.Show("Ошибка в поле paramLoadConfig");
-                return;
-            }
-            else
-            {
-                paramLoadConfigStr = AdvanceConvert.uValue.ToString();
-            }
-
-
-            if (!AdvanceConvert.StrToInt(NewConfig_TextBox.Text))
-            {
-                MessageBox.Show("Ошибка в поле paramLoadData");
-                return;
-            }
-            else
-            {
-                paramLoadDataStr = AdvanceConvert.uValue.ToString();
-            }
-
-
-            for (int i = 0; i < addrTextBoxs.Count; i++)
-            {
-                if (!AdvanceConvert.StrToInt(addrTextBoxs[i].Text))
+                if (!AdvanceConvert.StrToInt(ConfigAddr_textBox.Text))
                 {
-                    MessageBox.Show("Ошибка в поле адреса параметра\n" + nameTextBoxs[i].Text);
+                    MessageBox.Show("Ошибка в поле Configuration Addr");
                     return;
                 }
                 else
                 {
-                    paramAddrStrs.Add(AdvanceConvert.uValue.ToString());
+                    configStr = AdvanceConvert.uValue.ToString();
                 }
 
-            }
 
-            if (!AdvanceConvert.StrToInt(OscilSizeData_TextBox.Text))
-            {
-                MessageBox.Show("Ошибка в поле Oscill Size Data");
-                return;
-            }
-            else
-            {
-                oscillSizeDataStr = AdvanceConvert.uValue.ToString();
-            }
+                if (!AdvanceConvert.StrToInt(OscilCmndAddr_textBox.Text))
+                {
+                    MessageBox.Show("Ошибка в поле Oscil Cmnd Addr");
+                    return;
+                }
+                else
+                {
+                    oscilCmndStr = AdvanceConvert.uValue.ToString();
+                }
 
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.DefaultExt = ".xsc"; // Default file extension
-            sfd.Filter = "XML System Configuration|*.xsc|XML|*.xml";
-           // sfd.Filter = "XML|*.xml"; // Filter files by extension
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
+                for (int i = 0; i < addrTextBoxs.Count; i++)
+                {
+                    if (!AdvanceConvert.StrToInt(addrTextBoxs[i].Text))
+                    {
+                        MessageBox.Show("Ошибка в поле адреса параметра\n" + nameTextBoxs[i].Text);
+                        return;
+                    }
+                    else
+                    {
+                        paramAddrStrs.Add(AdvanceConvert.uValue.ToString());
+                    }
+
+                }
+
+                if (!AdvanceConvert.StrToInt(OscilSizeData_TextBox.Text))
+                {
+                    MessageBox.Show("Ошибка в поле Oscill Size Data");
+                    return;
+                }
+                else
+                {
+                    oscillSizeDataStr = AdvanceConvert.uValue.ToString();
+                }
+
                 ScopeSysType.xmlFileName = sfd.FileName;
 
                 FileStream fs = new FileStream(sfd.FileName, FileMode.Create);
@@ -580,42 +505,18 @@ namespace ScopeSetupApp
 
                 xmlOut.WriteStartElement("OscilConfig");
 
-                xmlOut.WriteStartElement("ScopeCount");
-                xmlOut.WriteAttributeString("Addr", scopeCountStr);
+                xmlOut.WriteStartElement("Configuration");
+                xmlOut.WriteAttributeString("Addr", configStr);
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("ChannelCount");
-                xmlOut.WriteAttributeString("Addr", channelCountStr);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("OscilStatus");
-                xmlOut.WriteAttributeString("Addr", oscilStatusStr);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("StartTemp");
-                xmlOut.WriteAttributeString("Addr", dataStartStr);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("LoadOscilStart");
-                xmlOut.WriteAttributeString("Addr", loadOscilStartStr);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("NewConfig");
-                xmlOut.WriteAttributeString("Addr", paramLoadDataStr);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("FlagNeed");
-                xmlOut.WriteAttributeString("Addr", paramLoadConfigStr);
-                xmlOut.WriteEndElement();
-
-                xmlOut.WriteStartElement("TimeStamp");
-                xmlOut.WriteAttributeString("Addr", timeStampStr);
+                xmlOut.WriteStartElement("OscilCmnd");
+                xmlOut.WriteAttributeString("Addr", oscilCmndStr);
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("OscilAllSize");
                 xmlOut.WriteAttributeString("Count", Convert.ToString(oscillSizeDataStr));
                 xmlOut.WriteEndElement();
-                
+
                 xmlOut.WriteStartElement("OscilSampleRate");
                 xmlOut.WriteAttributeString("Count", sampleRate_textBox.Text);
                 xmlOut.WriteEndElement();
@@ -639,14 +540,14 @@ namespace ScopeSetupApp
                     xmlOut.WriteAttributeString("TypeAD", AnalogDigitalComboBox[i].SelectedIndex.ToString());
                     xmlOut.WriteAttributeString("Min", minTextBoxs[i].Text);
                     xmlOut.WriteAttributeString("Max", maxTextBoxs[i].Text);
-                    
+
                     xmlOut.WriteEndElement();
                 }
 
                 xmlOut.WriteStartElement("Comment", CommentRichTextBox.Text);
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteEndElement();                
+                xmlOut.WriteEndElement();
                 /////////////////////////////////////////////////////////////
                 xmlOut.WriteStartElement("COMTRADEConfig");
 
@@ -679,8 +580,28 @@ namespace ScopeSetupApp
                 xmlOut.Close();
                 fs.Close();
 
-                ScopeSysType.InitScopeSysType();
-            }
+                ScopeSysType.InitScopeSysType(); 
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.DefaultExt = ".xsc"; // Default file extension
+            sfd.Filter = "XML System Configuration|*.xsc|XML|*.xml";
+            if (sfd.ShowDialog() == DialogResult.OK) Save_To_file(sfd); 
+        }
+
+
+        private void SetDefault_toolStripButton_Click(object sender, EventArgs e)
+        {
+            string namefile, pathfile;
+            SaveFileDialog sfd = new SaveFileDialog();
+            namefile = "ScopeSysType.xml";
+            pathfile = Path.GetDirectoryName(ScopeSysType.xmlFileName);
+            sfd.FileName = pathfile + "\\" + namefile;
+            Save_To_file(sfd); 
+
+            Update_Oscil();
         }
 
         private string convert_text(object Obj, string del)
@@ -698,14 +619,6 @@ namespace ScopeSetupApp
 
         private void Update_Oscil()
         {
-            ScopeSysType.ScopeCountAddr = Convert.ToUInt16(convert_text(ScopeCount_TextBox.Text, "0x"));
-            ScopeSysType.ChannelCountAddr = Convert.ToUInt16(convert_text(ChannelCount_TextBox.Text, "0x"));
-            ScopeSysType.OscilStatusAddr = Convert.ToUInt16(convert_text(OscilStatus_TextBox.Text, "0x"));
-            ScopeSysType.StartTemptAddr = Convert.ToUInt16(convert_text(StartTemp_TextBox.Text, "0x"));
-            ScopeSysType.OscilLoadAddr = Convert.ToUInt16(convert_text(OscilLoad_TextBox.Text, "0x"));
-            ScopeSysType.NewConfigAddr = Convert.ToUInt16(convert_text(NewConfig_TextBox.Text, "0x"));
-            ScopeSysType.FlagNeedAddr = Convert.ToUInt16(convert_text(FlagNeed_ConfigTextBox.Text, "0x"));
-            ScopeSysType.TimeStampAddr = Convert.ToUInt16(convert_text(timeStampTextBox.Text, "0x"));
             ScopeSysType.OscilAllSize = Convert.ToUInt16(convert_text(OscilSizeData_TextBox.Text, "0x"));
             ScopeSysType.OscilSampleRate = Convert.ToUInt16(convert_text(sampleRate_textBox.Text, ""));
             ScopeSysType.OscilComment = Convert.ToString(CommentRichTextBox.Text);
@@ -743,7 +656,9 @@ namespace ScopeSetupApp
                 ScopeSysType.ChannelTypeAD.Add(Convert.ToUInt16(AnalogDigitalComboBox[i].SelectedIndex.ToString()));
                 ScopeSysType.ChannelMin.Add(Convert.ToInt32(minTextBoxs[i].Text));
                 ScopeSysType.ChannelMax.Add(Convert.ToInt32(maxTextBoxs[i].Text));
-            }   
+            }  
+            
+            ConfigToSystem(); 
         }
 
         private void View_toolStripButton_Click(object sender, EventArgs e)
@@ -794,42 +709,30 @@ namespace ScopeSetupApp
                 e.Graphics.DrawString("Oscil Config", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, new Point(xPos1, 150));
                 e.Graphics.DrawString("COMTRADE Config", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, new Point(xPos3, 150));
                 e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 160));
-                e.Graphics.DrawString("ScopeCount Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.ScopeCountAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
+                e.Graphics.DrawString("Configuration Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.ConfigurationAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
                 e.Graphics.DrawString("StationName:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
                 e.Graphics.DrawString(ScopeSysType.StationName.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("ChannelCount Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.ChannelCountAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
+                e.Graphics.DrawString("Oscil Cmnd Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString("0x" + ScopeSysType.OscilCmndAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
                 e.Graphics.DrawString("RecordingDevice:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
                 e.Graphics.DrawString(ScopeSysType.RecordingDevice.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("OscilStatus Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.OscilStatusAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("NominalFrequency:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.OscilNominalFrequency.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("StartTemp Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.StartTemptAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("TimeCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.TimeCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("LoadOscilStart Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.OscilLoadAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("LocalCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.LocalCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("NewConfig Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.NewConfigAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("tmqCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.tmqCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("FlagNeed Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.FlagNeedAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
-                e.Graphics.DrawString("leapsec:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.leapsec.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("TimeStamp Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.TimeStampAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
                 e.Graphics.DrawString("OscilAllSize (KB):", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
                 e.Graphics.DrawString(ScopeSysType.OscilAllSize.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("NominalFrequency:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
+                e.Graphics.DrawString(ScopeSysType.OscilNominalFrequency.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
                 e.Graphics.DrawString("OscilSampleRate:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
                 e.Graphics.DrawString(ScopeSysType.OscilSampleRate.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("TimeCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
+                e.Graphics.DrawString(ScopeSysType.TimeCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
                 e.Graphics.DrawString("MeasureParams:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
                 e.Graphics.DrawString(ScopeSysType.ChannelNames.Count.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString("LocalCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
+                e.Graphics.DrawString(ScopeSysType.LocalCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString("tmqCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos += 20));
+                e.Graphics.DrawString(ScopeSysType.tmqCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString("leapsec:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos += 20));
+                e.Graphics.DrawString(ScopeSysType.leapsec.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
             }
             
             e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 10));
@@ -862,10 +765,17 @@ namespace ScopeSetupApp
                 e.Graphics.DrawString(str, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 570, yPos));
                 e.Graphics.DrawString(ScopeSysType.ChannelMin[i].ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 630, yPos));
                 e.Graphics.DrawString(ScopeSysType.ChannelMax[i].ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 690, yPos));
-                if (FirstPage == true && j == 35) { paramNum += (j + 1); e.HasMorePages = true; FirstPage = false; break; }
+                if (FirstPage == true && j == 40) { paramNum += (j + 1); e.HasMorePages = true; FirstPage = false; break; }
                 if (FirstPage == false && j == 52) { paramNum += (j + 1); e.HasMorePages = true; break; }
                 if (i == ScopeSysType.ChannelNames.Count - 1) { FirstPage = true; paramNum = 0; e.HasMorePages = false; }
             }
+        }
+
+        private void ConfigToSystem()
+        {
+            string str ="";
+            str = Path.GetFileName(ScopeSysType.xmlFileName);
+            ConfigToSystem_label.Text = "Actual configuration: " + str;
         }
     }
 }

@@ -117,4 +117,65 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Add_Database_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Add Database-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cancel_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cancel-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Checked_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Checked-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Checkmark_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Checkmark-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chromatography_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Chromatography-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Connected_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Connected-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Copy_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Copy-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Download_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Download-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Electrical_Threshold_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Electrical Threshold-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Fine_Print_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fine Print-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Minus_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Minus-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Open_Folder_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Open Folder-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Paste_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Paste-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Plus_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Plus-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Print_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Print-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Refresh_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Refresh-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Save_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Save-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Save_as_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Save as-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Stocks_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Stocks-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Upload_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Upload-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
