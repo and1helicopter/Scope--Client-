@@ -33,6 +33,7 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.writeToSystemBtn = new System.Windows.Forms.ToolStripButton();
             this.reloadButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.openButton2 = new System.Windows.Forms.ToolStripButton();
             this.saveButton2 = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -62,7 +63,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.ConfigToSystem_label = new System.Windows.Forms.Label();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -116,6 +116,11 @@
             this.reloadButton.Size = new System.Drawing.Size(32, 32);
             this.reloadButton.Text = "Считать конфигурацию  из системы";
             this.reloadButton.Click += new System.EventHandler(this.reloadButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
             // 
             // openButton2
             // 
@@ -258,6 +263,7 @@
             // 
             // CommentRichTextBox
             // 
+            this.CommentRichTextBox.BackColor = System.Drawing.SystemColors.Control;
             this.CommentRichTextBox.Location = new System.Drawing.Point(411, 8);
             this.CommentRichTextBox.Name = "CommentRichTextBox";
             this.CommentRichTextBox.ReadOnly = true;
@@ -452,11 +458,6 @@
             this.ConfigToSystem_label.Size = new System.Drawing.Size(132, 18);
             this.ConfigToSystem_label.TabIndex = 35;
             this.ConfigToSystem_label.Text = "Actual configuration:";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
             // 
             // ScopeSetupForm
             // 

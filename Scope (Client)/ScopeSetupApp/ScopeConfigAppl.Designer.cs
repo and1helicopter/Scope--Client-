@@ -68,16 +68,15 @@
             this.label8 = new System.Windows.Forms.Label();
             this.localCode_textBox = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -506,11 +505,9 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel2.Controls.Add(this.checkBox2);
             this.panel2.Controls.Add(this.toolStrip1);
             this.panel2.Controls.Add(this.label4);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.label13);
             this.panel2.Controls.Add(this.label12);
             this.panel2.Controls.Add(this.label11);
@@ -522,6 +519,23 @@
             this.panel2.Size = new System.Drawing.Size(885, 65);
             this.panel2.TabIndex = 24;
             // 
+            // checkBox2
+            // 
+            this.checkBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox2.Location = new System.Drawing.Point(715, 43);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.checkBox2.Size = new System.Drawing.Size(148, 21);
+            this.checkBox2.TabIndex = 8;
+            this.checkBox2.Text = "Выбрать все каналы";
+            this.checkBox2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox2.UseVisualStyleBackColor = false;
+            this.checkBox2.Click += new System.EventHandler(this.checkBox2_Click);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
@@ -532,6 +546,7 @@
             this.toolStripSeparator3,
             this.toolStripButton3,
             this.toolStripButton2,
+            this.toolStripSeparator4,
             this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -549,7 +564,7 @@
             this.toolStripButton5.Name = "toolStripButton5";
             this.toolStripButton5.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.toolStripButton5.Size = new System.Drawing.Size(32, 32);
-            this.toolStripButton5.Text = "Добавить строку";
+            this.toolStripButton5.Text = "Добавить канал";
             this.toolStripButton5.Click += new System.EventHandler(this.addLineButton_Click);
             // 
             // toolStripSeparator3
@@ -567,7 +582,8 @@
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.toolStripButton3.Size = new System.Drawing.Size(32, 32);
-            this.toolStripButton3.Text = "Добавить строку";
+            this.toolStripButton3.Text = "Вставить каналы";
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // toolStripButton2
             // 
@@ -579,7 +595,13 @@
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.toolStripButton2.Size = new System.Drawing.Size(32, 32);
-            this.toolStripButton2.Text = "Добавить строку";
+            this.toolStripButton2.Text = "Копировать выделенные каналы";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 38);
             // 
             // toolStripButton1
             // 
@@ -592,83 +614,54 @@
             this.toolStripButton1.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.toolStripButton1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.toolStripButton1.Size = new System.Drawing.Size(32, 32);
-            this.toolStripButton1.Text = "Добавить строку";
+            this.toolStripButton1.Text = "Удалить выделенные каналы";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(9, 44);
+            this.label4.Location = new System.Drawing.Point(4, 44);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(20, 17);
             this.label4.TabIndex = 6;
             this.label4.Text = "№";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(616, 44);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(75, 17);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Мин./Макс.";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(38, 44);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 17);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Тип";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(265, 44);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(62, 17);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Размерн.";
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label13.Location = new System.Drawing.Point(522, 44);
+            this.label13.Location = new System.Drawing.Point(483, 44);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(47, 17);
+            this.label13.Size = new System.Drawing.Size(77, 17);
             this.label13.TabIndex = 3;
-            this.label13.Text = "Сглаж.";
+            this.label13.Text = "Сглаж.(Тип)";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.Location = new System.Drawing.Point(418, 44);
+            this.label12.Location = new System.Drawing.Point(292, 44);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(54, 17);
+            this.label12.Size = new System.Drawing.Size(129, 17);
             this.label12.TabIndex = 2;
-            this.label12.Text = "Формат";
+            this.label12.Text = "Формат(Мин./Макс.)";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.Location = new System.Drawing.Point(332, 44);
+            this.label11.Location = new System.Drawing.Point(185, 44);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(43, 17);
+            this.label11.Size = new System.Drawing.Size(105, 17);
             this.label11.TabIndex = 1;
-            this.label11.Text = "Адрес";
+            this.label11.Text = "Адрес(Размерн.)";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(111, 44);
+            this.label10.Location = new System.Drawing.Point(33, 44);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(151, 17);
             this.label10.TabIndex = 0;
@@ -767,9 +760,6 @@
         private System.Windows.Forms.TextBox OscilSizeData_TextBox;
         private System.Windows.Forms.Label OscilSizeData_label;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
@@ -813,6 +803,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.Label ConfigToSystem_label;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }
 

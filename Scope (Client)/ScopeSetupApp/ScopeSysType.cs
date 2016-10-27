@@ -10,6 +10,7 @@ namespace ScopeSetupApp
     public static class ScopeSysType
     {
         public static string xmlFileName = "ScopeSysType.xml";
+        public static string xmlFileNameOscil = "ScopeSysType.xml";
         public static List<string> ChannelNames = new List<string>();
         public static List<string> ChannelPhase = new List<string>();
         public static List<string> ChannelCCBM = new List<string>();
@@ -170,11 +171,11 @@ namespace ScopeSetupApp
             var doc = new XmlDocument();
             try
             {
-                doc.Load(xmlFileName);
+                doc.Load(xmlFileNameOscil);
             }
             catch
             {
-                throw new Exception("Не удалось открыть файл: " + xmlFileName + "!");
+                throw new Exception("Не удалось открыть файл: " + xmlFileNameOscil + "!");
             }
 
             LoadFromXML("Oscil", "Count", doc, out OscilCount);
@@ -203,7 +204,7 @@ namespace ScopeSetupApp
                 }
                 catch
                 {
-                    throw new Exception("Ошибки в файле: " + xmlFileName + "!");
+                    throw new Exception("Ошибки в файле: " + xmlFileNameOscil + "!");
                 }
             }
         }

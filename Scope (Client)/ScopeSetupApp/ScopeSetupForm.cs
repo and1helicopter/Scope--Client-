@@ -830,7 +830,7 @@ namespace ScopeSetupApp
             ofd.Filter = "XML Oscil Configuration |*.xoc|XML|*.xml|All files|*.*"; // Filter files by extension
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                ScopeSysType.xmlFileName = ofd.FileName;   
+                ScopeSysType.xmlFileNameOscil = ofd.FileName;   
                 try
                 {
                     ScopeSysType.InitScopeOscilType();

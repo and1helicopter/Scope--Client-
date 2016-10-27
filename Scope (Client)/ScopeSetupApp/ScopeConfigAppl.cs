@@ -55,6 +55,9 @@ namespace ScopeSetupApp
         //Удаление 
         List<Button> removeButtons = new List<Button>();
 
+        //Отметка 
+        List<CheckBox> checkBoxs = new List<CheckBox>();
+
         //Line
         //List<> Line = new List<?>();
 
@@ -105,7 +108,7 @@ namespace ScopeSetupApp
             nameTextBoxs[i].Dock = DockStyle.None;
             nameTextBoxs[i].Font = new Font("Arial", 9);
             nameTextBoxs[i].AutoSize = false;
-            nameTextBoxs[i].Left = 107;
+            nameTextBoxs[i].Left = 34;
             nameTextBoxs[i].Top = 3;
             nameTextBoxs[i].Width = 150;
             nameTextBoxs[i].Height = 24;
@@ -120,19 +123,19 @@ namespace ScopeSetupApp
             AnalogDigitalComboBox[i].Tag = i;
             AnalogDigitalComboBox[i].Dock = DockStyle.None;
             AnalogDigitalComboBox[i].Font = new Font("Arial", 9);
-            AnalogDigitalComboBox[i].Left = 34;
-            AnalogDigitalComboBox[i].Width = 70;
+            AnalogDigitalComboBox[i].Left = 483;
+            AnalogDigitalComboBox[i].Width = 90;
             AnalogDigitalComboBox[i].DropDownStyle = ComboBoxStyle.DropDownList;
             AnalogDigitalComboBox[i].Items.Add("Analog");
             AnalogDigitalComboBox[i].Items.Add("Digital");
             AnalogDigitalComboBox[i].SelectedIndex = lineTypeAD;
-            AnalogDigitalComboBox[i].Top = 3;
+            AnalogDigitalComboBox[i].Top = 30;
             
             phaseTextBoxs.Add(new TextBox());
             phaseTextBoxs[i].Dock = DockStyle.None;
             phaseTextBoxs[i].Font = new Font("Arial", 9);
             phaseTextBoxs[i].AutoSize = false;
-            phaseTextBoxs[i].Left = 107;
+            phaseTextBoxs[i].Left = 34;
             phaseTextBoxs[i].Top = 30;
             phaseTextBoxs[i].Width = 50;
             phaseTextBoxs[i].Height = 24;
@@ -142,7 +145,7 @@ namespace ScopeSetupApp
             ccbmTextBoxs[i].Dock = DockStyle.None;
             ccbmTextBoxs[i].Font = new Font("Arial", 9);
             ccbmTextBoxs[i].AutoSize = false;
-            ccbmTextBoxs[i].Left = 160;
+            ccbmTextBoxs[i].Left = 87;
             ccbmTextBoxs[i].Top = 30;
             ccbmTextBoxs[i].Width = 97;
             ccbmTextBoxs[i].Height = 24;
@@ -153,8 +156,8 @@ namespace ScopeSetupApp
             dimensionComboBox[i].Dock = DockStyle.None;
             dimensionComboBox[i].Font = new Font("Arial", 9);
             dimensionComboBox[i].Items.AddRange(dimension);
-            dimensionComboBox[i].Left = 260;
-            dimensionComboBox[i].Top = 3;
+            dimensionComboBox[i].Left = 187;
+            dimensionComboBox[i].Top = 30;
             dimensionComboBox[i].Width = 60;
             dimensionComboBox[i].Text = lineDimension;
             dimensionComboBox[i].DropDownStyle = ComboBoxStyle.DropDown;
@@ -163,7 +166,7 @@ namespace ScopeSetupApp
             addrTextBoxs[i].Dock = DockStyle.None;
             addrTextBoxs[i].Font = new Font("Arial", 9);
             addrTextBoxs[i].AutoSize = false;
-            addrTextBoxs[i].Left = 323;
+            addrTextBoxs[i].Left = 187;
             addrTextBoxs[i].Top = 3;
             addrTextBoxs[i].Width = 60;
             addrTextBoxs[i].Height = 24;
@@ -175,7 +178,7 @@ namespace ScopeSetupApp
             colorLabels[i].Dock = DockStyle.None;
             colorLabels[i].BorderStyle = BorderStyle.FixedSingle;
             colorLabels[i].Width = colorLabels[i].Height = addrTextBoxs[i].Height;
-            colorLabels[i].Left = 386;
+            colorLabels[i].Left = 250;
             colorLabels[i].Top = 3;
             colorLabels[i].BackColor = clr;
             colorLabels[i].Click += new EventHandler(colorLabel_Click);
@@ -186,7 +189,7 @@ namespace ScopeSetupApp
             formatComboBoxNumeric[i].Font = new Font("Arial", 9);
             formatComboBoxNumeric[i].Items.AddRange(sizeFormat);
             formatComboBoxNumeric[i].Width = 100;
-            formatComboBoxNumeric[i].Left = 413;
+            formatComboBoxNumeric[i].Left = 277;
             formatComboBoxNumeric[i].Top = 3;
             formatComboBoxNumeric[i].SelectedIndex = (formatData >> 8) - 1;
             formatComboBoxNumeric[i].DropDownStyle = ComboBoxStyle.DropDownList;
@@ -198,15 +201,15 @@ namespace ScopeSetupApp
             formatComboBox[i].DropDownStyle = ComboBoxStyle.DropDownList;
             formatComboBox[i].Items.AddRange(format);
             formatComboBox[i].Width = 100;
-            formatComboBox[i].Left = 413;
-            formatComboBox[i].Top = 30;
+            formatComboBox[i].Left = 380;
+            formatComboBox[i].Top = 3;
             formatComboBox[i].SelectedIndex = formatData & 0x00FF ;
             
             stepLineCheckBoxs.Add(new ComboBox());
             stepLineCheckBoxs[i].Tag = i;
             stepLineCheckBoxs[i].Dock = DockStyle.None;
             stepLineCheckBoxs[i].Font = new Font("Arial", 9);
-            stepLineCheckBoxs[i].Left = 516;
+            stepLineCheckBoxs[i].Left = 483;
             stepLineCheckBoxs[i].Width = 90;
             stepLineCheckBoxs[i].DropDownStyle = ComboBoxStyle.DropDownList;
             stepLineCheckBoxs[i].Items.Add("Smooth");
@@ -218,8 +221,8 @@ namespace ScopeSetupApp
             minTextBoxs[i].Dock = DockStyle.None;
             minTextBoxs[i].Font = new Font("Arial", 9);
             minTextBoxs[i].AutoSize = false;
-            minTextBoxs[i].Left = 609;
-            minTextBoxs[i].Top = 3;
+            minTextBoxs[i].Left = 277;
+            minTextBoxs[i].Top = 30;
             minTextBoxs[i].Width = 100;
             minTextBoxs[i].Height = 24;
             minTextBoxs[i].Text = min.ToString();
@@ -229,25 +232,44 @@ namespace ScopeSetupApp
             maxTextBoxs[i].Dock = DockStyle.None;
             maxTextBoxs[i].Font = new Font("Arial", 9);
             maxTextBoxs[i].AutoSize = false;
-            maxTextBoxs[i].Left = 609;
+            maxTextBoxs[i].Left = 380;
             maxTextBoxs[i].Top = 30;
             maxTextBoxs[i].Width = 100;
             maxTextBoxs[i].Height = 24;
             maxTextBoxs[i].Text = max.ToString();
             maxTextBoxs[i].TextAlign = HorizontalAlignment.Right;
 
+
+            //this.checkBox2.Location = new System.Drawing.Point(715, 43);
+            //this.checkBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            //this.checkBox2.Size = new System.Drawing.Size(148, 21);
+  
+
             removeButtons.Add(new Button());
             removeButtons[i].Tag = i;
-            removeButtons[i].Image = Properties.Resources.Minus_50;
-            removeButtons[i].ImageAlign = ContentAlignment.MiddleCenter;
-            
-            removeButtons[i].Dock = DockStyle.None;
-            removeButtons[i].Left = 716;
+            //removeButtons[i].Text = "Удалить";
+            removeButtons[i].Location = new System.Drawing.Point(700, 8);
+            removeButtons[i].Image = Properties.Resources.Minus_32;
+           // removeButtons[i].ImageAlign = ContentAlignment.MiddleCenter;
+            removeButtons[i].Size = new System.Drawing.Size(40, 40);
+            removeButtons[i].Dock = DockStyle.Right;
+            //removeButtons[i].Left = 770;
+            //removeButtons[i].Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             removeButtons[i].AutoSize = false;
-            removeButtons[i].Width = 36;
-            removeButtons[i].Height = 36;
-            removeButtons[i].Top = 3;
+            //removeButtons[i].Top = 8;
             removeButtons[i].Click += new EventHandler(deleteButton_Click);
+
+            checkBoxs.Add(new CheckBox());
+            checkBoxs[i].Tag = i;
+            checkBoxs[i].Dock = DockStyle.Right;
+          //  checkBoxs[i].Left = 830;
+            //            this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+
+            checkBoxs[i].AutoSize = false;
+           // checkBoxs[i].Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            checkBoxs[i].Size = new System.Drawing.Size(40, 40);
+            checkBoxs[i].Top = 18;
+            checkBoxs[i].Click += new System.EventHandler(checkBox_Click);
 
             LayoutPanel.Add(new Panel());
             LayoutPanel[i].Dock = DockStyle.Top;
@@ -273,6 +295,7 @@ namespace ScopeSetupApp
             LayoutPanel[i].Controls.Add(maxTextBoxs[i]);
             LayoutPanel[i].Controls.Add(removeButtons[i]);
             LayoutPanel[i].Controls.Add(NumLabels[i]);
+            LayoutPanel[i].Controls.Add(checkBoxs[i]);
         }
 
         private void DeleteLine(int lineNum)
@@ -311,6 +334,7 @@ namespace ScopeSetupApp
             LayoutPanel[i].Controls.Remove(minTextBoxs[i]);
             LayoutPanel[i].Controls.Remove(maxTextBoxs[i]);
             LayoutPanel[i].Controls.Remove(NumLabels[i]);
+            LayoutPanel[i].Controls.Remove(checkBoxs[i]);
 
             nameTextBoxs.Remove(nameTextBoxs[i]);
             phaseTextBoxs.Remove(phaseTextBoxs[i]);
@@ -326,6 +350,7 @@ namespace ScopeSetupApp
             minTextBoxs.Remove(minTextBoxs[i]);
             maxTextBoxs.Remove(maxTextBoxs[i]);
             NumLabels.Remove(NumLabels[i]);
+            checkBoxs.Remove(checkBoxs[i]);
         }
 
         public ScopeConfigForm()
@@ -349,6 +374,102 @@ namespace ScopeSetupApp
             int i = (int)((sender as Button).Tag);
 
             DeleteLine(i);
+        }
+
+        private void checkBox_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < checkBoxs.Count; i++)
+            {
+                if (checkBoxs[i].Checked) LayoutPanel[i].BackColor = Color.PaleGreen;
+                else LayoutPanel[i].BackColor = Color.WhiteSmoke;
+            }
+        }
+
+        List<String> nameTextBoxsCopy = new List<String>();
+        List<String> phaseTextBoxsCopy = new List<String>();
+        List<String> ccbmTextBoxsCopy = new List<String>();
+        List<String> dimensionComboBoxCopy = new List<String>();
+        List<int> AnalogDigitalComboBoxCopy = new List<int>();
+        List<int> addrTextBoxsCopy = new List<int>();
+        List<Color> colorLabelsCopy = new List<Color>();
+        List<int> formatComboBoxCopy = new List<int>();
+        List<int> minTextBoxsCopy = new List<int>();
+        List<int> maxTextBoxsCopy = new List<int>();
+        List<int> stepLineCheckBoxsCopy = new List<int>();
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            nameTextBoxsCopy.Clear();
+            phaseTextBoxsCopy.Clear();
+            ccbmTextBoxsCopy.Clear();
+            AnalogDigitalComboBoxCopy.Clear();
+            addrTextBoxsCopy.Clear();
+            colorLabelsCopy.Clear();
+            formatComboBoxCopy.Clear();
+            dimensionComboBoxCopy.Clear();
+            minTextBoxsCopy.Clear();
+            maxTextBoxsCopy.Clear();
+            stepLineCheckBoxsCopy.Clear();
+
+            for (int i = 0; i < checkBoxs.Count; i++) 
+            {
+                if (checkBoxs[i].Checked) 
+                {
+                    nameTextBoxsCopy.Add(nameTextBoxs[i].Text);
+                    phaseTextBoxsCopy.Add(phaseTextBoxs[i].Text);
+                    ccbmTextBoxsCopy.Add(ccbmTextBoxs[i].Text);
+                    AnalogDigitalComboBoxCopy.Add(Convert.ToInt32(AnalogDigitalComboBox[i].SelectedIndex));
+                    addrTextBoxsCopy.Add(Convert.ToInt32(AdvanceConvert.StrToInt(addrTextBoxs[i].Text)));
+                    colorLabelsCopy.Add(colorLabels[i].BackColor);
+                    formatComboBoxCopy.Add((Convert.ToInt32(formatComboBoxNumeric[i].SelectedIndex + 1) << 8) + Convert.ToInt32(formatComboBox[i].SelectedIndex));
+                    dimensionComboBoxCopy.Add(dimensionComboBox[i].Text);
+                    minTextBoxsCopy.Add(Convert.ToInt32(minTextBoxs[i].Text));
+                    maxTextBoxsCopy.Add(Convert.ToInt32(maxTextBoxs[i].Text));
+                    stepLineCheckBoxsCopy.Add(Convert.ToInt32(stepLineCheckBoxs[i].SelectedIndex));
+                }
+            }          
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            for(int i = 0; i < nameTextBoxsCopy.Count; i++)
+            {    
+                 AddParamLine(nameTextBoxsCopy[i],phaseTextBoxsCopy[i],ccbmTextBoxsCopy[i],dimensionComboBoxCopy[i],addrTextBoxsCopy[i],colorLabelsCopy[i],formatComboBoxCopy[i],stepLineCheckBoxsCopy[i],AnalogDigitalComboBoxCopy[i],minTextBoxsCopy[i],maxTextBoxsCopy[i]);
+            }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            for (int i = nameTextBoxs.Count - 1; i >= 0; i--) 
+            {
+                if (checkBoxs[i].Checked) 
+                {
+                    LayoutPanel[i].BackColor = Color.WhiteSmoke;
+                    checkBoxs[i].Checked = false;
+                    DeleteLine(i); 
+                }
+            }
+        }
+
+        private void checkBox2_Click(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                for (int i = 0; i < checkBoxs.Count; i++)
+                {
+                    checkBoxs[i].Checked  = true;
+                    LayoutPanel[i].BackColor = Color.PaleGreen;     
+                }
+            }
+            else
+            {
+                for (int i = 0; i < checkBoxs.Count; i++)
+                {
+                    checkBoxs[i].Checked = false;
+                    LayoutPanel[i].BackColor = Color.WhiteSmoke;
+                }
+            }
+
         }
 
         private void colorLabel_Click(object sender, EventArgs e)
@@ -777,6 +898,8 @@ namespace ScopeSetupApp
             str = Path.GetFileName(ScopeSysType.xmlFileName);
             ConfigToSystem_label.Text = "Actual configuration: " + str;
         }
+
+
     }
 }
 
