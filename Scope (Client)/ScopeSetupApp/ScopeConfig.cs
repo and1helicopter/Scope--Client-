@@ -47,8 +47,8 @@ namespace ScopeSetupApp
         }
 
         //Размер всей памяти 
-        static ulong oscilAllSize = 0;
-        public static ulong OscilAllSize
+        static uint oscilAllSize = 0;
+        public static uint OscilAllSize
         {
             get { return oscilAllSize; }
             set { oscilAllSize = value; }

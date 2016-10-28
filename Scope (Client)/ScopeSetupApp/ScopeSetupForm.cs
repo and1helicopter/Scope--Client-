@@ -283,6 +283,8 @@ namespace ScopeSetupApp
             }
         }
 
+        int DivideOscilSize = 1;
+
         //Длительность осциллограммы:
         private void DelayOscil()
         {
@@ -290,7 +292,7 @@ namespace ScopeSetupApp
             {
                 if (ModBusClient.ModBusOpened == true && ScopeConfig.ConnectMCU == true)
                 {
-                    double SampleCount = (double)ScopeConfig.OscilAllSize / OscilSize(oscilAllSize, true);
+                    double SampleCount = (double)OscilSize(oscilAllSize, false) / OscilSize(oscilAllSize, true);
                     double Freq = (double)ScopeConfig.SampleRate / nowOscFreq;
                     double TimeSec = (double)SampleCount / Freq;
                     DelayOsc.Text = "Длительность: " + TimeSec.ToString("0.000") + " сек";
@@ -380,7 +382,9 @@ namespace ScopeSetupApp
                 return 0;
             }
 
-            uint OscS = (AllSize * 1024) / Convert.ToUInt32(nowScopeCount);
+            uint OscS;
+            if (ScopeConfig.ConnectMCU == true) OscS = ScopeConfig.OscilAllSize/Convert.ToUInt32(nowScopeCount);
+            else OscS = (AllSize * 1024) / Convert.ToUInt32(nowScopeCount);
 
             while (OscS % 64 != 0 || OscS % SampleSize != 0)   // 
             { 		
@@ -1019,5 +1023,6 @@ namespace ScopeSetupApp
             str = Path.GetFileName(ScopeSysType.xmlFileName);
             ConfigToSystem_label.Text = "Actual configuration: " + str;
         }
+
     }
 }

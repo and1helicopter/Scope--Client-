@@ -98,25 +98,23 @@ namespace ScopeSetupApp
             }
         }
 
-        public MainForm()
+        public MainForm(string[] agrs)
         {
             InitializeComponent();
             try
             {
                 ScopeSysType.InitScopeSysType();
-             //   MessageBox.Show(ScopeSysType.ParamLoadDataAddr.ToString("X4"));
             }
 
             catch(Exception e)
             {
                 MessageBox.Show(e.Message.ToString());
             }
+            if (agrs.Length > 0)
+            {
+                if (agrs[0] == "a") ConfigScopeButton.Visible = true; //true
+            }
 
-          //  for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
-          //  {
-           //  MessageBox.Show(ScopeSysType.ChannelFormats[i].ToString());
-
-            //}
             modBusUnit = new ModBusUnit();
             modBusUnit.RequestFinished += new EventHandler(EndRequest);
 
@@ -345,7 +343,7 @@ namespace ScopeSetupApp
 
             if (loadConfigStep == 7)                //Весь размер под осциллограммы 
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 376), 4);
+                modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 376), 2);
                 return;
             }
 
@@ -433,10 +431,8 @@ namespace ScopeSetupApp
 
                     case 7:                     //Размер осциллограммы 
                         {
-                            ScopeConfig.OscilAllSize = (ulong)((int)modBusUnit.modBusData.ReadData[1] << 16);
+                            ScopeConfig.OscilAllSize = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
                             ScopeConfig.OscilAllSize += (uint)((int)modBusUnit.modBusData.ReadData[0]);
-                            ScopeConfig.OscilAllSize += (uint)((int)modBusUnit.modBusData.ReadData[3] << 48);
-                            ScopeConfig.OscilAllSize += (uint)((int)modBusUnit.modBusData.ReadData[2] << 32);
                             loadConfigStep = 8;
                             LoadConfig();
                         } break;
@@ -1373,7 +1369,7 @@ namespace ScopeSetupApp
         string Line7()
         {
             string str = "";
-            string samp = Convert.ToString(ScopeConfig.SampleRate);
+            string samp = Convert.ToString(ScopeConfig.SampleRate / ScopeConfig.FreqCount);
             samp = samp.Replace(",", ".");
             string endsamp = InitParamsLines().Count.ToString();
             str = samp + "," + endsamp;
