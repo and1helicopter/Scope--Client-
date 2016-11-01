@@ -150,6 +150,7 @@
             this.ConfigScopeButton.Text = "Конфигурация системы";
             this.ConfigScopeButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ConfigScopeButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.ConfigScopeButton.Visible = false;
             this.ConfigScopeButton.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // toolStripButton

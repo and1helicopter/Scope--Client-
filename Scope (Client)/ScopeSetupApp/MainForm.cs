@@ -112,7 +112,7 @@ namespace ScopeSetupApp
             }
             if (agrs.Length > 0)
             {
-                if (agrs[0] == "a") ConfigScopeButton.Visible = true; //true
+                if (agrs[0] == "a" || agrs[0] == "A") ConfigScopeButton.Visible = true; //true
             }
 
             modBusUnit = new ModBusUnit();
