@@ -120,7 +120,7 @@
             // 
             this.connectBtn.AutoSize = false;
             this.connectBtn.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.connectBtn.Font = new System.Drawing.Font("Open Sans", 9F);
+            this.connectBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.connectBtn.Image = ((System.Drawing.Image)(resources.GetObject("connectBtn.Image")));
             this.connectBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.connectBtn.Margin = new System.Windows.Forms.Padding(2);
@@ -138,7 +138,7 @@
             // 
             this.ConfigScopeButton.AutoSize = false;
             this.ConfigScopeButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ConfigScopeButton.Font = new System.Drawing.Font("Open Sans", 9F);
+            this.ConfigScopeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.ConfigScopeButton.Image = ((System.Drawing.Image)(resources.GetObject("ConfigScopeButton.Image")));
             this.ConfigScopeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ConfigScopeButton.Margin = new System.Windows.Forms.Padding(2);
@@ -157,7 +157,7 @@
             // 
             this.toolStripButton.AutoSize = false;
             this.toolStripButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.toolStripButton.Font = new System.Drawing.Font("Open Sans", 9F);
+            this.toolStripButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.toolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton.Image")));
             this.toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton.Margin = new System.Windows.Forms.Padding(2);
@@ -175,7 +175,7 @@
             // 
             this.OpenScope_Button.AutoSize = false;
             this.OpenScope_Button.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.OpenScope_Button.Font = new System.Drawing.Font("Open Sans", 9F);
+            this.OpenScope_Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.OpenScope_Button.Image = ((System.Drawing.Image)(resources.GetObject("OpenScope_Button.Image")));
             this.OpenScope_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.OpenScope_Button.Margin = new System.Windows.Forms.Padding(2);
@@ -193,7 +193,7 @@
             // 
             this.manStartBtn.AutoSize = false;
             this.manStartBtn.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.manStartBtn.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.manStartBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.manStartBtn.Image = ((System.Drawing.Image)(resources.GetObject("manStartBtn.Image")));
             this.manStartBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.manStartBtn.Margin = new System.Windows.Forms.Padding(2);
@@ -262,12 +262,12 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(730, 466);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.statusStrip1);
-            this.Font = new System.Drawing.Font("Open Sans", 9F);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainForm";

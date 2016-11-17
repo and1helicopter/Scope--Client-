@@ -868,6 +868,8 @@ namespace ScopeSetupApp
             {
                 loadOscNum = (int)(sender as Button).Tag;
                 initLoadOscilFlag = true;
+                OscilStartTemp = ((uint)loadOscNum * (ScopeConfig.OscilSize >> 1));      //Начало осциллограммы 
+                OscilEndTemp = (((uint)loadOscNum + 1) * (ScopeConfig.OscilSize >> 1));  //Конец осциллограммы 
                 //InitParamsLines();
             }
 
@@ -1025,11 +1027,9 @@ namespace ScopeSetupApp
 
         uint CalcOscilLoadTemp(int nowLoadOscNum)
         {
-            OscilStartTemp = ((uint)nowLoadOscNum * (ScopeConfig.OscilSize >> 1));      //Начало осциллограммы 
-            OscilEndTemp = (((uint)nowLoadOscNum + 1) * (ScopeConfig.OscilSize >> 1));  //Конец осциллограммы 
             if (CountTemp < (ScopeConfig.OscilSize >> 1))                               //Проход по осциллограмме 
             {
-                loadOscilTemp += 32;                                                    //Какую чпмть осциллограммы грузим 
+                loadOscilTemp += 32;                                                    //Какую часть осциллограммы грузим 
                 CountTemp += 32;
             }
             return (loadOscilTemp - 32 + OscilStartTemp);                               //+Положение относительно начала массива
@@ -1448,9 +1448,9 @@ namespace ScopeSetupApp
                 try
                 {
                     DateTime dateTemp = date[createFileNum];
-                    sw.WriteLine(dateTemp.ToString("dd'/'MM'/'yyyy,HH:mm:ss.fff000"));
-                    //sw.WriteLine(ScopeConfig.ScopeFreq.ToString());
-                    sw.WriteLine("1");
+                    sw.WriteLine(dateTemp.ToString("dd'/'MM'/'yyyy HH:mm:ss.fff000"));
+                    sw.WriteLine(Convert.ToString(ScopeConfig.SampleRate / ScopeConfig.FreqCount));
+                    sw.WriteLine(ScopeConfig.OscilHistCount);
                     sw.WriteLine(FileHeaderLine());
                     sw.WriteLine(FileColorLine());
                     sw.WriteLine(FileOffsetLine());

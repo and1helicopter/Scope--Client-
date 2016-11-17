@@ -308,6 +308,11 @@ namespace ScopeSetupApp
                 }
             }
         }
+
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            DelayOscil();
+        }
         #endregion
    
         //**************ИЗМЕНЕНИЕ КОНФИГУРАЦИИ ОСЦИЛЛОГРАФА *********************************************//
@@ -383,8 +388,8 @@ namespace ScopeSetupApp
             }
 
             uint OscS;
-            if (ScopeConfig.ConnectMCU == true) OscS = ScopeConfig.OscilAllSize/Convert.ToUInt32(nowScopeCount);
-            else OscS = (AllSize * 1024) / Convert.ToUInt32(nowScopeCount);
+            if (ScopeConfig.ConnectMCU == true) OscS = Convert.ToUInt32((ScopeConfig.OscilAllSize / Convert.ToUInt32(nowScopeCount)) * ((double)trackBar1.Value / 100));
+            else OscS = Convert.ToUInt32(((AllSize * 1024) / Convert.ToUInt32(nowScopeCount)) * ((double)trackBar1.Value / 100));
 
             while (OscS % 64 != 0 || OscS % SampleSize != 0)   // 
             { 		
@@ -1023,6 +1028,8 @@ namespace ScopeSetupApp
             str = Path.GetFileName(ScopeSysType.xmlFileName);
             ConfigToSystem_label.Text = "Actual configuration: " + str;
         }
+
+
 
     }
 }

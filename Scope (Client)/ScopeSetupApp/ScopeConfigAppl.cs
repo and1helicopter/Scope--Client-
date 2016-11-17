@@ -96,8 +96,6 @@ namespace ScopeSetupApp
             "NONE",
         };
 
-        
-
 
         private void AddParamLine(string lineName, string linePhase, string lineCCBM, string lineDimension, int lineAddr, Color clr, int formatData,  int stepLine, int lineTypeAD, int min, int max)
         {
