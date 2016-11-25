@@ -45,6 +45,7 @@
             this.loadDataProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.timer3 = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -150,7 +151,6 @@
             this.ConfigScopeButton.Text = "Конфигурация системы";
             this.ConfigScopeButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ConfigScopeButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.ConfigScopeButton.Visible = false;
             this.ConfigScopeButton.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // toolStripButton
@@ -260,6 +260,11 @@
             this.panel1.Size = new System.Drawing.Size(486, 444);
             this.panel1.TabIndex = 0;
             // 
+            // timer3
+            // 
+            this.timer3.Interval = 500;
+            this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -305,6 +310,7 @@
         private System.Windows.Forms.ToolStripLabel loadScopeToolStripLabel;
         private System.Windows.Forms.ToolStripProgressBar loadDataProgressBar;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Timer timer3;
     }
 }
 

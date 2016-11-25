@@ -11,10 +11,10 @@ namespace ScopeSetupApp
         static public bool ChangeScopeConfig = false;
 
         //Скаченные параметры
-        static ushort[] loadParams = new ushort[32];
+        static ushort[] _loadParams = new ushort[32];
         public static ushort[] LoadParams 
         { 
-            get { return loadParams; } 
+            get { return _loadParams; } 
             set { }
         }
 
@@ -25,136 +25,136 @@ namespace ScopeSetupApp
             {
                 for (i = 0; i < paramCount; i++)
                 {
-                    loadParams[startIndex + i] = newPartLoadParams[i];
+                    _loadParams[startIndex + i] = newPartLoadParams[i];
                 }
             }
             catch { }
         }
 
-        static bool connectMCU = false;
-        public static bool ConnectMCU
+        static bool _connectMcu = false;
+        public static bool ConnectMcu
         {
-            get { return connectMCU; }
-            set { connectMCU = value; }
+            get { return _connectMcu; }
+            set { _connectMcu = value; }
         }
 
         //Частота выборки без делителя
-        static ushort sampl = 1;
+        static ushort _sampl = 1;
         public static ushort SampleRate
         {
-            get { return sampl; }
-            set { sampl = value; }
+            get { return _sampl; }
+            set { _sampl = value; }
         }
 
         //Размер всей памяти 
-        static uint oscilAllSize = 0;
+        static uint _oscilAllSize = 0;
         public static uint OscilAllSize
         {
-            get { return oscilAllSize; }
-            set { oscilAllSize = value; }
+            get { return _oscilAllSize; }
+            set { _oscilAllSize = value; }
         }
 
         //Размер выборки
-        static ushort samplSize = 0;
+        static ushort _samplSize = 0;
         public static ushort SampleSize
         {
-            get { return samplSize; }
-            set { samplSize = value; }
+            get { return _samplSize; }
+            set { _samplSize = value; }
         }
 
         //Количество выборок в предыстории 
-        static uint oscilHistCount = 0;
+        static uint _oscilHistCount = 0;
         public static uint OscilHistCount
         {
-            get { return oscilHistCount; }
-            set { oscilHistCount = value;  }
+            get { return _oscilHistCount; }
+            set { _oscilHistCount = value;  }
         }
 
         //Количество осциллограмм 
-        static ushort scopeCount = 1;
+        static ushort _scopeCount = 1;
         public static ushort ScopeCount
         {
-            get { return scopeCount; }
-            set { scopeCount = value; }
+            get { return _scopeCount; }
+            set { _scopeCount = value; }
         }
 
         //Количество каналов
-        static ushort channelCount = 1;
+        static ushort _channelCount = 1;
         public static ushort ChannelCount
         {
-            get { return channelCount; }
-            set { channelCount = value; }
+            get { return _channelCount; }
+            set { _channelCount = value; }
         }
         //Предыстория 
-        static ushort historyCount = 0;
+        static ushort _historyCount = 0;
         public static ushort HistoryCount
         {
-            get { return historyCount; }
-            set { historyCount = value; }
+            get { return _historyCount; }
+            set { _historyCount = value; }
         }
         //Делитель 
-        static ushort freqCount = 1;
+        static ushort _freqCount = 1;
         public static ushort FreqCount
         {
-            get { return freqCount; }
-            set { freqCount = value; }
+            get { return _freqCount; }
+            set { _freqCount = value; }
         }
 
         //Режим работы 
-        static ushort oscilEnable = 0;
+        static ushort _oscilEnable = 0;
         public static ushort OscilEnable
         {
-            get { return oscilEnable; }
-            set { oscilEnable = value; }
+            get { return _oscilEnable; }
+            set { _oscilEnable = value; }
         }
 
         //Размер осциллограммы 
-        static uint oscilSize = 0;
+        static uint _oscilSize = 0;
         public static uint OscilSize
         {
-            get { return oscilSize; }
-            set { oscilSize = value; }
+            get { return _oscilSize; }
+            set { _oscilSize = value; }
         }
 
         //Адреса каналов 
-        static List<ushort> oscilAddr = new List<ushort>();
+        static List<ushort> _oscilAddr = new List<ushort>();
         public static List<ushort> OscilAddr
         {
-            get { return oscilAddr; }
+            get { return _oscilAddr; }
             set{}
         }
         public static void InitOscilAddr(ushort[] loadParams)
         {
             int i;
-            oscilAddr.Clear();
-            for (i = 0; i < channelCount; i++)
+            _oscilAddr.Clear();
+            for (i = 0; i < _channelCount; i++)
             {
-                oscilAddr.Add(loadParams[i]);
+                _oscilAddr.Add(loadParams[i]);
             }
         }
 
         //Формат каналов 
-        static List<ushort> oscilFormat = new List<ushort>();
+        static List<ushort> _oscilFormat = new List<ushort>();
         public static List<ushort> OscilFormat
         {
-            get { return oscilFormat; }
+            get { return _oscilFormat; }
             set { }
         }
         public static void InitOscilFormat(ushort[] loadParams)
         {
             int i;
-            oscilFormat.Clear();
-            for (i = 0; i < channelCount; i++)
+            _oscilFormat.Clear();
+            for (i = 0; i < _channelCount; i++)
             {
-                oscilFormat.Add(loadParams[i]);
+                _oscilFormat.Add(loadParams[i]);
             }
         }
 
         //Осциллографирумые параметры (получаем список параметров которые будем осциллогофировать)
-        static List<int> oscilParams = new List<int>();
+        static List<int> _oscilParams = new List<int>();
         public static List<int> OscilParams
         {
-            get { return oscilParams; }
+            get { return _oscilParams; }
             set {}
         }
         //Проверка по адресу и формату 
@@ -171,10 +171,10 @@ namespace ScopeSetupApp
         public static void InitOscilParams(List<ushort> OscilAddr, List<ushort> oscilFormat)
         {
             int i;
-            oscilParams.Clear();
-            for (i = 0; i < channelCount; i++)
+            _oscilParams.Clear();
+            for (i = 0; i < _channelCount; i++)
             {
-                oscilParams.Add(FindParamIndex(oscilAddr[i], oscilFormat[i]));
+                _oscilParams.Add(FindParamIndex(_oscilAddr[i], oscilFormat[i]));
             }
         }
 

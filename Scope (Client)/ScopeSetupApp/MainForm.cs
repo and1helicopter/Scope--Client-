@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
@@ -17,17 +14,20 @@ namespace ScopeSetupApp
     public partial class MainForm : Form
     {
         //путь приложения
-        string CalcApplPath()
+        private string CalcApplPath()
         {
             string str = Application.ExecutablePath;
             string str2 = "";
             int i = str.Length;
-            char ch = (char)0;
+            char ch;
 
             do
             {
                 ch = str[i - 1];
-                if (ch != 0x5C) { i = i - 1; }
+                if (ch != 0x5C)
+                {
+                    i = i - 1;
+                }
             } while ((ch != 0x5C) && (i > 0));
 
             str2 = str.Substring(0, i);
@@ -35,26 +35,30 @@ namespace ScopeSetupApp
         }
 
         //Статусные кнопки загрузки осциллограмм
-        List<Button> statusButtons;
-        bool buttonsAlreadyCreated = true;
+        private List<Button> _statusButtons;
+        private bool _buttonsAlreadyCreated = true;
 
-        ModBusUnit modBusUnit;
-        bool configLoaded = false;
-        bool lineBusy = false;
-        int  loadConfigStep = 0;
-        int requestStep = 0;
-        int loadTimeStampStep = 0;
+        private ModBusUnit _modBusUnit;
+        private bool _configLoaded;
+        private bool _lineBusy;
+        private int _loadConfigStep;
+        private int _requestStep;
+        private int _loadTimeStampStep;
 
-        void LoadWindowSize(string comPortXMLName, out int newHeight, out int newWidth)
+        private void LoadWindowSize(string comPortXmlName, out int newHeight, out int newWidth)
         {
             XmlNodeList xmls;
             XmlNode xmlNode;
 
             var doc = new XmlDocument();
-            try { doc.Load(comPortXMLName); }
+            try
+            {
+                doc.Load(comPortXmlName);
+            }
             catch
             {
-                MessageBox.Show("Неизв. формат удалось открыть файл с настройками!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Неизв. формат удалось открыть файл с настройками!", "Ошибка", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 Application.Exit();
             }
 
@@ -78,12 +82,13 @@ namespace ScopeSetupApp
                 MessageBox.Show("Ошибки в файле с настройками!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        void SaveWindowSize(string comPortXMLName)
+
+        private void SaveWindowSize(string comPortXmlName)
         {
             try
             {
                 var doc = new XmlDocument();
-                doc.Load(comPortXMLName);
+                doc.Load(comPortXmlName);
 
                 XmlNodeList adds = doc.GetElementsByTagName("MainWindow");
                 foreach (XmlNode add in adds)
@@ -91,7 +96,7 @@ namespace ScopeSetupApp
                     add.Attributes["Height"].Value = this.Height.ToString();
                     add.Attributes["Width"].Value = this.Width.ToString();
                 }
-                doc.Save(comPortXMLName);
+                doc.Save(comPortXmlName);
             }
             catch
             {
@@ -106,7 +111,7 @@ namespace ScopeSetupApp
                 ScopeSysType.InitScopeSysType();
             }
 
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message.ToString());
             }
@@ -115,26 +120,29 @@ namespace ScopeSetupApp
                 if (agrs[0] == "a" || agrs[0] == "A") ConfigScopeButton.Visible = true; //true
             }
 
-            modBusUnit = new ModBusUnit();
-            modBusUnit.RequestFinished += new EventHandler(EndRequest);
+            _modBusUnit = new ModBusUnit();
+            _modBusUnit.RequestFinished += new EventHandler(EndRequest);
 
             ModBusUnits.ScopeSetupModbusUnit = new ModBusUnit();
             ModBusClient.InitModBusEvent();
 
-            int i1,i2;
-            LoadWindowSize("prgSettings.xml",out i1,out i2);
+            int i1, i2;
+            LoadWindowSize("prgSettings.xml", out i1, out i2);
             Size size = new Size(i2, i1);
             this.Size = size;
         }
 
-        delegate void SetStringDelegate(string parameter);
-        void SetTimeLabel(string newTime)
+        private delegate void SetStringDelegate(string parameter);
+
+        private void SetTimeLabel(string newTime)
         {
             try
             {
-               label1.Text = newTime;
+                label1.Text = newTime;
             }
-            catch { }
+            catch
+            {
+            }
         }
 
 
@@ -142,20 +150,53 @@ namespace ScopeSetupApp
         //***************************************************************************************//
         //***************************************************************************************//
 
-        ScopeSetupForm scopeSetupForm;
+        private ScopeSetupForm _scopeSetupForm;
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            scopeSetupForm = new ScopeSetupForm();
-            scopeSetupForm.Show();
+            if (_scopeSetupForm != null)
+            {
+                try
+                {
+                    _scopeSetupForm.Show();
+                    _scopeSetupForm.Activate();
+                }
+                catch (Exception)
+                {
+                    _scopeSetupForm = new ScopeSetupForm();
+                    _scopeSetupForm.Show();
+                }
+            }
+            else
+            {
+                _scopeSetupForm = new ScopeSetupForm();
+                _scopeSetupForm.Show();
+            }  
         }
 
-        ScopeConfigForm scopeConfigForm;
+        private ScopeConfigForm _scopeConfigForm;
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            scopeConfigForm = new ScopeConfigForm();
-            scopeConfigForm.Show();
+            if (_scopeConfigForm != null)
+            {
+                try
+                {
+                    _scopeConfigForm.Show();
+                    _scopeConfigForm.Activate();
+                }
+                catch (Exception)
+                {
+                _scopeConfigForm = new ScopeConfigForm();
+                _scopeConfigForm.Show();
+                }
+
+            }
+            else
+            {
+                _scopeConfigForm = new ScopeConfigForm();
+                _scopeConfigForm.Show();
+            };
         }
 
 
@@ -175,13 +216,13 @@ namespace ScopeSetupApp
             OpenPort();
         }
 
-        void LoadComPortSettings(string comPortXMLName, out int newPar, out int newSpeed, out int newPortIndex, out int newAddr)
+        private void LoadComPortSettings(string comPortXmlName, out int newPar, out int newSpeed, out int newPortIndex, out int newAddr)
         {
             XmlNodeList xmls;
             XmlNode xmlNode;
 
             var doc = new XmlDocument();
-            try { doc.Load(comPortXMLName); }
+            try { doc.Load(comPortXmlName); }
             catch
             {
                 MessageBox.Show("Не удалось открыть файл с настройками!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -246,50 +287,50 @@ namespace ScopeSetupApp
         //*****************************************************************************************//
         //*****************************************************************************************//
         //*****************************************************************************************//
-        ushort[] oscilsStatus = { 0, 0, 0, 0,   0, 0, 0, 0,  0, 0, 0, 0,     0, 0, 0, 0, 
+        private ushort[] _oscilsStatus = { 0, 0, 0, 0,   0, 0, 0, 0,  0, 0, 0, 0,     0, 0, 0, 0, 
                                   0, 0, 0, 0,   0, 0, 0, 0,  0, 0, 0, 0,     0, 0, 0, 0,  0};
 
-        string[] oscilTitls = new string[32];
-        DateTime [] date = new DateTime[32];
+        private string[] _oscilTitls = new string[32];
+        private DateTime [] _date = new DateTime[32];
 
         private void SendTimeStampRequest()
         {
-            int i1 = requestStep;
-            int i  = loadTimeStampStep;
+            int i1 = _requestStep;
+            int i  = _loadTimeStampStep;
 
             if (i >= ScopeConfig.ScopeCount)
             {
-                requestStep = 0;
-                loadTimeStampStep = 0;
-                lineBusy = false;
+                _requestStep = 0;
+                _loadTimeStampStep = 0;
+                _lineBusy = false;
                 return;
             }
 
-            while ((oscilsStatus[i] < 4) && (i < ScopeConfig.ScopeCount))
+            while ((_oscilsStatus[i] < 4) && (i < ScopeConfig.ScopeCount))
             {
                 i++;
             }
 
             if (i >= ScopeConfig.ScopeCount)
             {
-                requestStep = 0;
-                loadTimeStampStep = 0;
-                lineBusy = false;
+                _requestStep = 0;
+                _loadTimeStampStep = 0;
+                _lineBusy = false;
                 return;
             }
-            else if (requestStep == 3)
+            else if (_requestStep == 3)
             {
-                loadTimeStampStep = i;
+                _loadTimeStampStep = i;
                
-                modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 136 + i * 6), 6);
+                _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 136 + i * 6), 6);
             }
         }
         private void EndTimeStampRequest()
         {
-            if (!modBusUnit.modBusData.RequestError && requestStep == 3)
+            if (!_modBusUnit.modBusData.RequestError && _requestStep == 3)
             {
                 UpdateTimeStampInvoke();
-                loadTimeStampStep++;
+                _loadTimeStampStep++;
             }
             else
             {
@@ -299,74 +340,74 @@ namespace ScopeSetupApp
 
         private void LoadConfig()
         {
-            if (loadConfigStep == 0)                //Количество каналов 
+            if (_loadConfigStep == 0)                //Количество каналов 
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 67), 1);
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 67), 1);
                 return;
             }
 
-            if (loadConfigStep == 1)                //Количество осциллограмм 
+            if (_loadConfigStep == 1)                //Количество осциллограмм 
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 66), 1);
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 66), 1);
                 return;
             }
 
-            if (loadConfigStep == 2)                //Предыстория 
+            if (_loadConfigStep == 2)                //Предыстория 
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 68), 1);
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 68), 1);
                 return;
             }
 
-            if (loadConfigStep == 3)                //Делитель
+            if (_loadConfigStep == 3)                //Делитель
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 69), 1);
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 69), 1);
                 return;
             }
 
-            if (loadConfigStep == 4)                //Режим работы
+            if (_loadConfigStep == 4)                //Режим работы
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 70), 1);
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 70), 1);
                 return;
             }
 
-            if (loadConfigStep == 5)                //Размер осциллограммы 
+            if (_loadConfigStep == 5)                //Размер осциллограммы 
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 64), 2);
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 64), 2);
                 return;
             }
 
-            if (loadConfigStep == 6)                //Частота выборки
+            if (_loadConfigStep == 6)                //Частота выборки
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 2), 1);
+                _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 2), 1);
                 return;
             }
 
-            if (loadConfigStep == 7)                //Весь размер под осциллограммы 
+            if (_loadConfigStep == 7)                //Весь размер под осциллограммы 
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 376), 2);
+                _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 376), 2);
                 return;
             }
 
-            if (loadConfigStep == 8)                //Размер одной выборки
+            if (_loadConfigStep == 8)                //Размер одной выборки
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 3), 1);
+                _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 3), 1);
                 return;
             }
-            if (loadConfigStep == 9)                //Количество выборок на предысторию 
+            if (_loadConfigStep == 9)                //Количество выборок на предысторию 
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr), 2);
-                return;
-            }
-
-            if (loadConfigStep == 10)                //Адреса каналов 
-            {
-                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 32), 32);
+                _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr), 2);
                 return;
             }
 
-            if (loadConfigStep == 11)                //Формат каналов 
+            if (_loadConfigStep == 10)                //Адреса каналов 
             {
-                modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr), 32);
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 32), 32);
+                return;
+            }
+
+            if (_loadConfigStep == 11)                //Формат каналов 
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr), 32);
                 return;
             }
 
@@ -374,108 +415,108 @@ namespace ScopeSetupApp
         }
         private void EndLoadConfig()
         {
-            if (!modBusUnit.modBusData.RequestError)
+            if (!_modBusUnit.modBusData.RequestError)
             {
-                switch (loadConfigStep)
+                switch (_loadConfigStep)
                 {
                     case 0:                     //Количество каналов 
                         {
-                            ScopeConfig.ChannelCount = modBusUnit.modBusData.ReadData[0];
-                            loadConfigStep = 1;
+                            ScopeConfig.ChannelCount = _modBusUnit.modBusData.ReadData[0];
+                            _loadConfigStep = 1;
                             LoadConfig();
                         } break;
 
                     case 1:                     //Количество осциллограмм
                         {
-                            ScopeConfig.ScopeCount = modBusUnit.modBusData.ReadData[0];
-                            loadConfigStep = 2;
+                            ScopeConfig.ScopeCount = _modBusUnit.modBusData.ReadData[0];
+                            _loadConfigStep = 2;
                             LoadConfig();
                         } break;
 
                     case 2:                     //Предыстория 
                         {
-                            ScopeConfig.HistoryCount = modBusUnit.modBusData.ReadData[0];
-                            loadConfigStep = 3;
+                            ScopeConfig.HistoryCount = _modBusUnit.modBusData.ReadData[0];
+                            _loadConfigStep = 3;
                             LoadConfig();
                         } break;
 
                     case 3:                     //Делитель
                         {
-                            ScopeConfig.FreqCount = modBusUnit.modBusData.ReadData[0];
-                            loadConfigStep = 4;
+                            ScopeConfig.FreqCount = _modBusUnit.modBusData.ReadData[0];
+                            _loadConfigStep = 4;
                             LoadConfig();
                         } break;
 
                     case 4:                     //Режим работы
                         {
-                            ScopeConfig.OscilEnable = modBusUnit.modBusData.ReadData[0];
-                            loadConfigStep = 5;
+                            ScopeConfig.OscilEnable = _modBusUnit.modBusData.ReadData[0];
+                            _loadConfigStep = 5;
                             LoadConfig();
                         } break;
 
                     case 5:                     //Размер осциллограммы 
                         {
-                            ScopeConfig.OscilSize = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
-                            ScopeConfig.OscilSize += modBusUnit.modBusData.ReadData[0];
-                            loadConfigStep = 6;
+                            ScopeConfig.OscilSize = (uint)((int)_modBusUnit.modBusData.ReadData[1] << 16);
+                            ScopeConfig.OscilSize += _modBusUnit.modBusData.ReadData[0];
+                            _loadConfigStep = 6;
                             LoadConfig();
                         } break;
 
                     case 6:                     //Частота выборки
                         {
-                            ScopeConfig.SampleRate = modBusUnit.modBusData.ReadData[0];
+                            ScopeConfig.SampleRate = _modBusUnit.modBusData.ReadData[0];
                             ScopeConfig.ScopeEnabled = true;
-                            loadConfigStep = 7;
+                            _loadConfigStep = 7;
                             LoadConfig();
                         } break;
 
                     case 7:                     //Размер осциллограммы 
                         {
-                            ScopeConfig.OscilAllSize = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
-                            ScopeConfig.OscilAllSize += (uint)((int)modBusUnit.modBusData.ReadData[0]);
-                            loadConfigStep = 8;
+                            ScopeConfig.OscilAllSize = (uint)((int)_modBusUnit.modBusData.ReadData[1] << 16);
+                            ScopeConfig.OscilAllSize += (uint)((int)_modBusUnit.modBusData.ReadData[0]);
+                            _loadConfigStep = 8;
                             LoadConfig();
                         } break;
 
                     case 8:                     //Размер одной выборки
                         {
-                            ScopeConfig.SampleSize = modBusUnit.modBusData.ReadData[0];
-                            loadConfigStep = 9;
+                            ScopeConfig.SampleSize = _modBusUnit.modBusData.ReadData[0];
+                            _loadConfigStep = 9;
                             LoadConfig();
                         } break;
                     case 9:                     //Размер всей памяти 
                         {
-                            ScopeConfig.OscilHistCount = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
-                            ScopeConfig.OscilHistCount += modBusUnit.modBusData.ReadData[0];
-                            loadConfigStep = 10;
+                            ScopeConfig.OscilHistCount = (uint)((int)_modBusUnit.modBusData.ReadData[1] << 16);
+                            ScopeConfig.OscilHistCount += _modBusUnit.modBusData.ReadData[0];
+                            _loadConfigStep = 10;
                             LoadConfig();
 
                         } break;
                     case 10:                     //Адреса каналов 
                         {
-                            ScopeConfig.InitOscilAddr(modBusUnit.modBusData.ReadData);
-                            loadConfigStep = 11;
+                            ScopeConfig.InitOscilAddr(_modBusUnit.modBusData.ReadData);
+                            _loadConfigStep = 11;
                             LoadConfig();
                         } break;
                     case 11:                     //Формат каналов 
                         {
-                            ScopeConfig.InitOscilFormat(modBusUnit.modBusData.ReadData);
+                            ScopeConfig.InitOscilFormat(_modBusUnit.modBusData.ReadData);
                             ScopeConfig.InitOscilParams(ScopeConfig.OscilAddr,ScopeConfig.OscilFormat);
-                            loadConfigStep = 0;
-                            configLoaded = true;
-                            buttonsAlreadyCreated = false;
+                            _loadConfigStep = 0;
+                            _configLoaded = true;
+                            _buttonsAlreadyCreated = false;
                         } break;
                 }
                 return;
             }
             else
             {
-                loadConfigStep = 0;
+                _loadConfigStep = 0;
             }
         }
         private void EndLoadTime()
         {
-            if (!modBusUnit.modBusData.RequestError)
+            if (!_modBusUnit.modBusData.RequestError)
             {
                 try
                 {
@@ -495,18 +536,18 @@ namespace ScopeSetupApp
         private void EndLoadStatus(int blockNum)
         {
             int i;
-            if (!modBusUnit.modBusData.RequestError)
+            if (!_modBusUnit.modBusData.RequestError)
             {
                 for (i = 0; i < 16; i++)
                 {
-                    oscilsStatus[i+16*blockNum] = modBusUnit.modBusData.ReadData[i];
+                    _oscilsStatus[i+16*blockNum] = _modBusUnit.modBusData.ReadData[i];
                 }
             }
             else
             {
                 for (i = 0; i < 16; i++)
                 {
-                    oscilsStatus[i] = 0;
+                    _oscilsStatus[i] = 0;
                 }
             }
 
@@ -514,101 +555,101 @@ namespace ScopeSetupApp
         }
 
         //Очистка осциллограмм
-        int clearOscNum = 0x7FFF;
-        bool clearOscFlag = false;
-        bool initClearOscFlag = false;
+        private int _clearOscNum = 0x7FFF;
+        private bool _clearOscFlag = false;
+        private bool _initClearOscFlag = false;
         private void ClearOscRequest()
         {
-            if (clearOscNum >= ScopeConfig.ScopeCount)
+            if (_clearOscNum >= ScopeConfig.ScopeCount)
             {
                 MessageBox.Show("Error");
-                clearOscFlag = false;
+                _clearOscFlag = false;
                 return;
             }
 
-            ushort u = (ushort)(ScopeSysType.OscilCmndAddr + 8 + clearOscNum);
+            ushort u = (ushort)(ScopeSysType.OscilCmndAddr + 8 + _clearOscNum);
             ushort[] uv = {0,0,0,0};
-            modBusUnit.SetData(u,1,uv);
+            _modBusUnit.SetData(u,1,uv);
         }
 
 
         private void ClearOscResponce()
         {
-            clearOscFlag = false;
+            _clearOscFlag = false;
         }
 
         //Ручной запуск
-        bool manStartFlag = false;
-        bool initManStartFlag = false;
+        private bool _manStartFlag = false;
+        private bool _initManStartFlag = false;
         private void ManStartRequest()
         {
             ushort u = (ushort)(ScopeSysType.OscilCmndAddr + 4);//
             //MessageBox.Show(u.ToString("X4"));
             ushort[] uv = { 1, 1, 1, 1 };
-            modBusUnit.SetData(u, 1, uv);
+            _modBusUnit.SetData(u, 1, uv);
         }
 
         private void ManStartResponce()
         {
-            manStartFlag = false;
+            _manStartFlag = false;
         }
 
         private void EndRequest(object sender, EventArgs e)
         {
-            if (modBusUnit.modBusData.RequestError)
+            if (_modBusUnit.modBusData.RequestError)
             {
-                ScopeConfig.ConnectMCU = false;
+                ScopeConfig.ConnectMcu = false;
                 ScopeConfig.ChangeScopeConfig = false;
                 RemoveButtonsInvoke();
                 HideProgressBarInvoke();
-                loadOscDataStep = 0;            
-                loadOscDataSubStep = 0;
-                loadOscilIndex = 0;
-                requestStep = 0;
-                clearOscFlag = false;
-                loadOscData = false;
-                lineBusy = false;
+                _loadOscDataStep = 0;            
+                _loadOscDataSubStep = 0;
+                _loadOscilIndex = 0;
+                _requestStep = 0;
+                _clearOscFlag = false;
+                _loadOscData = false;
+                _lineBusy = false;
                 return;
             }
 
-            ScopeConfig.ConnectMCU = true;
+            ScopeConfig.ConnectMcu = true;
 
-            if (loadOscData)
+            if (_loadOscData)
             {
                 LoadOscDataResponce();
-                lineBusy = false;
+                _lineBusy = false;
                 return;
             }
 
-            if (!configLoaded)
+            if (!_configLoaded)
             {
                 EndLoadConfig();
             }
-            else if (clearOscFlag)
+            else if (_clearOscFlag)
             {
                 ClearOscResponce();
             }
-            else if (manStartFlag)
+            else if (_manStartFlag)
             {
                 ManStartResponce();
             }
-            else if (requestStep == 0)
+            else if (_requestStep == 0)
             {
                 EndLoadTime();
-                requestStep = 1;
+                _requestStep = 1;
             }
-            else if (requestStep == 1)
+            else if (_requestStep == 1)
             {
                 EndLoadStatus(0);
-                requestStep = 2;
+                _requestStep = 2;
             }
-            else if (requestStep == 2)
+            else if (_requestStep == 2)
             {
                 EndLoadStatus(1);
-                requestStep = 3;
+                _requestStep = 3;
             }
 
-            else if (requestStep == 3 || requestStep == 4)
+            else if (_requestStep == 3 || _requestStep == 4)
             {
                 EndTimeStampRequest();
             }
@@ -619,10 +660,10 @@ namespace ScopeSetupApp
                 RemoveButtonsInvoke();
             }
 
-            if (initLoadOscilFlag) { InitLoadOscillInvoke(); initLoadOscilFlag = false; requestStep = 0;  lineBusy = false; return; }
-            if (initClearOscFlag) { clearOscFlag = true; initClearOscFlag = false; }
-            if (initManStartFlag) { manStartFlag = true; initManStartFlag = false; }
-            lineBusy = false;
+            if (_initLoadOscilFlag) { InitLoadOscillInvoke(); _initLoadOscilFlag = false; _requestStep = 0;  _lineBusy = false; return; }
+            if (_initClearOscFlag) { _clearOscFlag = true; _initClearOscFlag = false; }
+            if (_initManStartFlag) { _manStartFlag = true; _initManStartFlag = false; }
+            _lineBusy = false;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -631,50 +672,55 @@ namespace ScopeSetupApp
             CreateStatusButtons();
             if (!ModBusClient.ModBusOpened) { timer1.Enabled = true; return; }
 
-            if (loadOscData)    { timer1.Enabled = true; return; }
-            if (lineBusy)       { timer1.Enabled = true; return; }
+            if (_loadOscData)
+            {
+                timer1.Enabled = true;
+                timer3.Enabled = true;
+                return;
+            }
+            if (_lineBusy)       { timer1.Enabled = true; return; }
 
-            lineBusy = true;
+            _lineBusy = true;
 
-            if (!configLoaded)
+            if (!_configLoaded)
             {
                 LoadConfig();
                 timer1.Enabled = true;
                 return;
             }
 
-            if (clearOscFlag)
+            if (_clearOscFlag)
             {
                 ClearOscRequest();
-                requestStep = 0;
+                _requestStep = 0;
                 timer1.Enabled = true;
                 return;
             }
 
-            if (manStartFlag)
+            if (_manStartFlag)
             {
                 ManStartRequest();
-                requestStep = 0;
+                _requestStep = 0;
                 timer1.Enabled = true;
                 return;
             }
 
-            if (requestStep==0)
+            if (_requestStep==0)
             {
-                modBusUnit.GetData(0x202, 8);
+                _modBusUnit.GetData(0x202, 8);
             }
-            else if (requestStep == 1)
-            { modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 8), 16); }
+            else if (_requestStep == 1)
+            { _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 8), 16); }
 
-            else if (requestStep == 2)
-            { modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 24), 16); }
+            else if (_requestStep == 2)
+            { _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 24), 16); }
 
-            else if (requestStep == 3)
+            else if (_requestStep == 3)
             {
                  SendTimeStampRequest(); 
             }
 
-            else if (requestStep == 4)
+            else if (_requestStep == 4)
             {
                 SendTimeStampRequest();
             }
@@ -692,27 +738,27 @@ namespace ScopeSetupApp
         //***************************************************************************************//
         private void CreateStatusButtons()
         {
-            if (buttonsAlreadyCreated) { return; }
+            if (_buttonsAlreadyCreated) { return; }
             int i;
-            statusButtons = new List<Button>();
+            _statusButtons = new List<Button>();
 
             Font font = new Font("Open Sans", 9);
             Size size = new Size(120, 60);
 
             for (i = 0; i < ScopeConfig.ScopeCount; i++)
             {
-                statusButtons.Add(new Button());
-                statusButtons[i].Text = "№" + (i + 1).ToString() + "\n" + "Пусто";
-                statusButtons[i].Size = size;
-                statusButtons[i].Font = font;
-                statusButtons[i].Margin = new System.Windows.Forms.Padding(2);
-                statusButtons[i].Tag = i;
-                statusButtons[i].Dock = DockStyle.None;
-                statusButtons[i].Tag = i;
-                statusButtons[i].Click += new EventHandler(loadOscBtnClick);
-                nowStatusFlowLayoutPanel.Controls.Add(statusButtons[i]);
+                _statusButtons.Add(new Button());
+                _statusButtons[i].Text = "№" + (i + 1).ToString() + "\n" + "Пусто";
+                _statusButtons[i].Size = size;
+                _statusButtons[i].Font = font;
+                _statusButtons[i].Margin = new System.Windows.Forms.Padding(2);
+                _statusButtons[i].Tag = i;
+                _statusButtons[i].Dock = DockStyle.None;
+                _statusButtons[i].Tag = i;
+                _statusButtons[i].Click += new EventHandler(LoadOscBtnClick);
+                nowStatusFlowLayoutPanel.Controls.Add(_statusButtons[i]);
             }
-            buttonsAlreadyCreated = true;
+            _buttonsAlreadyCreated = true;
 
         }
 
@@ -721,7 +767,7 @@ namespace ScopeSetupApp
         //*************** ОБНОВЛЕНИЕ КОНТРОЛОВ В АСИНХРОННОМ РЕЖИМЕ ***************************************//
         //*************************************************************************************************//
         //*************************************************************************************************//
-        delegate void NoParamDelegate();
+        private delegate void NoParamDelegate();
 
         private void UpdateOscilsStatus()
         {
@@ -729,37 +775,37 @@ namespace ScopeSetupApp
             
             for (i = 0; i < ScopeConfig.ScopeCount; i++)
             {
-                if (oscilsStatus[i] == 0) 
+                if (_oscilsStatus[i] == 0) 
                 {
-                    statusButtons[i].FlatStyle = FlatStyle.Standard;
-                    statusButtons[i].BackColor = Color.White;
-                    statusButtons[i].Enabled = false;
-                    oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString() + ".";
-                    statusButtons[i].Text = "№" + (i + 1).ToString() + "\n" + "Пусто";
+                    _statusButtons[i].FlatStyle = FlatStyle.Standard;
+                    _statusButtons[i].BackColor = Color.White;
+                    _statusButtons[i].Enabled = false;
+                    _oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString() + ".";
+                    _statusButtons[i].Text = "№" + (i + 1).ToString() + "\n" + "Пусто";
                 
                 }
-                else if (oscilsStatus[i] >= 4) { statusButtons[i].BackColor = Color.LightSteelBlue; ; statusButtons[i].Enabled = true; }
+                else if (_oscilsStatus[i] >= 4) { _statusButtons[i].BackColor = Color.LightSteelBlue; ; _statusButtons[i].Enabled = true; }
             
-                else if (oscilsStatus[i] == 3)
+                else if (_oscilsStatus[i] == 3)
                 {
-                    statusButtons[i].FlatStyle = FlatStyle.Standard;
-                    statusButtons[i].BackColor = Color.Lavender; 
-                    statusButtons[i].Enabled = true;
-                    oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString() + ".";
-                    statusButtons[i].Text = "№" + (i + 1).ToString() + "\n" + "Идет запись";         
+                    _statusButtons[i].FlatStyle = FlatStyle.Standard;
+                    _statusButtons[i].BackColor = Color.Lavender; 
+                    _statusButtons[i].Enabled = true;
+                    _oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString() + ".";
+                    _statusButtons[i].Text = "№" + (i + 1).ToString() + "\n" + "Идет запись";         
                 }
-                else if (oscilsStatus[i] == 1)
+                else if (_oscilsStatus[i] == 1)
                 {
-                    statusButtons[i].BackColor = Color.GhostWhite;
-                    statusButtons[i].Enabled = true;
-                    oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString() + ".";
-                    statusButtons[i].Text = "№" + (i + 1).ToString() + "\n" + "Запись предыстории";
+                    _statusButtons[i].BackColor = Color.GhostWhite;
+                    _statusButtons[i].Enabled = true;
+                    _oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString() + ".";
+                    _statusButtons[i].Text = "№" + (i + 1).ToString() + "\n" + "Запись предыстории";
                 }
                 else {
-                    statusButtons[i].BackColor = Color.AliceBlue;
-                    statusButtons[i].Enabled = true;
-                    oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString()+".";
-                    statusButtons[i].Text = "№" + (i + 1).ToString() + "\n" + "Готова к записи";
+                    _statusButtons[i].BackColor = Color.AliceBlue;
+                    _statusButtons[i].Enabled = true;
+                    _oscilTitls[i] = "Осциллограмма №" + (i + 1).ToString()+".";
+                    _statusButtons[i].Text = "№" + (i + 1).ToString() + "\n" + "Готова к записи";
                 }
             }
         }
@@ -775,15 +821,15 @@ namespace ScopeSetupApp
         private void UpdateTimeStamp()
         {
             string str, str1, str2, str3;
-            str1 = (modBusUnit.modBusData.ReadData[0] & 0x3F).ToString("X2") + "/" + ((modBusUnit.modBusData.ReadData[0] >> 8) & 0x1F).ToString("X2") + "/20" + (modBusUnit.modBusData.ReadData[1] & 0xFF).ToString("X2");     //D.M.Y врямя 
-            str2 = (modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + ((modBusUnit.modBusData.ReadData[2] >> 8) & 0x7F).ToString("X2") + ":" + (modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2");      //S.M.H   
-            str3 = ((modBusUnit.modBusData.ReadData[4] *1000) >> 8).ToString("D3") + "000" ;
-            statusButtons[loadTimeStampStep].Text = "№" + (loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
-            oscilTitls[loadTimeStampStep] = "Осциллограмма №" + (loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
+            str1 = (_modBusUnit.modBusData.ReadData[0] & 0x3F).ToString("X2") + "/" + ((_modBusUnit.modBusData.ReadData[0] >> 8) & 0x1F).ToString("X2") + "/20" + (_modBusUnit.modBusData.ReadData[1] & 0xFF).ToString("X2");     //D.M.Y врямя 
+            str2 = (_modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + ((_modBusUnit.modBusData.ReadData[2] >> 8) & 0x7F).ToString("X2") + ":" + (_modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2");      //S.M.H   
+            str3 = ((_modBusUnit.modBusData.ReadData[4] *1000) >> 8).ToString("D3") + "000" ;
+            _statusButtons[_loadTimeStampStep].Text = "№" + (_loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
+            _oscilTitls[_loadTimeStampStep] = "Осциллограмма №" + (_loadTimeStampStep + 1).ToString() + "\n" + str1 + "\n" + str2;
             str = str1 + "," + str2 + "." + str3;
             try
             {
-                date[loadTimeStampStep] = DateTime.Parse(str);
+                _date[_loadTimeStampStep] = DateTime.Parse(str);
             }
             catch{ }
         }
@@ -798,7 +844,7 @@ namespace ScopeSetupApp
 
         private void UpdateLoadDataProgressBar()
         {
-            loadDataProgressBar.Value = (int)loadOscilIndex;
+            loadDataProgressBar.Value = (int)_loadOscilIndex;
         }
         private void UpdateLoadDataProgressBarInvoke()
         {
@@ -829,13 +875,13 @@ namespace ScopeSetupApp
             {
                 for (int i = 0; i < ScopeConfig.ScopeCount; i++)
                 {
-                    nowStatusFlowLayoutPanel.Controls.Remove(statusButtons[i]);
+                    nowStatusFlowLayoutPanel.Controls.Remove(_statusButtons[i]);
                 }
-                statusButtons.Clear();
+                _statusButtons.Clear();
             }
             catch { }
             
-            configLoaded = false;
+            _configLoaded = false;
         }
         private void RemoveButtonsInvoke()
         {
@@ -852,99 +898,104 @@ namespace ScopeSetupApp
         //***********************************************************************************************//
         #region
 
-        private void loadOscBtnClick(object sender, EventArgs e)
+        private void LoadOscBtnClick(object sender, EventArgs e)
         {
             bool b = false;
-            if (oscilsStatus[(int)(sender as Button).Tag] >= 4)
+            if (_oscilsStatus[(int)(sender as Button).Tag] >= 4)
             {
                 b = true;
             }
 
-            LoadOscQueryForm loadOscQueruForm = new LoadOscQueryForm(oscilTitls[(int)(sender as Button).Tag], b);
+            LoadOscQueryForm loadOscQueruForm = new LoadOscQueryForm(_oscilTitls[(int)(sender as Button).Tag], b);
             DialogResult dlgr = loadOscQueruForm.ShowDialog();
 
             //СКАЧИВАНИЕ ОСЦИЛЛОГРАММ
             if (dlgr == DialogResult.OK)
             {
-                loadOscNum = (int)(sender as Button).Tag;
-                initLoadOscilFlag = true;
-                OscilStartTemp = ((uint)loadOscNum * (ScopeConfig.OscilSize >> 1));      //Начало осциллограммы 
-                OscilEndTemp = (((uint)loadOscNum + 1) * (ScopeConfig.OscilSize >> 1));  //Конец осциллограммы 
+                _loadOscNum = (int)(sender as Button).Tag;
+                _initLoadOscilFlag = true;
+                _oscilStartTemp = ((uint)_loadOscNum * (ScopeConfig.OscilSize >> 1));      //Начало осциллограммы 
+                _oscilEndTemp = (((uint)_loadOscNum + 1) * (ScopeConfig.OscilSize >> 1));  //Конец осциллограммы 
                 //InitParamsLines();
             }
 
             //СБРОС ОСЦИЛЛОГРАММ
             else if (dlgr == DialogResult.Abort)
             {
-                clearOscNum = (int)(sender as Button).Tag;
-                initClearOscFlag = true;
+                _clearOscNum = (int)(sender as Button).Tag;
+                _initClearOscFlag = true;
             }
         }
 
         //Загрузка осциллограмм
-        List<ushort[]> downloadedData = new List<ushort[]>(); 
+        private List<ushort[]> _downloadedData = new List<ushort[]>();
 
-        void LoadOscDataRequest()
+        private ushort[] _writeArr = new ushort[4];
+
+
+        private void LoadOscDataRequest()
         {
-            switch (loadOscDataStep)
+              timer3.Enabled = false;
+       //     timer3.Enabled = true;   
+            switch (_loadOscDataStep)
             {
                 //Загрузка номера выборки на котором заканчивается осциллограмма 
                 case 0:
                     {
-                        modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 72 + loadOscNum * 2), 2);
+                        _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 72 + _loadOscNum * 2), 2);
                     }   break;
 
                 //Загрузка данных
                 case 1:
                     {
-                        if (loadOscDataSubStep == 0)
+                        if (_loadOscDataSubStep == 0)
                         {
-                            ushort[] writeArr = new ushort[4];
-
-                            uint oscilLoadTemp = (CalcOscilLoadTemp(loadOscNum));
+                            
+                            uint oscilLoadTemp = (CalcOscilLoadTemp(_loadOscNum));
                            
-                            writeArr[0] = 0x0001;
-                            writeArr[1] = Convert.ToUInt16((oscilLoadTemp << 16) >> 16); 
-                            writeArr[2] = Convert.ToUInt16(oscilLoadTemp >> 16);
+                            _writeArr[0] = 0x0001;
+                            _writeArr[1] = Convert.ToUInt16((oscilLoadTemp << 16) >> 16); 
+                            _writeArr[2] = Convert.ToUInt16(oscilLoadTemp >> 16);
 
-                            modBusUnit.SetData((ushort)(ScopeSysType.OscilCmndAddr + 5), 3, writeArr);
+                            _modBusUnit.SetData((ushort)(ScopeSysType.OscilCmndAddr + 5), 3, _writeArr);
                         }
                         else
                         {
-                            modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 40 + (loadOscDataSubStep - 1) * 8), 8);
+                            _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 40 + (_loadOscDataSubStep - 1) * 8), 8);
                         }
 
                     } break;
-            }
+            } 
         }
-        void LoadOscDataResponce()
+
+        private void LoadOscDataResponce()
         {
-            switch (loadOscDataStep)
+            switch (_loadOscDataStep)
             {
                 //Загрузка стартового адреса
                 case 0:
                     {
-                        if (!modBusUnit.modBusData.RequestError)
+                        if (!_modBusUnit.modBusData.RequestError)
                         {
-                            StartLoadSample = (uint)((int)modBusUnit.modBusData.ReadData[1] << 16);
-                            StartLoadSample += modBusUnit.modBusData.ReadData[0];
-                            loadOscilIndex = 0;
-                            loadOscDataStep = 1;
+                            _startLoadSample = (uint)((int)_modBusUnit.modBusData.ReadData[1] << 16);
+                            _startLoadSample += _modBusUnit.modBusData.ReadData[0];
+                            _loadOscilIndex = 0;
+                            _loadOscDataStep = 1;
                         }
                         else
                         {
-                            loadOscData = false;
-                            loadOscDataStep = 0;
-                            loadOscNum = 0;
-                            CountTemp = 0;
+                            _loadOscData = false;
+                            _loadOscDataStep = 0;
+                            _loadOscNum = 0;
+                            _countTemp = 0;
                         }
                     } break;
 
                 case 1:
                     {
-                        if (!modBusUnit.modBusData.RequestError)
+                        if (!_modBusUnit.modBusData.RequestError)
                         {
-                            switch (loadOscDataSubStep)
+                            switch (_loadOscDataSubStep)
                             {
                                 case 0:
                                     {
@@ -957,90 +1008,93 @@ namespace ScopeSetupApp
                                     {
                                         for (int i = 0; i < 8; i++)
                                         {
-                                            loadParamPart[i + (loadOscDataSubStep - 1) * 8] = modBusUnit.modBusData.ReadData[i];
+                                            _loadParamPart[i + (_loadOscDataSubStep - 1) * 8] = _modBusUnit.modBusData.ReadData[i];
                                         }
                                     }break;
                             }
-                            loadOscDataSubStep++;
-                            if (loadOscDataSubStep == 5) 
+                            _loadOscDataSubStep++;
+                            if (_loadOscDataSubStep == 5) 
                             {
-                                downloadedData.Add(new ushort[32]);
+                                _downloadedData.Add(new ushort[32]);
                                 for (int i = 0; i < 32; i++)
                                 {
-                                    downloadedData[downloadedData.Count - 1][i] = loadParamPart[i];
+                                    _downloadedData[_downloadedData.Count - 1][i] = _loadParamPart[i];
                                 }
 
-                                loadOscDataSubStep = 0;
-                                loadOscilIndex = (2*CountTemp*1000)/ScopeConfig.OscilSize;
+                                _loadOscDataSubStep = 0;
+                                _loadOscilIndex = (2*_countTemp*1000)/ScopeConfig.OscilSize;
                                 
                                 UpdateLoadDataProgressBarInvoke();
 
-                                if (CountTemp >= (ScopeConfig.OscilSize >> 1))
+                                if (_countTemp >= (ScopeConfig.OscilSize >> 1))
                                 {
-                                    loadOscilIndex = 0;
-                                    createFileNum = loadOscNum;
-                                    createFileFlag = true;
-                                    loadOscData = false;
-                                    loadOscDataStep = 0;
+                                    timer3.Enabled = false;     
+
+                                    _loadOscilIndex = 0;
+                                    _createFileNum = _loadOscNum;
+                                    _createFileFlag = true;
+                                    _loadOscData = false;
+                                    _loadOscDataStep = 0;
                                     UpdateLoadDataProgressBarInvoke();
-                                    loadOscilTemp = 0;
-                                    CountTemp = 0;
+                                    _loadOscilTemp = 0;
+                                    _countTemp = 0;
                                 }
                             }
                         }
                         else
                         {
-                            loadOscData = false;
-                            loadOscDataStep = 0;
-                            CountTemp = 0;
+                            _loadOscData = false;
+                            _loadOscDataStep = 0;
+                            _countTemp = 0;
                         }
 
                     } break;
             }
-            if (!loadOscData) 
+            if (!_loadOscData) 
             {
                 HideProgressBarInvoke();
                 return; 
             }
-            if (!modBusUnit.modBusData.RequestError) { LoadOscDataRequest(); }
+            if (!_modBusUnit.modBusData.RequestError) { LoadOscDataRequest(); }
+
 
         }
 
-        bool    loadOscData         = false;        //Флаг, что идет скачивание осцилограммы, все остальные запросы приостановлены
-        int     loadOscDataStep     = 0;            //0 - загрузка loadOscilTemp
+        private bool    _loadOscData         = false;        //Флаг, что идет скачивание осцилограммы, все остальные запросы приостановлены
+        private int     _loadOscDataStep     = 0;            //0 - загрузка loadOscilTemp
                                                     //1 - загрузка непосредственно тела
 
-        int     loadOscDataSubStep  = 0;            //0 - расчет MemoryAddr
+        private int     _loadOscDataSubStep  = 0;            //0 - расчет MemoryAddr
                                                     //1 - получение порции данных
                                                     //2 - 
                                                     //3 -
                                                     //4 -
-        ushort[] loadParamPart = new ushort[32];
+        private ushort[] _loadParamPart = new ushort[32];
 
-        int loadOscNum          = 0;
-        uint loadOscilIndex = 0;
-        uint loadOscilTemp = 0;
-        uint OscilStartTemp;
-        uint OscilEndTemp;
-        uint CountTemp = 0;
-        uint StartLoadSample = 0;
+        private int _loadOscNum          = 0;
+        private uint _loadOscilIndex = 0;
+        private uint _loadOscilTemp = 0;
+        private uint _oscilStartTemp;
+        private uint _oscilEndTemp;
+        private uint _countTemp = 0;
+        private uint _startLoadSample = 0;
 
-        uint CalcOscilLoadTemp(int nowLoadOscNum)
+        private uint CalcOscilLoadTemp(int nowLoadOscNum)
         {
-            if (CountTemp < (ScopeConfig.OscilSize >> 1))                               //Проход по осциллограмме 
+            if (_countTemp < (ScopeConfig.OscilSize >> 1))                               //Проход по осциллограмме 
             {
-                loadOscilTemp += 32;                                                    //Какую часть осциллограммы грузим 
-                CountTemp += 32;
+                _loadOscilTemp += 32;                                                    //Какую часть осциллограммы грузим 
+                _countTemp += 32;
             }
-            return (loadOscilTemp - 32 + OscilStartTemp);                               //+Положение относительно начала массива
+            return (_loadOscilTemp - 32 + _oscilStartTemp);                               //+Положение относительно начала массива
         }
         #endregion
 
         //СОЗДАНИЕ ФАЙЛА
         // Save to .txt
         #region
-        
-        string FileHeaderLine()
+
+        private string FileHeaderLine()
         {
             string str = "";
             int i = 0;
@@ -1055,53 +1109,8 @@ namespace ScopeSetupApp
             }
             return str;
         }
-        string FileColorLine()
-        {
-            string str = "";
-            int i = 0;
-            str = " " + "\t";
-            for (i = 0; i < ScopeConfig.ChannelCount; i++)
-            {
-                //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
-                {
-                    str = str + ScopeSysType.ChannelColors[ScopeConfig.OscilParams[i]].ToArgb().ToString() + "\t";
-                }
-            }
-            return str;
-        }
-        string FileOffsetLine()
-        {
-            string str = "";
-            int i = 0;
-            str = " " + "\t";
-            for (i = 0; i < ScopeConfig.ChannelCount; i++)
-            {
-                //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
-                {
-                    str = str + "0,00000" + "\t";
-                }
-            }
-            return str;
-        }
-        string FileScaleLine()
-        {
-            string str = "";
-            int i = 0;
-            str = " " + "\t";
-            for (i = 0; i < ScopeConfig.ChannelCount; i++)
-            {
-                //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
-                {
-                    str = str + "1,00000" + "\t";
-                }
-            }
-            return str;
-        }
 
-        string FileReserveLine()
+        private string FileReserveLine()
         {
             string str = "";
             int i = 0;
@@ -1116,85 +1125,72 @@ namespace ScopeSetupApp
             }
             return str;
         }
-        string FileStepLine()
-        {
-            string str = "";
-            int i = 0;
-            str = " " + "\t";
-            for (i = 0; i < ScopeConfig.ChannelCount; i++)
-            {
-                //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
-                {
-                    str = str + ScopeSysType.ChannelStepLines[ScopeConfig.OscilParams[i]].ToString()+ "\t";
-                }
-            }
-            return str;
-        }
 
-        int count64, count32 , count16;
-        string FileParamLine(ushort[] paramLine, int lineNum)
+
+        private int _count64, _count32 , _count16;
+
+        private string FileParamLine(ushort[] paramLine, int lineNum)
         {
             string str = "";
-            ulong ULTemp = 0;
+            ulong ulTemp = 0;
             int i;
            // ChFormats();
             str = lineNum.ToString() + "\t";
-            for (i = 0, count64 = 0, count32 = 0, count16 = 0; i < ScopeConfig.ChannelCount; i++)
+            for (i = 0, _count64 = 0, _count32 = 0, _count16 = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
                 if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
-                    ULTemp = ParseArr(i, paramLine);
-                    str = str + AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]]) + "\t";
+                    ulTemp = ParseArr(i, paramLine);
+                    str = str + AdvanceConvert.HexToFormat(ulTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]]) + "\t";
                 }
             }
             return str;
         }
         #endregion
 
-        ulong ParseArr(int i, ushort[] paramLine)
+        private ulong ParseArr(int i, ushort[] paramLine)
         {
-            ulong ULTemp = 0;
+            ulong ulTemp = 0;
             if ((ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]] >> 8) == 3)
             {
-               ULTemp = 0;
-               ULTemp += (ulong)(paramLine[count64 + 0]) << 8 * 2;
-               ULTemp += (ulong)(paramLine[count64 + 1]) << 8 * 3;
-               ULTemp += (ulong)(paramLine[count64 + 2]) << 8 * 0;
-               ULTemp += (ulong)(paramLine[count64 + 3]) << 8 * 1;
-               count64 += 4;
+               ulTemp = 0;
+               ulTemp += (ulong)(paramLine[_count64 + 0]) << 8 * 2;
+               ulTemp += (ulong)(paramLine[_count64 + 1]) << 8 * 3;
+               ulTemp += (ulong)(paramLine[_count64 + 2]) << 8 * 0;
+               ulTemp += (ulong)(paramLine[_count64 + 3]) << 8 * 1;
+               _count64 += 4;
             }
             if ((ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]] >> 8) == 2)
             {
-                ULTemp = 0;
-                ULTemp += (ulong)(paramLine[count64 + count32 + 0]) << 8 * 0;
-                ULTemp += (ulong)(paramLine[count64 + count32 + 1]) << 8 * 1;
-                count32 += 2; 
+                ulTemp = 0;
+                ulTemp += (ulong)(paramLine[_count64 + _count32 + 0]) << 8 * 0;
+                ulTemp += (ulong)(paramLine[_count64 + _count32 + 1]) << 8 * 1;
+                _count32 += 2; 
             }
             if ((ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]] >> 8) == 1)
             {
-                ULTemp = (ulong)(paramLine[count64 + count32 + count16]);
-                count16 += 1;
+                ulTemp = (ulong)(paramLine[_count64 + _count32 + _count16]);
+                _count16 += 1;
             }
-            return ULTemp;
+            return ulTemp;
         }
 
-        List<ushort[]> InitParamsLines()
+        private List<ushort[]> InitParamsLines()
         {
             List<ushort[]> paramsLines = new List<ushort[]>();
             List<ushort[]> paramsSortLines = new List<ushort[]>();
             int k = 0;
             int j = 0;
             int l = 0;
-            for (int i = 0; i < downloadedData.Count; i++)
+            for (int i = 0; i < _downloadedData.Count; i++)
             {
                 while (j < 32)
                 {
                     if (k == 0) paramsLines.Add(new ushort[ScopeConfig.SampleSize >> 1]);
                     while (k < (ScopeConfig.SampleSize >> 1) && j < 32)
                     { 
-                        paramsLines[paramsLines.Count-1][k] = downloadedData[i][j];
+                        paramsLines[paramsLines.Count-1][k] = _downloadedData[i][j];
                         k++;
                         j++;
                     }
@@ -1206,7 +1202,7 @@ namespace ScopeSetupApp
             //Формирую список начиная с предыстории 
             for(int i = 0; i < paramsLines.Count; i++)
             {
-                if ((i + (int)StartLoadSample + 1) >= paramsLines.Count)
+                if ((i + (int)_startLoadSample + 1) >= paramsLines.Count)
                 {
                     k = 0;
                     paramsSortLines.Add(new ushort[ScopeConfig.SampleSize >> 1]);
@@ -1217,7 +1213,7 @@ namespace ScopeSetupApp
                 {
                     k = 0;
                     paramsSortLines.Add(new ushort[ScopeConfig.SampleSize >> 1]);
-                    paramsSortLines[i] = paramsLines[i + (int)StartLoadSample + 1];
+                    paramsSortLines[i] = paramsLines[i + (int)_startLoadSample + 1];
                 }
             }
             return paramsSortLines;
@@ -1225,24 +1221,25 @@ namespace ScopeSetupApp
   
         //Save to cometrade
         #region
-        string FileParamLineData(ushort[] paramLine, int lineNum)
+
+        private string FileParamLineData(ushort[] paramLine, int lineNum)
         {
             string str1 = "" , str = "";
             int i;
-            ulong ULTemp = 0;
-            count64 = 0; 
-            count32 = 0; 
-            count16 = 0;
+            ulong ulTemp = 0;
+            _count64 = 0; 
+            _count32 = 0; 
+            _count16 = 0;
             str = (lineNum + 1).ToString() + "," ;
             for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
                 if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
-                    if (ScopeSysType.ChannelTypeAD[i] == 0)
+                    if (ScopeSysType.ChannelTypeAd[i] == 0)
                     {
-                        ULTemp = ParseArr(i, paramLine);
-                        str1 = AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]]);
+                        ulTemp = ParseArr(i, paramLine);
+                        str1 = AdvanceConvert.HexToFormat(ulTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]]);
                         str1 = str1.Replace(",", ".");
                         str = str + "," + str1;
                     }
@@ -1255,10 +1252,10 @@ namespace ScopeSetupApp
                 //Если параметр в списке известных, то пишем его в файл
                 if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
-                    if (ScopeSysType.ChannelTypeAD[i] == 1)
+                    if (ScopeSysType.ChannelTypeAd[i] == 1)
                     {
-                        ULTemp = ParseArr(i, paramLine);
-                        str1 = AdvanceConvert.HexToFormat(ULTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]]);
+                        ulTemp = ParseArr(i, paramLine);
+                        str1 = AdvanceConvert.HexToFormat(ulTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]]);
                         str1 = str1.Replace(",", ".");
                         str = str + "," + str1;
                     }
@@ -1267,15 +1264,15 @@ namespace ScopeSetupApp
             return str;
         }
 
-        float CalculA(int Num, int resolution)
+        private float CalculA(int num, int resolution)
         {
-            float a = (float)(ScopeSysType.ChannelMax[ScopeConfig.OscilParams[Num]] - ScopeSysType.ChannelMin[ScopeConfig.OscilParams[Num]]) / (float) resolution;
+            float a = (float)(ScopeSysType.ChannelMax[ScopeConfig.OscilParams[num]] - ScopeSysType.ChannelMin[ScopeConfig.OscilParams[num]]) / (float) resolution;
             return a;
         }
 
-        float CalculB(int Num, int resolution)
+        private float CalculB(int num, int resolution)
         {
-            int j, all = ScopeSysType.ChannelMax[ScopeConfig.OscilParams[Num]] - ScopeSysType.ChannelMin[ScopeConfig.OscilParams[Num]];
+            int j, all = ScopeSysType.ChannelMax[ScopeConfig.OscilParams[num]] - ScopeSysType.ChannelMin[ScopeConfig.OscilParams[num]];
             for (j = 1; all / (int)Math.Pow(10, j) != 0; j++) ;
             float a = (float)(all) / (float)resolution;
             float ax = (float)Math.Pow(10, j) * a;
@@ -1284,19 +1281,19 @@ namespace ScopeSetupApp
             return b;
         }
 
-        string Line1( int FilterIndex)
+        private string Line1( int filterIndex)
         {
             string str = "";
-            string station_name = ScopeSysType.StationName;
-            string rec_dev_id = ScopeSysType.RecordingDevice;
-            string rev_year = "";
-            if (FilterIndex == 2) rev_year = "1999";
-            if (FilterIndex == 3) rev_year = "2013";
-            str = station_name + "," + rec_dev_id + "," + rev_year;
+            string stationName = ScopeSysType.StationName;
+            string recDevId = ScopeSysType.RecordingDevice;
+            string revYear = "";
+            if (filterIndex == 2) revYear = "1999";
+            if (filterIndex == 3) revYear = "2013";
+            str = stationName + "," + recDevId + "," + revYear;
             return str;
         }
 
-        string Line2()
+        private string Line2()
         {
             string str = "";
             int nA = 0 , nD = 0;
@@ -1305,23 +1302,23 @@ namespace ScopeSetupApp
                 //Если параметр в списке известных, то пишем его в файл
                 if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                 {
-                    if (ScopeSysType.ChannelTypeAD[i] == 0) nA += 1;
-                    if (ScopeSysType.ChannelTypeAD[i] == 1) nD += 1;
+                    if (ScopeSysType.ChannelTypeAd[i] == 0) nA += 1;
+                    if (ScopeSysType.ChannelTypeAd[i] == 1) nD += 1;
                 }
             }
-            int TT = nA + nD;
-            str = TT + "," + nA + "A," + nD + "D";
+            int tt = nA + nD;
+            str = tt + "," + nA + "A," + nD + "D";
             return str;
         }
 
-        string Line3(int Num ,int nA)
+        private string Line3(int num ,int nA)
         {
             string str = "";
 
-            string ch_id = ScopeSysType.ChannelNames[ScopeConfig.OscilParams[Num]];
-            string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscilParams[Num]];
-            string ccbm = ScopeSysType.ChannelCCBM[ScopeConfig.OscilParams[Num]];
-            string uu = ScopeSysType.ChannelDimension[ScopeConfig.OscilParams[Num]];
+            string chId = ScopeSysType.ChannelNames[ScopeConfig.OscilParams[num]];
+            string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscilParams[num]];
+            string ccbm = ScopeSysType.ChannelCcbm[ScopeConfig.OscilParams[num]];
+            string uu = ScopeSysType.ChannelDimension[ScopeConfig.OscilParams[num]];
             //string a = Convert.ToString(CalculA(Num, 4096));
             //a = a.Replace(",", ".");
             //string b = Convert.ToString(CalculB(Num, 4096));
@@ -1329,44 +1326,44 @@ namespace ScopeSetupApp
             string a = "1";
             string b = "0";
             int skew = 0;
-            int min = ScopeSysType.ChannelMin[ScopeConfig.OscilParams[Num]];
-            int max = ScopeSysType.ChannelMax[ScopeConfig.OscilParams[Num]];
+            int min = ScopeSysType.ChannelMin[ScopeConfig.OscilParams[num]];
+            int max = ScopeSysType.ChannelMax[ScopeConfig.OscilParams[num]];
             int primary = 1; 
             int secondary = 1;
             string ps = "P";
 
-            str = nA + "," + ch_id + "," + ph + "," + ccbm + "," + uu + "," + a + "," + b + "," + skew + "," +
+            str = nA + "," + chId + "," + ph + "," + ccbm + "," + uu + "," + a + "," + b + "," + skew + "," +
             min + "," + max + "," + primary + "," + secondary + "," + ps;
 
             return str;
         }
 
-        string Line4(int Num, int nD)
+        private string Line4(int num, int nD)
         {
             string str = "";
 
-            string ch_id = ScopeSysType.ChannelNames[ScopeConfig.OscilParams[Num]];
-            string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscilParams[Num]];
-            string ccbm = ScopeSysType.ChannelCCBM[ScopeConfig.OscilParams[Num]];
+            string chId = ScopeSysType.ChannelNames[ScopeConfig.OscilParams[num]];
+            string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscilParams[num]];
+            string ccbm = ScopeSysType.ChannelCcbm[ScopeConfig.OscilParams[num]];
             int y = 0;
             
-            str = nD + "," + ch_id + "," + ph + "," + ccbm + "," + y ;
+            str = nD + "," + chId + "," + ph + "," + ccbm + "," + y ;
 
             return str;
         }
 
-        string Line5()
+        private string Line5()
         {
             return ScopeSysType.OscilNominalFrequency.ToString();
         }
 
-        string Line6()
+        private string Line6()
         {
             string nrates = "1";
             return nrates;
         }
 
-        string Line7()
+        private string Line7()
         {
             string str = "";
             string samp = Convert.ToString(ScopeConfig.SampleRate / ScopeConfig.FreqCount);
@@ -1376,48 +1373,48 @@ namespace ScopeSetupApp
             return str;
         }
 
-        string Line8(int numOsc)
+        private string Line8(int numOsc)
         {
            // string str;
             double milsec = 1000*(double)ScopeConfig.OscilHistCount/ScopeConfig.SampleRate;
-            DateTime dateTemp = date[numOsc].AddMilliseconds(-milsec);
-            return dateTemp.ToString("dd'/'MM'/'yyyy,HH:mm:ss.fff000");
-        }
-        
-        string Line9(int numOsc)
-        {
-            DateTime dateTemp = date[numOsc];
+            DateTime dateTemp = _date[numOsc].AddMilliseconds(-milsec);
             return dateTemp.ToString("dd'/'MM'/'yyyy,HH:mm:ss.fff000");
         }
 
-        string Line10()
+        private string Line9(int numOsc)
+        {
+            DateTime dateTemp = _date[numOsc];
+            return dateTemp.ToString("dd'/'MM'/'yyyy,HH:mm:ss.fff000");
+        }
+
+        private string Line10()
         {
             string ft = "ASCII";
             return ft;
         }
 
-        string Line11()
+        private string Line11()
         {
             string timemult = "1";
             return timemult;
         }
 
-        string Line12()
+        private string Line12()
         {
             string timecode = ScopeSysType.TimeCode;
             string localcode = ScopeSysType.LocalCode;
             return timecode + "," + localcode;
         }
 
-        string Line13()
+        private string Line13()
         {
-            string  tmq_code = ScopeSysType.tmqCode;
-            string  leapsec = ScopeSysType.leapsec;
-            return tmq_code + "," + leapsec; 
+            string  tmqCode = ScopeSysType.TmqCode;
+            string  leapsec = ScopeSysType.Leapsec;
+            return tmqCode + "," + leapsec; 
         }
         #endregion//Save to cometrade
 
-        void CreateFile()
+        private void CreateFile()
         {
             string namefile, pathfile, pathDateFile;
            // MessageBox.Show("SDF");
@@ -1447,20 +1444,11 @@ namespace ScopeSetupApp
 
                 try
                 {
-                    DateTime dateTemp = date[createFileNum];
+                    DateTime dateTemp = _date[_createFileNum];
                     sw.WriteLine(dateTemp.ToString("dd'/'MM'/'yyyy HH:mm:ss.fff000"));
                     sw.WriteLine(Convert.ToString(ScopeConfig.SampleRate / ScopeConfig.FreqCount));
                     sw.WriteLine(ScopeConfig.OscilHistCount);
                     sw.WriteLine(FileHeaderLine());
-                    sw.WriteLine(FileColorLine());
-                    sw.WriteLine(FileOffsetLine());
-                    sw.WriteLine(FileScaleLine());
-                    sw.WriteLine(FileStepLine());
-                
-                    sw.WriteLine(FileReserveLine());
-                    sw.WriteLine(FileReserveLine());
-                    sw.WriteLine(FileReserveLine());
-                    sw.WriteLine(FileReserveLine());
 
                     List<ushort[]> lu = InitParamsLines();
                     for (int i = 0; i < lu.Count; i++)
@@ -1476,10 +1464,10 @@ namespace ScopeSetupApp
                 sw.Close();
 
 
-                if (MessageBox.Show("Открыть осциллограмму для просмотра",this.Text,MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+              /*  if (MessageBox.Show("Открыть осциллограмму для просмотра",this.Text,MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     ExecuteScopeView(sfd.FileName);     
-                }
+                }*/
             }
             #endregion
 
@@ -1509,22 +1497,22 @@ namespace ScopeSetupApp
                      { 
                         if(ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count) 
                         {
-                            if (ScopeSysType.ChannelTypeAD[i] == 0) {sw.WriteLine(Line3(i, j+1)); j++; }
+                            if (ScopeSysType.ChannelTypeAd[i] == 0) {sw.WriteLine(Line3(i, j+1)); j++; }
                         }
                      }
                      for (int i = 0, j = 0; i < ScopeConfig.ChannelCount; i++)
                      {
                          if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
                          {
-                             if (ScopeSysType.ChannelTypeAD[i] == 1) { sw.WriteLine(Line4(i, j + 1)); j++; }
+                             if (ScopeSysType.ChannelTypeAd[i] == 1) { sw.WriteLine(Line4(i, j + 1)); j++; }
                          }
                      }
 
                      sw.WriteLine(Line5());
                      sw.WriteLine(Line6());
                      sw.WriteLine(Line7());
-                     sw.WriteLine(Line8(createFileNum));
-                     sw.WriteLine(Line9(createFileNum));
+                     sw.WriteLine(Line8(_createFileNum));
+                     sw.WriteLine(Line9(_createFileNum));
                      sw.WriteLine(Line10());
                      sw.WriteLine(Line11());
                      if (sfd.FilterIndex == 3)
@@ -1567,25 +1555,25 @@ namespace ScopeSetupApp
             }
             #endregion
 
-            loadOscNum = 0;
+            _loadOscNum = 0;
         }
 
-        bool initLoadOscilFlag = false;
+        private bool _initLoadOscilFlag = false;
         private void InitLoadOscill()
         {
-            loadOscData = true;
-            loadOscDataStep = 0;
-            initLoadOscilFlag = false;
-            loadOscDataSubStep = 0;
-            loadOscilIndex = 0;
+            _loadOscData = true;
+            _loadOscDataStep = 0;
+            _initLoadOscilFlag = false;
+            _loadOscDataSubStep = 0;
+            _loadOscilIndex = 0;
 
-            loadScopeToolStripLabel.Text = oscilTitls[loadOscNum];
+            loadScopeToolStripLabel.Text = _oscilTitls[_loadOscNum];
             loadDataProgressBar.Value = 0;
 
             loadDataProgressBar.Visible = true;
             loadScopeToolStripLabel.Visible = true;
 
-            downloadedData = new List<ushort[]>();
+            _downloadedData = new List<ushort[]>();
            // loadOscilCountRound = (UInt16)(ScopeConfig.ScopeCount * 8);
             LoadOscDataRequest();
         }
@@ -1633,18 +1621,18 @@ namespace ScopeSetupApp
             ofd.Filter = "Текстовый файл (.txt)|*.txt"; // Filter files by extension
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                ExecuteScopeView(ofd.FileName);
+               // ExecuteScopeView(ofd.FileName);
             }
         }
 
-        bool createFileFlag = false;
-        int createFileNum = 0;
+        private bool _createFileFlag = false;
+        private int _createFileNum = 0;
         private void timer2_Tick(object sender, EventArgs e)
         {
             timer2.Enabled = false;
-            if (createFileFlag)
+            if (_createFileFlag)
             {
-                createFileFlag = false;
+                _createFileFlag = false;
                 CreateFile();
             }
             timer2.Enabled = true;
@@ -1655,7 +1643,16 @@ namespace ScopeSetupApp
         //Ручной запуск осциллографа
         private void manStartBtn_Click(object sender, EventArgs e)
         {
-            initManStartFlag = true;
+            _initManStartFlag = true;
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+           timer3.Enabled = false;
+          //  timer3.Enabled = true;
+           _loadOscDataSubStep = 0;
+           LoadOscDataResponce();
+         //  modBusUnit.SetData((ushort)(ScopeSysType.OscilCmndAddr + 5), 3, writeArr);
         }
 
     }

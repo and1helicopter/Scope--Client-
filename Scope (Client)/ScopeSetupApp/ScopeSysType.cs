@@ -9,17 +9,16 @@ namespace ScopeSetupApp
 {
     public static class ScopeSysType
     {
-        public static string xmlFileName = "ScopeSysType.xml";
-        public static string xmlFileNameOscil = "ScopeSysType.xml";
+        public static string XmlFileName = "ScopeSysType.xml";
+        public static string XmlFileNameOscil = "ScopeSysType.xml";
+        public static List<string> GroupNames = new List<string>();
         public static List<string> ChannelNames = new List<string>();
         public static List<string> ChannelPhase = new List<string>();
-        public static List<string> ChannelCCBM = new List<string>();
+        public static List<string> ChannelCcbm = new List<string>();
         public static List<string> ChannelDimension = new List<string>();
         public static List<ushort> ChannelAddrs = new List<ushort>();
-        public static List<Color> ChannelColors = new List<Color>();
         public static List<ushort> ChannelFormats = new List<ushort>();
-        public static List<int> ChannelStepLines = new List<int>();
-        public static List<ushort> ChannelTypeAD = new List<ushort>();
+        public static List<ushort> ChannelTypeAd = new List<ushort>();
         public static List<int> ChannelMin = new List<int>();
         public static List<int> ChannelMax = new List<int>();
 
@@ -45,14 +44,14 @@ namespace ScopeSetupApp
         //For rev. 2013
         public static string TimeCode;
         public static string LocalCode;
-        public static string tmqCode;
-        public static string leapsec;
+        public static string TmqCode;
+        public static string Leapsec;
         //For OscilConfigurator
         public static List<string> OscilChannelNames = new List<string>();
         public static List<ushort> OscilChannelAddrs = new List<ushort>();
         public static List<ushort> OscilChannelFormats = new List<ushort>();
 
-        static void LoadFromXML(string paramName, string WrName, XmlDocument doc, out ushort addr)
+        static void LoadFromXml(string paramName, string wrName, XmlDocument doc, out ushort addr)
         {
             XmlNodeList xmls;
             XmlNode xmlline;
@@ -63,7 +62,7 @@ namespace ScopeSetupApp
 
             try
             {
-                addr = Convert.ToUInt16(xmlline.Attributes[WrName].Value);
+                addr = Convert.ToUInt16(xmlline.Attributes[wrName].Value);
             }
             catch 
             {
@@ -71,7 +70,7 @@ namespace ScopeSetupApp
             }
         }
 
-        static void LoadNameFromXML(string paramName, XmlDocument doc, out string str)
+        static void LoadNameFromXml(string paramName, XmlDocument doc, out string str)
         {
             XmlNodeList xmls;
             XmlNode xmlline;
@@ -93,46 +92,45 @@ namespace ScopeSetupApp
             var doc = new XmlDocument();
             try
             {
-                doc.Load(xmlFileName);
+                doc.Load(XmlFileName);
             }
             catch
             {
-                throw new Exception("Не удалось открыть файл: " + xmlFileName + "!");
+                throw new Exception("Не удалось открыть файл: " + XmlFileName + "!");
             }
 
 
-            LoadFromXML("Configuration", "Addr", doc, out ConfigurationAddr);
-            LoadFromXML("OscilCmnd", "Addr", doc, out OscilCmndAddr);
+            LoadFromXml("Configuration", "Addr", doc, out ConfigurationAddr);
+            LoadFromXml("OscilCmnd", "Addr", doc, out OscilCmndAddr);
 
             ushort count = 0;
-            LoadFromXML("OscilAllSize", "Count", doc, out OscilAllSize);
-            LoadFromXML("MeasureParams", "Count", doc, out count);
+            LoadFromXml("OscilAllSize", "Count", doc, out OscilAllSize);
+            LoadFromXml("MeasureParams", "Count", doc, out count);
 
-            LoadFromXML("Oscil", "Count", doc, out OscilCount);
-            LoadFromXML("Channel", "Count", doc, out ChannelCount);
-            LoadFromXML("Story", "Count", doc, out HistoryCount);
-            LoadFromXML("Frequency", "Count", doc, out FrequncyCount);
-            LoadFromXML("OscilSampleRate", "Count", doc, out OscilSampleRate);
-            LoadNameFromXML("Comment", doc, out OscilComment);
+            LoadFromXml("Oscil", "Count", doc, out OscilCount);
+            LoadFromXml("Channel", "Count", doc, out ChannelCount);
+            LoadFromXml("Story", "Count", doc, out HistoryCount);
+            LoadFromXml("Frequency", "Count", doc, out FrequncyCount);
+            LoadFromXml("OscilSampleRate", "Count", doc, out OscilSampleRate);
+            LoadNameFromXml("Comment", doc, out OscilComment);
             //Cometrade format
-            LoadNameFromXML("StationName", doc, out StationName);
-            LoadNameFromXML("RecordingDevice", doc, out RecordingDevice);
-            LoadFromXML("OscilNominalFrequency", "Count", doc, out OscilNominalFrequency);
+            LoadNameFromXml("StationName", doc, out StationName);
+            LoadNameFromXml("RecordingDevice", doc, out RecordingDevice);
+            LoadFromXml("OscilNominalFrequency", "Count", doc, out OscilNominalFrequency);
             //For rev. 2013
-            LoadNameFromXML("TimeCode", doc, out TimeCode);
-            LoadNameFromXML("LocalCode", doc, out LocalCode);
-            LoadNameFromXML("tmqCode", doc, out tmqCode);
-            LoadNameFromXML("leapsec", doc, out leapsec);
+            LoadNameFromXml("TimeCode", doc, out TimeCode);
+            LoadNameFromXml("LocalCode", doc, out LocalCode);
+            LoadNameFromXml("tmqCode", doc, out TmqCode);
+            LoadNameFromXml("leapsec", doc, out Leapsec);
             
             ChannelNames = new List<string>();
+            GroupNames = new List<string>();
             ChannelPhase = new List<string>();
-            ChannelCCBM = new List<string>();
+            ChannelCcbm = new List<string>();
             ChannelDimension = new List<string>();
             ChannelAddrs = new List<ushort>();
-            ChannelColors = new List<Color>();
             ChannelFormats = new List<ushort>();
-            ChannelStepLines = new List<int>();
-            ChannelTypeAD = new List<ushort>();
+            ChannelTypeAd = new List<ushort>();
             ChannelMin = new List<int>();
             ChannelMax = new List<int>();
 
@@ -146,22 +144,26 @@ namespace ScopeSetupApp
 
                 try
                 {
-                    ChannelNames.Add(Convert.ToString(xmlline.Attributes["Name"].Value));
+
+                    string[] str = (Convert.ToString(xmlline.Attributes["Name"].Value)).Split(new char[] { '/' });
+                    string str1 = "", str2 = "";
+                    if (str.Length > 1) { str1 = str[1]; str2 = str[0]; }
+                    else str1 = str[0];
+
+                    ChannelNames.Add(str1);
+                    GroupNames.Add(str2);
                     ChannelPhase.Add(Convert.ToString(xmlline.Attributes["Phase"].Value));
-                    ChannelCCBM.Add(Convert.ToString(xmlline.Attributes["CCBM"].Value));
+                    ChannelCcbm.Add(Convert.ToString(xmlline.Attributes["CCBM"].Value));
                     ChannelDimension.Add(Convert.ToString(xmlline.Attributes["Dimension"].Value));
                     ChannelAddrs.Add(Convert.ToUInt16(xmlline.Attributes["Addr"].Value));
-                    int ic = Convert.ToInt32(xmlline.Attributes["Color"].Value);
-                    ChannelColors.Add(Color.FromArgb(ic));
                     ChannelFormats.Add(Convert.ToUInt16(xmlline.Attributes["Format"].Value));
-                    ChannelStepLines.Add(Convert.ToInt32(xmlline.Attributes["StepLine"].Value));
-                    ChannelTypeAD.Add(Convert.ToUInt16(xmlline.Attributes["TypeAD"].Value));
+                    ChannelTypeAd.Add(Convert.ToUInt16(xmlline.Attributes["TypeAD"].Value));
                     ChannelMin.Add(Convert.ToInt32(xmlline.Attributes["Min"].Value));
                     ChannelMax.Add(Convert.ToInt32(xmlline.Attributes["Max"].Value));
                 }
                 catch
                 {
-                   throw new Exception("Ошибки в файле: " + xmlFileName + "!");
+                   throw new Exception("Ошибки в файле: " + XmlFileName + "!");
                 }
             } 
         }
@@ -171,18 +173,18 @@ namespace ScopeSetupApp
             var doc = new XmlDocument();
             try
             {
-                doc.Load(xmlFileNameOscil);
+                doc.Load(XmlFileNameOscil);
             }
             catch
             {
-                throw new Exception("Не удалось открыть файл: " + xmlFileNameOscil + "!");
+                throw new Exception("Не удалось открыть файл: " + XmlFileNameOscil + "!");
             }
 
-            LoadFromXML("Oscil", "Count", doc, out OscilCount);
-            LoadFromXML("Channel", "Count", doc, out ChannelCount);
-            LoadFromXML("Story", "Count", doc, out HistoryCount);
-            LoadFromXML("Frequency", "Count", doc, out FrequncyCount);
-            LoadFromXML("OscilEnable", "Count", doc, out OscilEnable);
+            LoadFromXml("Oscil", "Count", doc, out OscilCount);
+            LoadFromXml("Channel", "Count", doc, out ChannelCount);
+            LoadFromXml("Story", "Count", doc, out HistoryCount);
+            LoadFromXml("Frequency", "Count", doc, out FrequncyCount);
+            LoadFromXml("OscilEnable", "Count", doc, out OscilEnable);
 
             OscilChannelNames = new List<string>();
             OscilChannelAddrs = new List<ushort>();
@@ -204,7 +206,7 @@ namespace ScopeSetupApp
                 }
                 catch
                 {
-                    throw new Exception("Ошибки в файле: " + xmlFileNameOscil + "!");
+                    throw new Exception("Ошибки в файле: " + XmlFileNameOscil + "!");
                 }
             }
         }

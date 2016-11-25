@@ -86,6 +86,7 @@
             this.SCPrintDocument = new System.Drawing.Printing.PrintDocument();
             this.SCPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
             this.ConfigToSystem_label = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.mailToolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -219,7 +220,7 @@
             this.nominalFrequency_label.AutoSize = true;
             this.nominalFrequency_label.Location = new System.Drawing.Point(10, 67);
             this.nominalFrequency_label.Name = "nominalFrequency_label";
-            this.nominalFrequency_label.Size = new System.Drawing.Size(140, 17);
+            this.nominalFrequency_label.Size = new System.Drawing.Size(136, 15);
             this.nominalFrequency_label.TabIndex = 23;
             this.nominalFrequency_label.Text = "Nominal frequency (Hz)";
             // 
@@ -228,7 +229,7 @@
             this.nominalFrequency_textBox.Location = new System.Drawing.Point(156, 64);
             this.nominalFrequency_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.nominalFrequency_textBox.Name = "nominalFrequency_textBox";
-            this.nominalFrequency_textBox.Size = new System.Drawing.Size(116, 24);
+            this.nominalFrequency_textBox.Size = new System.Drawing.Size(116, 21);
             this.nominalFrequency_textBox.TabIndex = 24;
             this.nominalFrequency_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -285,7 +286,7 @@
             this.ConfigAddr_textBox.Location = new System.Drawing.Point(426, 10);
             this.ConfigAddr_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ConfigAddr_textBox.Name = "ConfigAddr_textBox";
-            this.ConfigAddr_textBox.Size = new System.Drawing.Size(116, 24);
+            this.ConfigAddr_textBox.Size = new System.Drawing.Size(116, 21);
             this.ConfigAddr_textBox.TabIndex = 33;
             this.ConfigAddr_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -303,7 +304,7 @@
             this.OscilCmndAddr_textBox.Location = new System.Drawing.Point(426, 37);
             this.OscilCmndAddr_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.OscilCmndAddr_textBox.Name = "OscilCmndAddr_textBox";
-            this.OscilCmndAddr_textBox.Size = new System.Drawing.Size(116, 24);
+            this.OscilCmndAddr_textBox.Size = new System.Drawing.Size(116, 21);
             this.OscilCmndAddr_textBox.TabIndex = 31;
             this.OscilCmndAddr_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -329,7 +330,7 @@
             this.sampleRate_textBox.Location = new System.Drawing.Point(725, 37);
             this.sampleRate_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.sampleRate_textBox.Name = "sampleRate_textBox";
-            this.sampleRate_textBox.Size = new System.Drawing.Size(116, 24);
+            this.sampleRate_textBox.Size = new System.Drawing.Size(116, 21);
             this.sampleRate_textBox.TabIndex = 28;
             this.sampleRate_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -338,7 +339,7 @@
             this.sampleRate_label.AutoSize = true;
             this.sampleRate_label.Location = new System.Drawing.Point(617, 40);
             this.sampleRate_label.Name = "sampleRate_label";
-            this.sampleRate_label.Size = new System.Drawing.Size(102, 17);
+            this.sampleRate_label.Size = new System.Drawing.Size(100, 15);
             this.sampleRate_label.TabIndex = 27;
             this.sampleRate_label.Text = "Sample rate (Hz)";
             // 
@@ -347,7 +348,7 @@
             this.OscilSizeData_TextBox.Location = new System.Drawing.Point(725, 10);
             this.OscilSizeData_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.OscilSizeData_TextBox.Name = "OscilSizeData_TextBox";
-            this.OscilSizeData_TextBox.Size = new System.Drawing.Size(116, 24);
+            this.OscilSizeData_TextBox.Size = new System.Drawing.Size(116, 21);
             this.OscilSizeData_TextBox.TabIndex = 21;
             this.OscilSizeData_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -382,7 +383,7 @@
             this.recordingDevice_textBox.Location = new System.Drawing.Point(156, 37);
             this.recordingDevice_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.recordingDevice_textBox.Name = "recordingDevice_textBox";
-            this.recordingDevice_textBox.Size = new System.Drawing.Size(116, 24);
+            this.recordingDevice_textBox.Size = new System.Drawing.Size(116, 21);
             this.recordingDevice_textBox.TabIndex = 39;
             this.recordingDevice_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -391,7 +392,7 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(48, 40);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(103, 17);
+            this.label9.Size = new System.Drawing.Size(102, 15);
             this.label9.TabIndex = 38;
             this.label9.Text = "Recording device";
             // 
@@ -400,7 +401,7 @@
             this.stationName_textBox.Location = new System.Drawing.Point(156, 10);
             this.stationName_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.stationName_textBox.Name = "stationName_textBox";
-            this.stationName_textBox.Size = new System.Drawing.Size(116, 24);
+            this.stationName_textBox.Size = new System.Drawing.Size(116, 21);
             this.stationName_textBox.TabIndex = 37;
             this.stationName_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -409,7 +410,7 @@
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(68, 13);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(82, 17);
+            this.label14.Size = new System.Drawing.Size(80, 15);
             this.label14.TabIndex = 36;
             this.label14.Text = "Station name";
             // 
@@ -435,7 +436,7 @@
             this.leapsec_textBox.Location = new System.Drawing.Point(447, 37);
             this.leapsec_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.leapsec_textBox.Name = "leapsec_textBox";
-            this.leapsec_textBox.Size = new System.Drawing.Size(116, 24);
+            this.leapsec_textBox.Size = new System.Drawing.Size(116, 21);
             this.leapsec_textBox.TabIndex = 34;
             this.leapsec_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -444,7 +445,7 @@
             this.timeCode_textBox.Location = new System.Drawing.Point(148, 10);
             this.timeCode_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.timeCode_textBox.Name = "timeCode_textBox";
-            this.timeCode_textBox.Size = new System.Drawing.Size(116, 24);
+            this.timeCode_textBox.Size = new System.Drawing.Size(116, 21);
             this.timeCode_textBox.TabIndex = 28;
             this.timeCode_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -453,7 +454,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(390, 40);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(51, 17);
+            this.label7.Size = new System.Drawing.Size(50, 15);
             this.label7.TabIndex = 33;
             this.label7.Text = "leapsec";
             // 
@@ -462,7 +463,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(74, 13);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(68, 17);
+            this.label6.Size = new System.Drawing.Size(67, 15);
             this.label6.TabIndex = 27;
             this.label6.Text = "Time Code";
             // 
@@ -471,7 +472,7 @@
             this.tmqCode_textBox.Location = new System.Drawing.Point(447, 10);
             this.tmqCode_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tmqCode_textBox.Name = "tmqCode_textBox";
-            this.tmqCode_textBox.Size = new System.Drawing.Size(116, 24);
+            this.tmqCode_textBox.Size = new System.Drawing.Size(116, 21);
             this.tmqCode_textBox.TabIndex = 32;
             this.tmqCode_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -480,7 +481,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(73, 40);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 17);
+            this.label5.Size = new System.Drawing.Size(69, 15);
             this.label5.TabIndex = 29;
             this.label5.Text = "Local Code";
             // 
@@ -489,7 +490,7 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(379, 13);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(62, 17);
+            this.label8.Size = new System.Drawing.Size(60, 15);
             this.label8.TabIndex = 31;
             this.label8.Text = "tmq Code";
             // 
@@ -498,13 +499,14 @@
             this.localCode_textBox.Location = new System.Drawing.Point(148, 37);
             this.localCode_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.localCode_textBox.Name = "localCode_textBox";
-            this.localCode_textBox.Size = new System.Drawing.Size(116, 24);
+            this.localCode_textBox.Size = new System.Drawing.Size(116, 21);
             this.localCode_textBox.TabIndex = 30;
             this.localCode_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.checkBox2);
             this.panel2.Controls.Add(this.toolStrip1);
             this.panel2.Controls.Add(this.label4);
@@ -525,11 +527,11 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox2.Location = new System.Drawing.Point(715, 43);
+            this.checkBox2.Location = new System.Drawing.Point(716, 43);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.checkBox2.Size = new System.Drawing.Size(148, 21);
+            this.checkBox2.Size = new System.Drawing.Size(147, 19);
             this.checkBox2.TabIndex = 8;
             this.checkBox2.Text = "Выбрать все каналы";
             this.checkBox2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -620,50 +622,49 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label4.Location = new System.Drawing.Point(4, 44);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(20, 17);
+            this.label4.Size = new System.Drawing.Size(19, 15);
             this.label4.TabIndex = 6;
             this.label4.Text = "№";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label13.Location = new System.Drawing.Point(483, 44);
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label13.Location = new System.Drawing.Point(576, 44);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(77, 17);
+            this.label13.Size = new System.Drawing.Size(0, 15);
             this.label13.TabIndex = 3;
-            this.label13.Text = "Сглаж.(Тип)";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.Location = new System.Drawing.Point(292, 44);
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label12.Location = new System.Drawing.Point(446, 44);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(129, 17);
+            this.label12.Size = new System.Drawing.Size(127, 15);
             this.label12.TabIndex = 2;
             this.label12.Text = "Формат(Мин./Макс.)";
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.Location = new System.Drawing.Point(185, 44);
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label11.Location = new System.Drawing.Point(337, 44);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(105, 17);
+            this.label11.Size = new System.Drawing.Size(103, 15);
             this.label11.TabIndex = 1;
             this.label11.Text = "Адрес(Размерн.)";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Open Sans", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(33, 44);
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label10.Location = new System.Drawing.Point(186, 44);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(151, 17);
+            this.label10.Size = new System.Drawing.Size(150, 15);
             this.label10.TabIndex = 0;
             this.label10.Text = "Параметр (фаза, линия)";
             // 
@@ -701,16 +702,26 @@
             // 
             this.ConfigToSystem_label.AutoSize = true;
             this.ConfigToSystem_label.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ConfigToSystem_label.Font = new System.Drawing.Font("Open Sans", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ConfigToSystem_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ConfigToSystem_label.Location = new System.Drawing.Point(427, 9);
             this.ConfigToSystem_label.Name = "ConfigToSystem_label";
-            this.ConfigToSystem_label.Size = new System.Drawing.Size(132, 18);
+            this.ConfigToSystem_label.Size = new System.Drawing.Size(127, 16);
             this.ConfigToSystem_label.TabIndex = 34;
             this.ConfigToSystem_label.Text = "Actual configuration:";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(35, 44);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(76, 15);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Группа(Тип)";
+            // 
             // ScopeConfigForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(885, 477);
@@ -720,7 +731,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.mailToolStrip);
-            this.Font = new System.Drawing.Font("Open Sans", 9F);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -805,6 +816,7 @@
         private System.Windows.Forms.Label ConfigToSystem_label;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.Label label1;
     }
 }
 

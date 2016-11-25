@@ -13,13 +13,12 @@ namespace ScopeSetupApp
 {
     public partial class ConnectForm : Form
     {
-   
-        void SaveComPortSettings(string comPortXMLName)
+        private void SaveComPortSettings(string comPortXmlName)
         {
             try
             {
                 var doc = new XmlDocument();
-                doc.Load(comPortXMLName);
+                doc.Load(comPortXmlName);
 
                 XmlNodeList adds = doc.GetElementsByTagName("ComPort");
                 foreach (XmlNode add in adds)
@@ -30,15 +29,15 @@ namespace ScopeSetupApp
                     add.Attributes["Addr"].Value = addrComboBox.SelectedIndex.ToString();
 
                 }
-                doc.Save(comPortXMLName);
+                doc.Save(comPortXmlName);
             }
             catch
             {
-                MessageBox.Show("Ошибка при записи в файл настроек", "Настройка соединения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"Ошибка при создании файла!", "Настройка соединения", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show("Настройки соединения сохранены!", "Настройка соединения", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(@"Ошибка при создании файла!", "Настройка соединения", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         
@@ -85,7 +84,7 @@ namespace ScopeSetupApp
 
         }
 
-        byte CalcPortIndex(string portName)
+        private byte CalcPortIndex(string portName)
         {
             byte i;
             string str = portName;
@@ -115,7 +114,7 @@ namespace ScopeSetupApp
             }
             catch
             {
-                MessageBox.Show("Ошибка при открытии COM-порта!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"Ошибка при создании файла!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             this.Close();
