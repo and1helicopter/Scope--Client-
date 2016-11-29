@@ -104,6 +104,7 @@
       <DependentUpon>ScopeSetupForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ScopeSysType.cs" />
+    <Compile Include="ScopeTempConfig.cs" />
     <EmbeddedResource Include="ConnectForm.resx">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -132,6 +133,7 @@
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />
     <None Include="ClassDiagram2.cd" />
+    <None Include="Properties\DataSources\ScopeSysType.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

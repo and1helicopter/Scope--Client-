@@ -1,64 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.IO;
+using System.Reflection;
 using ADSPLibrary;
+using System.Drawing;
 
 namespace ScopeSetupApp
 {
     public partial class ScopeConfigForm : Form
     {
-        //Динамически создаваемые контролы
-        //Панель 
-        List<Panel> _layoutPanel = new List<Panel>();
+        readonly object[] _typeChannel = 
+        {
+            "Analog",
+            "Digital"
+        };
 
-        //Номер
-        List<Label> _numLabels = new List<Label>();
-
-        //Группа
-        List<TextBox> _groupTextBoxs = new List<TextBox>();
-
-        //Названия
-        List<TextBox> _nameTextBoxs = new List<TextBox>();
-
-        //Фаза
-        List<TextBox> _phaseTextBoxs = new List<TextBox>();
-
-        //ccbm
-        List<TextBox> _ccbmTextBoxs = new List<TextBox>();
-
-        //Размерность физической величины 
-        List<ComboBox> _analogDigitalComboBox = new List<ComboBox>();
-
-        //Адреса
-        List<TextBox> _addrTextBoxs = new List<TextBox>();
-
-        //форматы данных
-        List<ComboBox> _formatComboBoxNumeric = new List<ComboBox>();
-        List<ComboBox> _formatComboBox = new List<ComboBox>();
-
-        //Размерность физической величины 
-        List<ComboBox> _dimensionComboBox = new List<ComboBox>();
-
-        List<TextBox> _minTextBoxs = new List<TextBox>();
-        List<TextBox> _maxTextBoxs = new List<TextBox>();
-
-        //Удаление 
-        List<Button> _removeButtons = new List<Button>();
-
-        //Отметка 
-        List<CheckBox> _checkBoxs = new List<CheckBox>();
-
-        //Line
-        //List<> Line = new List<?>();
-
-        object[] _format = new object[]{
+        readonly object[] _format = 
+        {
             "0 - Percent",
             "1 - uint16",
             "2 - int16",
@@ -83,450 +44,188 @@ namespace ScopeSetupApp
             "21 - Freq UPTF"
         };
 
-        object[] _sizeFormat = new object[]{
+        readonly object[] _sizeFormat =
+        {
             "16",
             "32",
             "64",
         };
 
-        object[] _dimension = new object []{
-            "NONE",
-        };
-
-
-        private void AddParamLine(string lineName, string linePhase, string lineCcbm, string lineDimension, string lineGroup, int lineAddr,  int formatData,  int lineTypeAd, int min, int max)
-        {
-            int i;
-
-            _nameTextBoxs.Add(new TextBox());
-            i = _nameTextBoxs.Count - 1;
-            _nameTextBoxs[i].Dock = DockStyle.None;
-            _nameTextBoxs[i].Font = new Font("Arial", 9);
-            _nameTextBoxs[i].AutoSize = false;
-            _nameTextBoxs[i].Left = 187;
-            _nameTextBoxs[i].Top = 3;
-            _nameTextBoxs[i].Width = 150;
-            _nameTextBoxs[i].Height = 24;
-            _nameTextBoxs[i].Text = lineName;
-
-            _groupTextBoxs.Add(new TextBox());
-            _groupTextBoxs[i].Dock = DockStyle.None;
-            _groupTextBoxs[i].Font = new Font("Arial", 9);
-            _groupTextBoxs[i].AutoSize = false;
-            _groupTextBoxs[i].Left = 34;
-            _groupTextBoxs[i].Top = 3;
-            _groupTextBoxs[i].Width = 150;
-            _groupTextBoxs[i].Height = 24;
-            _groupTextBoxs[i].Text = lineGroup;
-
-            _numLabels.Add(new Label());
-            _numLabels[i].Text = Convert.ToString(i + 1) + ".";
-            _numLabels[i].Left = 2;
-            _numLabels[i].Top = 6;
-
-            _analogDigitalComboBox.Add(new ComboBox());
-            _analogDigitalComboBox[i].Tag = i;
-            _analogDigitalComboBox[i].Dock = DockStyle.None;
-            _analogDigitalComboBox[i].Font = new Font("Arial", 9);
-            _analogDigitalComboBox[i].Left = 34;
-            _analogDigitalComboBox[i].Width = 150;
-            _analogDigitalComboBox[i].DropDownStyle = ComboBoxStyle.DropDownList;
-            _analogDigitalComboBox[i].Items.Add("Analog");
-            _analogDigitalComboBox[i].Items.Add("Digital");
-            _analogDigitalComboBox[i].SelectedIndex = lineTypeAd;
-            _analogDigitalComboBox[i].Top = 30;
-            
-            _phaseTextBoxs.Add(new TextBox());
-            _phaseTextBoxs[i].Dock = DockStyle.None;
-            _phaseTextBoxs[i].Font = new Font("Arial", 9);
-            _phaseTextBoxs[i].AutoSize = false;
-            _phaseTextBoxs[i].Left = 187;
-            _phaseTextBoxs[i].Top = 30;
-            _phaseTextBoxs[i].Width = 50;
-            _phaseTextBoxs[i].Height = 24;
-            _phaseTextBoxs[i].Text = linePhase;
-
-            _ccbmTextBoxs.Add(new TextBox());
-            _ccbmTextBoxs[i].Dock = DockStyle.None;
-            _ccbmTextBoxs[i].Font = new Font("Arial", 9);
-            _ccbmTextBoxs[i].AutoSize = false;
-            _ccbmTextBoxs[i].Left = 240;
-            _ccbmTextBoxs[i].Top = 30;
-            _ccbmTextBoxs[i].Width = 97;
-            _ccbmTextBoxs[i].Height = 24;
-            _ccbmTextBoxs[i].Text = lineCcbm;
-            
-            _dimensionComboBox.Add(new ComboBox());
-            _dimensionComboBox[i].Tag = i;
-            _dimensionComboBox[i].Dock = DockStyle.None;
-            _dimensionComboBox[i].Font = new Font("Arial", 9);
-            _dimensionComboBox[i].Items.AddRange(_dimension);
-            _dimensionComboBox[i].Left = 340;
-            _dimensionComboBox[i].Top = 30;
-            _dimensionComboBox[i].Width = 90;
-            _dimensionComboBox[i].Text = lineDimension;
-            _dimensionComboBox[i].DropDownStyle = ComboBoxStyle.DropDown;
-
-            _addrTextBoxs.Add(new TextBox());
-            _addrTextBoxs[i].Dock = DockStyle.None;
-            _addrTextBoxs[i].Font = new Font("Arial", 9);
-            _addrTextBoxs[i].AutoSize = false;
-            _addrTextBoxs[i].Left = 340;
-            _addrTextBoxs[i].Top = 3;
-            _addrTextBoxs[i].Width = 90;
-            _addrTextBoxs[i].Height = 24;
-            _addrTextBoxs[i].Text = "0x" + lineAddr.ToString("X4");
-            _addrTextBoxs[i].TextAlign = HorizontalAlignment.Right;
-
-            _formatComboBoxNumeric.Add(new ComboBox());
-            _formatComboBoxNumeric[i].Tag = i;
-            _formatComboBoxNumeric[i].Dock = DockStyle.None;
-            _formatComboBoxNumeric[i].Font = new Font("Arial", 9);
-            _formatComboBoxNumeric[i].Items.AddRange(_sizeFormat);
-            _formatComboBoxNumeric[i].Width = 100;
-            _formatComboBoxNumeric[i].Left = 437;
-            _formatComboBoxNumeric[i].Top = 3;
-            _formatComboBoxNumeric[i].SelectedIndex = (formatData >> 8) - 1;
-            _formatComboBoxNumeric[i].DropDownStyle = ComboBoxStyle.DropDownList;
-            
-            _formatComboBox.Add(new ComboBox());
-            _formatComboBox[i].Tag = i;
-            _formatComboBox[i].Dock = DockStyle.None;
-            _formatComboBox[i].Font = new Font("Arial", 9);
-            _formatComboBox[i].DropDownStyle = ComboBoxStyle.DropDownList;
-            _formatComboBox[i].Items.AddRange(_format);
-            _formatComboBox[i].Width = 100;
-            _formatComboBox[i].Left = 540;
-            _formatComboBox[i].Top = 3;
-            _formatComboBox[i].SelectedIndex = formatData & 0x00FF ;
-            
-            _minTextBoxs.Add(new TextBox());
-            _minTextBoxs[i].Dock = DockStyle.None;
-            _minTextBoxs[i].Font = new Font("Arial", 9);
-            _minTextBoxs[i].AutoSize = false;
-            _minTextBoxs[i].Left = 437;
-            _minTextBoxs[i].Top = 30;
-            _minTextBoxs[i].Width = 100;
-            _minTextBoxs[i].Height = 24;
-            _minTextBoxs[i].Text = min.ToString();
-            _minTextBoxs[i].TextAlign = HorizontalAlignment.Right;
-
-            _maxTextBoxs.Add(new TextBox());
-            _maxTextBoxs[i].Dock = DockStyle.None;
-            _maxTextBoxs[i].Font = new Font("Arial", 9);
-            _maxTextBoxs[i].AutoSize = false;
-            _maxTextBoxs[i].Left = 540;
-            _maxTextBoxs[i].Top = 30;
-            _maxTextBoxs[i].Width = 100;
-            _maxTextBoxs[i].Height = 24;
-            _maxTextBoxs[i].Text = max.ToString();
-            _maxTextBoxs[i].TextAlign = HorizontalAlignment.Right;
-
-            _removeButtons.Add(new Button());
-            _removeButtons[i].Tag = i;
-            _removeButtons[i].Text = "Удалить";
-    //        removeButtons[i].Location = new System.Drawing.Point(700, 8);
-            _removeButtons[i].Margin = new Padding(0,0,0,0);
-          //  removeButtons[i].Image = Properties.Resources.Minus_32;
-           // removeButtons[i].ImageAlign = ContentAlignment.MiddleCenter;
-            _removeButtons[i].Size = new System.Drawing.Size(40, 40);
-            _removeButtons[i].Dock = DockStyle.Right;
-        //removeButtons[i].Left = 770;
-            //removeButtons[i].Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            _removeButtons[i].AutoSize = true;
-            //removeButtons[i].Top = 8;
-            _removeButtons[i].Click += new EventHandler(deleteButton_Click);
-
-            _checkBoxs.Add(new CheckBox());
-            _checkBoxs[i].Tag = i;
-            _checkBoxs[i].Dock = DockStyle.Right;
-            _checkBoxs[i].AutoSize = false;
-            _checkBoxs[i].Size = new System.Drawing.Size(16, 16);
-            _checkBoxs[i].Top = 18;
-            _checkBoxs[i].Click += new System.EventHandler(checkBox_Click);
-            
-            _layoutPanel.Add(new Panel());
-          //  LayoutPanel[i].Visible = false;
-            _layoutPanel[i].Dock = DockStyle.Top;
-            _layoutPanel[i].BackColor = Color.WhiteSmoke;
-            _layoutPanel[i].Left = 5;
-            _layoutPanel[i].Top = 5 + 63 * i;
-            _layoutPanel[i].Width = 800;
-            _layoutPanel[i].Height = 58;
-            _layoutPanel[i].BorderStyle = BorderStyle.FixedSingle;
-            
-            configPanel.Controls.Add(_layoutPanel[i]);
-            _layoutPanel[i].Controls.Add(_nameTextBoxs[i]);
-            _layoutPanel[i].Controls.Add(_groupTextBoxs[i]);
-            _layoutPanel[i].Controls.Add(_phaseTextBoxs[i]);
-            _layoutPanel[i].Controls.Add(_ccbmTextBoxs[i]);
-            _layoutPanel[i].Controls.Add(_addrTextBoxs[i]);
-            _layoutPanel[i].Controls.Add(_dimensionComboBox[i]);
-            _layoutPanel[i].Controls.Add(_formatComboBoxNumeric[i]);
-            _layoutPanel[i].Controls.Add(_formatComboBox[i]);
-            _layoutPanel[i].Controls.Add(_analogDigitalComboBox[i]);
-            _layoutPanel[i].Controls.Add(_minTextBoxs[i]);
-            _layoutPanel[i].Controls.Add(_maxTextBoxs[i]);
-            _layoutPanel[i].Controls.Add(_removeButtons[i]);
-            _layoutPanel[i].Controls.Add(_numLabels[i]);
-            _layoutPanel[i].Controls.Add(_checkBoxs[i]);
-
-        }
-
-        private void DeleteLine(int lineNum)
-        {
-            if (lineNum >= _nameTextBoxs.Count) { return; }
-            int i = lineNum;
-            for (i = lineNum; i < _nameTextBoxs.Count - 1; i++)
-            {
-                _nameTextBoxs[i].Text = _nameTextBoxs[i + 1].Text;
-                _phaseTextBoxs[i].Text = _phaseTextBoxs[i + 1].Text;
-                _ccbmTextBoxs[i].Text = _ccbmTextBoxs[i + 1].Text;
-                _dimensionComboBox[i].Text = _dimensionComboBox[i + 1].Text;
-                _addrTextBoxs[i].Text = _addrTextBoxs[i + 1].Text;
-                _groupTextBoxs[i].Text = _groupTextBoxs[i + 1].Text;
-                _formatComboBoxNumeric[i].Text = _formatComboBoxNumeric[i + 1].Text;
-                _formatComboBox[i].Text = _formatComboBox[i + 1].Text;
-                _analogDigitalComboBox[i].Text = _analogDigitalComboBox[i + 1].Text;
-                _minTextBoxs[i].Text = _minTextBoxs[i + 1].Text;
-                _maxTextBoxs[i].Text = _maxTextBoxs[i + 1].Text;
-            }
-            i = _nameTextBoxs.Count - 1;
-
-            configPanel.Controls.Remove(_layoutPanel[i]);
-            _layoutPanel[i].Controls.Remove(_nameTextBoxs[i]);
-            _layoutPanel[i].Controls.Remove(_phaseTextBoxs[i]);
-            _layoutPanel[i].Controls.Remove(_ccbmTextBoxs[i]);
-            _layoutPanel[i].Controls.Remove(_dimensionComboBox[i]);
-            _layoutPanel[i].Controls.Remove(_addrTextBoxs[i]);
-            _layoutPanel[i].Controls.Remove(_removeButtons[i]);
-            _layoutPanel[i].Controls.Remove(_formatComboBoxNumeric[i]);
-            _layoutPanel[i].Controls.Remove(_formatComboBox[i]);
-            _layoutPanel[i].Controls.Remove(_analogDigitalComboBox[i]);
-            _layoutPanel[i].Controls.Remove(_minTextBoxs[i]);
-            _layoutPanel[i].Controls.Remove(_maxTextBoxs[i]);
-            _layoutPanel[i].Controls.Remove(_numLabels[i]);
-            _layoutPanel[i].Controls.Remove(_checkBoxs[i]);
-            _layoutPanel[i].Controls.Remove(_groupTextBoxs[i]);            
-
-            _nameTextBoxs.Remove(_nameTextBoxs[i]);
-            _phaseTextBoxs.Remove(_phaseTextBoxs[i]);
-            _ccbmTextBoxs.Remove(_ccbmTextBoxs[i]);
-            _dimensionComboBox.Remove(_dimensionComboBox[i]);
-            _addrTextBoxs.Remove(_addrTextBoxs[i]);
-            _removeButtons.Remove(_removeButtons[i]);
-            _formatComboBoxNumeric.Remove(_formatComboBoxNumeric[i]);
-            _formatComboBox.Remove(_formatComboBox[i]);
-            _analogDigitalComboBox.Remove(_analogDigitalComboBox[i]);
-            _minTextBoxs.Remove(_minTextBoxs[i]);
-            _maxTextBoxs.Remove(_maxTextBoxs[i]);
-            _numLabels.Remove(_numLabels[i]);
-            _checkBoxs.Remove(_checkBoxs[i]);
-            _groupTextBoxs.Remove(_groupTextBoxs[i]);
-        }
-
         public ScopeConfigForm()
         {
             InitializeComponent();
             ConfigToSystem();
+
+            InitTable();
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        void SetDoubleBuffered(Control c, bool value)
         {
-
+            PropertyInfo pi = typeof(Control).GetProperty("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic);
+            if (pi != null)
+            {
+                pi.SetValue(c, value, null);
+            }
         }
 
         private void addLineButton_Click(object sender, EventArgs e)
         {
-            AddParamLine("Параметр ", "", "", "NONE", "", _addrTextBoxs.Count, 16, 1, -1, 1);
+            ChanneldataGridView.Rows.Add("Параметр", "", _typeChannel[0], "0x" + (ChanneldataGridView.Rows.Count - 1).ToString("X4"), _sizeFormat[0], _format[0], "", "", "NONE", -1, 1);
+            UpdateTable();
+        }
+
+        private static List<ScopeTempConfig> ScopeItemCopy = new List<ScopeTempConfig>();
+        
+
+        private void copyButton_Click(object sender, EventArgs e)
+        {
+            ScopeItemCopy.Clear();
+            foreach (DataGridViewRow item in ChanneldataGridView.SelectedRows)
+            {
+                ScopeTempConfig itemCopy = new ScopeTempConfig()
+                {
+                    channelNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[0].Value),
+                    channelGroupNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value),
+                    channelTypeAd = Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[2].Value)),
+                    channelAddrs = Convert.ToUInt16(convert_text(ChanneldataGridView.Rows[item.Index].Cells[3].Value, "0x")),
+                    channelformatNumeric = Convert.ToInt32(Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[item.Index].Cells[4].Value)),
+                    channelFormats = Convert.ToInt32(Array.IndexOf(_format, ChanneldataGridView.Rows[item.Index].Cells[5].Value)),
+                    channelPhase = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[6].Value),
+                    channelCcbm = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value),
+                    channelDimension = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value),
+                    channelMin = Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[9].Value),
+                    channelMax = Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[10].Value)
+                };
+                
+                ScopeItemCopy.Add(itemCopy);
+            }
+        }
+
+        private void pasteButton_Click(object sender, EventArgs e)
+        {
+            foreach (var t in ScopeItemCopy)
+            {
+                ChanneldataGridView.Rows.Add(
+                        t.channelNames,
+                        t.channelGroupNames,
+                        _typeChannel[(t.channelTypeAd)],
+                        "0x" + t.channelAddrs.ToString("X4"),
+                        _sizeFormat[(t.channelformatNumeric)],
+                        _format[(t.channelFormats)],
+                        t.channelPhase,
+                        t.channelCcbm,
+                        t.channelDimension,
+                        t.channelMin,
+                        t.channelMax
+                        );
+            }
+            UpdateTable();
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            int i = (int)((sender as Button).Tag);
-
-            DeleteLine(i);
-        }
-
-        private void checkBox_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < _checkBoxs.Count; i++)
+            foreach (DataGridViewRow item in ChanneldataGridView.SelectedRows)
             {
-                if (_checkBoxs[i].Checked) _layoutPanel[i].BackColor = Color.PaleGreen;
-                else _layoutPanel[i].BackColor = Color.WhiteSmoke;
+                ChanneldataGridView.Rows.RemoveAt(item.Index);
             }
+            UpdateTable();
         }
 
-        List<String> _nameTextBoxsCopy = new List<String>();
-        List<String> _phaseTextBoxsCopy = new List<String>();
-        List<String> _ccbmTextBoxsCopy = new List<String>();
-        List<String> _dimensionComboBoxCopy = new List<String>();
-        List<String> _groupTextBoxsCopy = new List<String>();
-        List<int> _analogDigitalComboBoxCopy = new List<int>();
-        List<int> _addrTextBoxsCopy = new List<int>();
-        List<int> _formatComboBoxCopy = new List<int>();
-        List<int> _minTextBoxsCopy = new List<int>();
-        List<int> _maxTextBoxsCopy = new List<int>();
-
-        private void toolStripButton2_Click(object sender, EventArgs e)
+        private string convert_text(object obj, string del)
         {
-            _nameTextBoxsCopy.Clear();
-            _phaseTextBoxsCopy.Clear();
-            _ccbmTextBoxsCopy.Clear();
-            _analogDigitalComboBoxCopy.Clear();
-            _groupTextBoxsCopy.Clear();
-            _addrTextBoxsCopy.Clear();
-            _formatComboBoxCopy.Clear();
-            _dimensionComboBoxCopy.Clear();
-            _minTextBoxsCopy.Clear();
-            _maxTextBoxsCopy.Clear();
+            int i = 0;
+            string str = Convert.ToString(obj);
+            if (str == "") str = "0";
+            if (del == "0x") i = Convert.ToInt32(str, 16);
+            if (del == "") i = Convert.ToInt32(str);
+            str = Convert.ToString(i);
+            //if (del != "") str = str.Replace(del, "");
+            return str;
+        }
 
-            for (int i = 0; i < _checkBoxs.Count; i++) 
+        private void UpdateTable()
+        {
+            foreach (DataGridViewRow r in ChanneldataGridView.Rows)
             {
-                if (_checkBoxs[i].Checked) 
+                ChanneldataGridView.Rows[r.Index].HeaderCell.Value = (r.Index + 1).ToString();
+            }
+
+            SetDoubleBuffered(ChanneldataGridView, true);
+        }
+
+        private void CreateTable()
+        {
+            foreach (var t in ScopeSysType.ScopeItem)
+            {
+                try
                 {
-                    _nameTextBoxsCopy.Add(_nameTextBoxs[i].Text);
-                    _phaseTextBoxsCopy.Add(_phaseTextBoxs[i].Text);
-                    _ccbmTextBoxsCopy.Add(_ccbmTextBoxs[i].Text);
-                    _analogDigitalComboBoxCopy.Add(Convert.ToInt32(_analogDigitalComboBox[i].SelectedIndex));
-                    _groupTextBoxsCopy.Add(_groupTextBoxs[i].Text);
-                    _addrTextBoxsCopy.Add(Convert.ToInt32(AdvanceConvert.StrToInt(_addrTextBoxs[i].Text)));
-                    _formatComboBoxCopy.Add((Convert.ToInt32(_formatComboBoxNumeric[i].SelectedIndex + 1) << 8) + Convert.ToInt32(_formatComboBox[i].SelectedIndex));
-                    _dimensionComboBoxCopy.Add(_dimensionComboBox[i].Text);
-                    _minTextBoxsCopy.Add(Convert.ToInt32(_minTextBoxs[i].Text));
-                    _maxTextBoxsCopy.Add(Convert.ToInt32(_maxTextBoxs[i].Text));
+                    ChanneldataGridView.Rows.Add(
+                        t.channelNames,
+                        t.channelGroupNames,
+                        _typeChannel[(t.channelTypeAd)],
+                        "0x" + t.channelAddrs.ToString("X4"),
+                        _sizeFormat[(t.channelformatNumeric)],
+                        _format[(t.channelFormats)],
+                        t.channelPhase,
+                        t.channelCcbm,
+                        t.channelDimension,
+                        t.channelMin,
+                        t.channelMax
+                        );
+                }
+                catch
+                {
+                    MessageBox.Show(@"Ошибка загрузки данных", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
         }
-
-        private void toolStripButton3_Click(object sender, EventArgs e)
-        {
-            for(int i = 0; i < _nameTextBoxsCopy.Count; i++)
-            {    
-                 AddParamLine(_nameTextBoxsCopy[i],_phaseTextBoxsCopy[i],_ccbmTextBoxsCopy[i],_dimensionComboBoxCopy[i], _groupTextBoxsCopy[i], _addrTextBoxsCopy[i], _formatComboBoxCopy[i], _analogDigitalComboBoxCopy[i],_minTextBoxsCopy[i],_maxTextBoxsCopy[i]);
-            }
-        }
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            for (int i = _nameTextBoxs.Count - 1; i >= 0; i--) 
-            {
-                if (_checkBoxs[i].Checked) 
-                {
-                    _layoutPanel[i].BackColor = Color.WhiteSmoke;
-                    _checkBoxs[i].Checked = false;
-                    DeleteLine(i); 
-                }
-            }
-        }
-
-        private void checkBox2_Click(object sender, EventArgs e)
-        {
-            if (checkBox2.Checked)
-            {
-                for (int i = 0; i < _checkBoxs.Count; i++)
-                {
-                    _checkBoxs[i].Checked  = true;
-                    _layoutPanel[i].BackColor = Color.PaleGreen;     
-                }
-            }
-            else
-            {
-                for (int i = 0; i < _checkBoxs.Count; i++)
-                {
-                    _checkBoxs[i].Checked = false;
-                    _layoutPanel[i].BackColor = Color.WhiteSmoke;
-                }
-            }
-
-        }
-
 
         //Загрузка из файла
         private void openButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.DefaultExt = ".xsc"; // Default file extension
-            ofd.Filter = "XML System Configuration|*.xsc|XML|*.xml|All files (*.*)|*.*"; // Filter files by extension
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                DefaultExt = @".xsc",                                                           // Default file extension
+                Filter = @"XML System Configuration|*.xsc|XML|*.xml|All files (*.*)|*.*"         // Filter files by extension 
+            };
+            
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 ScopeSysType.XmlFileName = ofd.FileName;
                 try
                 {
+                    ChanneldataGridView.Rows.Clear();
+                    ScopeSysType.ScopeItem.Clear();
                     ScopeSysType.InitScopeSysType();
                 }
                 catch
                 {
-                    MessageBox.Show("Ошибка загрузки данных", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(@"Ошибка загрузки данных", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                ConfigAddr_textBox.Text = "0x" + ScopeSysType.ConfigurationAddr.ToString("X4");
-                OscilCmndAddr_textBox.Text = "0x" + ScopeSysType.OscilCmndAddr.ToString("X4");
-                OscilSizeData_TextBox.Text = "0x" + ScopeSysType.OscilAllSize.ToString("X4");
-                CommentRichTextBox.Text = ScopeSysType.OscilComment.ToString();
-                //For COMETRADE
-                stationName_textBox.Text = ScopeSysType.StationName.ToString();
-                recordingDevice_textBox.Text = ScopeSysType.RecordingDevice.ToString();
-                nominalFrequency_textBox.Text = ScopeSysType.OscilNominalFrequency.ToString("###");
-                sampleRate_textBox.Text = ScopeSysType.OscilSampleRate.ToString("###");
-                timeCode_textBox.Text = ScopeSysType.TimeCode.ToString();
-                localCode_textBox.Text = ScopeSysType.LocalCode.ToString();
-                tmqCode_textBox.Text = ScopeSysType.TmqCode.ToString();
-                leapsec_textBox.Text = ScopeSysType.Leapsec.ToString();
-                
-                for (int i = _nameTextBoxs.Count - 1; i >= 0 ; i--)
-                {
-                    configPanel.Controls.Remove(_layoutPanel[i]);
-                    _layoutPanel[i].Controls.Remove(_nameTextBoxs[i]);
-                    _layoutPanel[i].Controls.Remove(_phaseTextBoxs[i]);
-                    _layoutPanel[i].Controls.Remove(_ccbmTextBoxs[i]);
-                    _layoutPanel[i].Controls.Remove(_dimensionComboBox[i]);
-                    _layoutPanel[i].Controls.Remove(_addrTextBoxs[i]);
-                    _layoutPanel[i].Controls.Remove(_removeButtons[i]);
-                    _layoutPanel[i].Controls.Remove(_formatComboBoxNumeric[i]);
-                    _layoutPanel[i].Controls.Remove(_formatComboBox[i]);
-                    _layoutPanel[i].Controls.Remove(_analogDigitalComboBox[i]);
-                    _layoutPanel[i].Controls.Remove(_minTextBoxs[i]);
-                    _layoutPanel[i].Controls.Remove(_maxTextBoxs[i]);
-                    _layoutPanel[i].Controls.Remove(_groupTextBoxs[i]);
-
-                    _nameTextBoxs.Remove(_nameTextBoxs[i]);
-                    _phaseTextBoxs.Remove(_phaseTextBoxs[i]);
-                    _ccbmTextBoxs.Remove(_ccbmTextBoxs[i]);
-                    _dimensionComboBox.Remove(_dimensionComboBox[i]);
-                    _addrTextBoxs.Remove(_addrTextBoxs[i]);
-                    _removeButtons.Remove(_removeButtons[i]);
-                    _formatComboBoxNumeric.Remove(_formatComboBoxNumeric[i]);
-                    _formatComboBox.Remove(_formatComboBox[i]);
-                    _analogDigitalComboBox.Remove(_analogDigitalComboBox[i]);
-                    _minTextBoxs.Remove(_minTextBoxs[i]);
-                    _maxTextBoxs.Remove(_maxTextBoxs[i]);
-                    _groupTextBoxs.Remove(_groupTextBoxs[i]);
-                }
-
-
-                for (int i1 = 0; i1 < ScopeSysType.ChannelNames.Count; i1++)
-                {
-
-                    AddParamLine(
-                                    ScopeSysType.ChannelNames[i1],
-                                    ScopeSysType.ChannelPhase[i1],
-                                    ScopeSysType.ChannelCcbm[i1],
-                                    ScopeSysType.ChannelDimension[i1],
-                                    ScopeSysType.GroupNames[i1],
-                                    ScopeSysType.ChannelAddrs[i1],
-                                    ScopeSysType.ChannelFormats[i1],
-                                    ScopeSysType.ChannelTypeAd[i1],
-                                    ScopeSysType.ChannelMin[i1],
-                                    ScopeSysType.ChannelMax[i1]  
-                                 );
-                }
-
-            /*    for (int i = 0; i <  ScopeSysType.ChannelNames.Count; i++)
-                {
-                    LayoutPanel[i].Visible = true;
-                }*/
+                InitTable();
             }
+        }
+
+        private void InitTable()
+        {
+            ConfigAddr_textBox.Text = @"0x" + ScopeSysType.ConfigurationAddr.ToString("X4");
+            OscilCmndAddr_textBox.Text = @"0x" + ScopeSysType.OscilCmndAddr.ToString("X4");
+            OscilSizeData_TextBox.Text = @"0x" + ScopeSysType.OscilAllSize.ToString("X4");
+            CommentRichTextBox.Text = ScopeSysType.OscilComment;
+            //For COMETRADE
+            stationName_textBox.Text = ScopeSysType.StationName;
+            recordingDevice_textBox.Text = ScopeSysType.RecordingDevice;
+            nominalFrequency_textBox.Text = ScopeSysType.OscilNominalFrequency.ToString("###");
+            sampleRate_textBox.Text = ScopeSysType.OscilSampleRate.ToString("###");
+            timeCode_textBox.Text = ScopeSysType.TimeCode;
+            localCode_textBox.Text = ScopeSysType.LocalCode;
+            tmqCode_textBox.Text = ScopeSysType.TmqCode;
+            leapsec_textBox.Text = ScopeSysType.Leapsec;
+
+            CreateTable();
+            UpdateTable();
         }
 
         private void Save_To_file(SaveFileDialog sfd)
@@ -555,11 +254,11 @@ namespace ScopeSetupApp
                     oscilCmndStr = AdvanceConvert.uValue.ToString();
                 }
 
-                for (int i = 0; i < _addrTextBoxs.Count; i++)
+                for (int i = 0; i <  ChanneldataGridView.Rows.Count; i++)
                 {
-                    if (!AdvanceConvert.StrToInt(_addrTextBoxs[i].Text))
+                    if (!AdvanceConvert.StrToInt(Convert.ToString(ChanneldataGridView.Rows[i].Cells[3].Value)))
                     {
-                        MessageBox.Show("Ошибка в поле адреса параметра\n" + _nameTextBoxs[i].Text);
+                        MessageBox.Show("Ошибка в поле адреса параметра\n" + Convert.ToString(ChanneldataGridView.Rows[i].Cells[3].Value));
                         return;
                     }
                     else
@@ -582,8 +281,10 @@ namespace ScopeSetupApp
                 ScopeSysType.XmlFileName = sfd.FileName;
 
                 FileStream fs = new FileStream(sfd.FileName, FileMode.Create);
-                XmlTextWriter xmlOut = new XmlTextWriter(fs, Encoding.Unicode);
-                xmlOut.Formatting = Formatting.Indented;
+                XmlTextWriter xmlOut = new XmlTextWriter(fs, Encoding.Unicode)
+                {
+                    Formatting = Formatting.Indented
+                };
                 xmlOut.WriteStartDocument();
                 xmlOut.WriteStartElement("Setup");
                 /////////////////////////////////////////////////////////////
@@ -607,21 +308,21 @@ namespace ScopeSetupApp
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("MeasureParams");
-                xmlOut.WriteAttributeString("Count", _nameTextBoxs.Count.ToString());
+                xmlOut.WriteAttributeString("Count", ChanneldataGridView.Rows.Count.ToString());
                 xmlOut.WriteEndElement();
 
-                for (int i = 0; i < paramAddrStrs.Count; i++)
+                for (int i = 0; i < ChanneldataGridView.Rows.Count; i++)
                 {
-                    xmlOut.WriteStartElement("MeasureParam" + (i + 1).ToString());
-                    xmlOut.WriteAttributeString("Name", _groupTextBoxs[i].Text +"/" + _nameTextBoxs[i].Text);
-                    xmlOut.WriteAttributeString("Phase", _phaseTextBoxs[i].Text);
-                    xmlOut.WriteAttributeString("CCBM", _ccbmTextBoxs[i].Text);
-                    xmlOut.WriteAttributeString("Dimension", _dimensionComboBox[i].Text);
+                    xmlOut.WriteStartElement("MeasureParam" + (i + 1));
+                    xmlOut.WriteAttributeString("Name", Convert.ToString(ChanneldataGridView.Rows[i].Cells[1].Value) + "/" + Convert.ToString(ChanneldataGridView.Rows[i].Cells[0].Value));
+                    xmlOut.WriteAttributeString("Phase", Convert.ToString(ChanneldataGridView.Rows[i].Cells[6].Value));
+                    xmlOut.WriteAttributeString("CCBM", Convert.ToString(ChanneldataGridView.Rows[i].Cells[7].Value));
+                    xmlOut.WriteAttributeString("Dimension", Convert.ToString(ChanneldataGridView.Rows[i].Cells[8].Value));
                     xmlOut.WriteAttributeString("Addr", paramAddrStrs[i]);
-                    xmlOut.WriteAttributeString("Format", ((Convert.ToInt32(_formatComboBoxNumeric[i].SelectedIndex + 1) << 8) + Convert.ToInt32(_formatComboBox[i].SelectedIndex)).ToString());
-                    xmlOut.WriteAttributeString("TypeAD", _analogDigitalComboBox[i].SelectedIndex.ToString());
-                    xmlOut.WriteAttributeString("Min", _minTextBoxs[i].Text);
-                    xmlOut.WriteAttributeString("Max", _maxTextBoxs[i].Text);
+                    xmlOut.WriteAttributeString("Format", Convert.ToString(((Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[i].Cells[4].Value) + 1) << 8) + Array.IndexOf(_format, ChanneldataGridView.Rows[i].Cells[5].Value)));
+                    xmlOut.WriteAttributeString("TypeAD", Convert.ToString(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[i].Cells[2].Value)));
+                    xmlOut.WriteAttributeString("Min", Convert.ToString(ChanneldataGridView.Rows[i].Cells[9].Value));
+                    xmlOut.WriteAttributeString("Max", Convert.ToString(ChanneldataGridView.Rows[i].Cells[10].Value));
 
                     xmlOut.WriteEndElement();
                 }
@@ -661,42 +362,34 @@ namespace ScopeSetupApp
                 xmlOut.WriteEndDocument();
                 xmlOut.Close();
                 fs.Close();
-
-                ScopeSysType.InitScopeSysType(); 
         }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.DefaultExt = ".xsc"; // Default file extension
-            sfd.Filter = "XML System Configuration|*.xsc|XML|*.xml";
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                DefaultExt = @".xsc",
+                Filter = @"XML System Configuration|*.xsc|XML|*.xml"
+            };
+            // Default file extension
             if (sfd.ShowDialog() == DialogResult.OK) Save_To_file(sfd); 
         }
 
 
         private void SetDefault_toolStripButton_Click(object sender, EventArgs e)
         {
-            string namefile, pathfile;
             SaveFileDialog sfd = new SaveFileDialog();
-            namefile = "ScopeSysType.xml";
-            pathfile = Path.GetDirectoryName(ScopeSysType.XmlFileName);
+            string namefile = "ScopeSysType.xml";
+            string pathfile = Path.GetDirectoryName(Path.GetFullPath(ScopeSysType.XmlFileName));
             sfd.FileName = pathfile + "\\" + namefile;
             Save_To_file(sfd); 
 
             Update_Oscil();
         }
 
-        private string convert_text(object obj, string del)
+        private void Update_toolStripButton_Click(object sender, EventArgs e)
         {
-            int i = 0;
-            string str = "";
-            str = Convert.ToString(obj);
-            if (str == "") str = "0";
-            if (del == "0x") i = Convert.ToInt32(str, 16);
-            if (del == "") i = Convert.ToInt32(str);
-            str = Convert.ToString(i);
-            //if (del != "") str = str.Replace(del, "");
-            return str;
+            Update_Oscil();
         }
 
         private void Update_Oscil()
@@ -712,65 +405,89 @@ namespace ScopeSetupApp
             ScopeSysType.LocalCode = Convert.ToString(localCode_textBox.Text);
             ScopeSysType.TmqCode = Convert.ToString(tmqCode_textBox.Text);
             ScopeSysType.Leapsec = Convert.ToString(leapsec_textBox.Text);
-            
+
             ScopeSysType.ChannelNames.Clear();
             ScopeSysType.GroupNames.Clear();
+            ScopeSysType.ChannelTypeAd.Clear();
+            ScopeSysType.ChannelAddrs.Clear();
+            ScopeSysType.ChannelFormats.Clear();
             ScopeSysType.ChannelPhase.Clear();
             ScopeSysType.ChannelCcbm.Clear();
             ScopeSysType.ChannelDimension.Clear();
-            ScopeSysType.ChannelAddrs.Clear();
-            ScopeSysType.ChannelFormats.Clear();
-            ScopeSysType.ChannelTypeAd.Clear();
             ScopeSysType.ChannelMin.Clear();
             ScopeSysType.ChannelMax.Clear();
-            
-            for (int i = 0; i < _addrTextBoxs.Count; i++)
+
+            ScopeSysType.ScopeItem.Clear();
+
+            foreach (DataGridViewRow item in ChanneldataGridView.Rows)
             {
-                ScopeSysType.GroupNames.Add(_groupTextBoxs[i].Text);
-                ScopeSysType.ChannelNames.Add(_nameTextBoxs[i].Text);
-                ScopeSysType.ChannelPhase.Add(_phaseTextBoxs[i].Text);
-                ScopeSysType.ChannelCcbm.Add(_ccbmTextBoxs[i].Text);
-                ScopeSysType.ChannelDimension.Add(_dimensionComboBox[i].Text);
-                ScopeSysType.ChannelAddrs.Add(Convert.ToUInt16(convert_text(_addrTextBoxs[i].Text, "0x")));
-                ScopeSysType.ChannelFormats.Add(Convert.ToUInt16(((Convert.ToUInt16(_formatComboBoxNumeric[i].SelectedIndex + 1) << 8) + Convert.ToInt32(_formatComboBox[i].SelectedIndex)).ToString()));
-                ScopeSysType.ChannelTypeAd.Add(Convert.ToUInt16(_analogDigitalComboBox[i].SelectedIndex.ToString()));
-                ScopeSysType.ChannelMin.Add(Convert.ToInt32(_minTextBoxs[i].Text));
-                ScopeSysType.ChannelMax.Add(Convert.ToInt32(_maxTextBoxs[i].Text));
-            }  
-            
-            ConfigToSystem(); 
+                ScopeSysType.ChannelNames.Add(Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[0].Value));
+                ScopeSysType.GroupNames.Add(Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value));
+                ScopeSysType.ChannelTypeAd.Add(Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[2].Value)));
+                ScopeSysType.ChannelAddrs.Add(Convert.ToUInt16(convert_text(ChanneldataGridView.Rows[item.Index].Cells[3].Value, "0x")));
+                ScopeSysType.ChannelFormats.Add(Convert.ToUInt16(((Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[item.Index].Cells[4].Value) + 1) << 8) + Array.IndexOf(_format, ChanneldataGridView.Rows[item.Index].Cells[5].Value)));
+                ScopeSysType.ChannelPhase.Add(Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[6].Value));
+                ScopeSysType.ChannelCcbm.Add(Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value));
+                ScopeSysType.ChannelDimension.Add(Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value));
+                ScopeSysType.ChannelMin.Add(Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[9].Value));
+                ScopeSysType.ChannelMax.Add(Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[10].Value));
+
+                ScopeTempConfig Item = new ScopeTempConfig()
+                {
+                    channelNames = ScopeSysType.ChannelNames[ScopeSysType.ChannelNames.Count - 1],
+                    channelGroupNames = ScopeSysType.GroupNames[ScopeSysType.GroupNames.Count - 1],
+                    channelTypeAd = ScopeSysType.ChannelTypeAd[ScopeSysType.ChannelTypeAd.Count - 1],
+                    channelAddrs = ScopeSysType.ChannelAddrs[ScopeSysType.ChannelAddrs.Count - 1],
+                    channelformatNumeric = ((ScopeSysType.ChannelFormats[ScopeSysType.ChannelFormats.Count - 1] >> 8) - 1),
+                    channelFormats = (ScopeSysType.ChannelFormats[ScopeSysType.ChannelFormats.Count - 1] & 0x00FF),
+                    channelPhase = ScopeSysType.ChannelPhase[ScopeSysType.ChannelPhase.Count - 1],
+                    channelCcbm = ScopeSysType.ChannelCcbm[ScopeSysType.ChannelCcbm.Count - 1],
+                    channelDimension = ScopeSysType.ChannelDimension[ScopeSysType.ChannelDimension.Count - 1],
+                    channelMin = ScopeSysType.ChannelMin[ScopeSysType.ChannelMin.Count - 1],
+                    channelMax = ScopeSysType.ChannelMax[ScopeSysType.ChannelMax.Count - 1]
+                };
+
+                ScopeSysType.ScopeItem.Add(Item);
+            }
+
+            ConfigToSystem();
+        }
+
+        private void ConfigToSystem()
+        {
+            string str = Path.GetFileName(ScopeSysType.XmlFileName);
+            ConfigToSystem_label.Text = @"Actual configuration: " + str;
+        }
+
+        private void ChanneldataGridView_BindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewRow r in ChanneldataGridView.Rows)
+            {
+                ChanneldataGridView.Rows[r.Index].HeaderCell.Value = (r.Index + 1).ToString();
+            }
         }
 
         private void View_toolStripButton_Click(object sender, EventArgs e)
         {
-            Update_Oscil();
-
              SCPrintPreviewDialog.Document = SCPrintDocument;
              SCPrintPreviewDialog.ShowDialog();
         }
 
         private void Print_toolStripButton_Click(object sender, EventArgs e)
         {
-            Update_Oscil();
-
-            SCPrintDialog.Document = SCPrintDocument;
+             SCPrintDialog.Document = SCPrintDocument;
             if (SCPrintDialog.ShowDialog() == DialogResult.OK)
             {
                 SCPrintDocument.Print();
             }
         }
 
-        private void Update_toolStripButton_Click(object sender, EventArgs e)
-        {
-            Update_Oscil();
-        }
-
         bool _firstPage = true;
-        int _paramNum = 0;
+        int _paramNum;
 
-        private void SCPrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-        {
-            string str = "";
+       private void SCPrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+       {
+            string str;
             int yPos = 30;
             int xPos1 = 25;
             int xPos2 = 200;
@@ -847,15 +564,7 @@ namespace ScopeSetupApp
                 if (i == ScopeSysType.ChannelNames.Count - 1) { _firstPage = true; _paramNum = 0; e.HasMorePages = false; }
             }
         }
-
-        private void ConfigToSystem()
-        {
-            string str ="";
-            str = Path.GetFileName(ScopeSysType.XmlFileName);
-            ConfigToSystem_label.Text = "Actual configuration: " + str;
-        }
-
-
+        
     }
 }
 

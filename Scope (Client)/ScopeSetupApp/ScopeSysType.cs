@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Xml;
-using System.Drawing;
+
 
 namespace ScopeSetupApp
 {
     public static class ScopeSysType
     {
+        public static List<ScopeTempConfig> ScopeItem = new List<ScopeTempConfig>();
+
         public static string XmlFileName = "ScopeSysType.xml";
         public static string XmlFileNameOscil = "ScopeSysType.xml";
         public static List<string> GroupNames = new List<string>();
@@ -99,7 +100,6 @@ namespace ScopeSetupApp
                 throw new Exception("Не удалось открыть файл: " + XmlFileName + "!");
             }
 
-
             LoadFromXml("Configuration", "Addr", doc, out ConfigurationAddr);
             LoadFromXml("OscilCmnd", "Addr", doc, out OscilCmndAddr);
 
@@ -160,6 +160,23 @@ namespace ScopeSetupApp
                     ChannelTypeAd.Add(Convert.ToUInt16(xmlline.Attributes["TypeAD"].Value));
                     ChannelMin.Add(Convert.ToInt32(xmlline.Attributes["Min"].Value));
                     ChannelMax.Add(Convert.ToInt32(xmlline.Attributes["Max"].Value));
+
+                    ScopeTempConfig Item = new ScopeTempConfig()
+                    {
+                        channelNames = ChannelNames[ChannelNames.Count - 1],
+                        channelGroupNames = GroupNames[GroupNames.Count - 1],
+                        channelTypeAd = ChannelTypeAd[ChannelTypeAd.Count - 1],
+                        channelAddrs = ChannelAddrs[ChannelAddrs.Count - 1],
+                        channelformatNumeric = ((ChannelFormats[ChannelFormats.Count - 1] >> 8) - 1),
+                        channelFormats = (ChannelFormats[ChannelFormats.Count - 1] & 0x00FF),
+                        channelPhase = ChannelPhase[ChannelPhase.Count - 1],
+                        channelCcbm = ChannelCcbm[ChannelCcbm.Count - 1],
+                        channelDimension = ChannelDimension[ChannelDimension.Count - 1],
+                        channelMin = ChannelMin[ChannelMin.Count - 1],
+                        channelMax = ChannelMax[ChannelMax.Count - 1]
+                    };
+
+                    ScopeItem.Add(Item);
                 }
                 catch
                 {
