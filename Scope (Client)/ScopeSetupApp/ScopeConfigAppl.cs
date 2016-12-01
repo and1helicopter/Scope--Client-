@@ -74,7 +74,7 @@ namespace ScopeSetupApp
             UpdateTable();
         }
 
-        private static List<ScopeTempConfig> ScopeItemCopy = new List<ScopeTempConfig>();
+        private static readonly List<ScopeTempConfig> ScopeItemCopy = new List<ScopeTempConfig>();
         
 
         private void copyButton_Click(object sender, EventArgs e)
@@ -84,17 +84,17 @@ namespace ScopeSetupApp
             {
                 ScopeTempConfig itemCopy = new ScopeTempConfig()
                 {
-                    channelNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[0].Value),
-                    channelGroupNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value),
-                    channelTypeAd = Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[2].Value)),
-                    channelAddrs = Convert.ToUInt16(convert_text(ChanneldataGridView.Rows[item.Index].Cells[3].Value, "0x")),
-                    channelformatNumeric = Convert.ToInt32(Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[item.Index].Cells[4].Value)),
-                    channelFormats = Convert.ToInt32(Array.IndexOf(_format, ChanneldataGridView.Rows[item.Index].Cells[5].Value)),
-                    channelPhase = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[6].Value),
-                    channelCcbm = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value),
-                    channelDimension = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value),
-                    channelMin = Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[9].Value),
-                    channelMax = Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[10].Value)
+                    ChannelNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[0].Value),
+                    ChannelGroupNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value),
+                    ChannelTypeAd = Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[2].Value)),
+                    ChannelAddrs = Convert.ToUInt16(convert_text(ChanneldataGridView.Rows[item.Index].Cells[3].Value, "0x")),
+                    ChannelformatNumeric = Convert.ToInt32(Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[item.Index].Cells[4].Value)),
+                    ChannelFormats = Convert.ToInt32(Array.IndexOf(_format, ChanneldataGridView.Rows[item.Index].Cells[5].Value)),
+                    ChannelPhase = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[6].Value),
+                    ChannelCcbm = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value),
+                    ChannelDimension = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value),
+                    ChannelMin = Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[9].Value),
+                    ChannelMax = Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[10].Value)
                 };
                 
                 ScopeItemCopy.Add(itemCopy);
@@ -106,17 +106,17 @@ namespace ScopeSetupApp
             foreach (var t in ScopeItemCopy)
             {
                 ChanneldataGridView.Rows.Add(
-                        t.channelNames,
-                        t.channelGroupNames,
-                        _typeChannel[(t.channelTypeAd)],
-                        "0x" + t.channelAddrs.ToString("X4"),
-                        _sizeFormat[(t.channelformatNumeric)],
-                        _format[(t.channelFormats)],
-                        t.channelPhase,
-                        t.channelCcbm,
-                        t.channelDimension,
-                        t.channelMin,
-                        t.channelMax
+                        t.ChannelNames,
+                        t.ChannelGroupNames,
+                        _typeChannel[(t.ChannelTypeAd)],
+                        "0x" + t.ChannelAddrs.ToString("X4"),
+                        _sizeFormat[(t.ChannelformatNumeric)],
+                        _format[(t.ChannelFormats)],
+                        t.ChannelPhase,
+                        t.ChannelCcbm,
+                        t.ChannelDimension,
+                        t.ChannelMin,
+                        t.ChannelMax
                         );
             }
             UpdateTable();
@@ -160,17 +160,17 @@ namespace ScopeSetupApp
                 try
                 {
                     ChanneldataGridView.Rows.Add(
-                        t.channelNames,
-                        t.channelGroupNames,
-                        _typeChannel[(t.channelTypeAd)],
-                        "0x" + t.channelAddrs.ToString("X4"),
-                        _sizeFormat[(t.channelformatNumeric)],
-                        _format[(t.channelFormats)],
-                        t.channelPhase,
-                        t.channelCcbm,
-                        t.channelDimension,
-                        t.channelMin,
-                        t.channelMax
+                        t.ChannelNames,
+                        t.ChannelGroupNames,
+                        _typeChannel[(t.ChannelTypeAd)],
+                        "0x" + t.ChannelAddrs.ToString("X4"),
+                        _sizeFormat[(t.ChannelformatNumeric)],
+                        _format[(t.ChannelFormats)],
+                        t.ChannelPhase,
+                        t.ChannelCcbm,
+                        t.ChannelDimension,
+                        t.ChannelMin,
+                        t.ChannelMax
                         );
                 }
                 catch
@@ -434,23 +434,24 @@ namespace ScopeSetupApp
 
                 ScopeTempConfig Item = new ScopeTempConfig()
                 {
-                    channelNames = ScopeSysType.ChannelNames[ScopeSysType.ChannelNames.Count - 1],
-                    channelGroupNames = ScopeSysType.GroupNames[ScopeSysType.GroupNames.Count - 1],
-                    channelTypeAd = ScopeSysType.ChannelTypeAd[ScopeSysType.ChannelTypeAd.Count - 1],
-                    channelAddrs = ScopeSysType.ChannelAddrs[ScopeSysType.ChannelAddrs.Count - 1],
-                    channelformatNumeric = ((ScopeSysType.ChannelFormats[ScopeSysType.ChannelFormats.Count - 1] >> 8) - 1),
-                    channelFormats = (ScopeSysType.ChannelFormats[ScopeSysType.ChannelFormats.Count - 1] & 0x00FF),
-                    channelPhase = ScopeSysType.ChannelPhase[ScopeSysType.ChannelPhase.Count - 1],
-                    channelCcbm = ScopeSysType.ChannelCcbm[ScopeSysType.ChannelCcbm.Count - 1],
-                    channelDimension = ScopeSysType.ChannelDimension[ScopeSysType.ChannelDimension.Count - 1],
-                    channelMin = ScopeSysType.ChannelMin[ScopeSysType.ChannelMin.Count - 1],
-                    channelMax = ScopeSysType.ChannelMax[ScopeSysType.ChannelMax.Count - 1]
+                    ChannelNames = ScopeSysType.ChannelNames[ScopeSysType.ChannelNames.Count - 1],
+                    ChannelGroupNames = ScopeSysType.GroupNames[ScopeSysType.GroupNames.Count - 1],
+                    ChannelTypeAd = ScopeSysType.ChannelTypeAd[ScopeSysType.ChannelTypeAd.Count - 1],
+                    ChannelAddrs = ScopeSysType.ChannelAddrs[ScopeSysType.ChannelAddrs.Count - 1],
+                    ChannelformatNumeric = ((ScopeSysType.ChannelFormats[ScopeSysType.ChannelFormats.Count - 1] >> 8) - 1),
+                    ChannelFormats = (ScopeSysType.ChannelFormats[ScopeSysType.ChannelFormats.Count - 1] & 0x00FF),
+                    ChannelPhase = ScopeSysType.ChannelPhase[ScopeSysType.ChannelPhase.Count - 1],
+                    ChannelCcbm = ScopeSysType.ChannelCcbm[ScopeSysType.ChannelCcbm.Count - 1],
+                    ChannelDimension = ScopeSysType.ChannelDimension[ScopeSysType.ChannelDimension.Count - 1],
+                    ChannelMin = ScopeSysType.ChannelMin[ScopeSysType.ChannelMin.Count - 1],
+                    ChannelMax = ScopeSysType.ChannelMax[ScopeSysType.ChannelMax.Count - 1]
                 };
 
                 ScopeSysType.ScopeItem.Add(Item);
             }
 
             ConfigToSystem();
+
         }
 
         private void ConfigToSystem()

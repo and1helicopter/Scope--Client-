@@ -161,22 +161,22 @@ namespace ScopeSetupApp
                     ChannelMin.Add(Convert.ToInt32(xmlline.Attributes["Min"].Value));
                     ChannelMax.Add(Convert.ToInt32(xmlline.Attributes["Max"].Value));
 
-                    ScopeTempConfig Item = new ScopeTempConfig()
+                    ScopeTempConfig item = new ScopeTempConfig()
                     {
-                        channelNames = ChannelNames[ChannelNames.Count - 1],
-                        channelGroupNames = GroupNames[GroupNames.Count - 1],
-                        channelTypeAd = ChannelTypeAd[ChannelTypeAd.Count - 1],
-                        channelAddrs = ChannelAddrs[ChannelAddrs.Count - 1],
-                        channelformatNumeric = ((ChannelFormats[ChannelFormats.Count - 1] >> 8) - 1),
-                        channelFormats = (ChannelFormats[ChannelFormats.Count - 1] & 0x00FF),
-                        channelPhase = ChannelPhase[ChannelPhase.Count - 1],
-                        channelCcbm = ChannelCcbm[ChannelCcbm.Count - 1],
-                        channelDimension = ChannelDimension[ChannelDimension.Count - 1],
-                        channelMin = ChannelMin[ChannelMin.Count - 1],
-                        channelMax = ChannelMax[ChannelMax.Count - 1]
+                        ChannelNames = ChannelNames[ChannelNames.Count - 1],
+                        ChannelGroupNames = GroupNames[GroupNames.Count - 1],
+                        ChannelTypeAd = ChannelTypeAd[ChannelTypeAd.Count - 1],
+                        ChannelAddrs = ChannelAddrs[ChannelAddrs.Count - 1],
+                        ChannelformatNumeric = ((ChannelFormats[ChannelFormats.Count - 1] >> 8) - 1),
+                        ChannelFormats = (ChannelFormats[ChannelFormats.Count - 1] & 0x00FF),
+                        ChannelPhase = ChannelPhase[ChannelPhase.Count - 1],
+                        ChannelCcbm = ChannelCcbm[ChannelCcbm.Count - 1],
+                        ChannelDimension = ChannelDimension[ChannelDimension.Count - 1],
+                        ChannelMin = ChannelMin[ChannelMin.Count - 1],
+                        ChannelMax = ChannelMax[ChannelMax.Count - 1]
                     };
 
-                    ScopeItem.Add(Item);
+                    ScopeItem.Add(item);
                 }
                 catch
                 {

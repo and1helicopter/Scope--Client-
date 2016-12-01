@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ModBusLibrary;
 using System.Xml;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace ScopeSetupApp
 {
@@ -17,174 +16,150 @@ namespace ScopeSetupApp
 
         private ushort _nowHystory = 1;             //Предыстория 
         private ushort _nowScopeCount = 1;          //Количество осциллограмм
-        private ushort _nowMaxChannelCount = 1 ;    //Количество каналов
+        private ushort _nowMaxChannelCount;    //Количество каналов
         private ushort _nowOscFreq = 1;             //Делитель     
-        private uint _oscilAllSize = 1;
+        private uint _oscilAllSize = 1;             //
 
-        //Динамическое заполнение формы 
+        readonly object[] _format = 
+        {
+            "0 - Percent",
+            "1 - uint16",
+            "2 - int16",
+            "3 - Freq standart",
+            "4 - 8.8",
+            "5 - 0.16",
+            "6 - Slide",
+            "7 - Digits",
+            "8 - RegulMode",
+            "9 - AVR type",
+            "10 - Int/10",
+            "11 - Hex",
+            "12 - *0.135 (Uf)",
+            "13 - FreqNew",
+            "14 - Current trans",
+            "15 - trans alarm",
+            "16 - int/8",
+            "17 - uint/1000",
+            "18 - percent/4",
+            "19 - FreqNew2",
+            "20 - Percent upp",
+            "21 - Freq UPTF"
+        };
+
+        readonly object[] _sizeFormat =
+        {
+            "16",
+            "32",
+            "64",
+        };
+
         #region
-        private List<Label> _possibleLabels;
-        private List<Label> _currentLabels;
-        private List<CheckBox> _checkBoxs;
-        private List<string> _nameGroup;
-        private List<List<int>> _countInGroup;
-        private List<Label> _groupLabels;
 
-        public void InitPossiblePanel()
+        private readonly List<ListViewItem> _channelnameListViewItems = new List<ListViewItem>();
+        private readonly List<ListViewGroup> _groupListViewGroup = new List<ListViewGroup>();
+        private readonly List<String> _groupString = new List<String>();
+
+        private void InitTable()
         {
-            _possibleLabels = new List<Label>();
-            _checkBoxs = new List<CheckBox>();
-            _currentLabels = new List<Label>();
-            _nameGroup = new List<string>();
-            _countInGroup = new List<List<int>>();
-            _groupLabels = new List<Label>();
-
-            _oscilAllSize = ScopeSysType.OscilAllSize;
-            CommentRichTextBox.Text = ScopeSysType.OscilComment;
-
-            int i;
-
-            for (i = 0; i < ScopeSysType.ChannelNames.Count; i++)
+            foreach (var item in ScopeSysType.ScopeItem)
             {
-                _currentLabels.Add(new Label());
-                _currentLabels[i].Visible = false;
-            }
-            
-            possibleTableLayoutPanel.RowCount = ScopeSysType.ChannelNames.Count;
-
-            possibleTableLayoutPanel.RowStyles[0] = new RowStyle(SizeType.AutoSize);
-            for (i = 0; i < (ScopeSysType.ChannelNames.Count - 1); i++)
-            {
-                possibleTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            }
-
-            _nameGroup.Clear();
-            _countInGroup.Clear();
-            _nameGroup.Add(ScopeSysType.GroupNames[0]);
-            _countInGroup.Add(new List<int>());
-
-            for (i = 0; i < ScopeSysType.GroupNames.Count; i++)
-            {
-                for (int j = 0; j < _nameGroup.Count; j++)
+                if (!_groupString.Contains(item.ChannelGroupNames))
                 {
-                    if (ScopeSysType.GroupNames[i] == _nameGroup[j])
+                    _groupString.Add(item.ChannelGroupNames);
+                    _groupListViewGroup.Add(new ListViewGroup(item.ChannelGroupNames, HorizontalAlignment.Center));
+                    listView1.Groups.Add(_groupListViewGroup[_groupListViewGroup.Count - 1]);
+                }          
+            }
+
+
+
+            // ReSharper disable once UnusedVariable
+            foreach (var item in ScopeSysType.ScopeItem)
+            {
+                _channelnameListViewItems.Add(new ListViewItem());
+                int i = _channelnameListViewItems.Count - 1;
+                _channelnameListViewItems[i].Text = item.ChannelNames;
+                _channelnameListViewItems[i].SubItems.Add("0x" + item.ChannelAddrs.ToString("X4"));
+                _channelnameListViewItems[i].SubItems.Add(Convert.ToString(_sizeFormat[item.ChannelformatNumeric]) + "b   " +
+                    Convert.ToString(_format[item.ChannelFormats]));
+                _channelnameListViewItems[i].Checked = false;
+                foreach (var itemGroup in _groupListViewGroup)
+                {
+                    if (item.ChannelGroupNames == itemGroup.Header)
                     {
-                        _countInGroup[j].Add(i);
-                        break;
-                    }
-                    if (j == _nameGroup.Count - 1)
-                    {
-                        _countInGroup.Add(new List<int>());
-                        _nameGroup.Add(ScopeSysType.GroupNames[i]);
-                        _countInGroup[j + 1].Add(i);
+                        _channelnameListViewItems[i].Group = itemGroup;
                         break;
                     }
                 }
+
+                listView1.Items.Add(_channelnameListViewItems[i]);
             }
 
-            for (int j = 0; j < _nameGroup.Count; j++)
+            foreach (var item in _groupListViewGroup)
             {
-                _groupLabels.Add(new Label());
-                _groupLabels[j].Dock = DockStyle.Fill;
-                if (_nameGroup[j] == "") _groupLabels[j].Text = @"Несгруппированные параметры";
-                else _groupLabels[j].Text = _nameGroup[j];
-                _groupLabels[j].BorderStyle = BorderStyle.FixedSingle;
-                _groupLabels[j].Margin = new Padding(1);
-                _groupLabels[j].AutoSize = true;
-                _groupLabels[j].Font = sampleNameLabel.Font;
-                _groupLabels[j].BackColor = SystemColors.ButtonHighlight;
-                // groupLabels[j].Click += new System.EventHandler(group_Click);
-
-                possibleTableLayoutPanel.Controls.Add(_groupLabels[j]);
-
-                for (int k = 0; k < _countInGroup[j].Count; k++)
+                if (item.Header == "")
                 {
-                    CheckBox checkBox = new CheckBox();
-                    _checkBoxs.Add(checkBox);
-                    _possibleLabels.Add(new Label());
-                    i = _possibleLabels.Count - 1;
-                    _possibleLabels[i].Dock = DockStyle.Fill;
-                    _possibleLabels[i].BorderStyle = BorderStyle.FixedSingle;
-                    _possibleLabels[i].AutoSize = true;
-                    _possibleLabels[i].Margin = new Padding(15, 1, 1, 1);
-                    _possibleLabels[i].Font = sampleNameLabel.Font;
-                    _possibleLabels[i].TextAlign = ContentAlignment.MiddleLeft;
-                    _possibleLabels[i].Text = (i + 1) + @". " + ScopeSysType.ChannelNames[i];
-                     _possibleLabels[i].Controls.Add(checkBox);
-                    checkBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-                    checkBox.AutoSize = true;
-                    checkBox.Dock = DockStyle.Right;
-                    checkBox.RightToLeft = RightToLeft.Yes;
-                    checkBox.Size = new Size(15, 15);
-                    checkBox.Click += new EventHandler(checkBox_Click);
-                    _possibleLabels[i].Controls.Contains(checkBox);
-                    _possibleLabels[i].BackColor = SystemColors.ButtonHighlight;
-                    _possibleLabels[i].Tag = i;
-                    
-                    possibleTableLayoutPanel.Controls.Add(_possibleLabels[i]);
+                    item.Header = @"Несгруппированные параметры";
+                    break;
                 }
-
             }
         }
 
-        private void checkBox_Click(object sender, EventArgs e)
+        void SetDoubleBuffered(Control c, bool value)
         {
-            for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
+            PropertyInfo pi = typeof(Control).GetProperty("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic);
+            if (pi != null)
             {
-                if (_checkBoxs[i].Checked) 
-                {
-                    _currentLabels[i].Visible = true; 
-                    _possibleLabels[i].BackColor = System.Drawing.Color.LightSteelBlue;
-                    radioButton.Text = Convert.ToString(VisibleCount());
-                }
-                else
-                {
-                    _currentLabels[i].Visible = false;
-                    _possibleLabels[i].BackColor = System.Drawing.SystemColors.ButtonHighlight;
-                    if (VisibleCount() != 0) radioButton.Text = Convert.ToString(VisibleCount());
-                    else radioButton.Clear();
-                    checkBox2.Checked = false;
-                }
+                pi.SetValue(c, value, null);
             }
         }
 
+        private bool _resizing;
 
-
-        private int VisibleCount()
+        private void ListView_SizeChanged(object sender, EventArgs e)
         {
-            int count = 0;
-            for(int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
+            // Don't allow overlapping of SizeChanged calls
+            if (!_resizing)
             {
-                if (_currentLabels[i].Visible == true) count++;
+                // Set the resizing flag
+                _resizing = true;
+
+                ListView listView = sender as ListView;
+                if (listView != null)
+                {
+                    float totalColumnWidth = 0;
+
+                    // Get the sum of all column tags
+                    for (int i = 0; i < listView.Columns.Count; i++)
+                        totalColumnWidth += Convert.ToInt32(listView.Columns[i].Tag);
+
+                    // Calculate the percentage of space each column should 
+                    // occupy in reference to the other columns and then set the 
+                    // width of the column to that percentage of the visible space.
+                    for (int i = 0; i < listView.Columns.Count; i++)
+                    {
+                        float colPercentage = (Convert.ToInt32(listView.Columns[i].Tag) / totalColumnWidth);
+                        listView.Columns[i].Width = (int)(colPercentage * listView.ClientRectangle.Width);
+                    }
+                }
             }
-            return count;
+
+            // Clear the resizing flag
+            _resizing = false;
+
+            SetDoubleBuffered(listView1, true);
+        }
+        
+        
+
+        private void listView1_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            e.Item.BackColor = e.Item.Checked ? Color.LightSteelBlue : SystemColors.ButtonHighlight;
+
+            _nowMaxChannelCount = (ushort)_channelnameListViewItems.Count(item => item.BackColor == Color.LightSteelBlue);
+            radioButton.Text = _nowMaxChannelCount.ToString();
         }
 
-        private void checkBox2_Click(object sender, EventArgs e)
-        {
-            if (checkBox2.Checked)
-            {
-                for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
-                {
-                    _checkBoxs[i].Checked = true;
-                    _currentLabels[i].Visible = true;
-                    if (VisibleCount() != 0) radioButton.Text = Convert.ToString(VisibleCount());
-                    else radioButton.Clear();
-                    _possibleLabels[i].BackColor = System.Drawing.Color.LightSteelBlue;
-                }
-             }
-            else
-            {
-                for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
-                {
-                    _checkBoxs[i].Checked = false;
-                    _currentLabels[i].Visible = false;
-                    if (VisibleCount() != 0) radioButton.Text = Convert.ToString(VisibleCount());
-                    else radioButton.Clear();
-                    _possibleLabels[i].BackColor = System.Drawing.SystemColors.ButtonHighlight;
-                }
-            }
-        }
         #endregion
 
         public ScopeSetupForm()
@@ -192,8 +167,9 @@ namespace ScopeSetupApp
             InitializeComponent();
 
             ConfigToSystem();
-            InitPossiblePanel();
+            InitTable();
 
+            // ReSharper disable once RedundantDelegateCreation
             ModBusUnits.ScopeSetupModbusUnit.RequestFinished += new EventHandler(EndRequest);
         }
 
@@ -217,16 +193,6 @@ namespace ScopeSetupApp
             timer1.Enabled = true;
         }
 
-        private ushort CalcCurrentParams()
-        {
-            ushort u = 0;
-            for (int i1 = 0; i1 < ScopeSysType.ChannelNames.Count; i1++)
-            {
-                if (_currentLabels[i1].Visible) { u++; }
-            }
-            return u;
-        }
-
         //****************************************************************************//
         //****************************************************************************//
         //****************************************************************************//
@@ -244,39 +210,13 @@ namespace ScopeSetupApp
 
         private void chCountRadioButton_TextChanged(object sender, EventArgs e)
         {
-            if (chCountRadioButton.Text != "" && chCountRadioButton.Text != "-")
+            if (chCountRadioButton.Text != "" && chCountRadioButton.Text != @"-")
             {
                 _nowScopeCount = Convert.ToUInt16(chCountRadioButton.Text);
                 if (_nowScopeCount < 1 || _nowScopeCount > 32)
                 {
-                    MessageBox.Show("Ошибка в поле Количество осциллограмм");
+                    MessageBox.Show(@"Ошибка в поле Количество осциллограмм");
                     chCountRadioButton.Clear();
-                    return;
-                }
-            }
-        }
-
-        //Колличество  каналов
-
-        private void radioButton_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            char number = e.KeyChar;
-            if (!Char.IsDigit(number) && number != 8)  // цифры и клавиша BackSpace
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void radioButton_TextChanged(object sender, EventArgs e)
-        {
-            if (radioButton.Text != "" && radioButton.Text != "-")
-            {
-                _nowMaxChannelCount = Convert.ToUInt16(radioButton.Text);
-                if (_nowMaxChannelCount < 1 || _nowMaxChannelCount > 32)
-                {
-                    MessageBox.Show("Ошибка в поле Колличество каналов");
-                    radioButton.Clear();
-                    return;
                 }
             }
         }
@@ -294,14 +234,13 @@ namespace ScopeSetupApp
 
         private void hystoryRadioButton_TextChanged(object sender, EventArgs e)
         {
-            if (hystoryRadioButton.Text != "" && hystoryRadioButton.Text != "-")
+            if (hystoryRadioButton.Text != "" && hystoryRadioButton.Text != @"-")
             {
                 _nowHystory = Convert.ToUInt16(hystoryRadioButton.Text);
                 if (_nowHystory < 1 || _nowHystory > 99)
                 {
-                    MessageBox.Show("Ошибка в поле Предыстория");
+                    MessageBox.Show(@"Ошибка в поле Предыстория");
                     hystoryRadioButton.Clear();
-                    return;
                 }
             }
         }
@@ -318,39 +257,36 @@ namespace ScopeSetupApp
 
         private void oscFreqRadioButton_TextChanged(object sender, EventArgs e)
         {
-            if (oscFreqRadioButton.Text != "" && oscFreqRadioButton.Text != "-")
+            if (oscFreqRadioButton.Text != "" && oscFreqRadioButton.Text != @"-")
             {
                 _nowOscFreq = Convert.ToUInt16(oscFreqRadioButton.Text);
                 if (_nowOscFreq < 1 || _nowOscFreq > 1000)
                 {
-                    MessageBox.Show("Ошибка в поле Предыстория");
+                    MessageBox.Show(@"Ошибка в поле Предыстория");
                     oscFreqRadioButton.Clear();
-                    return;
                 }
             }
         }
-
-        private int _divideOscilSize = 1;
 
         //Длительность осциллограммы:
         private void DelayOscil()
         {
             if (_nowScopeCount != 0)
             {
-                if (ModBusClient.ModBusOpened == true && ScopeConfig.ConnectMcu == true)
+                if (ModBusClient.ModBusOpened && ScopeConfig.ConnectMcu)
                 {
                     double sampleCount = (double)OscilSize(_oscilAllSize, false) / OscilSize(_oscilAllSize, true);
                     double freq = (double)ScopeConfig.SampleRate / _nowOscFreq;
-                    double timeSec = (double)sampleCount / freq;
-                    DelayOsc.Text = "Длительность: " + timeSec.ToString("0.000") + " сек";
+                    double timeSec = sampleCount / freq;
+                    DelayOsc.Text = @"Длительность: " + timeSec.ToString("0.000") + @" сек";
                     DelayOsc.Visible = true;
                 }
                 else
                 {
                     double sampleCount = (double)OscilSize(_oscilAllSize, false) / OscilSize(_oscilAllSize, true);
                     double freq = (double)ScopeSysType.OscilSampleRate / _nowOscFreq;
-                    double timeSec = (double)sampleCount / freq;
-                    DelayOsc.Text = "Длительность: " + timeSec.ToString("0.000") + " сек";
+                    double timeSec = sampleCount / freq;
+                    DelayOsc.Text = @"Длительность: " + timeSec.ToString("0.000") + @" сек";
                     DelayOsc.Visible = true;
                 }
             }
@@ -367,28 +303,27 @@ namespace ScopeSetupApp
         //***********************************************************************************************//
         private ushort[] _newOscillConfig = new ushort[40];
         private ushort[] _oscillConfig = new ushort[1280];
-        private int[] _channelSeries = new int[32];
+        private readonly int[] _channelSeries = new int[32];
 
-        private int _writeConfigStep = 0;
-        private ushort _writeStep = 0;
+        private int _writeConfigStep;
+        private ushort _writeStep;
 
         //Конфигурирование осциллограммы 
-        #region
         private List<ushort> ChannelFormats()
         {
             int j = 0;
             List<ushort> l = new List<ushort>();
             for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
             {
-                if (_currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 3) { _channelSeries[j++] = i; l.Add(ScopeSysType.ChannelFormats[i]); }
+                if (_channelnameListViewItems[i].Checked && (ScopeSysType.ChannelFormats[i] >> 8) == 3) { _channelSeries[j++] = i; l.Add(ScopeSysType.ChannelFormats[i]); }
             }
             for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
             {
-                if (_currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 2) { _channelSeries[j++] = i; l.Add(ScopeSysType.ChannelFormats[i]); }
+                if (_channelnameListViewItems[i].Checked && (ScopeSysType.ChannelFormats[i] >> 8) == 2) { _channelSeries[j++] = i; l.Add(ScopeSysType.ChannelFormats[i]); }
             }
             for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
             {
-                if (_currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 1) { _channelSeries[j++] = i; l.Add(ScopeSysType.ChannelFormats[i]); }
+                if (_channelnameListViewItems[i].Checked && (ScopeSysType.ChannelFormats[i] >> 8) == 1) { _channelSeries[j++] = i; l.Add(ScopeSysType.ChannelFormats[i]); }
             }
             if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -401,7 +336,7 @@ namespace ScopeSetupApp
             List<ushort> l = new List<ushort>();
             for (int i = 0, j = 0; i < ScopeSysType.ChannelNames.Count; i++)
             {
-                if (_currentLabels[i].Visible) { l.Add(ScopeSysType.ChannelAddrs[_channelSeries[j++]]); }
+                if (_channelnameListViewItems[i].Checked) { l.Add(ScopeSysType.ChannelAddrs[_channelSeries[j++]]); }
             }
             if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -409,42 +344,45 @@ namespace ScopeSetupApp
         }
 
         // OscilSize
-        public uint OscilSize(uint allSize, bool wr)
+        private uint OscilSize(uint allSize, bool wr)
         {
             uint count64 = 0, count32 = 0, count16 = 0;
-            uint sampleSize;
             for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
             {
-                if (_currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 3) { count64++; }
+                if (_channelnameListViewItems[i].BackColor == Color.LightSteelBlue && (ScopeSysType.ChannelFormats[i] >> 8) == 3) { count64++; }
             }
             for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
             {
-                if (_currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 2) { count32++; }
+                if (_channelnameListViewItems[i].BackColor == Color.LightSteelBlue && (ScopeSysType.ChannelFormats[i] >> 8) == 2) { count32++; }
             }
             for (int i = 0; i < ScopeSysType.ChannelFormats.Count; i++)
             {
-                if (_currentLabels[i].Visible && (ScopeSysType.ChannelFormats[i] >> 8) == 1) { count16++; }
+                if (_channelnameListViewItems[i].BackColor == Color.LightSteelBlue && (ScopeSysType.ChannelFormats[i] >> 8) == 1) { count16++; }
             }
 
-            sampleSize = count64 * 8 + count32 * 4 + count16 * 2;
+            uint sampleSize = count64 * 8 + count32 * 4 + count16 * 2;
             if ((count64 != 0 || count32 != 0) && count16 % 2 != 0) { sampleSize += 2; } // Выравнивание на 4 байта
             if (sampleSize == 0)
             {
-                //MessageBox.Show("Не выбрано ни одного канала для осциллографирования");
                 return 0;
             }
 
-            uint oscS;
-            if (ScopeConfig.ConnectMcu == true) oscS = Convert.ToUInt32((ScopeConfig.OscilAllSize / Convert.ToUInt32(_nowScopeCount)) * ((double)trackBar1.Value / 100));
-            else oscS = Convert.ToUInt32(((allSize * 1024) / Convert.ToUInt32(_nowScopeCount)) * ((double)trackBar1.Value / 100));
+            
+            uint oscS = ScopeConfig.ConnectMcu ? Convert.ToUInt32(ScopeConfig.OscilAllSize / Convert.ToUInt32(_nowScopeCount) * ((double)trackBar1.Value / 100)) : Convert.ToUInt32(((allSize * 1024) / Convert.ToUInt32(_nowScopeCount)) * ((double)trackBar1.Value / 100));
 
             while (oscS % 64 != 0 || oscS % sampleSize != 0)   // 
             { 		
                 oscS--;
             }
 
-            if (wr == false) return oscS;
-            if (wr == true) return sampleSize;
+
+            switch (wr)
+            {
+                case false:
+                    return oscS;
+                case true:
+                    return sampleSize;
+            }
             return 0;
         }
 
@@ -463,11 +401,7 @@ namespace ScopeSetupApp
         // Channel Names
         private List<string> ChNames()
         {
-            List<string> chName = new List<string>();
-            for (int i = 0, j = 0; i < ScopeSysType.ChannelNames.Count; i++)
-            {
-                if (_currentLabels[i].Visible) { chName.Add(ScopeSysType.ChannelNames[_channelSeries[j++]]); }
-            }
+            List<string> chName = (from item in _channelnameListViewItems where item.Checked select item.Text).ToList();
             if (chName.Count > _nowMaxChannelCount) { chName.Clear(); }
 
             return chName;
@@ -479,7 +413,7 @@ namespace ScopeSetupApp
             List<string> l = new List<string>();
             for (int i = 0, j = 0; i < ScopeSysType.ChannelPhase.Count; i++)
             {
-                if (_currentLabels[i].Visible) { l.Add(ScopeSysType.ChannelPhase[_channelSeries[j++]]); }
+                if (_channelnameListViewItems[i].Checked) { l.Add(ScopeSysType.ChannelPhase[_channelSeries[j++]]); }
             }
             if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -491,7 +425,7 @@ namespace ScopeSetupApp
             List<string> l = new List<string>();
             for (int i = 0, j = 0; i < ScopeSysType.ChannelCcbm.Count; i++)
             {
-                if (_currentLabels[i].Visible) { l.Add(ScopeSysType.ChannelCcbm[_channelSeries[j++]]); }
+                if (_channelnameListViewItems[i].Checked) { l.Add(ScopeSysType.ChannelCcbm[_channelSeries[j++]]); }
             }
             if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -503,7 +437,7 @@ namespace ScopeSetupApp
             List<string> l = new List<string>();
             for (int i = 0, j = 0; i < ScopeSysType.ChannelDimension.Count; i++)
             {
-                if (_currentLabels[i].Visible) { l.Add(ScopeSysType.ChannelDimension[_channelSeries[j++]]); }
+                if (_channelnameListViewItems[i].Checked) { l.Add(ScopeSysType.ChannelDimension[_channelSeries[j++]]); }
             }
             if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -515,14 +449,12 @@ namespace ScopeSetupApp
             List<ushort> l = new List<ushort>();
             for (int i = 0, j = 0; i < ScopeSysType.ChannelTypeAd.Count; i++)
             {
-                if (_currentLabels[i].Visible) { l.Add(ScopeSysType.ChannelTypeAd[_channelSeries[j++]]); }
+                if (_channelnameListViewItems[i].Checked) { l.Add(ScopeSysType.ChannelTypeAd[_channelSeries[j++]]); }
             }
             if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
             return l;
         }
-
-        #endregion
 
 
         private void CalcNewOscillConfig(ushort writeStep)  
@@ -577,9 +509,8 @@ namespace ScopeSetupApp
                 for (int i = 0; i < chName.Count; i++) 
                 { 
                     string chNameString = chName[i];
-                    byte[] chNameStr = new Byte[32];
                     byte[] tempChNameStr = new Byte[32];
-                    chNameStr = Encoding.Default.GetBytes(chNameString);
+                    byte[] chNameStr = Encoding.Default.GetBytes(chNameString);
 
                     for (int j = 0; j < 32; j++)
                     {
@@ -600,9 +531,8 @@ namespace ScopeSetupApp
                 for (int i = 0; i < chPhases.Count; i++)
                 {
                     string chPhaseString = chPhases[i];
-                    byte[] chPhaseStr = new Byte[2];
                     byte[] tempChPhaseStr = new Byte[2];
-                    chPhaseStr = Encoding.Default.GetBytes(chPhaseString);
+                    byte[] chPhaseStr = Encoding.Default.GetBytes(chPhaseString);
 
                     for (int j = 0; j < 2; j++)
                     {
@@ -621,9 +551,8 @@ namespace ScopeSetupApp
                 for (int i = 0; i < chCcbMs.Count; i++)
                 {
                     string chCcbmString = chCcbMs[i];
-                    byte[] chCcbmStr = new Byte[16];
                     byte[] tempChCcbmStr = new Byte[16];
-                    chCcbmStr = Encoding.Default.GetBytes(chCcbmString);
+                    byte[] chCcbmStr = Encoding.Default.GetBytes(chCcbmString);
 
                     for (int j = 0; j < 16; j++)
                     {
@@ -641,9 +570,8 @@ namespace ScopeSetupApp
                 for (int i = 0; i < chDemensions.Count; i++)
                 {
                     string chDemensionString = chDemensions[i];
-                    byte[] chDemensionStr = new Byte[8];
                     byte[] tempChDemensionStr = new Byte[8];
-                    chDemensionStr = Encoding.Default.GetBytes(chDemensionString);
+                    byte[] chDemensionStr = Encoding.Default.GetBytes(chDemensionString);
 
                     for (int j = 0; j < 8; j++)
                     {
@@ -667,9 +595,8 @@ namespace ScopeSetupApp
 
                 String stationName = ScopeSysType.StationName;                //
 
-                byte[] stationNameStr = new Byte[32];
                 byte[] tempStationNameStr = new Byte[32];
-                stationNameStr = Encoding.Default.GetBytes(stationName);
+                byte[] stationNameStr = Encoding.Default.GetBytes(stationName);
 
                 for (int j = 0; j < 32; j++)
                 {
@@ -684,9 +611,8 @@ namespace ScopeSetupApp
 
                 String recordingId = ScopeSysType.RecordingDevice;            //
 
-                byte[] recordingIdStr = new Byte[16];
                 byte[] tempRecordingIdStr = new Byte[16];
-                recordingIdStr = Encoding.Default.GetBytes(recordingId);
+                byte[] recordingIdStr = Encoding.Default.GetBytes(recordingId);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -701,9 +627,8 @@ namespace ScopeSetupApp
 
                 String timeCode = ScopeSysType.TimeCode;     //
 
-                byte[] timeCodeStr = new Byte[16];
                 byte[] tempTimeCodeStr = new Byte[16];
-                timeCodeStr = Encoding.Default.GetBytes(timeCode);
+                byte[] timeCodeStr = Encoding.Default.GetBytes(timeCode);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -718,9 +643,8 @@ namespace ScopeSetupApp
 
                 String localCode = ScopeSysType.TimeCode;     //
 
-                byte[] localCodeStr = new Byte[16];
                 byte[] tempLocalCodeStr = new Byte[16];
-                localCodeStr = Encoding.Default.GetBytes(localCode);
+                byte[] localCodeStr = Encoding.Default.GetBytes(localCode);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -735,9 +659,8 @@ namespace ScopeSetupApp
 
                 String tmqCode = ScopeSysType.TmqCode;     //
 
-                byte[] tmqCodeStr = new Byte[16];
                 byte[] temptmqCodeStr = new Byte[16];
-                tmqCodeStr = Encoding.Default.GetBytes(tmqCode);
+                byte[] tmqCodeStr = Encoding.Default.GetBytes(tmqCode);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -752,9 +675,8 @@ namespace ScopeSetupApp
 
                 String leapsec = ScopeSysType.Leapsec;     //
 
-                byte[] leapsecStr = new Byte[16];
                 byte[] templeapsecStr = new Byte[16];
-                leapsecStr = Encoding.Default.GetBytes(leapsec);
+                byte[] leapsecStr = Encoding.Default.GetBytes(leapsec);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -790,13 +712,13 @@ namespace ScopeSetupApp
             // MessageBox.Show(ModBusUnits.ScopeSetupModbusUnit.modBusData.StartAddr.ToString("X4"));0x20 +
         }
 
-        public void EndRequest(object sender, EventArgs e)
+        private void EndRequest(object sender, EventArgs e)
         {
             if (ModBusUnits.ScopeSetupModbusUnit.modBusData.RequestError)
             {
-                if (this.Visible)
+                if (Visible)
                 {
-                    MessageBox.Show("Ошибка связи!", "Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(@"Ошибка связи!", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 LinkErrorInvoke();
             }
@@ -810,7 +732,7 @@ namespace ScopeSetupApp
                     else
                     {
                         _writeStep = 0;
-                        MessageBox.Show("Конфигурация осциллографа была изменена!", "Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(@"Конфигурация осциллографа была изменена!", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ScopeConfig.ChangeScopeConfig = true;
                     }
                 }       
@@ -820,20 +742,23 @@ namespace ScopeSetupApp
          
         private void writeToSystemBtn_Click(object sender, EventArgs e)
         {
-            //TopMost = true;
+            if (_nowMaxChannelCount < 1 || _nowMaxChannelCount > 32)
+            {
+                MessageBox.Show(@"Выбрано неверное число каналов", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; 
+            }
             if (!ModBusClient.ModBusOpened)
             {
-                MessageBox.Show("Соединение с системой не установлено!", "Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
-             //   TopMost = false;
+                MessageBox.Show(@"Соединение с системой не установлено!", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return; 
             }
 
-            if (MessageBox.Show("Изменить конфигурацию осциллографа?\n" +
-                                "Все текущие осциллограммы будут удалены из памяти системы!",
-                                "Настройка осциллографа", MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Question) != System.Windows.Forms.DialogResult.Yes)
+            // ReSharper disable once LocalizableElement
+            if (MessageBox.Show("Изменить конфигурацию осциллографа?\n" +  
+                                @"Все текущие осциллограммы будут удалены из памяти системы!",
+                                @"Настройка осциллографа", MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question) != DialogResult.Yes)
             {
-             //   TopMost = false; 
                 return;
             }
 
@@ -850,8 +775,10 @@ namespace ScopeSetupApp
             {
                 ModBusUnits.ScopeSetupModbusUnit.RequestFinished -= EndRequest;
             }
-            catch { }
-
+            catch
+            {
+                // ignored
+            }
         }
 
 
@@ -861,7 +788,7 @@ namespace ScopeSetupApp
         private delegate void NoParamDelegate();
         private void LinkError()
         {
-            this.Close();
+            Close();
         }
         private void LinkErrorInvoke()
         {
@@ -869,7 +796,10 @@ namespace ScopeSetupApp
             {
                 Invoke(new NoParamDelegate(LinkError), null);
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
 
 
@@ -882,17 +812,18 @@ namespace ScopeSetupApp
             bool channelInLists = false;
             string str = "Канала нет в списке: \n";
             for (int i = 0; i < 32; i++) { channelInList[i] = false; }
-             
-            for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
+
+            foreach (var item in _channelnameListViewItems)
             {
-                _checkBoxs[i].Checked = false;
-                _currentLabels[i].Visible = false;
-                _possibleLabels[i].BackColor = System.Drawing.SystemColors.ButtonHighlight;
+                item.Checked = false;
             }
+
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                DefaultExt = @".xoc",                                                                  // Default file extension
+                Filter = @"XML Oscil Configuration |*.xoc|XML|*.xml|All files|*.*"                     // Filter files by extension  
+            };
             
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.DefaultExt = ".xoc"; // Default file extension
-            ofd.Filter = "XML Oscil Configuration |*.xoc|XML|*.xml|All files|*.*"; // Filter files by extension
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 ScopeSysType.XmlFileNameOscil = ofd.FileName;   
@@ -902,7 +833,7 @@ namespace ScopeSetupApp
                 }
                 catch
                 {
-                    MessageBox.Show("Ошибка загрузки данных", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(@"Ошибка загрузки данных", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
@@ -928,10 +859,7 @@ namespace ScopeSetupApp
                     if (ScopeSysType.OscilChannelFormats[i] == ScopeSysType.ChannelFormats[j] && ScopeSysType.OscilChannelAddrs[i] == ScopeSysType.ChannelAddrs[j])
                     {
                         channelInList[i] = true;
-                        _checkBoxs[j].Checked = true;
-                        _currentLabels[j].Visible = true;
-                        _possibleLabels[j].BackColor = System.Drawing.Color.LightSteelBlue;
-                        radioButton.Text = Convert.ToString(VisibleCount());
+                        _channelnameListViewItems[j].Checked = true;
                         break;
                     }
                 }
@@ -941,16 +869,15 @@ namespace ScopeSetupApp
             {
                 if (channelInList[i] == false) 
                 {
-                    str += ScopeSysType.OscilChannelNames[i].ToString() + " Адрес: 0x" + ScopeSysType.OscilChannelAddrs[i].ToString("X4") + " Формат: " + ScopeSysType.OscilChannelFormats[i].ToString() + "\n";
+                    str += ScopeSysType.OscilChannelNames[i] + @" Адрес: 0x" + ScopeSysType.OscilChannelAddrs[i].ToString("X4") + @" Формат: " + ScopeSysType.OscilChannelFormats[i] + "\n";
                     channelInLists =true;
                 }
             }
-            if (channelInLists == true) MessageBox.Show(str);
+            if (channelInLists) MessageBox.Show(str);
         }
-        #endregion
+  
 
         //Сохранение осциллограммы в файл
-        #region
         private void saveButton2_Click(object sender, EventArgs e)
         {
             if (_nowMaxChannelCount != ChNames().Count)
@@ -958,19 +885,23 @@ namespace ScopeSetupApp
                 MessageBox.Show("Количество осциллографируемых и выбранных каналов не совпадает");
                 return;
             }
-            
-            List<string> paramAddrStrs = new List<string>();
-            
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.DefaultExt = ".xoc"; // Default file extension
-            sfd.Filter = "XML Oscil Configuration|*.xoc|XML|*.xml"; // Filter files by extension
+
+            SaveFileDialog sfd = new SaveFileDialog
+            {
+                DefaultExt = @".xoc",                                       // Default file extension
+                Filter = @"XML Oscil Configuration|*.xoc|XML|*.xml"         // Filter files by extension
+            };
+
+            int j = 0;
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 ScopeSysType.XmlFileName = sfd.FileName;
 
                 FileStream fs = new FileStream(sfd.FileName, FileMode.Create);
-                XmlTextWriter xmlOut = new XmlTextWriter(fs, Encoding.Unicode);
-                xmlOut.Formatting = Formatting.Indented;
+                XmlTextWriter xmlOut = new XmlTextWriter(fs, Encoding.Unicode)
+                {
+                    Formatting = Formatting.Indented
+                };
                 xmlOut.WriteStartDocument();
                 xmlOut.WriteStartElement("Setup");
                 /////////////////////////////////////////////////////////////
@@ -994,30 +925,26 @@ namespace ScopeSetupApp
                 xmlOut.WriteStartElement("OscilEnable");
                 xmlOut.WriteAttributeString("Count", Convert.ToString(OscilEnable()));
                 xmlOut.WriteEndElement();
-                
-                             
-                for (int i = 0, j = 0; i < _possibleLabels.Count; i++)
-                {
-                    if(_currentLabels[i].Visible == true)
-                    {                    
-                        xmlOut.WriteStartElement("MeasureParam" + (++j).ToString());
 
-                        xmlOut.WriteAttributeString("Name", ScopeSysType.ChannelNames[i]);
-                        xmlOut.WriteAttributeString("Addr", Convert.ToString(ScopeSysType.ChannelAddrs[i]));
-                        xmlOut.WriteAttributeString("Format", Convert.ToString(ScopeSysType.ChannelFormats[i]));
-                    
+                foreach (var item in _channelnameListViewItems)
+                {
+                    if (item.Checked)
+                    {
+                        xmlOut.WriteStartElement("MeasureParam" + (++j));
+
+                        xmlOut.WriteAttributeString("Name", ScopeSysType.ScopeItem[item.Index].ChannelNames);
+                        xmlOut.WriteAttributeString("Addr", ScopeSysType.ScopeItem[item.Index].ChannelAddrs.ToString());
+                        xmlOut.WriteAttributeString("Format", ((((ScopeSysType.ScopeItem[item.Index].ChannelformatNumeric) + 1) << 8) + ScopeSysType.ScopeItem[item.Index].ChannelFormats).ToString());
+
                         xmlOut.WriteEndElement();
                     }
-
                 }
-
+                             
                 /////////////////////////////////////////////////////////////
                 xmlOut.WriteEndElement();
                 xmlOut.WriteEndDocument();
                 xmlOut.Close();
                 fs.Close();
-
-                //ScopeSysType.InitScopeSysType();
             }
         }
         #endregion
@@ -1029,11 +956,9 @@ namespace ScopeSetupApp
             bool[] channelInList = new bool[32];
             for (int i = 0; i < 32; i++) { channelInList[i] = false; }
 
-            for (int i = 0; i < ScopeSysType.ChannelNames.Count; i++)
+            foreach (var item in _channelnameListViewItems)
             {
-                _checkBoxs[i].Checked = false;
-                _currentLabels[i].Visible = false;
-                _possibleLabels[i].BackColor = System.Drawing.SystemColors.ButtonHighlight;
+                item.Checked = false;
             }
 
             if (ScopeConfig.ScopeCount != 0) chCountRadioButton.Text = Convert.ToString(ScopeConfig.ScopeCount);
@@ -1058,10 +983,9 @@ namespace ScopeSetupApp
                     if (ScopeConfig.OscilFormat[i] == ScopeSysType.ChannelFormats[j] && ScopeConfig.OscilAddr[i] == ScopeSysType.ChannelAddrs[j])
                     {
                         channelInList[i] = true;
-                        _checkBoxs[j].Checked = true;
-                        _currentLabels[j].Visible = true;
-                        _possibleLabels[j].BackColor = System.Drawing.Color.LightSteelBlue;
-                        radioButton.Text = Convert.ToString(VisibleCount());
+                        _channelnameListViewItems[j].Checked = true;
+
+                        
                         break;
                     }
                 }
@@ -1071,19 +995,17 @@ namespace ScopeSetupApp
             {
                 if (channelInList[i] == false)
                 {
-                    str += "Адрес: 0x" + ScopeConfig.OscilAddr[i].ToString("X4") + " Формат: " + ScopeConfig.OscilFormat[i].ToString() + "\n";
+                    str += @"Адрес: 0x" + ScopeConfig.OscilAddr[i].ToString("X4") + @" Формат: " + ScopeConfig.OscilFormat[i].ToString() + "\n";
                     channelInLists = true;
                 }
             }
-            if (channelInLists == true) MessageBox.Show(str);
+            if (channelInLists) MessageBox.Show(str);
         }
 
         private void ConfigToSystem()
         {
-            string str = "";
-            str = Path.GetFileName(ScopeSysType.XmlFileName);
-            ConfigToSystem_label.Text = "Actual configuration: " + str;
+            string str = Path.GetFileName(ScopeSysType.XmlFileName);
+            ConfigToSystem_label.Text = @"Actual configuration: " + str;
         }
-
     }
 }

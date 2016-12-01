@@ -37,30 +37,31 @@
             this.openButton2 = new System.Windows.Forms.ToolStripButton();
             this.saveButton2 = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.radioButton = new System.Windows.Forms.TextBox();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.label8 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.hystoryRadioButton = new System.Windows.Forms.TextBox();
             this.oscFreqRadioButton = new System.Windows.Forms.TextBox();
             this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.chCountRadioButton = new System.Windows.Forms.TextBox();
-            this.radioButton = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.DelayOsc = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.enaScopeCheckBox = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.possibleParamPanel = new System.Windows.Forms.Panel();
-            this.possibleTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.sampleNameLabel = new System.Windows.Forms.Label();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.name_columnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.addr_columnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.format_columnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.ConfigToSystem_label = new System.Windows.Forms.Label();
@@ -70,7 +71,6 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.possibleParamPanel.SuspendLayout();
-            this.possibleTableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -152,20 +152,20 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.radioButton);
             this.panel1.Controls.Add(this.trackBar1);
             this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label10);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.checkBox3);
-            this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.hystoryRadioButton);
             this.panel1.Controls.Add(this.oscFreqRadioButton);
             this.panel1.Controls.Add(this.CommentRichTextBox);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.chCountRadioButton);
-            this.panel1.Controls.Add(this.radioButton);
             this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.DelayOsc);
             this.panel1.Controls.Add(this.checkBox1);
@@ -176,6 +176,35 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(863, 147);
             this.panel1.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(312, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(67, 15);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "От 1 до 32";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 9);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(130, 15);
+            this.label9.TabIndex = 16;
+            this.label9.Text = "Количество каналов:";
+            // 
+            // radioButton
+            // 
+            this.radioButton.Enabled = false;
+            this.radioButton.Location = new System.Drawing.Point(176, 6);
+            this.radioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.radioButton.Name = "radioButton";
+            this.radioButton.Size = new System.Drawing.Size(130, 21);
+            this.radioButton.TabIndex = 15;
+            this.radioButton.Text = "0";
+            this.radioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // trackBar1
             // 
@@ -199,15 +228,6 @@
             this.label8.TabIndex = 3;
             this.label8.Text = "Предыстория:";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(312, 36);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 15);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "От 1 до 32";
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -220,7 +240,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(312, 8);
+            this.label10.Location = new System.Drawing.Point(312, 36);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(67, 15);
             this.label10.TabIndex = 1;
@@ -246,15 +266,6 @@
             this.checkBox3.Text = "Отключить перезапись осциллограмм";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 36);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(130, 15);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "Количество каналов:";
-            // 
             // hystoryRadioButton
             // 
             this.hystoryRadioButton.Location = new System.Drawing.Point(176, 60);
@@ -262,6 +273,7 @@
             this.hystoryRadioButton.Name = "hystoryRadioButton";
             this.hystoryRadioButton.Size = new System.Drawing.Size(130, 21);
             this.hystoryRadioButton.TabIndex = 3;
+            this.hystoryRadioButton.Text = "1";
             this.hystoryRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.hystoryRadioButton.TextChanged += new System.EventHandler(this.hystoryRadioButton_TextChanged);
             this.hystoryRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.hystoryRadioButton_KeyPress);
@@ -273,6 +285,7 @@
             this.oscFreqRadioButton.Name = "oscFreqRadioButton";
             this.oscFreqRadioButton.Size = new System.Drawing.Size(130, 21);
             this.oscFreqRadioButton.TabIndex = 4;
+            this.oscFreqRadioButton.Text = "1";
             this.oscFreqRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.oscFreqRadioButton.TextChanged += new System.EventHandler(this.oscFreqRadioButton_TextChanged);
             this.oscFreqRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.oscFreqRadioButton_KeyPress);
@@ -299,30 +312,20 @@
             // 
             // chCountRadioButton
             // 
-            this.chCountRadioButton.Location = new System.Drawing.Point(176, 5);
+            this.chCountRadioButton.Location = new System.Drawing.Point(176, 33);
             this.chCountRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chCountRadioButton.Name = "chCountRadioButton";
             this.chCountRadioButton.Size = new System.Drawing.Size(130, 21);
             this.chCountRadioButton.TabIndex = 1;
+            this.chCountRadioButton.Text = "1";
             this.chCountRadioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.chCountRadioButton.TextChanged += new System.EventHandler(this.chCountRadioButton_TextChanged);
             this.chCountRadioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.chCountRadioButton_KeyPress);
             // 
-            // radioButton
-            // 
-            this.radioButton.Location = new System.Drawing.Point(176, 33);
-            this.radioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.radioButton.Name = "radioButton";
-            this.radioButton.Size = new System.Drawing.Size(130, 21);
-            this.radioButton.TabIndex = 2;
-            this.radioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.radioButton.TextChanged += new System.EventHandler(this.radioButton_TextChanged);
-            this.radioButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.radioButton_KeyPress);
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 8);
+            this.label11.Location = new System.Drawing.Point(6, 36);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(167, 15);
             this.label11.TabIndex = 3;
@@ -379,7 +382,6 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.checkBox2);
             this.panel2.Controls.Add(this.possibleParamPanel);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -389,26 +391,11 @@
             this.panel2.Size = new System.Drawing.Size(855, 332);
             this.panel2.TabIndex = 2;
             // 
-            // checkBox2
-            // 
-            this.checkBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox2.Location = new System.Drawing.Point(836, 7);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.checkBox2.Size = new System.Drawing.Size(15, 14);
-            this.checkBox2.TabIndex = 7;
-            this.checkBox2.UseVisualStyleBackColor = false;
-            this.checkBox2.Click += new System.EventHandler(this.checkBox2_Click);
-            // 
             // possibleParamPanel
             // 
             this.possibleParamPanel.AutoScroll = true;
             this.possibleParamPanel.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.possibleParamPanel.Controls.Add(this.possibleTableLayoutPanel);
+            this.possibleParamPanel.Controls.Add(this.listView1);
             this.possibleParamPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.possibleParamPanel.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.possibleParamPanel.Location = new System.Drawing.Point(0, 35);
@@ -417,33 +404,46 @@
             this.possibleParamPanel.Size = new System.Drawing.Size(855, 297);
             this.possibleParamPanel.TabIndex = 6;
             // 
-            // possibleTableLayoutPanel
+            // listView1
             // 
-            this.possibleTableLayoutPanel.AutoSize = true;
-            this.possibleTableLayoutPanel.ColumnCount = 1;
-            this.possibleTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.possibleTableLayoutPanel.Controls.Add(this.sampleNameLabel, 0, 0);
-            this.possibleTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.possibleTableLayoutPanel.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.possibleTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.possibleTableLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.possibleTableLayoutPanel.Name = "possibleTableLayoutPanel";
-            this.possibleTableLayoutPanel.RowCount = 1;
-            this.possibleTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
-            this.possibleTableLayoutPanel.Size = new System.Drawing.Size(855, 39);
-            this.possibleTableLayoutPanel.TabIndex = 7;
+            this.listView1.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.listView1.BackColor = System.Drawing.SystemColors.Window;
+            this.listView1.CheckBoxes = true;
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.name_columnHeader,
+            this.addr_columnHeader,
+            this.format_columnHeader});
+            this.listView1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
+            this.listView1.Location = new System.Drawing.Point(0, 0);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(855, 297);
+            this.listView1.TabIndex = 8;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView1_ItemChecked);
+            this.listView1.SizeChanged += new System.EventHandler(this.ListView_SizeChanged);
             // 
-            // sampleNameLabel
+            // name_columnHeader
             // 
-            this.sampleNameLabel.AutoSize = true;
-            this.sampleNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.sampleNameLabel.Location = new System.Drawing.Point(0, 6);
-            this.sampleNameLabel.Margin = new System.Windows.Forms.Padding(0, 6, 0, 6);
-            this.sampleNameLabel.Name = "sampleNameLabel";
-            this.sampleNameLabel.Size = new System.Drawing.Size(46, 18);
-            this.sampleNameLabel.TabIndex = 0;
-            this.sampleNameLabel.Text = "label2";
-            this.sampleNameLabel.Visible = false;
+            this.name_columnHeader.Tag = "1";
+            this.name_columnHeader.Text = "Название канала";
+            this.name_columnHeader.Width = 302;
+            // 
+            // addr_columnHeader
+            // 
+            this.addr_columnHeader.Tag = "2";
+            this.addr_columnHeader.Text = "Адрес";
+            this.addr_columnHeader.Width = 222;
+            // 
+            // format_columnHeader
+            // 
+            this.format_columnHeader.Tag = "3";
+            this.format_columnHeader.Text = "Формат";
+            this.format_columnHeader.Width = 264;
             // 
             // label2
             // 
@@ -498,11 +498,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.possibleParamPanel.ResumeLayout(false);
-            this.possibleParamPanel.PerformLayout();
-            this.possibleTableLayoutPanel.ResumeLayout(false);
-            this.possibleTableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -514,23 +510,17 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel possibleParamPanel;
-        private System.Windows.Forms.TableLayoutPanel possibleTableLayoutPanel;
-        private System.Windows.Forms.Label sampleNameLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton writeToSystemBtn;
-        private System.Windows.Forms.TextBox radioButton;
         private System.Windows.Forms.TextBox chCountRadioButton;
         private System.Windows.Forms.TextBox hystoryRadioButton;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label DelayOsc;
-        private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.ToolStripButton openButton2;
         private System.Windows.Forms.ToolStripButton saveButton2;
         protected internal System.Windows.Forms.RichTextBox CommentRichTextBox;
@@ -544,6 +534,13 @@
         private System.Windows.Forms.Label ConfigToSystem_label;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader name_columnHeader;
+        private System.Windows.Forms.ColumnHeader addr_columnHeader;
+        private System.Windows.Forms.ColumnHeader format_columnHeader;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox radioButton;
 
         /*
         private System.Windows.Forms.RadioButton radioButton3;
