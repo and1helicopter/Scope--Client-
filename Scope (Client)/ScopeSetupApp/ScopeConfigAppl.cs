@@ -235,7 +235,7 @@ namespace ScopeSetupApp
 
                 if (!AdvanceConvert.StrToInt(ConfigAddr_textBox.Text))
                 {
-                    MessageBox.Show("Ошибка в поле Configuration Addr");
+                    MessageBox.Show(@"Ошибка в поле Configuration Addr");
                     return;
                 }
                 else
@@ -246,7 +246,7 @@ namespace ScopeSetupApp
 
                 if (!AdvanceConvert.StrToInt(OscilCmndAddr_textBox.Text))
                 {
-                    MessageBox.Show("Ошибка в поле Oscil Cmnd Addr");
+                    MessageBox.Show(@"Ошибка в поле Oscil Cmnd Addr");
                     return;
                 }
                 else
@@ -258,7 +258,7 @@ namespace ScopeSetupApp
                 {
                     if (!AdvanceConvert.StrToInt(Convert.ToString(ChanneldataGridView.Rows[i].Cells[3].Value)))
                     {
-                        MessageBox.Show("Ошибка в поле адреса параметра\n" + Convert.ToString(ChanneldataGridView.Rows[i].Cells[3].Value));
+                        MessageBox.Show(@"Ошибка в поле адреса параметра\n" + Convert.ToString(ChanneldataGridView.Rows[i].Cells[3].Value));
                         return;
                     }
                     else
@@ -270,7 +270,7 @@ namespace ScopeSetupApp
 
                 if (!AdvanceConvert.StrToInt(OscilSizeData_TextBox.Text))
                 {
-                    MessageBox.Show("Ошибка в поле Oscill Size Data");
+                    MessageBox.Show(@"Ошибка в поле Oscill Size Data");
                     return;
                 }
                 else

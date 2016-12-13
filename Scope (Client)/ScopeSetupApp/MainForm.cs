@@ -117,11 +117,11 @@ namespace ScopeSetupApp
             }
             if (agrs.Length > 0)
             {
-                if (agrs[0] == "a" || agrs[0] == "A") ConfigScopeButton.Visible = true; //true
+                if (agrs[0] == "a" || agrs[0] == "A") ConfigScopeButton.Visible = true; 
             }
 
             _modBusUnit = new ModBusUnit();
-            _modBusUnit.RequestFinished += new EventHandler(EndRequest);
+            _modBusUnit.RequestFinished += EndRequest;
 
             ModBusUnits.ScopeSetupModbusUnit = new ModBusUnit();
             ModBusClient.InitModBusEvent();
@@ -129,7 +129,7 @@ namespace ScopeSetupApp
             int i1, i2;
             LoadWindowSize("prgSettings.xml", out i1, out i2);
             Size size = new Size(i2, i1);
-            this.Size = size;
+            Size = size;
         }
 
         private delegate void SetStringDelegate(string parameter);
@@ -226,7 +226,7 @@ namespace ScopeSetupApp
             try { doc.Load(comPortXmlName); }
             catch
             {
-                MessageBox.Show("Не удалось открыть файл с настройками!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"Не удалось открыть файл с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
 
@@ -234,7 +234,7 @@ namespace ScopeSetupApp
 
             if (xmls.Count != 1)
             {
-                MessageBox.Show("Ошибки в файле с настройками!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
             xmlNode = xmls[0];
@@ -265,7 +265,7 @@ namespace ScopeSetupApp
             }
 
             int par; int portIndex; int sp; int addr;
-            LoadComPortSettings("PrgSettings.xml", out par, out sp, out portIndex, out addr);
+            LoadComPortSettings(@"PrgSettings.xml", out par, out sp, out portIndex, out addr);
 
             if (ModBusClient.ModBusOpened)
             {
@@ -333,7 +333,7 @@ namespace ScopeSetupApp
             }
             else
             {
-                MessageBox.Show("TimeStamp error");
+                MessageBox.Show(@"TimeStamp error");
             }			
         }
 
@@ -561,13 +561,13 @@ namespace ScopeSetupApp
 
         //Очистка осциллограмм
         private int _clearOscNum = 0x7FFF;
-        private bool _clearOscFlag = false;
-        private bool _initClearOscFlag = false;
+        private bool _clearOscFlag;
+        private bool _initClearOscFlag;
         private void ClearOscRequest()
         {
             if (_clearOscNum >= ScopeConfig.ScopeCount)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show(@"Error");
                 _clearOscFlag = false;
                 return;
             }
@@ -584,8 +584,8 @@ namespace ScopeSetupApp
         }
 
         //Ручной запуск
-        private bool _manStartFlag = false;
-        private bool _initManStartFlag = false;
+        private bool _manStartFlag;
+        private bool _initManStartFlag;
         private void ManStartRequest()
         {
             ushort u = (ushort)(ScopeSysType.OscilCmndAddr + 4);//
@@ -1247,13 +1247,13 @@ namespace ScopeSetupApp
 
         private string FileParamLineData(ushort[] paramLine, int lineNum)
         {
-            string str1 = "" , str = "";
+            string str1;
             int i;
-            ulong ulTemp = 0;
+            ulong ulTemp;
             _count64 = 0; 
             _count32 = 0; 
             _count16 = 0;
-            str = (lineNum + 1).ToString() + "," ;
+            string str = (lineNum + 1).ToString() + ",";
             for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
@@ -1336,8 +1336,6 @@ namespace ScopeSetupApp
 
         private string Line3(int num ,int nA)
         {
-            string str = "";
-
             string chId = ScopeSysType.ChannelNames[ScopeConfig.OscilParams[num]];
             string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscilParams[num]];
             string ccbm = ScopeSysType.ChannelCcbm[ScopeConfig.OscilParams[num]];
@@ -1355,8 +1353,8 @@ namespace ScopeSetupApp
             int secondary = 1;
             string ps = "P";
 
-            str = nA + "," + chId + "," + ph + "," + ccbm + "," + uu + "," + a + "," + b + "," + skew + "," +
-            min + "," + max + "," + primary + "," + secondary + "," + ps;
+            string str = nA + "," + chId + "," + ph + "," + ccbm + "," + uu + "," + a + "," + b + "," + skew + "," +
+                         min + "," + max + "," + primary + "," + secondary + "," + ps;
 
             return str;
         }
@@ -1439,8 +1437,6 @@ namespace ScopeSetupApp
 
         private void CreateFile()
         {
-            string namefile, pathfile, pathDateFile;
-
             SaveFileDialog sfd = new SaveFileDialog
             {
                 DefaultExt = @".txt",
@@ -1495,7 +1491,9 @@ namespace ScopeSetupApp
             {
                 StreamWriter sw = new StreamWriter(sfd.FileName, false, Encoding.GetEncoding("Windows-1251"));
 
-                 try
+                string namefile;
+                string pathfile;
+                try
                  {
                      namefile = Path.GetFileNameWithoutExtension(sfd.FileName);
                      pathfile = Path.GetDirectoryName(sfd.FileName);
@@ -1546,14 +1544,14 @@ namespace ScopeSetupApp
                  }
                  sw.Close();
 
-                 pathDateFile = pathfile + "\\" + namefile + @".dat";
+                 string pathDateFile = pathfile + "\\" + namefile + @".dat";
                  try
                  {
                      sw = File.CreateText(pathDateFile);
                  }
                  catch
                  {
-                     MessageBox.Show(@"Ошибка при создании файла!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                     MessageBox.Show(@"Ошибка при создании файла!", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                      return;
                  }
                  try
@@ -1566,7 +1564,7 @@ namespace ScopeSetupApp
                  }
                  catch
                  {
-                     MessageBox.Show(@"Ошибка при записи в файл!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                     MessageBox.Show(@"Ошибка при записи в файл!", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                      return;
                  }
                  sw.Close();
@@ -1574,9 +1572,15 @@ namespace ScopeSetupApp
             #endregion
 
             _loadOscNum = 0;
+            DialogResult dialogResult = MessageBox.Show(@"Открыть осциллограмму?", @"ScopeViewer", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialogResult == DialogResult.Yes)
+            {
+                ExecuteScopeView(sfd.FileName);
+            }
+            
         }
 
-        private bool _initLoadOscilFlag = false;
+        private bool _initLoadOscilFlag;
         private void InitLoadOscill()
         {
             _loadOscData = true;
@@ -1601,6 +1605,7 @@ namespace ScopeSetupApp
             {
                 Invoke(new NoParamDelegate(InitLoadOscill), null);
             }
+            // ReSharper disable once EmptyGeneralCatchClause
             catch { }      
         }
         private void CreateFileInvoke()
@@ -1609,6 +1614,7 @@ namespace ScopeSetupApp
             {
                 Invoke(new NoParamDelegate(CreateFile), null);
             }
+            // ReSharper disable once EmptyGeneralCatchClause
             catch { }  
         }
         private void toolStripButton2_Click(object sender, EventArgs e)
@@ -1625,26 +1631,33 @@ namespace ScopeSetupApp
         //Запуск приложения для просмотра осциллограмм
         private void ExecuteScopeView(string fileName)
         {
-            Process proc = new Process();
-            proc.StartInfo.FileName = CalcApplPath() + "scopeviewapplication.exe";
-            proc.StartInfo.Arguments = "\"" + fileName + "\"";
+            Process proc = new Process
+            {
+                StartInfo =
+                {
+                    FileName = CalcApplPath() + "ScopeViewer.exe",
+                    Arguments = "\"" + fileName + "\""
+                }
+            };
             proc.Start();
         }
 
 
         private void toolStripButton2_Click_1(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.DefaultExt = @".txt"; // Default file extension
-            ofd.Filter = @"Текстовый файл (.txt)|*.txt"; // Filter files by extension
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                DefaultExt = @".txt",
+                Filter = @"Текстовый файл (.txt)|*.txt"
+            };
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-               // ExecuteScopeView(ofd.FileName);
+               ExecuteScopeView(ofd.FileName);
             }
         }
 
-        private bool _createFileFlag = false;
-        private int _createFileNum = 0;
+        private bool _createFileFlag;
+        private int _createFileNum;
         private void timer2_Tick(object sender, EventArgs e)
         {
             timer2.Enabled = false;
