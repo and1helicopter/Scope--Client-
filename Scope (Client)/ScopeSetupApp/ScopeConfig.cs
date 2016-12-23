@@ -64,6 +64,9 @@ namespace ScopeSetupApp
         //Размер осциллограммы 
         public static uint OscilSize { get; set; }
 
+        //Статус осциллогрофа
+        public static ushort StatusOscil { get; set; }
+
         public static bool Coincides { get; set; }
 
         //Адреса каналов 

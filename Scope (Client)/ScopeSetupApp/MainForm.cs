@@ -398,13 +398,19 @@ namespace ScopeSetupApp
                 return;
             }
 
-            if (_loadConfigStep == 10)                //Адреса каналов 
+            if (_loadConfigStep == 10)                //Статус осциллогрофа
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 378), 2);
+                return;
+            }
+
+            if (_loadConfigStep == 11)                //Адреса каналов 
             {
                 _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 32), 32);
                 return;
             }
 
-            if (_loadConfigStep == 11)                //Формат каналов 
+            if (_loadConfigStep == 12)                //Формат каналов 
             {
                 _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr), 32);
                 return;
@@ -479,7 +485,7 @@ namespace ScopeSetupApp
 
                     case 8:                     //Размер одной выборки
                         {
-                            ScopeConfig.SampleSize = _modBusUnit.modBusData.ReadData[0];
+       ;                     ScopeConfig.SampleSize = _modBusUnit.modBusData.ReadData[0];
                             _loadConfigStep = 9;
                             LoadConfig();
                         } break;
@@ -491,13 +497,19 @@ namespace ScopeSetupApp
                             LoadConfig();
 
                         } break;
-                    case 10:                     //Адреса каналов 
+                    case 10:                     //Статус осциллогрофа
                         {
-                            ScopeConfig.InitOscilAddr(_modBusUnit.modBusData.ReadData);
+                            ScopeConfig.StatusOscil = _modBusUnit.modBusData.ReadData[0];
                             _loadConfigStep = 11;
                             LoadConfig();
                         } break;
-                    case 11:                     //Формат каналов 
+                    case 11:                     //Адреса каналов 
+                        {
+                            ScopeConfig.InitOscilAddr(_modBusUnit.modBusData.ReadData);
+                            _loadConfigStep = 12;
+                            LoadConfig();
+                        } break;
+                    case 12:                     //Формат каналов 
                         {
                             ScopeConfig.InitOscilFormat(_modBusUnit.modBusData.ReadData);
                             ScopeConfig.InitOscilParams(ScopeConfig.OscilAddr,ScopeConfig.OscilFormat);

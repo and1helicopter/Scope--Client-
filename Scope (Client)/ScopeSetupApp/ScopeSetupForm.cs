@@ -367,8 +367,7 @@ namespace ScopeSetupApp
                 return 0;
             }
 
-            
-            uint oscS = ScopeConfig.ConnectMcu ? Convert.ToUInt32(ScopeConfig.OscilAllSize / Convert.ToUInt32(_nowScopeCount) * ((double)trackBar1.Value / 100)) : Convert.ToUInt32(((allSize * 1024) / Convert.ToUInt32(_nowScopeCount)) * ((double)trackBar1.Value / 100));
+            uint oscS = ScopeConfig.ConnectMcu ? Convert.ToUInt32(ScopeConfig.OscilAllSize / Convert.ToUInt32(_nowScopeCount) * ((double)trackBar1.Value / 100)) : Convert.ToUInt32(allSize *1024 / Convert.ToUInt32(_nowScopeCount) * ((double)trackBar1.Value / 100));
 
             while (oscS % 64 != 0 || oscS % sampleSize != 0)   // 
             { 		
@@ -732,14 +731,23 @@ namespace ScopeSetupApp
                     else
                     {
                         _writeStep = 0;
-                        MessageBox.Show(@"Конфигурация осциллографа была изменена!", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         ScopeConfig.ChangeScopeConfig = true;
+                        MessageAnswer();
                     }
                 }       
             }
         }
 
-         
+        private void MessageAnswer()
+        {
+
+            MessageBox.Show(@"Конфигурация осциллографа была изменена!", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (ScopeConfig.StatusOscil == 1)
+            {
+                MessageBox.Show(@"Конфигурация загружена и принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        
         private void writeToSystemBtn_Click(object sender, EventArgs e)
         {
             if (_nowMaxChannelCount < 1 || _nowMaxChannelCount > 32)
@@ -882,7 +890,7 @@ namespace ScopeSetupApp
         {
             if (_nowMaxChannelCount != ChNames().Count)
             {
-                MessageBox.Show("Количество осциллографируемых и выбранных каналов не совпадает");
+                MessageBox.Show(@"Количество осциллографируемых и выбранных каналов не совпадает");
                 return;
             }
 
@@ -984,7 +992,6 @@ namespace ScopeSetupApp
                     {
                         channelInList[i] = true;
                         _channelnameListViewItems[j].Checked = true;
-
                         
                         break;
                     }
