@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 
 
@@ -8,7 +7,7 @@ namespace ScopeSetupApp
 {
     public static class ScopeSysType
     {
-        public static List<ScopeTempConfig> ScopeItem = new List<ScopeTempConfig>();
+        public static readonly List<ScopeTempConfig> ScopeItem = new List<ScopeTempConfig>();
 
         public static string XmlFileName = "ScopeSysType.xml";
         public static string XmlFileNameOscil = "ScopeSysType.xml";
@@ -48,6 +47,7 @@ namespace ScopeSetupApp
         public static string TmqCode;
         public static string Leapsec;
         //For OscilConfigurator
+        public static ushort SizeValue;
         public static List<string> OscilChannelNames = new List<string>();
         public static List<ushort> OscilChannelAddrs = new List<ushort>();
         public static List<ushort> OscilChannelFormats = new List<ushort>();
@@ -103,7 +103,7 @@ namespace ScopeSetupApp
             LoadFromXml("Configuration", "Addr", doc, out ConfigurationAddr);
             LoadFromXml("OscilCmnd", "Addr", doc, out OscilCmndAddr);
 
-            ushort count = 0;
+            ushort count;
             LoadFromXml("OscilAllSize", "Count", doc, out OscilAllSize);
             LoadFromXml("MeasureParams", "Count", doc, out count);
 
@@ -201,6 +201,7 @@ namespace ScopeSetupApp
             LoadFromXml("Channel", "Count", doc, out ChannelCount);
             LoadFromXml("Story", "Count", doc, out HistoryCount);
             LoadFromXml("Frequency", "Count", doc, out FrequncyCount);
+            LoadFromXml("Size", "Count", doc, out SizeValue);
             LoadFromXml("OscilEnable", "Count", doc, out OscilEnable);
 
             OscilChannelNames = new List<string>();

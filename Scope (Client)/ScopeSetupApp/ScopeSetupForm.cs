@@ -896,6 +896,8 @@ namespace ScopeSetupApp
             else hystoryRadioButton.Clear();
             if (ScopeSysType.FrequncyCount != 0) oscFreqRadioButton.Text = Convert.ToString(ScopeSysType.FrequncyCount);
             else oscFreqRadioButton.Clear();
+            if (ScopeSysType.SizeValue > 0 && ScopeSysType.SizeValue <= 100) trackBar1.Value = ScopeSysType.SizeValue;
+            else trackBar1.Value = 100;
             radioButton.Clear();
 
             if (ScopeSysType.OscilEnable == 0) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false;}
@@ -974,6 +976,10 @@ namespace ScopeSetupApp
                 xmlOut.WriteAttributeString("Count", Convert.ToString(_nowOscFreq));
                 xmlOut.WriteEndElement();
 
+                xmlOut.WriteStartElement("Size");
+                xmlOut.WriteAttributeString("Count", Convert.ToString(trackBar1.Value));
+                xmlOut.WriteEndElement();
+
                 xmlOut.WriteStartElement("OscilEnable");
                 xmlOut.WriteAttributeString("Count", Convert.ToString(OscilEnable()));
                 xmlOut.WriteEndElement();
@@ -1022,6 +1028,8 @@ namespace ScopeSetupApp
             if (ScopeConfig.FreqCount != 0) oscFreqRadioButton.Text = Convert.ToString(ScopeConfig.FreqCount);
             else hystoryRadioButton.Clear();
 
+            SizeTrackBar();
+
             if (ScopeConfig.OscilEnable == 0) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
             if (ScopeConfig.OscilEnable == 1) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
             if (ScopeConfig.OscilEnable == 2) { enaScopeCheckBox.Checked = true; checkBox1.Checked = true; checkBox3.Checked = false; }
@@ -1051,6 +1059,11 @@ namespace ScopeSetupApp
                 }
             }
             if (channelInLists) MessageBox.Show(str);
+        }
+
+        private void SizeTrackBar()
+        {
+            trackBar1.Value = (int) (ScopeConfig.OscilSize*100*ScopeConfig.ScopeCount/ScopeConfig.OscilAllSize);
         }
 
         private void ConfigToSystem()
