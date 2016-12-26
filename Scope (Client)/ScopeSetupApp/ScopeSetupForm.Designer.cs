@@ -65,6 +65,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.ConfigToSystem_label = new System.Windows.Forms.Label();
+            this.StatusDownloadConfig = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -79,13 +80,14 @@
             this.toolStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.toolStrip1.Font = new System.Drawing.Font("Consolas", 9F);
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.writeToSystemBtn,
             this.reloadButton,
             this.toolStripSeparator1,
             this.openButton2,
-            this.saveButton2});
+            this.saveButton2,
+            this.StatusDownloadConfig});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -102,6 +104,7 @@
             this.writeToSystemBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.writeToSystemBtn.Margin = new System.Windows.Forms.Padding(3);
             this.writeToSystemBtn.Name = "writeToSystemBtn";
+            this.writeToSystemBtn.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.writeToSystemBtn.Size = new System.Drawing.Size(32, 32);
             this.writeToSystemBtn.Text = "Загрузиь конфигурацию в систему";
             this.writeToSystemBtn.Click += new System.EventHandler(this.writeToSystemBtn_Click);
@@ -115,6 +118,7 @@
             this.reloadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.reloadButton.Margin = new System.Windows.Forms.Padding(3);
             this.reloadButton.Name = "reloadButton";
+            this.reloadButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.reloadButton.Size = new System.Drawing.Size(32, 32);
             this.reloadButton.Text = "Считать конфигурацию  из системы";
             this.reloadButton.Click += new System.EventHandler(this.reloadButton_Click);
@@ -132,6 +136,7 @@
             this.openButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openButton2.Margin = new System.Windows.Forms.Padding(3);
             this.openButton2.Name = "openButton2";
+            this.openButton2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.openButton2.Size = new System.Drawing.Size(32, 32);
             this.openButton2.Text = "Открыть файл";
             this.openButton2.Click += new System.EventHandler(this.openButton2_Click);
@@ -144,6 +149,7 @@
             this.saveButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveButton2.Margin = new System.Windows.Forms.Padding(3);
             this.saveButton2.Name = "saveButton2";
+            this.saveButton2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.saveButton2.Size = new System.Drawing.Size(32, 32);
             this.saveButton2.Text = "Сохранить файл";
             this.saveButton2.Click += new System.EventHandler(this.saveButton2_Click);
@@ -475,6 +481,21 @@
             this.ConfigToSystem_label.TabIndex = 35;
             this.ConfigToSystem_label.Text = "Actual configuration:";
             // 
+            // StatusDownloadConfig
+            // 
+            this.StatusDownloadConfig.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.StatusDownloadConfig.AutoSize = false;
+            this.StatusDownloadConfig.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StatusDownloadConfig.Image = global::ScopeSetupApp.Properties.Resources.Circle_Thin_64_2_;
+            this.StatusDownloadConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StatusDownloadConfig.Margin = new System.Windows.Forms.Padding(3);
+            this.StatusDownloadConfig.Name = "StatusDownloadConfig";
+            this.StatusDownloadConfig.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.StatusDownloadConfig.Size = new System.Drawing.Size(32, 32);
+            this.StatusDownloadConfig.Text = "toolStripButton1";
+            this.StatusDownloadConfig.ToolTipText = "Статус загрузки конфигурации";
+            this.StatusDownloadConfig.Visible = false;
+            // 
             // ScopeSetupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -541,6 +562,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox radioButton;
+        private System.Windows.Forms.ToolStripButton StatusDownloadConfig;
 
         /*
         private System.Windows.Forms.RadioButton radioButton3;

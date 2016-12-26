@@ -144,6 +144,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Electrical_Threshold-50.ico" />
+    <Resource Include="Resources\Circle Thin-64.png" />
+    <Resource Include="Resources\Circle Thin-64%282%29.png" />
+    <Resource Include="Resources\Circle Thin-64%281%29.png" />
     <None Include="Resources\Checklist-50.png" />
     <None Include="Resources\Minus-50.png" />
     <None Include="Resources\Minus-32.png" />

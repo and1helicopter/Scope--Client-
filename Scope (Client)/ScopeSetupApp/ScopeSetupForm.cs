@@ -19,8 +19,9 @@ namespace ScopeSetupApp
         private ushort _nowMaxChannelCount;    //Количество каналов
         private ushort _nowOscFreq = 1;             //Делитель     
         private uint _oscilAllSize = 1;             //
+        private bool _changeConfig;
 
-        readonly object[] _format = 
+        private readonly object[] _format = 
         {
             "0 - Percent",
             "1 - uint16",
@@ -46,7 +47,7 @@ namespace ScopeSetupApp
             "21 - Freq UPTF"
         };
 
-        readonly object[] _sizeFormat =
+        private readonly object[] _sizeFormat =
         {
             "16",
             "32",
@@ -189,6 +190,15 @@ namespace ScopeSetupApp
             }
 
             DelayOscil();
+
+            StatusDownloadConfig.Visible = ScopeConfig.ConnectMcu;
+            StatusDownloadConfigToSystem();
+
+            if (_changeConfig)
+            {
+                MessageAnswer();
+                _changeConfig = false;
+            }
 
             timer1.Enabled = true;
         }
@@ -732,19 +742,53 @@ namespace ScopeSetupApp
                     {
                         _writeStep = 0;
                         ScopeConfig.ChangeScopeConfig = true;
-                        MessageAnswer();
+                        _changeConfig = true;
                     }
                 }       
             }
         }
 
+        private void StatusDownloadConfigToSystem()
+        {
+            if (ScopeConfig.StatusOscil == 0x0000)
+            {
+                StatusDownloadConfig.Image = Properties.Resources.Circle_Thin_64_2_;
+                StatusDownloadConfig.ToolTipText = @"В системе отсутствует конфигурация.";
+            }
+            if (ScopeConfig.StatusOscil == 0x0001)
+            {
+                StatusDownloadConfig.Image = Properties.Resources.Circle_Thin_64_1_;
+                StatusDownloadConfig.ToolTipText = @"В систему успешно загружена конфигурация.";
+            }
+            if (ScopeConfig.StatusOscil == 0x0002)
+            {
+                StatusDownloadConfig.Image = Properties.Resources.Circle_Thin_64;
+                StatusDownloadConfig.ToolTipText = @"Конфигурация не прошла проверку.";
+            }
+            if (ScopeConfig.StatusOscil == 0x0004)
+            {
+                StatusDownloadConfig.Image = Properties.Resources.Circle_Thin_64;
+                StatusDownloadConfig.ToolTipText = @"При загрузке нарушена целостность данных.";
+            }
+        }
+
         private void MessageAnswer()
         {
-
-            MessageBox.Show(@"Конфигурация осциллографа была изменена!", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (ScopeConfig.StatusOscil == 1)
+            if (ScopeConfig.StatusOscil == 0x0001)
             {
-                MessageBox.Show(@"Конфигурация загружена и принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // ReSharper disable once LocalizableElement
+                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена и принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            if (ScopeConfig.StatusOscil == 0x0002)
+            {
+                // ReSharper disable once LocalizableElement
+                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена, но не принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            if (ScopeConfig.StatusOscil == 0x0004)
+            {
+                TopMost = true;
+                // ReSharper disable once LocalizableElement
+                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Нарушена целостность данных", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         

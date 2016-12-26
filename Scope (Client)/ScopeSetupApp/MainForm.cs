@@ -47,9 +47,6 @@ namespace ScopeSetupApp
 
         private void LoadWindowSize(string comPortXmlName, out int newHeight, out int newWidth)
         {
-            XmlNodeList xmls;
-            XmlNode xmlNode;
-
             var doc = new XmlDocument();
             try
             {
@@ -62,14 +59,14 @@ namespace ScopeSetupApp
                 Application.Exit();
             }
 
-            xmls = doc.GetElementsByTagName(@"MainWindow");
+            var xmls = doc.GetElementsByTagName(@"MainWindow");
 
             if (xmls.Count != 1)
             {
                 MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
-            xmlNode = xmls[0];
+            var xmlNode = xmls[0];
             try
             {
                 newHeight = Convert.ToInt32(xmlNode.Attributes["Height"].Value);
@@ -100,6 +97,7 @@ namespace ScopeSetupApp
             }
             catch
             {
+                // ignored
             }
         }
 
@@ -500,6 +498,7 @@ namespace ScopeSetupApp
                     case 10:                     //Статус осциллогрофа
                         {
                             ScopeConfig.StatusOscil = _modBusUnit.modBusData.ReadData[0];
+                            StatusLoadOscil();
                             _loadConfigStep = 11;
                             LoadConfig();
                         } break;
@@ -518,13 +517,21 @@ namespace ScopeSetupApp
                             _buttonsAlreadyCreated = false;
                         } break;
                 }
-                return;
             }
             else
             {
                 _loadConfigStep = 0;
             }
         }
+
+        private void StatusLoadOscil()
+        {
+            StatusDownloadConfig.Visible = ScopeConfig.ConnectMcu;
+
+            StatusDownloadConfig.Image = ScopeConfig.StatusOscil == 0x0001 ? Properties.Resources.Circle_Thin_64_1_ : Properties.Resources.Circle_Thin_64_2_;
+            StatusDownloadConfig.ToolTipText = ScopeConfig.StatusOscil == 0x0001 ? @"В систему загружена конфигурация." : @"В системе нет конфигурации.";
+        }
+
         private void EndLoadTime()
         {
             if (!_modBusUnit.modBusData.RequestError)

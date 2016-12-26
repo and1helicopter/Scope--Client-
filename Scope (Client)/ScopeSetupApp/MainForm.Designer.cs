@@ -1,4 +1,6 @@
-﻿namespace ScopeSetupApp
+﻿using System.Drawing;
+
+namespace ScopeSetupApp
 {
     partial class MainForm
     {
@@ -35,22 +37,23 @@
             this.label1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.nowStatusFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.loadScopeToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.loadDataProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.timer3 = new System.Windows.Forms.Timer(this.components);
             this.connectBtn = new System.Windows.Forms.ToolStripButton();
             this.ConfigScopeButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton = new System.Windows.Forms.ToolStripButton();
             this.OpenScope_Button = new System.Windows.Forms.ToolStripButton();
             this.manStartBtn = new System.Windows.Forms.ToolStripButton();
-            this.loadScopeToolStripLabel = new System.Windows.Forms.ToolStripLabel();
-            this.loadDataProgressBar = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.StatusDownloadConfig = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -92,6 +95,38 @@
             this.nowStatusFlowLayoutPanel.TabIndex = 2;
             this.nowStatusFlowLayoutPanel.Tag = "";
             // 
+            // toolStripContainer1
+            // 
+            this.toolStripContainer1.BottomToolStripPanelVisible = false;
+            // 
+            // toolStripContainer1.ContentPanel
+            // 
+            this.toolStripContainer1.ContentPanel.AllowDrop = true;
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.panel1);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.toolStrip1);
+            this.toolStripContainer1.ContentPanel.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(730, 444);
+            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.toolStripContainer1.Name = "toolStripContainer1";
+            this.toolStripContainer1.RightToolStripPanelVisible = false;
+            this.toolStripContainer1.Size = new System.Drawing.Size(730, 444);
+            this.toolStripContainer1.TabIndex = 14;
+            this.toolStripContainer1.Text = "toolStripContainer1";
+            this.toolStripContainer1.TopToolStripPanelVisible = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.nowStatusFlowLayoutPanel);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(244, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(486, 444);
+            this.panel1.TabIndex = 0;
+            // 
             // toolStrip1
             // 
             this.toolStrip1.AutoSize = false;
@@ -107,15 +142,42 @@
             this.OpenScope_Button,
             this.manStartBtn,
             this.loadScopeToolStripLabel,
-            this.loadDataProgressBar});
+            this.loadDataProgressBar,
+            this.StatusDownloadConfig});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.toolStrip1.Size = new System.Drawing.Size(244, 444);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Tag = "0";
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // loadScopeToolStripLabel
+            // 
+            this.loadScopeToolStripLabel.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.loadScopeToolStripLabel.Margin = new System.Windows.Forms.Padding(9);
+            this.loadScopeToolStripLabel.Name = "loadScopeToolStripLabel";
+            this.loadScopeToolStripLabel.Size = new System.Drawing.Size(224, 14);
+            this.loadScopeToolStripLabel.Text = "toolStripLabel1";
+            this.loadScopeToolStripLabel.Visible = false;
+            // 
+            // loadDataProgressBar
+            // 
+            this.loadDataProgressBar.AutoSize = false;
+            this.loadDataProgressBar.Margin = new System.Windows.Forms.Padding(3);
+            this.loadDataProgressBar.MarqueeAnimationSpeed = 1000;
+            this.loadDataProgressBar.Maximum = 1000;
+            this.loadDataProgressBar.MergeIndex = 0;
+            this.loadDataProgressBar.Name = "loadDataProgressBar";
+            this.loadDataProgressBar.Size = new System.Drawing.Size(150, 24);
+            this.loadDataProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.loadDataProgressBar.Visible = false;
+            // 
+            // timer3
+            // 
+            this.timer3.Interval = 500;
+            this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
             // connectBtn
             // 
@@ -207,63 +269,21 @@
             this.manStartBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.manStartBtn.Click += new System.EventHandler(this.manStartBtn_Click);
             // 
-            // loadScopeToolStripLabel
+            // StatusDownloadConfig
             // 
-            this.loadScopeToolStripLabel.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.loadScopeToolStripLabel.Margin = new System.Windows.Forms.Padding(9);
-            this.loadScopeToolStripLabel.Name = "loadScopeToolStripLabel";
-            this.loadScopeToolStripLabel.Size = new System.Drawing.Size(224, 14);
-            this.loadScopeToolStripLabel.Text = "toolStripLabel1";
-            this.loadScopeToolStripLabel.Visible = false;
-            // 
-            // loadDataProgressBar
-            // 
-            this.loadDataProgressBar.AutoSize = false;
-            this.loadDataProgressBar.Margin = new System.Windows.Forms.Padding(3);
-            this.loadDataProgressBar.MarqueeAnimationSpeed = 1000;
-            this.loadDataProgressBar.Maximum = 1000;
-            this.loadDataProgressBar.MergeIndex = 0;
-            this.loadDataProgressBar.Name = "loadDataProgressBar";
-            this.loadDataProgressBar.Size = new System.Drawing.Size(150, 24);
-            this.loadDataProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.loadDataProgressBar.Visible = false;
-            // 
-            // toolStripContainer1
-            // 
-            this.toolStripContainer1.BottomToolStripPanelVisible = false;
-            // 
-            // toolStripContainer1.ContentPanel
-            // 
-            this.toolStripContainer1.ContentPanel.AllowDrop = true;
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.panel1);
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.toolStrip1);
-            this.toolStripContainer1.ContentPanel.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(730, 444);
-            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
-            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.RightToolStripPanelVisible = false;
-            this.toolStripContainer1.Size = new System.Drawing.Size(730, 444);
-            this.toolStripContainer1.TabIndex = 14;
-            this.toolStripContainer1.Text = "toolStripContainer1";
-            this.toolStripContainer1.TopToolStripPanelVisible = false;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.nowStatusFlowLayoutPanel);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(244, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(486, 444);
-            this.panel1.TabIndex = 0;
-            // 
-            // timer3
-            // 
-            this.timer3.Interval = 500;
-            this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
+            this.StatusDownloadConfig.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.StatusDownloadConfig.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.StatusDownloadConfig.AutoSize = false;
+            this.StatusDownloadConfig.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StatusDownloadConfig.Image = global::ScopeSetupApp.Properties.Resources.Circle_Thin_64_2_;
+            this.StatusDownloadConfig.ImageTransparentColor = System.Drawing.Color.Transparent;
+            this.StatusDownloadConfig.Margin = new System.Windows.Forms.Padding(0);
+            this.StatusDownloadConfig.Name = "StatusDownloadConfig";
+            this.StatusDownloadConfig.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+            this.StatusDownloadConfig.Size = new System.Drawing.Size(32, 32);
+            this.StatusDownloadConfig.Text = "StatusDownloadConfig";
+            this.StatusDownloadConfig.ToolTipText = "Статус загрузки конфигурации";
+            this.StatusDownloadConfig.Visible = false;
             // 
             // MainForm
             // 
@@ -282,12 +302,12 @@
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -301,6 +321,8 @@
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.FlowLayoutPanel nowStatusFlowLayoutPanel;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Timer timer3;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton connectBtn;
         private System.Windows.Forms.ToolStripButton ConfigScopeButton;
@@ -309,8 +331,7 @@
         private System.Windows.Forms.ToolStripButton manStartBtn;
         private System.Windows.Forms.ToolStripLabel loadScopeToolStripLabel;
         private System.Windows.Forms.ToolStripProgressBar loadDataProgressBar;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Timer timer3;
+        private System.Windows.Forms.ToolStripButton StatusDownloadConfig;
     }
 }
 
