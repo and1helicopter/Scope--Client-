@@ -364,8 +364,54 @@ namespace ScopeSetupApp
                 fs.Close();
         }
 
+        private void VerificationChannel()
+        {
+            List<string> nameChannelRepeat = new List<string>();
+            List<int> numChannelRepeat = new List<int>();
+
+            for (int i = 0; i < ChanneldataGridView.RowCount; i++)
+            {
+                nameChannelRepeat.Clear();
+                numChannelRepeat.Clear();
+                string str = "";
+
+                for (int j = 0; j < ChanneldataGridView.RowCount; j++)
+                {
+                    //Адреса, разрядность, формат
+                    if (Convert.ToString(ChanneldataGridView.Rows[i].Cells[3].Value) == Convert.ToString(ChanneldataGridView.Rows[j].Cells[3].Value) &&
+                        ChanneldataGridView.Rows[i].Cells[4].Value == ChanneldataGridView.Rows[j].Cells[4].Value &&
+                        ChanneldataGridView.Rows[i].Cells[5].Value == ChanneldataGridView.Rows[j].Cells[5].Value)
+                    {
+                        str = "Адрес: " + ChanneldataGridView.Rows[i].Cells[3].Value + 
+                            " Разряднсоть: " + ChanneldataGridView.Rows[i].Cells[4].Value +
+                            " Формат: " + ChanneldataGridView.Rows[i].Cells[5].Value;
+                        nameChannelRepeat.Add(Convert.ToString(ChanneldataGridView.Rows[j].Cells[0].Value));
+                        numChannelRepeat.Add(j);
+                    }
+                }
+                if (numChannelRepeat.Count > 1)
+                {
+                    SelectChannel loadOscQueruForm = new SelectChannel(nameChannelRepeat, numChannelRepeat, str);
+                    DialogResult dlgr = loadOscQueruForm.ShowDialog();
+
+                    if (dlgr == DialogResult.OK)
+                    {
+                        for (int k = numChannelRepeat.Count - 1; k >= 0; k--)
+                        {
+                            if (numChannelRepeat[k] == numChannelRepeat[SelectChannel.NumChannel]) continue;
+                            ChanneldataGridView.Rows.RemoveAt(numChannelRepeat[k]);
+                        }
+
+                        UpdateTable();
+                    }
+                }
+            }
+        }
+
         private void saveButton_Click(object sender, EventArgs e)
         {
+            VerificationChannel();
+
             SaveFileDialog sfd = new SaveFileDialog
             {
                 DefaultExt = @".xsc",
@@ -378,6 +424,8 @@ namespace ScopeSetupApp
 
         private void SetDefault_toolStripButton_Click(object sender, EventArgs e)
         {
+            VerificationChannel();
+
             SaveFileDialog sfd = new SaveFileDialog();
             string namefile = "ScopeSysType.xml";
             string pathfile = Path.GetDirectoryName(Path.GetFullPath(ScopeSysType.XmlFileName));
@@ -389,6 +437,8 @@ namespace ScopeSetupApp
 
         private void Update_toolStripButton_Click(object sender, EventArgs e)
         {
+            VerificationChannel();
+
             Update_Oscil();
         }
 
@@ -432,14 +482,15 @@ namespace ScopeSetupApp
                 ScopeSysType.ChannelMin.Add(Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[9].Value));
                 ScopeSysType.ChannelMax.Add(Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[10].Value));
 
-                ScopeTempConfig Item = new ScopeTempConfig()
+                // ReSharper disable once InconsistentNaming
+                ScopeTempConfig Item = new ScopeTempConfig
                 {
                     ChannelNames = ScopeSysType.ChannelNames[ScopeSysType.ChannelNames.Count - 1],
                     ChannelGroupNames = ScopeSysType.GroupNames[ScopeSysType.GroupNames.Count - 1],
                     ChannelTypeAd = ScopeSysType.ChannelTypeAd[ScopeSysType.ChannelTypeAd.Count - 1],
                     ChannelAddrs = ScopeSysType.ChannelAddrs[ScopeSysType.ChannelAddrs.Count - 1],
-                    ChannelformatNumeric = ((ScopeSysType.ChannelFormats[ScopeSysType.ChannelFormats.Count - 1] >> 8) - 1),
-                    ChannelFormats = (ScopeSysType.ChannelFormats[ScopeSysType.ChannelFormats.Count - 1] & 0x00FF),
+                    ChannelformatNumeric = (ScopeSysType.ChannelFormats[ScopeSysType.ChannelFormats.Count - 1] >> 8) - 1,
+                    ChannelFormats = ScopeSysType.ChannelFormats[ScopeSysType.ChannelFormats.Count - 1] & 0x00FF,
                     ChannelPhase = ScopeSysType.ChannelPhase[ScopeSysType.ChannelPhase.Count - 1],
                     ChannelCcbm = ScopeSysType.ChannelCcbm[ScopeSysType.ChannelCcbm.Count - 1],
                     ChannelDimension = ScopeSysType.ChannelDimension[ScopeSysType.ChannelDimension.Count - 1],
@@ -470,12 +521,16 @@ namespace ScopeSetupApp
 
         private void View_toolStripButton_Click(object sender, EventArgs e)
         {
+            VerificationChannel();
+
              SCPrintPreviewDialog.Document = SCPrintDocument;
              SCPrintPreviewDialog.ShowDialog();
         }
 
         private void Print_toolStripButton_Click(object sender, EventArgs e)
         {
+            VerificationChannel();
+
              SCPrintDialog.Document = SCPrintDocument;
             if (SCPrintDialog.ShowDialog() == DialogResult.OK)
             {

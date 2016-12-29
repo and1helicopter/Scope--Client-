@@ -91,7 +91,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(863, 38);
+            this.toolStrip1.Size = new System.Drawing.Size(811, 38);
             this.toolStrip1.TabIndex = 7;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -180,7 +180,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 38);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(863, 147);
+            this.panel1.Size = new System.Drawing.Size(811, 147);
             this.panel1.TabIndex = 0;
             // 
             // label3
@@ -214,7 +214,7 @@
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(704, 9);
+            this.trackBar1.Location = new System.Drawing.Point(727, 8);
             this.trackBar1.Maximum = 100;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
@@ -302,7 +302,7 @@
             this.CommentRichTextBox.Location = new System.Drawing.Point(411, 8);
             this.CommentRichTextBox.Name = "CommentRichTextBox";
             this.CommentRichTextBox.ReadOnly = true;
-            this.CommentRichTextBox.Size = new System.Drawing.Size(271, 45);
+            this.CommentRichTextBox.Size = new System.Drawing.Size(265, 45);
             this.CommentRichTextBox.TabIndex = 11;
             this.CommentRichTextBox.Text = "";
             // 
@@ -383,7 +383,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(863, 342);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(811, 342);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // panel2
@@ -394,7 +394,7 @@
             this.panel2.Location = new System.Drawing.Point(4, 5);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(855, 332);
+            this.panel2.Size = new System.Drawing.Size(803, 332);
             this.panel2.TabIndex = 2;
             // 
             // possibleParamPanel
@@ -407,7 +407,7 @@
             this.possibleParamPanel.Location = new System.Drawing.Point(0, 35);
             this.possibleParamPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.possibleParamPanel.Name = "possibleParamPanel";
-            this.possibleParamPanel.Size = new System.Drawing.Size(855, 297);
+            this.possibleParamPanel.Size = new System.Drawing.Size(803, 297);
             this.possibleParamPanel.TabIndex = 6;
             // 
             // listView1
@@ -426,7 +426,7 @@
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(855, 297);
+            this.listView1.Size = new System.Drawing.Size(803, 297);
             this.listView1.TabIndex = 8;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -459,7 +459,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(855, 35);
+            this.label2.Size = new System.Drawing.Size(803, 35);
             this.label2.TabIndex = 4;
             this.label2.Text = "Возможные для осциллографирования параметры";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -501,7 +501,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(863, 527);
+            this.ClientSize = new System.Drawing.Size(811, 527);
             this.Controls.Add(this.ConfigToSystem_label);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel1);

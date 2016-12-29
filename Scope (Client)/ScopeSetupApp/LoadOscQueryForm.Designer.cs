@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoadOscQueryForm));
             this.titlLabel = new System.Windows.Forms.Label();
             this.SaveOscil = new System.Windows.Forms.Button();
             this.ClearOscil = new System.Windows.Forms.Button();
@@ -49,7 +50,7 @@
             // 
             this.SaveOscil.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.SaveOscil.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.SaveOscil.Font = new System.Drawing.Font("Open Sans", 9F);
+            this.SaveOscil.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.SaveOscil.Location = new System.Drawing.Point(3, 38);
             this.SaveOscil.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.SaveOscil.Name = "SaveOscil";
@@ -85,16 +86,18 @@
             // 
             // LoadOscQueryForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(358, 91);
+            this.ControlBox = false;
             this.Controls.Add(this.CancelLoadOscQueryForm);
             this.Controls.Add(this.ClearOscil);
             this.Controls.Add(this.SaveOscil);
             this.Controls.Add(this.titlLabel);
-            this.Font = new System.Drawing.Font("Open Sans", 9F);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;

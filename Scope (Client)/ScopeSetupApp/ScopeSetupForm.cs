@@ -750,25 +750,29 @@ namespace ScopeSetupApp
 
         private void StatusDownloadConfigToSystem()
         {
-            if (ScopeConfig.StatusOscil == 0x0000)
+            if ((ScopeConfig.StatusOscil & 0x0001) == 0x0000)
             {
                 StatusDownloadConfig.Image = Properties.Resources.Circle_Thin_64_2_;
-                StatusDownloadConfig.ToolTipText = @"В системе отсутствует конфигурация.";
+                // ReSharper disable once LocalizableElement
+                StatusDownloadConfig.ToolTipText = @"Статус загрузки конфигурации:" + "\n" + @"Конфигурация отсутствует.";
             }
-            if (ScopeConfig.StatusOscil == 0x0001)
+            if ((ScopeConfig.StatusOscil & 0x0001) == 0x0001)
             {
                 StatusDownloadConfig.Image = Properties.Resources.Circle_Thin_64_1_;
-                StatusDownloadConfig.ToolTipText = @"В систему успешно загружена конфигурация.";
+                // ReSharper disable once LocalizableElement
+                StatusDownloadConfig.ToolTipText = @"Статус загрузки конфигурации:" + "\n" + @"Конфигурация успешно загружена и принята.";
             }
-            if (ScopeConfig.StatusOscil == 0x0002)
+            if ((ScopeConfig.StatusOscil & 0x0002) == 0x0002)
             {
                 StatusDownloadConfig.Image = Properties.Resources.Circle_Thin_64;
-                StatusDownloadConfig.ToolTipText = @"Конфигурация не прошла проверку.";
+                // ReSharper disable once LocalizableElement
+                StatusDownloadConfig.ToolTipText = @"Статус загрузки конфигурации:" + "\n" + @"Конфигурация загружена, но не прошла проверку.";
             }
-            if (ScopeConfig.StatusOscil == 0x0004)
+            if ((ScopeConfig.StatusOscil & 0x0004) == 0x0004)
             {
                 StatusDownloadConfig.Image = Properties.Resources.Circle_Thin_64;
-                StatusDownloadConfig.ToolTipText = @"При загрузке нарушена целостность данных.";
+                // ReSharper disable once LocalizableElement
+                StatusDownloadConfig.ToolTipText = @"Статус загрузки конфигурации:" + "\n" + @"При загрузке нарушена целостность данных.";
             }
         }
 
@@ -784,7 +788,7 @@ namespace ScopeSetupApp
                 // ReSharper disable once LocalizableElement
                 MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена, но не принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            if (ScopeConfig.StatusOscil == 0x0004)
+            if (ScopeConfig.StatusOscil  == 0x0004)
             {
                 TopMost = true;
                 // ReSharper disable once LocalizableElement
@@ -1009,6 +1013,12 @@ namespace ScopeSetupApp
 
         private void reloadButton_Click(object sender, EventArgs e)
         {
+            if (ScopeConfig.ChannelCount == 0)
+            {
+                MessageBox.Show(@"В системе отсутствует конфигурация.");
+                return;
+            }
+
             string str = "Следующих каналов из системы нет в списке:\n";
             bool channelInLists = false;
             bool[] channelInList = new bool[32];
@@ -1027,8 +1037,6 @@ namespace ScopeSetupApp
             else oscFreqRadioButton.Clear();
             if (ScopeConfig.FreqCount != 0) oscFreqRadioButton.Text = Convert.ToString(ScopeConfig.FreqCount);
             else hystoryRadioButton.Clear();
-
-            SizeTrackBar();
 
             if (ScopeConfig.OscilEnable == 0) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
             if (ScopeConfig.OscilEnable == 1) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
@@ -1059,11 +1067,18 @@ namespace ScopeSetupApp
                 }
             }
             if (channelInLists) MessageBox.Show(str);
+
+            SizeTrackBar();
         }
 
         private void SizeTrackBar()
         {
-            trackBar1.Value = (int) (ScopeConfig.OscilSize*100*ScopeConfig.ScopeCount/ScopeConfig.OscilAllSize);
+            if (ScopeConfig.ScopeCount != 0)
+            {
+                trackBar1.Value = ScopeConfig.OscilSize*100*ScopeConfig.ScopeCount/ScopeConfig.OscilAllSize == 0
+                    ? (int) (ScopeConfig.OscilSize*100*ScopeConfig.ScopeCount/ScopeConfig.OscilAllSize)
+                    : (int) (ScopeConfig.OscilSize*100*ScopeConfig.ScopeCount/ScopeConfig.OscilAllSize) + 1;
+            }
         }
 
         private void ConfigToSystem()

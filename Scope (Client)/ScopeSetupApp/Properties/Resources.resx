@@ -178,6 +178,9 @@
   <data name="Print_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Print-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Record_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Record-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Refresh_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Refresh-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

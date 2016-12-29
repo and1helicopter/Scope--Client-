@@ -263,6 +263,16 @@ namespace ScopeSetupApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Record_48 {
+            get {
+                object obj = ResourceManager.GetObject("Record_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Refresh_50 {
             get {
                 object obj = ResourceManager.GetObject("Refresh_50", resourceCulture);

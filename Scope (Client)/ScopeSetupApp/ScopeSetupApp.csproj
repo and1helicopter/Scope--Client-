@@ -105,6 +105,12 @@
     </Compile>
     <Compile Include="ScopeSysType.cs" />
     <Compile Include="ScopeTempConfig.cs" />
+    <Compile Include="SelectChannel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectChannel.Designer.cs">
+      <DependentUpon>SelectChannel.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ConnectForm.resx">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -130,6 +136,9 @@
     <EmbeddedResource Include="ScopeSetupForm.resx">
       <DependentUpon>ScopeSetupForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SelectChannel.resx">
+      <DependentUpon>SelectChannel.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\DataSources\ScopeSysType.datasource" />
     <None Include="Properties\Settings.settings">
@@ -144,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Electrical_Threshold-50.ico" />
+    <Resource Include="Resources\Record-48.png" />
     <Resource Include="Resources\Circle Thin-64.png" />
     <Resource Include="Resources\Circle Thin-64%282%29.png" />
     <Resource Include="Resources\Circle Thin-64%281%29.png" />
