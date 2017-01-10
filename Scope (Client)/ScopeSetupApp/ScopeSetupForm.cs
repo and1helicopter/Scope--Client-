@@ -410,7 +410,12 @@ namespace ScopeSetupApp
         // Channel Names
         private List<string> ChNames()
         {
-            List<string> chName = (from item in _channelnameListViewItems where item.Checked select item.Text).ToList();
+            List<string> chName = new List<string>();
+            for (int i = 0, j = 0; i < ScopeSysType.ChannelNames.Count; i++)
+            {
+                if (_channelnameListViewItems[i].Checked) { chName.Add(ScopeSysType.ChannelNames[_channelSeries[j++]]); }
+            }
+
             if (chName.Count > _nowMaxChannelCount) { chName.Clear(); }
 
             return chName;
@@ -509,7 +514,7 @@ namespace ScopeSetupApp
             _oscillConfig[69] = _nowOscFreq;               //Как часто нужно записывать данные 
             _oscillConfig[70] = OscilEnable();            //Включен или выключен осциллограф и нужно ли выполнять запись в память 
 
-            if (OscilEnable() == 2)
+       //     if (OscilEnable() == 2)   
             {
                 //Дополнительные параметры 
                 //Запись названия канала
@@ -636,7 +641,7 @@ namespace ScopeSetupApp
 
                 String timeCode = ScopeSysType.TimeCode;     //
 
-                byte[] tempTimeCodeStr = new Byte[16];
+                byte[] tempTimeCodeStr = new Byte[8];
                 byte[] timeCodeStr = Encoding.Default.GetBytes(timeCode);
 
                 for (int j = 0; j < 8; j++)
@@ -652,7 +657,7 @@ namespace ScopeSetupApp
 
                 String localCode = ScopeSysType.TimeCode;     //
 
-                byte[] tempLocalCodeStr = new Byte[16];
+                byte[] tempLocalCodeStr = new Byte[8];
                 byte[] localCodeStr = Encoding.Default.GetBytes(localCode);
 
                 for (int j = 0; j < 8; j++)
@@ -668,7 +673,7 @@ namespace ScopeSetupApp
 
                 String tmqCode = ScopeSysType.TmqCode;     //
 
-                byte[] temptmqCodeStr = new Byte[16];
+                byte[] temptmqCodeStr = new Byte[8];
                 byte[] tmqCodeStr = Encoding.Default.GetBytes(tmqCode);
 
                 for (int j = 0; j < 8; j++)
@@ -684,7 +689,7 @@ namespace ScopeSetupApp
 
                 String leapsec = ScopeSysType.Leapsec;     //
 
-                byte[] templeapsecStr = new Byte[16];
+                byte[] templeapsecStr = new Byte[8];
                 byte[] leapsecStr = Encoding.Default.GetBytes(leapsec);
 
                 for (int j = 0; j < 8; j++)

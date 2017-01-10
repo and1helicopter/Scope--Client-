@@ -1,29 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace ScopeSetupApp
 {
     public static class ScopeConfig
     {
         //Было сделано изменение конфигурации
-        static public bool ChangeScopeConfig = false;
+        public static bool ChangeScopeConfig = false;
 
         //Скаченные параметры
-        static ushort[] _loadParams = new ushort[32];
-        public static ushort[] LoadParams 
-        { 
-            get { return _loadParams; } 
-            set { _loadParams = value; }
-        }
+        public static ushort[] LoadParams { get; set; }
 
         public static void SetLoadParamsBlock(ushort[] newPartLoadParams, int startIndex, int paramCount)
         {
-            int i;
             try
             {
-                for (i = 0; i < paramCount; i++)
+                for (int i = 0; i < paramCount; i++)
                 {
-                    _loadParams[startIndex + i] = newPartLoadParams[i];
+                    LoadParams[startIndex + i] = newPartLoadParams[i];
                 }
             }
             catch
@@ -68,48 +64,34 @@ namespace ScopeSetupApp
         public static ushort StatusOscil { get; set; }
 
         public static bool Coincides { get; set; }
-
+        
         //Адреса каналов 
-        static List<ushort> _oscilAddr = new List<ushort>();
-        public static List<ushort> OscilAddr
-        {
-            get { return _oscilAddr; }
-            set { _oscilAddr = value; }
-        }
+        public static List<ushort> OscilAddr { get; set; }
+
         public static void InitOscilAddr(ushort[] loadParams)
         {
-            int i;
-            _oscilAddr.Clear();
-            for (i = 0; i < ChannelCount; i++)
+            OscilAddr.Clear();
+            for (int i = 0; i < ChannelCount; i++)
             {
-                _oscilAddr.Add(loadParams[i]);
+                OscilAddr.Add(loadParams[i]);
             }
         }
 
         //Формат каналов 
-        static List<ushort> _oscilFormat = new List<ushort>();
-        public static List<ushort> OscilFormat
-        {
-            get { return _oscilFormat; }
-            set { _oscilAddr = value; }
-        }
+        public static List<ushort> OscilFormat { get; set; }
+
         public static void InitOscilFormat(ushort[] loadParams)
         {
-            int i;
-            _oscilFormat.Clear();
-            for (i = 0; i < ChannelCount; i++)
+            OscilFormat.Clear();
+            for (int i = 0; i < ChannelCount; i++)
             {
-                _oscilFormat.Add(loadParams[i]);
+                OscilFormat.Add(loadParams[i]);
             }
         }
 
         //Осциллографирумые параметры (получаем список параметров которые будем осциллогофировать)
-        static List<int> _oscilParams = new List<int>();
-        public static List<int> OscilParams
-        {
-            get { return _oscilParams; }
-            set { _oscilParams = value; }
-        }
+        public static List<int> OscilParams { get; set; }
+
         //Проверка по адресу и формату 
         public static int FindParamIndex(ushort paramAddr, ushort paramFormat) 
         {
@@ -124,10 +106,10 @@ namespace ScopeSetupApp
         public static void InitOscilParams(List<ushort> oscilAddr, List<ushort> oscilFormat)
         {
             int i;
-            _oscilParams.Clear();
+            OscilParams.Clear();
             for (i = 0; i < ChannelCount; i++)
             {
-                _oscilParams.Add(FindParamIndex(oscilAddr[i], oscilFormat[i]));
+                OscilParams.Add(FindParamIndex(oscilAddr[i], oscilFormat[i]));
             }
             Coincides = OscilParams.Distinct().Count() == ChannelCount;
         }
@@ -135,5 +117,168 @@ namespace ScopeSetupApp
         //Осциллограф включен
         public static bool ScopeEnabled = true;
 
+        static ScopeConfig()
+        {
+            ChannelType = new List<ushort>();
+            ChannelDemension = new List<string>();
+            ChannelCcbm = new List<string>();
+            ChannelPhase = new List<string>();
+            ChannelName = new List<string>();
+            OscilFormat = new List<ushort>();
+            OscilParams = new List<int>();
+            OscilAddr = new List<ushort>();
+            LoadParams = new ushort[32];
+        }
+
+        //Дополнительные данные о каналах
+        //Название канала
+        public static List<string> ChannelName { get; set; }
+
+        public static void InitChannelName(ushort[] loadParams)
+        {
+            string channelName = "";
+            for (int i = 0; i < 16; i++)
+            {
+                char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
+                channelName += chars[1].ToString();
+                channelName += chars[0].ToString();
+            }
+            ChannelName.Add(channelName);
+        }
+
+        //Фаза канала
+        public static List<string> ChannelPhase { get; set; }
+
+        public static void InitChannelPhase(ushort[] loadParams)
+        {
+            string сhannelPhase = "";
+
+            char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[0]));
+            сhannelPhase += chars[1].ToString();
+            сhannelPhase += chars[0].ToString();
+
+            ChannelPhase.Add(сhannelPhase);
+        }
+
+        //CCBM
+        public static List<string> ChannelCcbm { get; set; }
+
+        public static void InitChannelCcbm(ushort[] loadParams)
+        {
+            string channelCcbm = "";
+            for (int i = 0; i < 8; i++)
+            {
+                char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
+                channelCcbm += chars[1].ToString();
+                channelCcbm += chars[0].ToString();
+            }
+            ChannelCcbm.Add(channelCcbm);
+        }
+        //Измерение канала
+        public static List<string> ChannelDemension { get; set; }
+
+        public static void InitChannelDemension(ushort[] loadParams)
+        {
+            string channelDemension = "";
+            for (int i = 0; i < 4; i++)
+            {
+                char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
+                channelDemension += chars[1].ToString();
+                channelDemension += chars[0].ToString();
+            }
+            ChannelDemension.Add(channelDemension);
+        }
+
+        //Тип канала
+        public static List<ushort> ChannelType { get; set; }
+
+        public static void InitChannelType(ushort[] loadParams)
+        {
+            ChannelType.Add(loadParams[0]);
+        }
+
+        //Название станции
+        public static string StationName { get; set; }
+
+        public static void InitStationName(ushort[] loadParams)
+        {
+            StationName = null;
+            for (int i = 0; i < 16; i++)
+            {
+                char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
+                StationName += chars[1].ToString();
+                StationName += chars[0].ToString();
+            }         
+        }
+        
+        //RecordID
+        public static string RecordingId { get; set; }
+
+        public static void InitRecordingId(ushort[] loadParams)
+        {
+            RecordingId = null;
+            for (int i = 0; i < 8; i++)
+            {
+                char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
+                RecordingId += chars[1].ToString();
+                RecordingId += chars[0].ToString();
+            }
+        }
+
+        //TimeCode
+        public static string TimeCode { get; set; }
+
+        public static void InitTimeCode(ushort[] loadParams)
+        {
+            TimeCode = null;
+            for (int i = 0; i < 4; i++)
+            {
+                char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
+                TimeCode += chars[1].ToString();
+                TimeCode += chars[0].ToString();
+            }
+        }
+
+        //LocalCode
+        public static string LocalCode { get; set; }
+
+        public static void InitLocalCode(ushort[] loadParams)
+        {
+            LocalCode = null;
+            for (int i = 0; i < 4; i++)
+            {
+                char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
+                LocalCode += chars[1].ToString();
+                LocalCode += chars[0].ToString();
+            }
+        }
+
+        //TmqCode
+        public static string TmqCode { get; set; }
+
+        public static void InitTmqCode(ushort[] loadParams)
+        {
+            TmqCode = null;
+            for (int i = 0; i < 4; i++)
+            {
+                char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
+                TmqCode += chars[1].ToString();
+                TmqCode += chars[0].ToString();
+            }
+        }
+
+        //Leapsec 
+        public static string Leapsec { get; set; }
+
+        public static void InitLeapsec(ushort[] loadParams)
+        {
+            Leapsec = null;
+            for (int i = 0; i < 4; i++)
+            {
+                char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
+                Leapsec += chars[1].ToString();
+                Leapsec += chars[0].ToString();
+            }
+        }
     }
 }

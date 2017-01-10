@@ -54,12 +54,8 @@ namespace ScopeSetupApp
 
         static void LoadFromXml(string paramName, string wrName, XmlDocument doc, out ushort addr)
         {
-            XmlNodeList xmls;
-            XmlNode xmlline;
-            
-            xmls = doc.GetElementsByTagName(paramName);
-
-            xmlline = xmls[0];
+            var xmls = doc.GetElementsByTagName(paramName);
+            var xmlline = xmls[0];
 
             try
             {
@@ -73,11 +69,8 @@ namespace ScopeSetupApp
 
         static void LoadNameFromXml(string paramName, XmlDocument doc, out string str)
         {
-            XmlNodeList xmls;
-            XmlNode xmlline;
-
-            xmls = doc.GetElementsByTagName(paramName);
-            xmlline = xmls[0];
+            var xmls = doc.GetElementsByTagName(paramName);
+            var xmlline = xmls[0];
             try
             {
                 str = Convert.ToString(xmlline.Attributes["xmlns"].Value);
@@ -120,8 +113,8 @@ namespace ScopeSetupApp
             //For rev. 2013
             LoadNameFromXml("TimeCode", doc, out TimeCode);
             LoadNameFromXml("LocalCode", doc, out LocalCode);
-            LoadNameFromXml("tmqCode", doc, out TmqCode);
-            LoadNameFromXml("leapsec", doc, out Leapsec);
+            LoadNameFromXml("TmqCode", doc, out TmqCode);
+            LoadNameFromXml("Leapsec", doc, out Leapsec);
             
             ChannelNames = new List<string>();
             GroupNames = new List<string>();
@@ -134,32 +127,34 @@ namespace ScopeSetupApp
             ChannelMin = new List<int>();
             ChannelMax = new List<int>();
 
-            XmlNodeList xmls;
-            XmlNode xmlline;
-
             for (int i = 1; i < (count + 1); i++)
             {
-                xmls = doc.GetElementsByTagName("MeasureParam"+i.ToString());
-                xmlline = xmls[0];
+                var xmls = doc.GetElementsByTagName("MeasureParam"+i.ToString());
+                var xmlline = xmls[0];
 
                 try
                 {
+                    if (xmlline.Attributes != null)
+                    {
+                        string[] str = (Convert.ToString(xmlline.Attributes["Name"].Value)).Split('/');
+                        string str1, str2 = "";
+                        if (str.Length > 1) { str1 = str[1]; str2 = str[0]; }
+                        else str1 = str[0];
 
-                    string[] str = (Convert.ToString(xmlline.Attributes["Name"].Value)).Split(new char[] { '/' });
-                    string str1 = "", str2 = "";
-                    if (str.Length > 1) { str1 = str[1]; str2 = str[0]; }
-                    else str1 = str[0];
-
-                    ChannelNames.Add(str1);
-                    GroupNames.Add(str2);
-                    ChannelPhase.Add(Convert.ToString(xmlline.Attributes["Phase"].Value));
-                    ChannelCcbm.Add(Convert.ToString(xmlline.Attributes["CCBM"].Value));
-                    ChannelDimension.Add(Convert.ToString(xmlline.Attributes["Dimension"].Value));
-                    ChannelAddrs.Add(Convert.ToUInt16(xmlline.Attributes["Addr"].Value));
-                    ChannelFormats.Add(Convert.ToUInt16(xmlline.Attributes["Format"].Value));
-                    ChannelTypeAd.Add(Convert.ToUInt16(xmlline.Attributes["TypeAD"].Value));
-                    ChannelMin.Add(Convert.ToInt32(xmlline.Attributes["Min"].Value));
-                    ChannelMax.Add(Convert.ToInt32(xmlline.Attributes["Max"].Value));
+                        ChannelNames.Add(str1);
+                        GroupNames.Add(str2);
+                    }
+                    if (xmlline.Attributes != null)
+                    {
+                        ChannelPhase.Add(Convert.ToString(xmlline.Attributes["Phase"].Value));
+                        ChannelCcbm.Add(Convert.ToString(xmlline.Attributes["CCBM"].Value));
+                        ChannelDimension.Add(Convert.ToString(xmlline.Attributes["Dimension"].Value));
+                        ChannelAddrs.Add(Convert.ToUInt16(xmlline.Attributes["Addr"].Value));
+                        ChannelFormats.Add(Convert.ToUInt16(xmlline.Attributes["Format"].Value));
+                        ChannelTypeAd.Add(Convert.ToUInt16(xmlline.Attributes["TypeAD"].Value));
+                        ChannelMin.Add(Convert.ToInt32(xmlline.Attributes["Min"].Value));
+                        ChannelMax.Add(Convert.ToInt32(xmlline.Attributes["Max"].Value));
+                    }
 
                     ScopeTempConfig item = new ScopeTempConfig()
                     {
@@ -208,19 +203,19 @@ namespace ScopeSetupApp
             OscilChannelAddrs = new List<ushort>();
             OscilChannelFormats = new List<ushort>();
 
-            XmlNodeList xmls;
-            XmlNode xmlline;
-
             for (int i = 1; i < ChannelCount + 1; i++)
             {
-                xmls = doc.GetElementsByTagName("MeasureParam" + i.ToString());
-                xmlline = xmls[0];
+                var xmls = doc.GetElementsByTagName("MeasureParam" + i.ToString());
+                var xmlline = xmls[0];
 
                 try
                 {
-                    OscilChannelNames.Add(Convert.ToString(xmlline.Attributes["Name"].Value));
-                    OscilChannelAddrs.Add(Convert.ToUInt16(xmlline.Attributes["Addr"].Value));
-                    OscilChannelFormats.Add(Convert.ToUInt16(xmlline.Attributes["Format"].Value));
+                    if (xmlline.Attributes != null)
+                    {
+                        OscilChannelNames.Add(Convert.ToString(xmlline.Attributes["Name"].Value));
+                        OscilChannelAddrs.Add(Convert.ToUInt16(xmlline.Attributes["Addr"].Value));
+                        OscilChannelFormats.Add(Convert.ToUInt16(xmlline.Attributes["Format"].Value));
+                    }
                 }
                 catch
                 {

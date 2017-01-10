@@ -350,10 +350,10 @@ namespace ScopeSetupApp
                 xmlOut.WriteStartElement("LocalCode", localCode_textBox.Text);
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("tmqCode", tmqCode_textBox.Text);
+                xmlOut.WriteStartElement("TmqCode", tmqCode_textBox.Text);
                 xmlOut.WriteEndElement();
 
-                xmlOut.WriteStartElement("leapsec", leapsec_textBox.Text);
+                xmlOut.WriteStartElement("Leapsec", leapsec_textBox.Text);
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteEndElement();
@@ -582,9 +582,9 @@ namespace ScopeSetupApp
                 e.Graphics.DrawString(ScopeSysType.ChannelNames.Count.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
                 e.Graphics.DrawString("LocalCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
                 e.Graphics.DrawString(ScopeSysType.LocalCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("tmqCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos += 20));
+                e.Graphics.DrawString("TmqCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos += 20));
                 e.Graphics.DrawString(ScopeSysType.TmqCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
-                e.Graphics.DrawString("leapsec:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos += 20));
+                e.Graphics.DrawString("Leapsec:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos += 20));
                 e.Graphics.DrawString(ScopeSysType.Leapsec.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
             }
             

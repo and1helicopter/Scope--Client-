@@ -476,7 +476,7 @@ namespace ScopeSetupApp
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(50, 15);
             this.label7.TabIndex = 33;
-            this.label7.Text = "leapsec";
+            this.label7.Text = "Leapsec";
             // 
             // label6
             // 

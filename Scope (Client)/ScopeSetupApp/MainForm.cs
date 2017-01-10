@@ -331,6 +331,8 @@ namespace ScopeSetupApp
             }			
         }
 
+        int _indexChannel;
+
         private void LoadConfig()
         {
             if (_loadConfigStep == 0)                //Количество каналов 
@@ -410,7 +412,71 @@ namespace ScopeSetupApp
                 return;
             }
 
+            if (_loadConfigStep == 13)                //Название каналов 
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 71 + 16*_indexChannel), 16);
+                return;
+            }
 
+            if (_loadConfigStep == 14)                //Фаза каналов 
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 583 + _indexChannel), 1);
+                return;
+            }
+
+            if (_loadConfigStep == 15)                //CCBM каналов
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 615 + 8 *_indexChannel), 8);
+                return;
+            }
+
+            if (_loadConfigStep == 16)                //Измеерение каналов
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 871 + 4 * _indexChannel), 4);
+                return;
+            }
+
+            if (_loadConfigStep == 17)                //Type каналов
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 999 + _indexChannel), 1);
+                return;
+            }
+
+            if (_loadConfigStep == 18)                //
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 1031), 16);
+                return;
+            }
+
+            if (_loadConfigStep == 19)                //
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 1047), 8);
+                return;
+            }
+
+            if (_loadConfigStep == 20)                //
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 1055), 4);
+                return;
+            }
+
+            if (_loadConfigStep == 21)                //
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 1059), 4);
+                return;
+            }
+
+            if (_loadConfigStep == 22)                //
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 1063), 4);
+                return;
+            }
+
+            if (_loadConfigStep == 23)                //
+            {
+                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 1067), 4);
+                return;
+            }
         }
         private void EndLoadConfig()
         {
@@ -507,6 +573,137 @@ namespace ScopeSetupApp
                         {
                             ScopeConfig.InitOscilFormat(_modBusUnit.modBusData.ReadData);
                             ScopeConfig.InitOscilParams(ScopeConfig.OscilAddr,ScopeConfig.OscilFormat);
+                            _loadConfigStep = 13;
+                            LoadConfig();
+                        } break;
+                    case 13:                     //Названия каналов 
+                        {
+                            if (ScopeConfig.ChannelCount == 0)   //Если в системе нет конфигурации
+                            {
+                                _loadConfigStep = 0;
+                                _configLoaded = true;
+                                _buttonsAlreadyCreated = false;
+                                break;
+                            }
+                            if(_indexChannel == 0) ScopeConfig.ChannelName.Clear();
+                            ScopeConfig.InitChannelName(_modBusUnit.modBusData.ReadData);
+                            if (_indexChannel == ScopeConfig.ChannelCount - 1)
+                            {
+                                _indexChannel = 0;
+                                _loadConfigStep = 14;
+                            }
+                            else
+                            {
+                                _indexChannel++;
+                                LoadConfig();
+                            }
+                        } break;
+                    case 14:                     //Названия каналов 
+                        {
+                            if (_indexChannel == 0) ScopeConfig.ChannelPhase.Clear();
+                            ScopeConfig.InitChannelPhase(_modBusUnit.modBusData.ReadData);
+                            if (_indexChannel == ScopeConfig.ChannelCount - 1)
+                            {
+                                _indexChannel = 0;
+                                _loadConfigStep = 15;
+                            }
+                            else
+                            {
+                                _indexChannel++;
+                                LoadConfig();
+                            }
+                        } break;
+
+                    case 15:                     //Названия каналов 
+                        {
+                            if (_indexChannel == 0) ScopeConfig.ChannelCcbm.Clear();
+                            ScopeConfig.InitChannelCcbm(_modBusUnit.modBusData.ReadData);
+                            if (_indexChannel == ScopeConfig.ChannelCount - 1)
+                            {
+                                _indexChannel = 0;
+                                _loadConfigStep = 16;
+                            }
+                            else
+                            {
+                                _indexChannel++;
+                                LoadConfig();
+                            }
+                        } break;
+
+                    case 16:                     //Названия каналов 
+                        {
+                            if (_indexChannel == 0) ScopeConfig.ChannelDemension.Clear();
+                            ScopeConfig.InitChannelDemension(_modBusUnit.modBusData.ReadData);
+                            if (_indexChannel == ScopeConfig.ChannelCount - 1)
+                            {
+                                _indexChannel = 0;
+                                _loadConfigStep = 17;
+                            }
+                            else
+                            {
+                                _indexChannel++;
+                                LoadConfig();
+                            }
+                        } break;
+
+                    case 17:                     //Названия каналов 
+                        {
+                            if (_indexChannel == 0) ScopeConfig.ChannelType.Clear();
+                            ScopeConfig.InitChannelType(_modBusUnit.modBusData.ReadData);
+                            if (_indexChannel == ScopeConfig.ChannelCount - 1)
+                            {
+                                _indexChannel = 0;
+                                _loadConfigStep = 18;
+                            }
+                            else
+                            {
+                                _indexChannel++;
+                                LoadConfig();
+                            }
+                        } break;
+
+                    case 18:                     //
+                        {
+                            ScopeConfig.InitStationName(_modBusUnit.modBusData.ReadData);
+                            _loadConfigStep = 19;
+                            LoadConfig();
+                        } break;
+
+                    case 19:                     //Названия каналов 
+                        {
+                            ScopeConfig.InitRecordingId(_modBusUnit.modBusData.ReadData);
+                            _loadConfigStep = 20;
+                            LoadConfig();
+
+                        } break;
+
+                    case 20:                     //Названия каналов 
+                        {
+                            ScopeConfig.InitTimeCode(_modBusUnit.modBusData.ReadData);
+                            _loadConfigStep = 21;
+                            LoadConfig();
+                        } break;
+
+                    case 21:                     //Названия каналов 
+                        {
+                            ScopeConfig.InitLocalCode(_modBusUnit.modBusData.ReadData);
+
+                            _loadConfigStep = 22;
+                            LoadConfig();
+                        } break;
+
+                    case 22:                     //Названия каналов 
+                        {
+                            ScopeConfig.InitTmqCode(_modBusUnit.modBusData.ReadData);
+
+                            _loadConfigStep = 23;
+                            LoadConfig();
+                        } break;
+
+                   case 23:                     //Названия каналов 
+                        {
+                            ScopeConfig.InitLeapsec(_modBusUnit.modBusData.ReadData);
+
                             _loadConfigStep = 0;
                             _configLoaded = true;
                             _buttonsAlreadyCreated = false;
@@ -1126,12 +1323,15 @@ namespace ScopeSetupApp
             string str = " " + "\t";
             for (int i = 0; i < ScopeConfig.ChannelCount; i++)
             {
+                str = str + ScopeConfig.ChannelName[i] + "\t";
+
                 //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
+                /*
+                if (ScopeConfig.OscilParams[i] < ScopeSysType.ScopeItem.Count)
                 {
-                    str = str + ScopeSysType.ChannelNames[ScopeConfig.OscilParams[i]] + "\t";
+                    str = str + ScopeSysType.ScopeItem[ScopeConfig.OscilParams[i]].ChannelNames+ "\t";
                 }
-                else str = str + "Неизвестный параметр" + "\t";
+                else str = str + "Неизвестный параметр" + "\t";*/
             }
             return str;
         }
@@ -1147,7 +1347,6 @@ namespace ScopeSetupApp
             {
                 var ulTemp = ParseArr(i, paramLine);
                 str = str + AdvanceConvert.HexToFormat(ulTemp, (byte)ScopeConfig.OscilFormat[i]) + "\t";
-               
             }
             return str;
         }
@@ -1238,32 +1437,23 @@ namespace ScopeSetupApp
             string str = (lineNum + 1) + ",";
             for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
-                //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
+                if (ScopeConfig.ChannelType[i] == 0)
                 {
-                    if (ScopeSysType.ChannelTypeAd[i] == 0)
-                    {
-                        ulTemp = ParseArr(i, paramLine);
-                        str1 = AdvanceConvert.HexToFormat(ulTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]]);
-                        str1 = str1.Replace(",", ".");
-                        str = str + "," + str1;
-                    }
-
-
+                    ulTemp = ParseArr(i, paramLine);
+                    str1 = AdvanceConvert.HexToFormat(ulTemp, (byte)ScopeConfig.OscilFormat[i]);
+                    str1 = str1.Replace(",", ".");
+                    str = str + "," + str1;
                 }
             }
             for (i = 0; i < ScopeConfig.ChannelCount; i++)
             {
-                //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
+
+                if (ScopeConfig.ChannelType[i] == 1)
                 {
-                    if (ScopeSysType.ChannelTypeAd[i] == 1)
-                    {
-                        ulTemp = ParseArr(i, paramLine);
-                        str1 = AdvanceConvert.HexToFormat(ulTemp, (byte)ScopeSysType.ChannelFormats[ScopeConfig.OscilParams[i]]);
-                        str1 = str1.Replace(",", ".");
-                        str = str + "," + str1;
-                    }
+                    ulTemp = ParseArr(i, paramLine);
+                    str1 = AdvanceConvert.HexToFormat(ulTemp, (byte)ScopeConfig.OscilFormat[i]);
+                    str1 = str1.Replace(",", ".");
+                    str = str + "," + str1;
                 }
             }
             return str;
@@ -1271,8 +1461,8 @@ namespace ScopeSetupApp
 
         private string Line1( int filterIndex)
         {
-            string stationName = ScopeSysType.StationName;
-            string recDevId = ScopeSysType.RecordingDevice;
+            string stationName = ScopeConfig.StationName;
+            string recDevId = ScopeConfig.RecordingId;
             string revYear = "";
             if (filterIndex == 2) revYear = "1999";
             if (filterIndex == 3) revYear = "2013";
@@ -1286,11 +1476,8 @@ namespace ScopeSetupApp
             for (int i = 0; i < ScopeConfig.ChannelCount; i++)
             {
                 //Если параметр в списке известных, то пишем его в файл
-                if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
-                {
-                    if (ScopeSysType.ChannelTypeAd[i] == 0) nA += 1;
-                    if (ScopeSysType.ChannelTypeAd[i] == 1) nD += 1;
-                }
+                if (ScopeConfig.ChannelType[i] == 0) nA += 1;
+                if (ScopeConfig.ChannelType[i] == 1) nD += 1;
             }
             int tt = nA + nD;
             string str = tt + "," + nA + "A," + nD + "D";
@@ -1299,15 +1486,26 @@ namespace ScopeSetupApp
 
         private string Line3(int num ,int nA)
         {
-            string chId = ScopeSysType.ChannelNames[ScopeConfig.OscilParams[num]];
-            string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscilParams[num]];
-            string ccbm = ScopeSysType.ChannelCcbm[ScopeConfig.OscilParams[num]];
-            string uu = ScopeSysType.ChannelDimension[ScopeConfig.OscilParams[num]];
+            string chId = ScopeConfig.ChannelName[num];
+            string ph = ScopeConfig.ChannelPhase[num];
+            string ccbm = ScopeConfig.ChannelCcbm[num];
+            string uu = ScopeConfig.ChannelDemension[num];
             string a = "1";
             string b = "0";
             int skew = 0;
-            int min = ScopeSysType.ChannelMin[ScopeConfig.OscilParams[num]];
-            int max = ScopeSysType.ChannelMax[ScopeConfig.OscilParams[num]];
+            int min;
+            int max;
+            try
+            {
+                min = ScopeSysType.ChannelMin[ScopeConfig.OscilParams[num]];
+                max = ScopeSysType.ChannelMax[ScopeConfig.OscilParams[num]];
+            }
+            catch
+            {
+                min = 0;
+                max = 0;
+            }
+
             int primary = 1; 
             int secondary = 1;
             string ps = "P";
@@ -1320,9 +1518,9 @@ namespace ScopeSetupApp
 
         private string Line4(int num, int nD)
         {
-            string chId = ScopeSysType.ChannelNames[ScopeConfig.OscilParams[num]];
-            string ph = ScopeSysType.ChannelPhase[ScopeConfig.OscilParams[num]];
-            string ccbm = ScopeSysType.ChannelCcbm[ScopeConfig.OscilParams[num]];
+            string chId = ScopeConfig.ChannelName[num];
+            string ph = ScopeConfig.ChannelPhase[num];
+            string ccbm = ScopeConfig.ChannelCcbm[num];
             int y = 0;
 
             string str = nD + "," + chId + "," + ph + "," + ccbm + "," + y;
@@ -1332,7 +1530,17 @@ namespace ScopeSetupApp
 
         private string Line5()
         {
-            return ScopeSysType.OscilNominalFrequency.ToString();
+            string str = "";
+            try
+            {
+                str = ScopeSysType.OscilNominalFrequency.ToString();
+            }
+            catch
+            {
+                str = "60";
+            }
+
+            return str;
         }
 
         private string Line6()
@@ -1378,15 +1586,15 @@ namespace ScopeSetupApp
 
         private string Line12()
         {
-            string timecode = ScopeSysType.TimeCode;
-            string localcode = ScopeSysType.LocalCode;
+            string timecode = ScopeConfig.TimeCode;
+            string localcode = ScopeConfig.LocalCode;
             return timecode + "," + localcode;
         }
 
         private string Line13()
         {
-            string  tmqCode = ScopeSysType.TmqCode;
-            string  leapsec = ScopeSysType.Leapsec;
+            string tmqCode = ScopeConfig.TmqCode;
+            string leapsec = ScopeConfig.Leapsec;
             return tmqCode + "," + leapsec; 
         }
         #endregion//Save to cometrade
@@ -1466,18 +1674,12 @@ namespace ScopeSetupApp
                      sw.WriteLine(Line2());
 
                      for (int i = 0, j = 0; i < ScopeConfig.ChannelCount; i++) 
-                     { 
-                        if(ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count) 
-                        {
-                            if (ScopeSysType.ChannelTypeAd[i] == 0) {sw.WriteLine(Line3(i, j+1)); j++; }
-                        }
+                     {
+                         if (ScopeConfig.ChannelType[i] == 0) { sw.WriteLine(Line3(i, j + 1)); j++; }
                      }
                      for (int i = 0, j = 0; i < ScopeConfig.ChannelCount; i++)
                      {
-                         if (ScopeConfig.OscilParams[i] < ScopeSysType.ChannelNames.Count)
-                         {
-                             if (ScopeSysType.ChannelTypeAd[i] == 1) { sw.WriteLine(Line4(i, j + 1)); j++; }
-                         }
+                         if (ScopeConfig.ChannelType[i] == 1) { sw.WriteLine(Line4(i, j + 1)); j++; }
                      }
 
                      sw.WriteLine(Line5());
