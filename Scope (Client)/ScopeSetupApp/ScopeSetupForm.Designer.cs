@@ -36,6 +36,7 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.openButton2 = new System.Windows.Forms.ToolStripButton();
             this.saveButton2 = new System.Windows.Forms.ToolStripButton();
+            this.StatusDownloadConfig = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -65,7 +66,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.ConfigToSystem_label = new System.Windows.Forms.Label();
-            this.StatusDownloadConfig = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -153,6 +153,21 @@
             this.saveButton2.Size = new System.Drawing.Size(32, 32);
             this.saveButton2.Text = "Сохранить файл";
             this.saveButton2.Click += new System.EventHandler(this.saveButton2_Click);
+            // 
+            // StatusDownloadConfig
+            // 
+            this.StatusDownloadConfig.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.StatusDownloadConfig.AutoSize = false;
+            this.StatusDownloadConfig.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.StatusDownloadConfig.Image = global::ScopeSetupApp.Properties.Resources.Circle_Thin_64_2_;
+            this.StatusDownloadConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.StatusDownloadConfig.Margin = new System.Windows.Forms.Padding(3);
+            this.StatusDownloadConfig.Name = "StatusDownloadConfig";
+            this.StatusDownloadConfig.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.StatusDownloadConfig.Size = new System.Drawing.Size(32, 32);
+            this.StatusDownloadConfig.Text = "toolStripButton1";
+            this.StatusDownloadConfig.ToolTipText = "Статус загрузки конфигурации";
+            this.StatusDownloadConfig.Visible = false;
             // 
             // panel1
             // 
@@ -413,7 +428,8 @@
             // listView1
             // 
             this.listView1.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.listView1.BackColor = System.Drawing.SystemColors.Window;
+            this.listView1.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listView1.CheckBoxes = true;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.name_columnHeader,
@@ -437,19 +453,19 @@
             // 
             this.name_columnHeader.Tag = "1";
             this.name_columnHeader.Text = "Название канала";
-            this.name_columnHeader.Width = 302;
+            this.name_columnHeader.Width = 270;
             // 
             // addr_columnHeader
             // 
             this.addr_columnHeader.Tag = "2";
             this.addr_columnHeader.Text = "Адрес";
-            this.addr_columnHeader.Width = 222;
+            this.addr_columnHeader.Width = 270;
             // 
             // format_columnHeader
             // 
             this.format_columnHeader.Tag = "3";
             this.format_columnHeader.Text = "Формат";
-            this.format_columnHeader.Width = 264;
+            this.format_columnHeader.Width = 270;
             // 
             // label2
             // 
@@ -480,21 +496,6 @@
             this.ConfigToSystem_label.Size = new System.Drawing.Size(127, 16);
             this.ConfigToSystem_label.TabIndex = 35;
             this.ConfigToSystem_label.Text = "Actual configuration:";
-            // 
-            // StatusDownloadConfig
-            // 
-            this.StatusDownloadConfig.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.StatusDownloadConfig.AutoSize = false;
-            this.StatusDownloadConfig.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.StatusDownloadConfig.Image = global::ScopeSetupApp.Properties.Resources.Circle_Thin_64_2_;
-            this.StatusDownloadConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.StatusDownloadConfig.Margin = new System.Windows.Forms.Padding(3);
-            this.StatusDownloadConfig.Name = "StatusDownloadConfig";
-            this.StatusDownloadConfig.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.StatusDownloadConfig.Size = new System.Drawing.Size(32, 32);
-            this.StatusDownloadConfig.Text = "toolStripButton1";
-            this.StatusDownloadConfig.ToolTipText = "Статус загрузки конфигурации";
-            this.StatusDownloadConfig.Visible = false;
             // 
             // ScopeSetupForm
             // 

@@ -104,7 +104,7 @@
       <DependentUpon>ScopeSetupForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ScopeSysType.cs" />
-    <Compile Include="ScopeTempConfig.cs" />
+    <Compile Include="ScopeChannelConfig.cs" />
     <Compile Include="SelectChannel.cs">
       <SubType>Form</SubType>
     </Compile>

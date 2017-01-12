@@ -74,7 +74,7 @@ namespace ScopeSetupApp
             UpdateTable();
         }
 
-        private static readonly List<ScopeTempConfig> ScopeItemCopy = new List<ScopeTempConfig>();
+        private static readonly List<ScopeChannelConfig> ScopeItemCopy = new List<ScopeChannelConfig>();
         
 
         private void copyButton_Click(object sender, EventArgs e)
@@ -82,7 +82,7 @@ namespace ScopeSetupApp
             ScopeItemCopy.Clear();
             foreach (DataGridViewRow item in ChanneldataGridView.SelectedRows)
             {
-                ScopeTempConfig itemCopy = new ScopeTempConfig()
+                ScopeChannelConfig itemCopy = new ScopeChannelConfig()
                 {
                     ChannelNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[0].Value),
                     ChannelGroupNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value),
@@ -456,53 +456,30 @@ namespace ScopeSetupApp
             ScopeSysType.TmqCode = Convert.ToString(tmqCode_textBox.Text);
             ScopeSysType.Leapsec = Convert.ToString(leapsec_textBox.Text);
 
-            ScopeSysType.ChannelNames.Clear();
-            ScopeSysType.GroupNames.Clear();
-            ScopeSysType.ChannelTypeAd.Clear();
-            ScopeSysType.ChannelAddrs.Clear();
-            ScopeSysType.ChannelFormats.Clear();
-            ScopeSysType.ChannelPhase.Clear();
-            ScopeSysType.ChannelCcbm.Clear();
-            ScopeSysType.ChannelDimension.Clear();
-            ScopeSysType.ChannelMin.Clear();
-            ScopeSysType.ChannelMax.Clear();
-
             ScopeSysType.ScopeItem.Clear();
 
             foreach (DataGridViewRow item in ChanneldataGridView.Rows)
             {
-                ScopeSysType.ChannelNames.Add(Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[0].Value));
-                ScopeSysType.GroupNames.Add(Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value));
-                ScopeSysType.ChannelTypeAd.Add(Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[2].Value)));
-                ScopeSysType.ChannelAddrs.Add(Convert.ToUInt16(convert_text(ChanneldataGridView.Rows[item.Index].Cells[3].Value, "0x")));
-                ScopeSysType.ChannelFormats.Add(Convert.ToUInt16(((Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[item.Index].Cells[4].Value) + 1) << 8) + Array.IndexOf(_format, ChanneldataGridView.Rows[item.Index].Cells[5].Value)));
-                ScopeSysType.ChannelPhase.Add(Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[6].Value));
-                ScopeSysType.ChannelCcbm.Add(Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value));
-                ScopeSysType.ChannelDimension.Add(Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value));
-                ScopeSysType.ChannelMin.Add(Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[9].Value));
-                ScopeSysType.ChannelMax.Add(Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[10].Value));
-
                 // ReSharper disable once InconsistentNaming
-                ScopeTempConfig Item = new ScopeTempConfig
+                ScopeChannelConfig Item = new ScopeChannelConfig
                 {
-                    ChannelNames = ScopeSysType.ChannelNames[ScopeSysType.ChannelNames.Count - 1],
-                    ChannelGroupNames = ScopeSysType.GroupNames[ScopeSysType.GroupNames.Count - 1],
-                    ChannelTypeAd = ScopeSysType.ChannelTypeAd[ScopeSysType.ChannelTypeAd.Count - 1],
-                    ChannelAddrs = ScopeSysType.ChannelAddrs[ScopeSysType.ChannelAddrs.Count - 1],
-                    ChannelformatNumeric = (ScopeSysType.ChannelFormats[ScopeSysType.ChannelFormats.Count - 1] >> 8) - 1,
-                    ChannelFormats = ScopeSysType.ChannelFormats[ScopeSysType.ChannelFormats.Count - 1] & 0x00FF,
-                    ChannelPhase = ScopeSysType.ChannelPhase[ScopeSysType.ChannelPhase.Count - 1],
-                    ChannelCcbm = ScopeSysType.ChannelCcbm[ScopeSysType.ChannelCcbm.Count - 1],
-                    ChannelDimension = ScopeSysType.ChannelDimension[ScopeSysType.ChannelDimension.Count - 1],
-                    ChannelMin = ScopeSysType.ChannelMin[ScopeSysType.ChannelMin.Count - 1],
-                    ChannelMax = ScopeSysType.ChannelMax[ScopeSysType.ChannelMax.Count - 1]
+                    ChannelNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[0].Value),
+                    ChannelGroupNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value),
+                    ChannelTypeAd = Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[2].Value)),
+                    ChannelAddrs = Convert.ToUInt16(convert_text(ChanneldataGridView.Rows[item.Index].Cells[3].Value, "0x")),
+                    ChannelformatNumeric = Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[item.Index].Cells[4].Value),
+                    ChannelFormats = Array.IndexOf(_format, ChanneldataGridView.Rows[item.Index].Cells[5].Value),
+                    ChannelPhase = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[6].Value),
+                    ChannelCcbm = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value),
+                    ChannelDimension = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value),
+                    ChannelMin = Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[9].Value),
+                    ChannelMax = Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[10].Value)
                 };
 
                 ScopeSysType.ScopeItem.Add(Item);
             }
 
             ConfigToSystem();
-
         }
 
         private void ConfigToSystem()
@@ -543,84 +520,81 @@ namespace ScopeSetupApp
 
        private void SCPrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
        {
-            string str;
-            int yPos = 30;
+           int yPos = 30;
             int xPos1 = 25;
             int xPos2 = 200;
             int xPos3 = 350;
             int xPos4 = 520;
 
-            if (_firstPage == true)
+            if (_firstPage)
             {
                 yPos = 150;
                 e.Graphics.DrawString("Title", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 40));
                 e.Graphics.DrawString("Date: " + DateTime.Now.ToShortDateString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 60));
                 e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 70));
                 e.Graphics.DrawString("Comment:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 80));
-                e.Graphics.DrawString(ScopeSysType.OscilComment.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 100));
+                e.Graphics.DrawString(CommentRichTextBox.Text, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 100));
                 e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 140));
                 e.Graphics.DrawString("Oscil Config", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, new Point(xPos1, 150));
                 e.Graphics.DrawString("COMTRADE Config", new Font("Arial", 10, FontStyle.Bold), Brushes.Black, new Point(xPos3, 150));
                 e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 160));
                 e.Graphics.DrawString("Configuration Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.ConfigurationAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
+                e.Graphics.DrawString(ConfigAddr_textBox.Text, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
                 e.Graphics.DrawString("StationName:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.StationName.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString(stationName_textBox.Text, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
                 e.Graphics.DrawString("Oscil Cmnd Addr:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString("0x" + ScopeSysType.OscilCmndAddr.ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
+                e.Graphics.DrawString(OscilCmndAddr_textBox.Text, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(200, yPos));
                 e.Graphics.DrawString("RecordingDevice:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.RecordingDevice.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString(recordingDevice_textBox.Text, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
                 e.Graphics.DrawString("OscilAllSize (KB):", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString(ScopeSysType.OscilAllSize.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString(OscilSizeData_TextBox.Text, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
                 e.Graphics.DrawString("NominalFrequency:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.OscilNominalFrequency.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString(nominalFrequency_textBox.Text, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
                 e.Graphics.DrawString("OscilSampleRate:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString(ScopeSysType.OscilSampleRate.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString(sampleRate_textBox.Text, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
                 e.Graphics.DrawString("TimeCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.TimeCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString(timeCode_textBox.Text, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
                 e.Graphics.DrawString("MeasureParams:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString(ScopeSysType.ChannelNames.Count.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
+                e.Graphics.DrawString(ChanneldataGridView.Rows.Count.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos2, yPos));
                 e.Graphics.DrawString("LocalCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos));
-                e.Graphics.DrawString(ScopeSysType.LocalCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString(localCode_textBox.Text, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
                 e.Graphics.DrawString("TmqCode:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos += 20));
-                e.Graphics.DrawString(ScopeSysType.TmqCode.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString(tmqCode_textBox.Text, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
                 e.Graphics.DrawString("Leapsec:", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos3, yPos += 20));
-                e.Graphics.DrawString(ScopeSysType.Leapsec.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
+                e.Graphics.DrawString(leapsec_textBox.Text, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos4, yPos));
             }
             
             e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 10));
             e.Graphics.DrawString("№", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos + 10));
             e.Graphics.DrawString("Channel Name", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 35, yPos + 10));
             e.Graphics.DrawString("Address", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 200, yPos + 10));
-            e.Graphics.DrawString("Format", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 260, yPos + 10));
-            e.Graphics.DrawString("Dimension", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 320, yPos + 10));
+            e.Graphics.DrawString("Bit", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 260, yPos + 10));
+            e.Graphics.DrawString("Format", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 290, yPos + 10));
+            e.Graphics.DrawString("Dimension", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 395, yPos + 10));
             e.Graphics.DrawString("Phase", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 470, yPos + 10));
             e.Graphics.DrawString("CCBM", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 520, yPos + 10));
             e.Graphics.DrawString("TypeAD", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 570, yPos + 10));
             e.Graphics.DrawString("Min", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 630, yPos + 10));
             e.Graphics.DrawString("Max", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 690, yPos + 10));
             e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 15));
-            for (int i = _paramNum, j = 0; i < ScopeSysType.ChannelNames.Count;j++, i++)
+            for (int i = _paramNum, j = 0; i < ChanneldataGridView.Rows.Count;j++, i++)
             {
-                e.Graphics.DrawString((i + 1).ToString() + ".", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-                e.Graphics.DrawString(ScopeSysType.ChannelNames[i], new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 35, yPos));
-                e.Graphics.DrawString("0x" + ScopeSysType.ChannelAddrs[i].ToString("X4"), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 200, yPos));
-                e.Graphics.DrawString(ScopeSysType.ChannelFormats[i].ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 260, yPos));
-                e.Graphics.DrawString(ScopeSysType.ChannelDimension[i], new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 320, yPos));
-
-                e.Graphics.DrawString(ScopeSysType.ChannelPhase[i].ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 470, yPos));
-                e.Graphics.DrawString(ScopeSysType.ChannelCcbm[i].ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 520, yPos));
-                if (ScopeSysType.ChannelTypeAd[i] == 0) str = "Analog";
-                else str = "Digital";
-                e.Graphics.DrawString(str, new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 570, yPos));
-                e.Graphics.DrawString(ScopeSysType.ChannelMin[i].ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 630, yPos));
-                e.Graphics.DrawString(ScopeSysType.ChannelMax[i].ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 690, yPos));
-                if (_firstPage == true && j == 40) { _paramNum += (j + 1); e.HasMorePages = true; _firstPage = false; break; }
+                e.Graphics.DrawString((i + 1) + ".", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+                e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[0].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 35, yPos));
+                e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[3].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 200, yPos));
+                e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[4].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 260, yPos));
+                e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[5].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 290, yPos));
+                e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[8].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 395, yPos));
+                e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[6].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 470, yPos));
+                e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[7].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 520, yPos));
+                e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[2].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 570, yPos));
+                e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[9].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 630, yPos));
+                e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[10].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 690, yPos));
+                if (_firstPage && j == 40) { _paramNum += (j + 1); e.HasMorePages = true; _firstPage = false; break; }
                 if (_firstPage == false && j == 52) { _paramNum += (j + 1); e.HasMorePages = true; break; }
-                if (i == ScopeSysType.ChannelNames.Count - 1) { _firstPage = true; _paramNum = 0; e.HasMorePages = false; }
+                if (i == ChanneldataGridView.Rows.Count - 1) { _firstPage = true; _paramNum = 0; e.HasMorePages = false; }
             }
         }
-        
     }
 }
 

@@ -162,13 +162,13 @@ namespace ScopeSetupApp
                 }
                 catch (Exception)
                 {
-                    _scopeSetupForm = new ScopeSetupForm();
+                    _scopeSetupForm = new ScopeSetupForm ();
                     _scopeSetupForm.Show();
                 }
             }
             else
             {
-                _scopeSetupForm = new ScopeSetupForm();
+                _scopeSetupForm = new ScopeSetupForm ();
                 _scopeSetupForm.Show();
             }  
         }
@@ -186,14 +186,13 @@ namespace ScopeSetupApp
                 }
                 catch (Exception)
                 {
-                _scopeConfigForm = new ScopeConfigForm();
-                _scopeConfigForm.Show();
+                    _scopeConfigForm = new ScopeConfigForm ();
+                    _scopeConfigForm.Show();
                 }
-
             }
             else
             {
-                _scopeConfigForm = new ScopeConfigForm();
+                _scopeConfigForm = new ScopeConfigForm ();
                 _scopeConfigForm.Show();
             }
         }
@@ -213,9 +212,6 @@ namespace ScopeSetupApp
 
         private void LoadComPortSettings(string comPortXmlName, out int newPar, out int newSpeed, out int newPortIndex, out int newAddr)
         {
-            XmlNodeList xmls;
-            XmlNode xmlNode;
-
             var doc = new XmlDocument();
             try { doc.Load(comPortXmlName); }
             catch
@@ -224,14 +220,14 @@ namespace ScopeSetupApp
                 Application.Exit();
             }
 
-            xmls = doc.GetElementsByTagName("ComPort");
+            var xmls = doc.GetElementsByTagName("ComPort");
 
             if (xmls.Count != 1)
             {
                 MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
-            xmlNode = xmls[0];
+            var xmlNode = xmls[0];
             try
             {
                 newPortIndex = Convert.ToInt32(xmlNode.Attributes["Name"].Value);
@@ -1497,8 +1493,8 @@ namespace ScopeSetupApp
             int max;
             try
             {
-                min = ScopeSysType.ChannelMin[ScopeConfig.OscilParams[num]];
-                max = ScopeSysType.ChannelMax[ScopeConfig.OscilParams[num]];
+                min = ScopeSysType.ScopeItem[ScopeConfig.OscilParams[num]].ChannelMin;
+                max = ScopeSysType.ScopeItem[ScopeConfig.OscilParams[num]].ChannelMax;
             }
             catch
             {
@@ -1530,7 +1526,7 @@ namespace ScopeSetupApp
 
         private string Line5()
         {
-            string str = "";
+            string str;
             try
             {
                 str = ScopeSysType.OscilNominalFrequency.ToString();
@@ -1734,8 +1730,7 @@ namespace ScopeSetupApp
             if (dialogResult == DialogResult.Yes)
             {
                 ExecuteScopeView(sfd.FileName);
-            }
-            
+            }           
         }
 
         private bool _initLoadOscilFlag;

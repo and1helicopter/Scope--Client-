@@ -40,7 +40,6 @@ namespace ScopeSetupApp
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.Update_toolStripButton = new System.Windows.Forms.ToolStripButton();
             this.SetDefault_toolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.nominalFrequency_label = new System.Windows.Forms.Label();
             this.nominalFrequency_textBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -224,15 +223,6 @@ namespace ScopeSetupApp
             this.SetDefault_toolStripButton.Tag = "";
             this.SetDefault_toolStripButton.Text = "Применить конфигурацию по умолчанию ";
             this.SetDefault_toolStripButton.Click += new System.EventHandler(this.SetDefault_toolStripButton_Click);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 455);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(885, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
             // 
             // nominalFrequency_label
             // 
@@ -474,7 +464,7 @@ namespace ScopeSetupApp
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(390, 40);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(50, 15);
+            this.label7.Size = new System.Drawing.Size(54, 15);
             this.label7.TabIndex = 33;
             this.label7.Text = "Leapsec";
             // 
@@ -635,14 +625,14 @@ namespace ScopeSetupApp
             this.configPanel.Location = new System.Drawing.Point(0, 201);
             this.configPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.configPanel.Name = "configPanel";
-            this.configPanel.Size = new System.Drawing.Size(885, 254);
+            this.configPanel.Size = new System.Drawing.Size(885, 276);
             this.configPanel.TabIndex = 25;
             // 
             // ChanneldataGridView
             // 
             this.ChanneldataGridView.AllowUserToAddRows = false;
             this.ChanneldataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.ChanneldataGridView.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            this.ChanneldataGridView.BackgroundColor = System.Drawing.SystemColors.HighlightText;
             this.ChanneldataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column_channelNames,
             this.Column_channelGroupNames,
@@ -658,7 +648,7 @@ namespace ScopeSetupApp
             this.ChanneldataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ChanneldataGridView.Location = new System.Drawing.Point(0, 0);
             this.ChanneldataGridView.Name = "ChanneldataGridView";
-            this.ChanneldataGridView.Size = new System.Drawing.Size(885, 254);
+            this.ChanneldataGridView.Size = new System.Drawing.Size(885, 276);
             this.ChanneldataGridView.TabIndex = 0;
             this.ChanneldataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.ChanneldataGridView_BindingComplete);
             // 
@@ -803,7 +793,6 @@ namespace ScopeSetupApp
             this.Controls.Add(this.configPanel);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.mailToolStrip);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -835,7 +824,6 @@ namespace ScopeSetupApp
         #endregion
 
         private System.Windows.Forms.ToolStrip mailToolStrip;
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripButton saveButton;
         private System.Windows.Forms.TextBox nominalFrequency_textBox;
         private System.Windows.Forms.Label nominalFrequency_label;

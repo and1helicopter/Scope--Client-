@@ -96,7 +96,7 @@ namespace ScopeSetupApp
         public static int FindParamIndex(ushort paramAddr, ushort paramFormat) 
         {
             int i = 0;
-            while ((i < ScopeSysType.ChannelAddrs.Count) && ((paramAddr != ScopeSysType.ChannelAddrs[i]) || (paramFormat != ScopeSysType.ChannelFormats[i])))
+            while ((i < ScopeSysType.ScopeItem.Count) && ((paramAddr != ScopeSysType.ScopeItem[i].ChannelAddrs) || (paramFormat != ((ScopeSysType.ScopeItem[i].ChannelformatNumeric + 1) << 8) + ScopeSysType.ScopeItem[i].ChannelFormats)))
             {
                 i++;
             }

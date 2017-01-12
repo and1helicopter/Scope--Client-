@@ -1,7 +1,7 @@
 ﻿
 namespace ScopeSetupApp
 {
-    public class ScopeTempConfig
+    public class ScopeChannelConfig
     {
         public string ChannelNames { get; set; }
         public string ChannelGroupNames { get; set; }

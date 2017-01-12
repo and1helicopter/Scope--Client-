@@ -7,20 +7,10 @@ namespace ScopeSetupApp
 {
     public static class ScopeSysType
     {
-        public static readonly List<ScopeTempConfig> ScopeItem = new List<ScopeTempConfig>();
+        public static readonly List<ScopeChannelConfig> ScopeItem = new List<ScopeChannelConfig>();
 
         public static string XmlFileName = "ScopeSysType.xml";
         public static string XmlFileNameOscil = "ScopeSysType.xml";
-        public static List<string> GroupNames = new List<string>();
-        public static List<string> ChannelNames = new List<string>();
-        public static List<string> ChannelPhase = new List<string>();
-        public static List<string> ChannelCcbm = new List<string>();
-        public static List<string> ChannelDimension = new List<string>();
-        public static List<ushort> ChannelAddrs = new List<ushort>();
-        public static List<ushort> ChannelFormats = new List<ushort>();
-        public static List<ushort> ChannelTypeAd = new List<ushort>();
-        public static List<int> ChannelMin = new List<int>();
-        public static List<int> ChannelMax = new List<int>();
 
         public static ushort ConfigurationAddr;
         public static ushort OscilCmndAddr; 
@@ -116,17 +106,6 @@ namespace ScopeSetupApp
             LoadNameFromXml("TmqCode", doc, out TmqCode);
             LoadNameFromXml("Leapsec", doc, out Leapsec);
             
-            ChannelNames = new List<string>();
-            GroupNames = new List<string>();
-            ChannelPhase = new List<string>();
-            ChannelCcbm = new List<string>();
-            ChannelDimension = new List<string>();
-            ChannelAddrs = new List<ushort>();
-            ChannelFormats = new List<ushort>();
-            ChannelTypeAd = new List<ushort>();
-            ChannelMin = new List<int>();
-            ChannelMax = new List<int>();
-
             for (int i = 1; i < (count + 1); i++)
             {
                 var xmls = doc.GetElementsByTagName("MeasureParam"+i.ToString());
@@ -137,41 +116,28 @@ namespace ScopeSetupApp
                     if (xmlline.Attributes != null)
                     {
                         string[] str = (Convert.ToString(xmlline.Attributes["Name"].Value)).Split('/');
-                        string str1, str2 = "";
+                        string str1;
+                        string str2 = "";
                         if (str.Length > 1) { str1 = str[1]; str2 = str[0]; }
                         else str1 = str[0];
 
-                        ChannelNames.Add(str1);
-                        GroupNames.Add(str2);
-                    }
-                    if (xmlline.Attributes != null)
-                    {
-                        ChannelPhase.Add(Convert.ToString(xmlline.Attributes["Phase"].Value));
-                        ChannelCcbm.Add(Convert.ToString(xmlline.Attributes["CCBM"].Value));
-                        ChannelDimension.Add(Convert.ToString(xmlline.Attributes["Dimension"].Value));
-                        ChannelAddrs.Add(Convert.ToUInt16(xmlline.Attributes["Addr"].Value));
-                        ChannelFormats.Add(Convert.ToUInt16(xmlline.Attributes["Format"].Value));
-                        ChannelTypeAd.Add(Convert.ToUInt16(xmlline.Attributes["TypeAD"].Value));
-                        ChannelMin.Add(Convert.ToInt32(xmlline.Attributes["Min"].Value));
-                        ChannelMax.Add(Convert.ToInt32(xmlline.Attributes["Max"].Value));
-                    }
+                        ScopeChannelConfig item = new ScopeChannelConfig()
+                        {
+                            ChannelNames = str1,
+                            ChannelGroupNames = str2,
+                            ChannelTypeAd = Convert.ToUInt16(xmlline.Attributes["TypeAD"].Value),
+                            ChannelAddrs = Convert.ToUInt16(xmlline.Attributes["Addr"].Value),
+                            ChannelformatNumeric = (Convert.ToUInt16(xmlline.Attributes["Format"].Value) >> 8) - 1,
+                            ChannelFormats = Convert.ToUInt16(xmlline.Attributes["Format"].Value) & 0x00FF,
+                            ChannelPhase = Convert.ToString(xmlline.Attributes["Phase"].Value),
+                            ChannelCcbm = Convert.ToString(xmlline.Attributes["CCBM"].Value),
+                            ChannelDimension = Convert.ToString(xmlline.Attributes["Dimension"].Value),
+                            ChannelMin = Convert.ToInt32(xmlline.Attributes["Min"].Value),
+                            ChannelMax = Convert.ToInt32(xmlline.Attributes["Max"].Value)
+                        };
 
-                    ScopeTempConfig item = new ScopeTempConfig()
-                    {
-                        ChannelNames = ChannelNames[ChannelNames.Count - 1],
-                        ChannelGroupNames = GroupNames[GroupNames.Count - 1],
-                        ChannelTypeAd = ChannelTypeAd[ChannelTypeAd.Count - 1],
-                        ChannelAddrs = ChannelAddrs[ChannelAddrs.Count - 1],
-                        ChannelformatNumeric = ((ChannelFormats[ChannelFormats.Count - 1] >> 8) - 1),
-                        ChannelFormats = (ChannelFormats[ChannelFormats.Count - 1] & 0x00FF),
-                        ChannelPhase = ChannelPhase[ChannelPhase.Count - 1],
-                        ChannelCcbm = ChannelCcbm[ChannelCcbm.Count - 1],
-                        ChannelDimension = ChannelDimension[ChannelDimension.Count - 1],
-                        ChannelMin = ChannelMin[ChannelMin.Count - 1],
-                        ChannelMax = ChannelMax[ChannelMax.Count - 1]
-                    };
-
-                    ScopeItem.Add(item);
+                        ScopeItem.Add(item);
+                    }
                 }
                 catch
                 {
