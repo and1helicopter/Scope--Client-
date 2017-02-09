@@ -35,7 +35,6 @@ namespace ScopeSetupApp
 
         //Статусные кнопки загрузки осциллограмм
         private List<Button> _statusButtons;
-        
 
         private ModBusUnit _modBusUnit;
         private bool _buttonsAlreadyCreated = true;
@@ -162,13 +161,19 @@ namespace ScopeSetupApp
                 }
                 catch (Exception)
                 {
-                    _scopeSetupForm = new ScopeSetupForm ();
+                    _scopeSetupForm = new ScopeSetupForm
+                    {
+                        Size = Size
+                    };
                     _scopeSetupForm.Show();
                 }
             }
             else
             {
-                _scopeSetupForm = new ScopeSetupForm ();
+                _scopeSetupForm = new ScopeSetupForm
+                {
+                    Size = Size
+                };
                 _scopeSetupForm.Show();
             }  
         }
@@ -186,13 +191,19 @@ namespace ScopeSetupApp
                 }
                 catch (Exception)
                 {
-                    _scopeConfigForm = new ScopeConfigForm ();
+                    _scopeConfigForm = new ScopeConfigForm()
+                    {
+                        Size = Size
+                    };
                     _scopeConfigForm.Show();
                 }
             }
             else
             {
-                _scopeConfigForm = new ScopeConfigForm ();
+                _scopeConfigForm = new ScopeConfigForm()
+                {
+                    Size = Size
+                };
                 _scopeConfigForm.Show();
             }
         }
@@ -386,7 +397,7 @@ namespace ScopeSetupApp
             }
             if (_loadConfigStep == 9)                //Количество выборок на предысторию 
             {
-                _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr), 2);
+                _modBusUnit.GetData(ScopeSysType.OscilCmndAddr, 2);
                 return;
             }
 
@@ -404,7 +415,7 @@ namespace ScopeSetupApp
 
             if (_loadConfigStep == 12)                //Формат каналов 
             {
-                _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr), 32);
+                _modBusUnit.GetData((ScopeSysType.ConfigurationAddr), 32);
                 return;
             }
 
@@ -471,7 +482,6 @@ namespace ScopeSetupApp
             if (_loadConfigStep == 23)                //
             {
                 _modBusUnit.GetData((ushort)(ScopeSysType.ConfigurationAddr + 1067), 4);
-                return;
             }
         }
         private void EndLoadConfig()
@@ -517,7 +527,7 @@ namespace ScopeSetupApp
 
                     case 5:                     //Размер осциллограммы 
                         {
-                            ScopeConfig.OscilSize = (uint)((int)_modBusUnit.modBusData.ReadData[1] << 16);
+                            ScopeConfig.OscilSize = (uint)(_modBusUnit.modBusData.ReadData[1] << 16);
                             ScopeConfig.OscilSize += _modBusUnit.modBusData.ReadData[0];
                             _loadConfigStep = 6;
                             LoadConfig();
@@ -533,8 +543,8 @@ namespace ScopeSetupApp
 
                     case 7:                     //Размер осциллограммы 
                         {
-                            ScopeConfig.OscilAllSize = (uint)((int)_modBusUnit.modBusData.ReadData[1] << 16);
-                            ScopeConfig.OscilAllSize += (uint)((int)_modBusUnit.modBusData.ReadData[0]);
+                            ScopeConfig.OscilAllSize = (uint)(_modBusUnit.modBusData.ReadData[1] << 16);
+                            ScopeConfig.OscilAllSize += (_modBusUnit.modBusData.ReadData[0]);
                             _loadConfigStep = 8;
                             LoadConfig();
                         } break;
@@ -547,7 +557,7 @@ namespace ScopeSetupApp
                         } break;
                     case 9:                     //Размер всей памяти 
                         {
-                            ScopeConfig.OscilHistCount = (uint)((int)_modBusUnit.modBusData.ReadData[1] << 16);
+                            ScopeConfig.OscilHistCount = (uint)(_modBusUnit.modBusData.ReadData[1] << 16);
                             ScopeConfig.OscilHistCount += _modBusUnit.modBusData.ReadData[0];
                             _loadConfigStep = 10;
                             LoadConfig();
@@ -1030,7 +1040,7 @@ namespace ScopeSetupApp
             string str1 = (_modBusUnit.modBusData.ReadData[0] & 0x3F).ToString("X2") + "/" + ((_modBusUnit.modBusData.ReadData[0] >> 8) & 0x1F).ToString("X2") + @"/20" + (_modBusUnit.modBusData.ReadData[1] & 0xFF).ToString("X2");
             string str2 = (_modBusUnit.modBusData.ReadData[3] & 0x3F).ToString("X2") + ":" + ((_modBusUnit.modBusData.ReadData[2] >> 8) & 0x7F).ToString("X2") + @":" + (_modBusUnit.modBusData.ReadData[2] & 0x7F).ToString("X2");
             string str3 = ((_modBusUnit.modBusData.ReadData[4] *1000) >> 8).ToString("D3") + @"000";
-            _statusButtons[_loadTimeStampStep].Text = @"№" + (_loadTimeStampStep + 1)+ "\n" + str1 + "\n" + str2;
+            _statusButtons[_loadTimeStampStep].Text = @"№" + (_loadTimeStampStep + 1) + "\n" + str1 + "\n" + str2;
             _oscilTitls[_loadTimeStampStep] = @"Осциллограмма №" + (_loadTimeStampStep + 1) + "\n" + str1 + "\n" + str2;
             string str = str1 + "," + str2 + @"." + str3;
             try
@@ -1404,14 +1414,12 @@ namespace ScopeSetupApp
             {
                 if ((i + (int)_startLoadSample + 1) >= paramsLines.Count)
                 {
-                    k = 0;
                     paramsSortLines.Add(new ushort[ScopeConfig.SampleSize >> 1]);
                     paramsSortLines[i] = paramsLines[l];
                     l++;
                 }
                 else
                 {
-                    k = 0;
                     paramsSortLines.Add(new ushort[ScopeConfig.SampleSize >> 1]);
                     paramsSortLines[i] = paramsLines[i + (int)_startLoadSample + 1];
                 }
@@ -1556,14 +1564,16 @@ namespace ScopeSetupApp
 
         private string Line8(int numOsc)
         {
-           // string str;
-            double milsec = 1000*(double)ScopeConfig.OscilHistCount/ScopeConfig.SampleRate;
+           //Время начала осциллограммы 
+            double milsec = 1000*(double)ScopeConfig.OscilHistCount/((double)ScopeConfig.SampleRate / ScopeConfig.FreqCount);
+
             DateTime dateTemp = _date[numOsc].AddMilliseconds(-milsec);
             return dateTemp.ToString("dd'/'MM'/'yyyy,HH:mm:ss.fff000");
         }
 
         private string Line9(int numOsc)
         {
+            //Время срабатывания триггера
             DateTime dateTemp = _date[numOsc];
             return dateTemp.ToString("dd'/'MM'/'yyyy,HH:mm:ss.fff000");
         }

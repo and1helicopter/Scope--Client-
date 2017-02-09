@@ -385,7 +385,7 @@ namespace ScopeSetupApp
                 return 0;
             }
 
-            uint oscS = ScopeConfig.ConnectMcu ? Convert.ToUInt32(ScopeConfig.OscilAllSize / Convert.ToUInt32(_nowScopeCount) * ((double)trackBar1.Value / 100)) : Convert.ToUInt32(allSize *1024 / Convert.ToUInt32(_nowScopeCount) * ((double)trackBar1.Value / 100));
+            uint oscS = ScopeConfig.ConnectMcu ? Convert.ToUInt32((double)ScopeConfig.OscilAllSize / Convert.ToUInt32(_nowScopeCount) * ((double)trackBar1.Value / 100)) : Convert.ToUInt32((double)allSize *1024 / Convert.ToUInt32(_nowScopeCount) * ((double)trackBar1.Value / 100));
 
             while (oscS % 64 != 0 || oscS % sampleSize != 0)   // 
             { 		

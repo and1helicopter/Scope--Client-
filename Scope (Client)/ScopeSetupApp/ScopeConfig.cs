@@ -63,6 +63,7 @@ namespace ScopeSetupApp
         //Статус осциллогрофа
         public static ushort StatusOscil { get; set; }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public static bool Coincides { get; set; }
         
         //Адреса каналов 
