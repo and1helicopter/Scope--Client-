@@ -44,7 +44,7 @@ namespace ScopeSetupApp
         private int _requestStep;
         private int _loadTimeStampStep;
 
-        private void LoadWindowSize(string comPortXmlName, out int newHeight, out int newWidth)
+        private void LoadWindowSize(string comPortXmlName, out int newHeight, out int newWidth, out int newWinState)
         {
             var doc = new XmlDocument();
             try
@@ -70,11 +70,12 @@ namespace ScopeSetupApp
             {
                 newHeight = Convert.ToInt32(xmlNode.Attributes["Height"].Value);
                 newWidth = Convert.ToInt32(xmlNode.Attributes["Width"].Value);
-            }
+                newWinState = Convert.ToInt32(xmlNode.Attributes["WindowState"].Value);}
             catch
             {
                 newHeight = 600;
                 newWidth = 800;
+                newWinState = 0;
                 MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -91,6 +92,7 @@ namespace ScopeSetupApp
                 {
                     add.Attributes["Height"].Value = Height.ToString();
                     add.Attributes["Width"].Value = Width.ToString();
+                    add.Attributes["WindowState"].Value = WindowState == FormWindowState.Maximized ? 1.ToString() : 0.ToString();
                 }
                 doc.Save(comPortXmlName);
             }
@@ -123,10 +125,13 @@ namespace ScopeSetupApp
             ModBusUnits.ScopeSetupModbusUnit = new ModBusUnit();
             ModBusClient.InitModBusEvent();
 
-            int i1, i2;
-            LoadWindowSize("prgSettings.xml", out i1, out i2);
-            Size size = new Size(i2, i1);
+            int height, width, winState;
+            LoadWindowSize("prgSettings.xml", out height, out width, out winState);
+            
+            Size size = new Size(width, height);
             Size = size;
+
+            WindowState = winState == 1 ? FormWindowState.Maximized : FormWindowState.Normal;
         }
 
         private delegate void SetStringDelegate(string parameter);
@@ -163,7 +168,8 @@ namespace ScopeSetupApp
                 {
                     _scopeSetupForm = new ScopeSetupForm
                     {
-                        Size = Size
+                        Size = Size,
+                        WindowState = WindowState
                     };
                     _scopeSetupForm.Show();
                 }
@@ -172,7 +178,8 @@ namespace ScopeSetupApp
             {
                 _scopeSetupForm = new ScopeSetupForm
                 {
-                    Size = Size
+                    Size = Size,
+                    WindowState = WindowState
                 };
                 _scopeSetupForm.Show();
             }  
@@ -193,7 +200,8 @@ namespace ScopeSetupApp
                 {
                     _scopeConfigForm = new ScopeConfigForm()
                     {
-                        Size = Size
+                        Size = Size,
+                        WindowState = WindowState
                     };
                     _scopeConfigForm.Show();
                 }
@@ -202,7 +210,8 @@ namespace ScopeSetupApp
             {
                 _scopeConfigForm = new ScopeConfigForm()
                 {
-                    Size = Size
+                    Size = Size,
+                    WindowState = WindowState
                 };
                 _scopeConfigForm.Show();
             }
@@ -1825,5 +1834,6 @@ namespace ScopeSetupApp
         {
             _initManStartFlag = true;
         }
+
     }
 }

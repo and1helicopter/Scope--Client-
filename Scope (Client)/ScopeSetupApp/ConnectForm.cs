@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using ModBusLibrary;
 using System.Xml;
@@ -33,11 +27,11 @@ namespace ScopeSetupApp
             }
             catch
             {
-                MessageBox.Show(@"Ошибка при создании файла!", "Настройка соединения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"Ошибка при создании файла!", @"Настройка соединения", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MessageBox.Show(@"Ошибка при создании файла!", "Настройка соединения", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(@"Ошибка при создании файла!", @"Настройка соединения", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         
@@ -114,21 +108,21 @@ namespace ScopeSetupApp
             }
             catch
             {
-                MessageBox.Show(@"Ошибка при создании файла!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"Ошибка при создании файла!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            this.Close();
+            Close();
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void disconnectBtn_Click(object sender, EventArgs e)
         {
             ModBusClient.CloseModBusPort();
-            this.Close();
+            Close();
         }
 
         private void ConnectForm_Load(object sender, EventArgs e)
