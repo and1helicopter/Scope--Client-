@@ -136,11 +136,11 @@ namespace ScopeSetupApp
 
         private delegate void SetStringDelegate(string parameter);
 
-        private void SetTimeLabel(string newTime)
+        private void SetTimeLabel(string statusConnect)
         {
             try
             {
-                label1.Text = newTime;
+                label1.Text = statusConnect;
             }
             catch
             {
@@ -757,6 +757,8 @@ namespace ScopeSetupApp
                 }
             }
         }
+
+
         private void EndLoadStatus(int blockNum)
         {
             int i;
@@ -833,6 +835,7 @@ namespace ScopeSetupApp
                 _clearOscFlag = false;
                 _loadOscData = false;
                 _lineBusy = false;
+                EndLoadTime();
                 return;
             }
 
@@ -1786,7 +1789,6 @@ namespace ScopeSetupApp
             SaveWindowSize("prgSettings.xml");
         }
 
-
         //Запуск приложения для просмотра осциллограмм
         private void ExecuteScopeView(string fileName)
         {
@@ -1800,7 +1802,6 @@ namespace ScopeSetupApp
             };
             proc.Start();
         }
-
 
         private void toolStripButton2_Click_1(object sender, EventArgs e)
         {
@@ -1827,7 +1828,6 @@ namespace ScopeSetupApp
             }
             timer2.Enabled = true; 
         }
-
 
         //Ручной запуск осциллографа
         private void manStartBtn_Click(object sender, EventArgs e)

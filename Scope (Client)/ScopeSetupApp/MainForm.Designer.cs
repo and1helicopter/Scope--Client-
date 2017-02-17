@@ -44,18 +44,19 @@ namespace ScopeSetupApp
             this.OpenScope_Button = new System.Windows.Forms.ToolStripButton();
             this.loadScopeToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.loadDataProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.Setting_toolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
             this.label1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripContainer3 = new System.Windows.Forms.ToolStripContainer();
             this.toolStripContainer4 = new System.Windows.Forms.ToolStripContainer();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.Setting_toolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.MainPanel.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.toolStrip2.SuspendLayout();
             this.toolStripContainer2.ContentPanel.SuspendLayout();
             this.toolStripContainer2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -64,7 +65,6 @@ namespace ScopeSetupApp
             this.toolStripContainer4.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer4.ContentPanel.SuspendLayout();
             this.toolStripContainer4.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // timer1
@@ -242,6 +242,58 @@ namespace ScopeSetupApp
             this.loadDataProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.loadDataProgressBar.Visible = false;
             // 
+            // toolStrip2
+            // 
+            this.toolStrip2.AutoSize = false;
+            this.toolStrip2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.toolStrip2.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton2,
+            this.Setting_toolStripButton});
+            this.toolStrip2.Location = new System.Drawing.Point(813, 0);
+            this.toolStrip2.Name = "toolStrip2";
+            this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.toolStrip2.Size = new System.Drawing.Size(44, 444);
+            this.toolStrip2.TabIndex = 4;
+            this.toolStrip2.Tag = "0";
+            this.toolStrip2.Text = "toolStrip2";
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.AutoSize = false;
+            this.toolStripButton2.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Margin = new System.Windows.Forms.Padding(2);
+            this.toolStripButton2.MergeIndex = 3;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.toolStripButton2.Size = new System.Drawing.Size(42, 42);
+            this.toolStripButton2.Tag = "";
+            this.toolStripButton2.Text = "Ручной запуск осциллографа";
+            this.toolStripButton2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
+            this.toolStripButton2.Click += new System.EventHandler(this.manStartBtn_Click);
+            // 
+            // Setting_toolStripButton
+            // 
+            this.Setting_toolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.Setting_toolStripButton.AutoSize = false;
+            this.Setting_toolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Setting_toolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("Setting_toolStripButton.Image")));
+            this.Setting_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Setting_toolStripButton.Name = "Setting_toolStripButton";
+            this.Setting_toolStripButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.Setting_toolStripButton.Size = new System.Drawing.Size(42, 42);
+            this.Setting_toolStripButton.Text = "Settings";
+            this.Setting_toolStripButton.Visible = false;
+            // 
             // toolStripContainer2
             // 
             this.toolStripContainer2.BottomToolStripPanelVisible = false;
@@ -320,57 +372,6 @@ namespace ScopeSetupApp
             this.toolStripContainer4.Text = "toolStripContainer4";
             this.toolStripContainer4.TopToolStripPanelVisible = false;
             // 
-            // toolStrip2
-            // 
-            this.toolStrip2.AutoSize = false;
-            this.toolStrip2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.toolStrip2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.toolStrip2.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton2,
-            this.Setting_toolStripButton});
-            this.toolStrip2.Location = new System.Drawing.Point(813, 0);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.toolStrip2.Size = new System.Drawing.Size(44, 444);
-            this.toolStrip2.TabIndex = 4;
-            this.toolStrip2.Tag = "0";
-            this.toolStrip2.Text = "toolStrip2";
-            // 
-            // toolStripButton2
-            // 
-            this.toolStripButton2.AutoSize = false;
-            this.toolStripButton2.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Margin = new System.Windows.Forms.Padding(2);
-            this.toolStripButton2.MergeIndex = 3;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.toolStripButton2.Size = new System.Drawing.Size(42, 42);
-            this.toolStripButton2.Tag = "";
-            this.toolStripButton2.Text = "Ручной запуск осциллографа";
-            this.toolStripButton2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
-            this.toolStripButton2.Click += new System.EventHandler(this.manStartBtn_Click);
-            // 
-            // Setting_toolStripButton
-            // 
-            this.Setting_toolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.Setting_toolStripButton.AutoSize = false;
-            this.Setting_toolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Setting_toolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("Setting_toolStripButton.Image")));
-            this.Setting_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Setting_toolStripButton.Name = "Setting_toolStripButton";
-            this.Setting_toolStripButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.Setting_toolStripButton.Size = new System.Drawing.Size(42, 42);
-            this.Setting_toolStripButton.Text = "Settings";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -391,6 +392,8 @@ namespace ScopeSetupApp
             this.MainPanel.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.toolStrip2.ResumeLayout(false);
+            this.toolStrip2.PerformLayout();
             this.toolStripContainer2.ContentPanel.ResumeLayout(false);
             this.toolStripContainer2.ResumeLayout(false);
             this.toolStripContainer2.PerformLayout();
@@ -404,8 +407,6 @@ namespace ScopeSetupApp
             this.toolStripContainer4.ContentPanel.ResumeLayout(false);
             this.toolStripContainer4.ResumeLayout(false);
             this.toolStripContainer4.PerformLayout();
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
             this.ResumeLayout(false);
 
         }
