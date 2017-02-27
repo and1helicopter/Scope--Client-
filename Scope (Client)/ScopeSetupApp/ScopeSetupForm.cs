@@ -44,7 +44,9 @@ namespace ScopeSetupApp
             "18 - percent/4",
             "19 - FreqNew2",
             "20 - Percent upp",
-            "21 - Freq UPTF"
+            "21 - Freq UPTF",
+            "22 - 16.16",
+            "23 - 32.32"
         };
 
         private readonly object[] _sizeFormat =
@@ -89,7 +91,7 @@ namespace ScopeSetupApp
                     ColumnHeader formatColumnHeader = new ColumnHeader
                     {
                         Name = "name_columnHeader",
-                        Text = @"Название канала",
+                        Text = @"Формат канала",
                         Width = 270,
                         TextAlign = HorizontalAlignment.Left,
                         DisplayIndex = 0,

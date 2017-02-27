@@ -920,6 +920,19 @@ namespace ADSPLibrary
                 return (d.ToString("F1"));
             }
         }
+        //32 bit
+        public static string HexTo16_16(ulong value)
+        {
+            double f = (int)value / 65535.0;
+            return (f.ToString("F2"));
+        }
+
+        //64 bit
+        public static string HexTo32_32(ulong value)
+        {
+            double f = (uint)value / 4294967296.0;
+            return (f.ToString("F2"));
+        }
         /// <summary>
         /// Рассчитывает температуру от термодата(Пермь)
         /// Если Value == 32000, то возвращается значение FaultText
@@ -1069,7 +1082,9 @@ namespace ADSPLibrary
                 case 19: { str = HexToFreqNew2(value); } break;
                 case 20: { str = HexToPercentUpp(value, 1); } break;
                 case 21: { str = HexToFreqUPTF(value); } break;
-                case 22: { str = HexToFCRefFreq(value, 1); } break;
+                case 22: { str = HexTo16_16(value); } break;
+                case 23: { str = HexTo32_32(value); } break;
+                //case 22: { str = HexToFCRefFreq(value, 1); } break;
 
                 //Функции, сделанные под конкретного заказчика
                 case 200: { str = HexToUStatVolgodonsk(value); } break;

@@ -8,9 +8,11 @@ using ModBusLibrary;
 using ADSPLibrary;
 using System.Xml;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ScopeSetupApp
 {
+    [SuppressMessage("ReSharper", "LocalizableElement")]
     public partial class MainForm : Form
     {
         //путь приложения
@@ -36,7 +38,7 @@ namespace ScopeSetupApp
         //Статусные кнопки загрузки осциллограмм
         private List<Button> _statusButtons;
 
-        private ModBusUnit _modBusUnit;
+        private readonly ModBusUnit _modBusUnit;
         private bool _buttonsAlreadyCreated = true;
         private bool _configLoaded;
         private bool _lineBusy;
@@ -68,6 +70,7 @@ namespace ScopeSetupApp
             var xmlNode = xmls[0];
             try
             {
+                // ReSharper disable once PossibleNullReferenceException
                 newHeight = Convert.ToInt32(xmlNode.Attributes["Height"].Value);
                 newWidth = Convert.ToInt32(xmlNode.Attributes["Width"].Value);
                 newWinState = Convert.ToInt32(xmlNode.Attributes["WindowState"].Value);}
@@ -90,6 +93,7 @@ namespace ScopeSetupApp
                 XmlNodeList adds = doc.GetElementsByTagName("MainWindow");
                 foreach (XmlNode add in adds)
                 {
+                    // ReSharper disable once PossibleNullReferenceException
                     add.Attributes["Height"].Value = Height.ToString();
                     add.Attributes["Width"].Value = Width.ToString();
                     add.Attributes["WindowState"].Value = WindowState == FormWindowState.Maximized ? 1.ToString() : 0.ToString();
@@ -254,6 +258,7 @@ namespace ScopeSetupApp
             var xmlNode = xmls[0];
             try
             {
+                // ReSharper disable once PossibleNullReferenceException
                 newPortIndex = Convert.ToInt32(xmlNode.Attributes["Name"].Value);
                 newSpeed = Convert.ToInt32(xmlNode.Attributes["Speed"].Value);
                 newPar = Convert.ToInt32(xmlNode.Attributes["Parity"].Value);
@@ -1014,7 +1019,11 @@ namespace ScopeSetupApp
                     _statusButtons[i].Text = @"№" + (i + 1) + "\n" + @"Пусто";
                 
                 }
-                else if (_oscilsStatus[i] >= 4) { _statusButtons[i].BackColor = Color.LightSteelBlue; ; _statusButtons[i].Enabled = true; }
+                else if (_oscilsStatus[i] >= 4) 
+                { 
+                    _statusButtons[i].BackColor = Color.LightSteelBlue; 
+                    _statusButtons[i].Enabled = true; 
+                }
             
                 else if (_oscilsStatus[i] == 3)
                 {
@@ -1321,6 +1330,7 @@ namespace ScopeSetupApp
         private uint _loadOscilIndex;
         private uint _loadOscilTemp;
         private uint _oscilStartTemp;
+        // ReSharper disable once NotAccessedField.Local
         private uint _oscilEndTemp;
         private uint _countTemp;
         private uint _startLoadSample;

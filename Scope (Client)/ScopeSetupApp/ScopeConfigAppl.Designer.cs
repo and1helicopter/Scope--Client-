@@ -650,6 +650,7 @@ namespace ScopeSetupApp
             this.ChanneldataGridView.Name = "ChanneldataGridView";
             this.ChanneldataGridView.Size = new System.Drawing.Size(885, 276);
             this.ChanneldataGridView.TabIndex = 0;
+            this.ChanneldataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChanneldataGridView_CellEndEdit);
             this.ChanneldataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.ChanneldataGridView_BindingComplete);
             // 
             // Column_channelNames
@@ -689,6 +690,7 @@ namespace ScopeSetupApp
             "32",
             "64"});
             this.Column_channelformatNumeric.Name = "Column_channelformatNumeric";
+            this.Column_channelformatNumeric.ReadOnly = true;
             this.Column_channelformatNumeric.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Column_channelformatNumeric.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Column_channelformatNumeric.ToolTipText = "Разрядность формата";
@@ -718,7 +720,9 @@ namespace ScopeSetupApp
             "18 - percent/4",
             "19 - FreqNew2",
             "20 - Percent upp",
-            "21 - Freq UPTF"});
+            "21 - Freq UPTF",
+            "22 - 16.16",
+            "23 - 32.32"});
             this.Column_channelFormats.Name = "Column_channelFormats";
             this.Column_channelFormats.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Column_channelFormats.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;

@@ -41,7 +41,9 @@ namespace ScopeSetupApp
             "18 - percent/4",
             "19 - FreqNew2",
             "20 - Percent upp",
-            "21 - Freq UPTF"
+            "21 - Freq UPTF",
+            "22 - 16.16",
+            "23 - 32.32"
         };
 
         readonly object[] _sizeFormat =
@@ -594,7 +596,28 @@ namespace ScopeSetupApp
                 if (_firstPage == false && j == 52) { _paramNum += (j + 1); e.HasMorePages = true; break; }
                 if (i == ChanneldataGridView.Rows.Count - 1) { _firstPage = true; _paramNum = 0; e.HasMorePages = false; }
             }
-        }
+       }
+
+       private void ChanneldataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+       {
+           if (Array.IndexOf(_format, ChanneldataGridView.Rows[e.RowIndex].Cells[5].Value) <= 21)
+           {
+               ChanneldataGridView.Rows[e.RowIndex].Cells[4].Value = _sizeFormat[0];
+               return;
+           }
+          
+           if (Array.IndexOf(_format, ChanneldataGridView.Rows[e.RowIndex].Cells[5].Value) >= 22 && Array.IndexOf(_format, ChanneldataGridView.Rows[e.RowIndex].Cells[5].Value) <= 22)
+           {
+               ChanneldataGridView.Rows[e.RowIndex].Cells[4].Value = _sizeFormat[1];
+               return;
+
+           }
+
+           if (Array.IndexOf(_format, ChanneldataGridView.Rows[e.RowIndex].Cells[5].Value) >= 23 && Array.IndexOf(_format, ChanneldataGridView.Rows[e.RowIndex].Cells[5].Value) <= 23)
+           {
+               ChanneldataGridView.Rows[e.RowIndex].Cells[4].Value = _sizeFormat[2];
+           }
+       }
     }
 }
 
