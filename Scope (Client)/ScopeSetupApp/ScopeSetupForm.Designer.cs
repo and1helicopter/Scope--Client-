@@ -60,9 +60,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.possibleParamPanel = new System.Windows.Forms.Panel();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.name_columnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.addr_columnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.format_columnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.ConfigToSystem_label = new System.Windows.Forms.Label();
@@ -431,10 +428,6 @@
             this.listView1.BackColor = System.Drawing.SystemColors.HighlightText;
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listView1.CheckBoxes = true;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.name_columnHeader,
-            this.addr_columnHeader,
-            this.format_columnHeader});
             this.listView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -448,24 +441,6 @@
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView1_ItemChecked);
             this.listView1.SizeChanged += new System.EventHandler(this.ListView_SizeChanged);
-            // 
-            // name_columnHeader
-            // 
-            this.name_columnHeader.Tag = "1";
-            this.name_columnHeader.Text = "Название канала";
-            this.name_columnHeader.Width = 270;
-            // 
-            // addr_columnHeader
-            // 
-            this.addr_columnHeader.Tag = "2";
-            this.addr_columnHeader.Text = "Адрес";
-            this.addr_columnHeader.Width = 270;
-            // 
-            // format_columnHeader
-            // 
-            this.format_columnHeader.Tag = "3";
-            this.format_columnHeader.Text = "Формат";
-            this.format_columnHeader.Width = 270;
             // 
             // label2
             // 
@@ -557,9 +532,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader name_columnHeader;
-        private System.Windows.Forms.ColumnHeader addr_columnHeader;
-        private System.Windows.Forms.ColumnHeader format_columnHeader;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox radioButton;

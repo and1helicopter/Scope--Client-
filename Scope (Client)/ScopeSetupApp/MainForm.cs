@@ -102,8 +102,12 @@ namespace ScopeSetupApp
             }
         }
 
+        private readonly string[] _argsG;
+
         public MainForm(string[] agrs)
         {
+            _argsG = agrs;
+
             InitializeComponent();
             try
             {
@@ -166,7 +170,7 @@ namespace ScopeSetupApp
                 }
                 catch (Exception)
                 {
-                    _scopeSetupForm = new ScopeSetupForm
+                    _scopeSetupForm = new ScopeSetupForm(_argsG)
                     {
                         Size = Size,
                         WindowState = WindowState
@@ -176,7 +180,7 @@ namespace ScopeSetupApp
             }
             else
             {
-                _scopeSetupForm = new ScopeSetupForm
+                _scopeSetupForm = new ScopeSetupForm(_argsG)
                 {
                     Size = Size,
                     WindowState = WindowState

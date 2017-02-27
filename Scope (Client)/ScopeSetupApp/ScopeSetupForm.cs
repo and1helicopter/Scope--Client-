@@ -60,8 +60,62 @@ namespace ScopeSetupApp
         private readonly List<ListViewGroup> _groupListViewGroup = new List<ListViewGroup>();
         private readonly List<String> _groupString = new List<String>();
 
-        private void InitTable()
+        private void InitTable(string[] agrs)
         {
+            if (agrs.Length > 0)
+            {
+                if (agrs[0] == "a" || agrs[0] == "A")
+                {
+                    ColumnHeader nameColumnHeader = new ColumnHeader
+                    {
+                        Name = "name_columnHeader",
+                        Text = @"Название канала",
+                        Width = 270,
+                        TextAlign = HorizontalAlignment.Left,
+                        DisplayIndex = 0,
+                        Tag = 1
+                    };
+
+                    ColumnHeader addrColumnHeader = new ColumnHeader
+                    {
+                        Name = "name_columnHeader",
+                        Text = @"Адрес",
+                        Width = 270,
+                        TextAlign = HorizontalAlignment.Left,
+                        DisplayIndex = 0,
+                        Tag = 2
+                    };
+
+                    ColumnHeader formatColumnHeader = new ColumnHeader
+                    {
+                        Name = "name_columnHeader",
+                        Text = @"Название канала",
+                        Width = 270,
+                        TextAlign = HorizontalAlignment.Left,
+                        DisplayIndex = 0,
+                        Tag = 3
+                    };
+
+                    listView1.Columns.Add(nameColumnHeader);
+                    listView1.Columns.Add(addrColumnHeader);
+                    listView1.Columns.Add(formatColumnHeader);
+                }
+            }
+            else
+            {
+                ColumnHeader nameColumnHeader = new ColumnHeader
+                {
+                    Name = "name_columnHeader",
+                    Text = @"Название канала",
+                    Width = 270,
+                    TextAlign = HorizontalAlignment.Left,
+                    DisplayIndex = 0,
+                    Tag = 1
+                };
+
+                listView1.Columns.Add(nameColumnHeader);
+            }
+
             CommentRichTextBox.Text = ScopeSysType.OscilComment;
             foreach (var item in ScopeSysType.ScopeItem)
             {
@@ -70,7 +124,7 @@ namespace ScopeSetupApp
                     _groupString.Add(item.ChannelGroupNames);
                     _groupListViewGroup.Add(new ListViewGroup(item.ChannelGroupNames, HorizontalAlignment.Center));
                     listView1.Groups.Add(_groupListViewGroup[_groupListViewGroup.Count - 1]);
-                }          
+                }
             }
 
             // ReSharper disable once UnusedVariable
@@ -80,7 +134,8 @@ namespace ScopeSetupApp
                 int i = _channelnameListViewItems.Count - 1;
                 _channelnameListViewItems[i].Text = item.ChannelNames;
                 _channelnameListViewItems[i].SubItems.Add("0x" + item.ChannelAddrs.ToString("X4"));
-                _channelnameListViewItems[i].SubItems.Add(Convert.ToString(_sizeFormat[item.ChannelformatNumeric]) + "b   " +
+                _channelnameListViewItems[i].SubItems.Add(
+                    Convert.ToString(_sizeFormat[item.ChannelformatNumeric]) + "b   " +
                     Convert.ToString(_format[item.ChannelFormats]));
                 _channelnameListViewItems[i].Checked = false;
                 foreach (var itemGroup in _groupListViewGroup)
@@ -127,18 +182,12 @@ namespace ScopeSetupApp
                 ListView listView = sender as ListView;
                 if (listView != null)
                 {
-                    float totalColumnWidth = 6;
-
-                    // Get the sum of all column tags
-                   // for (int i = 0; i < listView.Columns.Count; i++)
-                   //     totalColumnWidth += Convert.ToInt32(listView.Columns[i].Tag);
-
                     // Calculate the percentage of space each column should 
                     // occupy in reference to the other columns and then set the 
                     // width of the column to that percentage of the visible space.
                     for (int i = 0; i < listView.Columns.Count; i++)
                     {
-                        listView.Columns[i].Width = (int)(2 / totalColumnWidth * listView.ClientRectangle.Width);
+                        listView.Columns[i].Width = (int)((double)1 / listView.Columns.Count * listView.ClientRectangle.Width);
                     }
                 }
             }
@@ -159,12 +208,12 @@ namespace ScopeSetupApp
 
         #endregion
 
-        public ScopeSetupForm()
+        public ScopeSetupForm(string[] agrs)
         {
             InitializeComponent();
-
+            
             ConfigToSystem();
-            InitTable();
+            InitTable(agrs);
 
             // ReSharper disable once RedundantDelegateCreation
             ModBusUnits.ScopeSetupModbusUnit.RequestFinished += new EventHandler(EndRequest);
