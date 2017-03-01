@@ -618,6 +618,72 @@ namespace ScopeSetupApp
                ChanneldataGridView.Rows[e.RowIndex].Cells[4].Value = _sizeFormat[2];
            }
        }
+
+       private void stationName_MouseEnter(object sender, EventArgs e)
+       {
+           ToolTip tTip = new ToolTip();
+           tTip.SetToolTip(stationName_label, "Название станции");
+       }
+
+       private void recordingDevice_MouseEnter(object sender, EventArgs e)
+       {
+           ToolTip tTip = new ToolTip();
+           tTip.SetToolTip(recordingDevice_label, "Обозначение станции");
+       }
+
+       private void nominalFrequency_MouseEnter(object sender, EventArgs e)
+       {
+           ToolTip tTip = new ToolTip();
+           tTip.SetToolTip(nominalFrequency_label, "Частота сети");
+       }
+
+       private void timeCode_MouseEnter(object sender, EventArgs e)
+       {
+           ToolTip tTip = new ToolTip();
+           tTip.SetToolTip(timeCode_label, @"Временной код (смещение относительно UTC)");
+       }
+
+       private void localCode_MouseEnter(object sender, EventArgs e)
+       {
+           ToolTip tTip = new ToolTip();
+           tTip.SetToolTip(localCode_label, @"Разница во времени между местным часовым поясом и мировым");
+       }
+
+       private void tmqCode_MouseEnter(object sender, EventArgs e)
+       {
+           ToolTip tTip = new ToolTip();
+           tTip.SetToolTip(tmqCode_label, @"Код показаывающий качество записывающего устройства");
+       }
+
+       private void leapsec_MouseEnter(object sender, EventArgs e)
+       {
+           ToolTip tTip = new ToolTip();
+           tTip.SetToolTip(leapsec_label, @"Скачок");
+       }
+
+       private void OscilCmndAddr_MouseEnter(object sender, EventArgs e)
+       {
+           ToolTip tTip = new ToolTip();
+           tTip.SetToolTip(OscilCmndAddr_label, @"Адрес вспомогательных параметров");
+       }
+
+       private void OscilSizeData_MouseEnter(object sender, EventArgs e)
+       {
+           ToolTip tTip = new ToolTip();
+           tTip.SetToolTip(OscilSizeData_label, @"Предполагаемый размер выделенный под осциллограммы");
+       }
+
+       private void sampleRate_MouseEnter(object sender, EventArgs e)
+       {
+           ToolTip tTip = new ToolTip();
+           tTip.SetToolTip(sampleRate_label, @"Предполагаемая частота дискретизации");
+       }
+
+       private void ConfigAddr_MouseEnter(object sender, EventArgs e)
+       {
+           ToolTip tTip = new ToolTip();
+           tTip.SetToolTip(ConfigAddr_label, @"Адрес конфигурации");
+       }
     }
 }
 

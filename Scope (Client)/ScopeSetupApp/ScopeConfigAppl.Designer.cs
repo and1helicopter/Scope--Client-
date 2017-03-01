@@ -56,17 +56,17 @@ namespace ScopeSetupApp
             this.OscilSizeData_label = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.recordingDevice_textBox = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.recordingDevice_label = new System.Windows.Forms.Label();
             this.stationName_textBox = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
+            this.stationName_label = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.leapsec_textBox = new System.Windows.Forms.TextBox();
             this.timeCode_textBox = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.leapsec_label = new System.Windows.Forms.Label();
+            this.timeCode_label = new System.Windows.Forms.Label();
             this.tmqCode_textBox = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
+            this.localCode_label = new System.Windows.Forms.Label();
+            this.tmqCode_label = new System.Windows.Forms.Label();
             this.localCode_textBox = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -79,6 +79,10 @@ namespace ScopeSetupApp
             this.label13 = new System.Windows.Forms.Label();
             this.configPanel = new System.Windows.Forms.Panel();
             this.ChanneldataGridView = new System.Windows.Forms.DataGridView();
+            this.SCPrintDialog = new System.Windows.Forms.PrintDialog();
+            this.SCPrintDocument = new System.Drawing.Printing.PrintDocument();
+            this.SCPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+            this.ConfigToSystem_label = new System.Windows.Forms.Label();
             this.Column_channelNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_channelGroupNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_channelTypeAd = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -90,10 +94,6 @@ namespace ScopeSetupApp
             this.Column_channelDimension = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_channelMin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column_channelMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SCPrintDialog = new System.Windows.Forms.PrintDialog();
-            this.SCPrintDocument = new System.Drawing.Printing.PrintDocument();
-            this.SCPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
-            this.ConfigToSystem_label = new System.Windows.Forms.Label();
             this.mailToolStrip.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -232,6 +232,7 @@ namespace ScopeSetupApp
             this.nominalFrequency_label.Size = new System.Drawing.Size(136, 15);
             this.nominalFrequency_label.TabIndex = 23;
             this.nominalFrequency_label.Text = "Nominal frequency (Hz)";
+            this.nominalFrequency_label.MouseEnter += new System.EventHandler(this.nominalFrequency_MouseEnter);
             // 
             // nominalFrequency_textBox
             // 
@@ -302,12 +303,13 @@ namespace ScopeSetupApp
             // 
             // ConfigAddr_label
             // 
-            this.ConfigAddr_label.Location = new System.Drawing.Point(276, 10);
+            this.ConfigAddr_label.Location = new System.Drawing.Point(279, 7);
             this.ConfigAddr_label.Name = "ConfigAddr_label";
-            this.ConfigAddr_label.Size = new System.Drawing.Size(147, 26);
+            this.ConfigAddr_label.Size = new System.Drawing.Size(145, 26);
             this.ConfigAddr_label.TabIndex = 32;
             this.ConfigAddr_label.Text = "Configuration Address";
             this.ConfigAddr_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.ConfigAddr_label.MouseEnter += new System.EventHandler(this.ConfigAddr_MouseEnter);
             // 
             // OscilCmndAddr_textBox
             // 
@@ -320,12 +322,13 @@ namespace ScopeSetupApp
             // 
             // OscilCmndAddr_label
             // 
-            this.OscilCmndAddr_label.Location = new System.Drawing.Point(276, 35);
+            this.OscilCmndAddr_label.Location = new System.Drawing.Point(282, 35);
             this.OscilCmndAddr_label.Name = "OscilCmndAddr_label";
-            this.OscilCmndAddr_label.Size = new System.Drawing.Size(147, 26);
+            this.OscilCmndAddr_label.Size = new System.Drawing.Size(141, 26);
             this.OscilCmndAddr_label.TabIndex = 30;
             this.OscilCmndAddr_label.Text = "Oscil Cmnd Address";
             this.OscilCmndAddr_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.OscilCmndAddr_label.MouseEnter += new System.EventHandler(this.OscilCmndAddr_MouseEnter);
             // 
             // CommentRichTextBox
             // 
@@ -352,6 +355,7 @@ namespace ScopeSetupApp
             this.sampleRate_label.Size = new System.Drawing.Size(100, 15);
             this.sampleRate_label.TabIndex = 27;
             this.sampleRate_label.Text = "Sample rate (Hz)";
+            this.sampleRate_label.MouseEnter += new System.EventHandler(this.sampleRate_MouseEnter);
             // 
             // OscilSizeData_TextBox
             // 
@@ -370,14 +374,15 @@ namespace ScopeSetupApp
             this.OscilSizeData_label.TabIndex = 22;
             this.OscilSizeData_label.Text = "Oscill Size Data (Kbyte)";
             this.OscilSizeData_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.OscilSizeData_label.MouseEnter += new System.EventHandler(this.OscilSizeData_MouseEnter);
             // 
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tabPage3.Controls.Add(this.recordingDevice_textBox);
-            this.tabPage3.Controls.Add(this.label9);
+            this.tabPage3.Controls.Add(this.recordingDevice_label);
             this.tabPage3.Controls.Add(this.stationName_textBox);
-            this.tabPage3.Controls.Add(this.label14);
+            this.tabPage3.Controls.Add(this.stationName_label);
             this.tabPage3.Controls.Add(this.groupBox1);
             this.tabPage3.Controls.Add(this.nominalFrequency_textBox);
             this.tabPage3.Controls.Add(this.nominalFrequency_label);
@@ -397,14 +402,15 @@ namespace ScopeSetupApp
             this.recordingDevice_textBox.TabIndex = 39;
             this.recordingDevice_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // label9
+            // recordingDevice_label
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(48, 40);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(102, 15);
-            this.label9.TabIndex = 38;
-            this.label9.Text = "Recording device";
+            this.recordingDevice_label.AutoSize = true;
+            this.recordingDevice_label.Location = new System.Drawing.Point(48, 40);
+            this.recordingDevice_label.Name = "recordingDevice_label";
+            this.recordingDevice_label.Size = new System.Drawing.Size(102, 15);
+            this.recordingDevice_label.TabIndex = 38;
+            this.recordingDevice_label.Text = "Recording device";
+            this.recordingDevice_label.MouseEnter += new System.EventHandler(this.recordingDevice_MouseEnter);
             // 
             // stationName_textBox
             // 
@@ -415,24 +421,25 @@ namespace ScopeSetupApp
             this.stationName_textBox.TabIndex = 37;
             this.stationName_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // label14
+            // stationName_label
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(68, 13);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(80, 15);
-            this.label14.TabIndex = 36;
-            this.label14.Text = "Station name";
+            this.stationName_label.AutoSize = true;
+            this.stationName_label.Location = new System.Drawing.Point(68, 13);
+            this.stationName_label.Name = "stationName_label";
+            this.stationName_label.Size = new System.Drawing.Size(80, 15);
+            this.stationName_label.TabIndex = 36;
+            this.stationName_label.Text = "Station name";
+            this.stationName_label.MouseEnter += new System.EventHandler(this.stationName_MouseEnter);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.leapsec_textBox);
             this.groupBox1.Controls.Add(this.timeCode_textBox);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.leapsec_label);
+            this.groupBox1.Controls.Add(this.timeCode_label);
             this.groupBox1.Controls.Add(this.tmqCode_textBox);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.localCode_label);
+            this.groupBox1.Controls.Add(this.tmqCode_label);
             this.groupBox1.Controls.Add(this.localCode_textBox);
             this.groupBox1.Location = new System.Drawing.Point(278, 0);
             this.groupBox1.Name = "groupBox1";
@@ -459,23 +466,25 @@ namespace ScopeSetupApp
             this.timeCode_textBox.TabIndex = 28;
             this.timeCode_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // label7
+            // leapsec_label
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(390, 40);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(54, 15);
-            this.label7.TabIndex = 33;
-            this.label7.Text = "Leapsec";
+            this.leapsec_label.AutoSize = true;
+            this.leapsec_label.Location = new System.Drawing.Point(390, 40);
+            this.leapsec_label.Name = "leapsec_label";
+            this.leapsec_label.Size = new System.Drawing.Size(54, 15);
+            this.leapsec_label.TabIndex = 33;
+            this.leapsec_label.Text = "Leapsec";
+            this.leapsec_label.MouseEnter += new System.EventHandler(this.leapsec_MouseEnter);
             // 
-            // label6
+            // timeCode_label
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(74, 13);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(67, 15);
-            this.label6.TabIndex = 27;
-            this.label6.Text = "Time Code";
+            this.timeCode_label.AutoSize = true;
+            this.timeCode_label.Location = new System.Drawing.Point(74, 13);
+            this.timeCode_label.Name = "timeCode_label";
+            this.timeCode_label.Size = new System.Drawing.Size(67, 15);
+            this.timeCode_label.TabIndex = 27;
+            this.timeCode_label.Text = "Time Code";
+            this.timeCode_label.MouseEnter += new System.EventHandler(this.timeCode_MouseEnter);
             // 
             // tmqCode_textBox
             // 
@@ -486,23 +495,25 @@ namespace ScopeSetupApp
             this.tmqCode_textBox.TabIndex = 32;
             this.tmqCode_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // label5
+            // localCode_label
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(73, 40);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 15);
-            this.label5.TabIndex = 29;
-            this.label5.Text = "Local Code";
+            this.localCode_label.AutoSize = true;
+            this.localCode_label.Location = new System.Drawing.Point(73, 40);
+            this.localCode_label.Name = "localCode_label";
+            this.localCode_label.Size = new System.Drawing.Size(69, 15);
+            this.localCode_label.TabIndex = 29;
+            this.localCode_label.Text = "Local Code";
+            this.localCode_label.MouseEnter += new System.EventHandler(this.localCode_MouseEnter);
             // 
-            // label8
+            // tmqCode_label
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(379, 13);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(60, 15);
-            this.label8.TabIndex = 31;
-            this.label8.Text = "tmq Code";
+            this.tmqCode_label.AutoSize = true;
+            this.tmqCode_label.Location = new System.Drawing.Point(379, 13);
+            this.tmqCode_label.Name = "tmqCode_label";
+            this.tmqCode_label.Size = new System.Drawing.Size(60, 15);
+            this.tmqCode_label.TabIndex = 31;
+            this.tmqCode_label.Text = "tmq Code";
+            this.tmqCode_label.MouseEnter += new System.EventHandler(this.tmqCode_MouseEnter);
             // 
             // localCode_textBox
             // 
@@ -653,6 +664,35 @@ namespace ScopeSetupApp
             this.ChanneldataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChanneldataGridView_CellEndEdit);
             this.ChanneldataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.ChanneldataGridView_BindingComplete);
             // 
+            // SCPrintDialog
+            // 
+            this.SCPrintDialog.UseEXDialog = true;
+            // 
+            // SCPrintDocument
+            // 
+            this.SCPrintDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.SCPrintDocument_PrintPage);
+            // 
+            // SCPrintPreviewDialog
+            // 
+            this.SCPrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.SCPrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.SCPrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
+            this.SCPrintPreviewDialog.Enabled = true;
+            this.SCPrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("SCPrintPreviewDialog.Icon")));
+            this.SCPrintPreviewDialog.Name = "SCPrintPreviewDialog";
+            this.SCPrintPreviewDialog.Visible = false;
+            // 
+            // ConfigToSystem_label
+            // 
+            this.ConfigToSystem_label.AutoSize = true;
+            this.ConfigToSystem_label.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ConfigToSystem_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ConfigToSystem_label.Location = new System.Drawing.Point(427, 9);
+            this.ConfigToSystem_label.Name = "ConfigToSystem_label";
+            this.ConfigToSystem_label.Size = new System.Drawing.Size(127, 16);
+            this.ConfigToSystem_label.TabIndex = 34;
+            this.ConfigToSystem_label.Text = "Actual configuration:";
+            // 
             // Column_channelNames
             // 
             this.Column_channelNames.HeaderText = "Название";
@@ -732,60 +772,33 @@ namespace ScopeSetupApp
             // 
             this.Column_channelPhase.HeaderText = "Фаза";
             this.Column_channelPhase.Name = "Column_channelPhase";
-            this.Column_channelPhase.ToolTipText = "Фаза";
+            this.Column_channelPhase.ToolTipText = "Идентификатор фазы канала ";
             // 
             // Column_channelCcbm
             // 
             this.Column_channelCcbm.HeaderText = "Линия";
             this.Column_channelCcbm.Name = "Column_channelCcbm";
-            this.Column_channelCcbm.ToolTipText = "Линия";
+            this.Column_channelCcbm.ToolTipText = "Цепь / компонент, который контролируется ";
             // 
             // Column_channelDimension
             // 
             this.Column_channelDimension.HeaderText = "Физ. величина";
             this.Column_channelDimension.Name = "Column_channelDimension";
-            this.Column_channelDimension.ToolTipText = "Физическа величина";
+            this.Column_channelDimension.ToolTipText = "Единица измерения в канале (kV, kA, и т.д.) ";
             // 
             // Column_channelMin
             // 
             this.Column_channelMin.HeaderText = "Min.";
             this.Column_channelMin.Name = "Column_channelMin";
-            this.Column_channelMin.ToolTipText = "Минимальное значение";
+            this.Column_channelMin.ToolTipText = "Целое, равное минимальной величине (нижняя граница диапазона) для выборок этого к" +
+                "анала";
             // 
             // Column_channelMax
             // 
             this.Column_channelMax.HeaderText = "Max.";
             this.Column_channelMax.Name = "Column_channelMax";
-            this.Column_channelMax.ToolTipText = "Максимальное значение";
-            // 
-            // SCPrintDialog
-            // 
-            this.SCPrintDialog.UseEXDialog = true;
-            // 
-            // SCPrintDocument
-            // 
-            this.SCPrintDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.SCPrintDocument_PrintPage);
-            // 
-            // SCPrintPreviewDialog
-            // 
-            this.SCPrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this.SCPrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this.SCPrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
-            this.SCPrintPreviewDialog.Enabled = true;
-            this.SCPrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("SCPrintPreviewDialog.Icon")));
-            this.SCPrintPreviewDialog.Name = "SCPrintPreviewDialog";
-            this.SCPrintPreviewDialog.Visible = false;
-            // 
-            // ConfigToSystem_label
-            // 
-            this.ConfigToSystem_label.AutoSize = true;
-            this.ConfigToSystem_label.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ConfigToSystem_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ConfigToSystem_label.Location = new System.Drawing.Point(427, 9);
-            this.ConfigToSystem_label.Name = "ConfigToSystem_label";
-            this.ConfigToSystem_label.Size = new System.Drawing.Size(127, 16);
-            this.ConfigToSystem_label.TabIndex = 34;
-            this.ConfigToSystem_label.Text = "Actual configuration:";
+            this.Column_channelMax.ToolTipText = "Целое, равное максимальной величине (верхняя граница диапазона) для выборок этого" +
+                " канала";
             // 
             // ScopeConfigForm
             // 
@@ -843,16 +856,16 @@ namespace ScopeSetupApp
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox leapsec_textBox;
         private System.Windows.Forms.TextBox timeCode_textBox;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label leapsec_label;
+        private System.Windows.Forms.Label timeCode_label;
         private System.Windows.Forms.TextBox tmqCode_textBox;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label localCode_label;
+        private System.Windows.Forms.Label tmqCode_label;
         private System.Windows.Forms.TextBox localCode_textBox;
         private System.Windows.Forms.TextBox recordingDevice_textBox;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label recordingDevice_label;
         private System.Windows.Forms.TextBox stationName_textBox;
-        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label stationName_label;
         private System.Windows.Forms.ToolStripButton openButton;
         private System.Windows.Forms.TextBox sampleRate_textBox;
         private System.Windows.Forms.Label sampleRate_label;
