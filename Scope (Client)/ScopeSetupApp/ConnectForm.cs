@@ -17,11 +17,13 @@ namespace ScopeSetupApp
                 XmlNodeList adds = doc.GetElementsByTagName("ComPort");
                 foreach (XmlNode add in adds)
                 {
-                    add.Attributes["Name"].Value = portComboBox.SelectedIndex.ToString();
-                    add.Attributes["Speed"].Value = speedComboBox.SelectedIndex.ToString();
-                    add.Attributes["Parity"].Value = parityComboBox.SelectedIndex.ToString();
-                    add.Attributes["Addr"].Value = addrComboBox.SelectedIndex.ToString();
-
+                    if (add.Attributes != null)
+                    {
+                        add.Attributes["Name"].Value = portComboBox.SelectedIndex.ToString();
+                        add.Attributes["Speed"].Value = speedComboBox.SelectedIndex.ToString();
+                        add.Attributes["Parity"].Value = parityComboBox.SelectedIndex.ToString();
+                        add.Attributes["Addr"].Value = addrComboBox.SelectedIndex.ToString();
+                    }
                 }
                 doc.Save(comPortXmlName);
             }
@@ -53,14 +55,10 @@ namespace ScopeSetupApp
                 addrComboBox.Items.Add(i.ToString());
             }
 
-            if ((portComboBox.Items.Count - 1) < currentCom) 
-                        { portComboBox.SelectedIndex = 0; } else { portComboBox.SelectedIndex = currentCom; }
-            if ((addrComboBox.Items.Count - 1) < currentAddr) 
-                        { addrComboBox.SelectedIndex = 0; } else { addrComboBox.SelectedIndex = currentAddr; }
-            if ((speedComboBox.Items.Count - 1) < currentSpeed) 
-                        { speedComboBox.SelectedIndex = 0; } else { speedComboBox.SelectedIndex = currentSpeed; }
-            if ((parityComboBox.Items.Count - 1) < currentParity) 
-                        { parityComboBox.SelectedIndex = 0; } else { parityComboBox.SelectedIndex = currentParity; }
+            portComboBox.SelectedIndex = (portComboBox.Items.Count - 1) < currentCom ? 0 : currentCom;
+            addrComboBox.SelectedIndex = (addrComboBox.Items.Count - 1) < currentAddr ? 0 : currentAddr;
+            speedComboBox.SelectedIndex = (speedComboBox.Items.Count - 1) < currentSpeed ? 0 : currentSpeed;
+            parityComboBox.SelectedIndex = (parityComboBox.Items.Count - 1) < currentParity ? 0 : currentParity;
 
             if (connected)
             {

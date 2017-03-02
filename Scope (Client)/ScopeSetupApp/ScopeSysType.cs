@@ -49,7 +49,7 @@ namespace ScopeSetupApp
 
             try
             {
-                addr = Convert.ToUInt16(xmlline.Attributes[wrName].Value);
+                addr = xmlline.Attributes != null ? Convert.ToUInt16(xmlline.Attributes[wrName].Value) : (ushort) 0;
             }
             catch 
             {
@@ -63,7 +63,7 @@ namespace ScopeSetupApp
             var xmlline = xmls[0];
             try
             {
-                str = Convert.ToString(xmlline.Attributes["xmlns"].Value);
+                str = xmlline.Attributes != null ? Convert.ToString(xmlline.Attributes["xmlns"].Value) : "";
             }
             catch 
             {

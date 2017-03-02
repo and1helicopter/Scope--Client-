@@ -41,7 +41,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.radioButton = new System.Windows.Forms.TextBox();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.sizeOcsil_trackBar = new System.Windows.Forms.TrackBar();
             this.label8 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -65,7 +65,7 @@
             this.ConfigToSystem_label = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sizeOcsil_trackBar)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.possibleParamPanel.SuspendLayout();
@@ -88,7 +88,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(811, 38);
+            this.toolStrip1.Size = new System.Drawing.Size(884, 38);
             this.toolStrip1.TabIndex = 7;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -173,7 +173,7 @@
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.radioButton);
-            this.panel1.Controls.Add(this.trackBar1);
+            this.panel1.Controls.Add(this.sizeOcsil_trackBar);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label10);
@@ -192,7 +192,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 38);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(811, 147);
+            this.panel1.Size = new System.Drawing.Size(884, 147);
             this.panel1.TabIndex = 0;
             // 
             // label3
@@ -224,18 +224,18 @@
             this.radioButton.Text = "0";
             this.radioButton.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // trackBar1
+            // sizeOcsil_trackBar
             // 
-            this.trackBar1.Location = new System.Drawing.Point(727, 8);
-            this.trackBar1.Maximum = 100;
-            this.trackBar1.Minimum = 1;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar1.Size = new System.Drawing.Size(45, 125);
-            this.trackBar1.TabIndex = 13;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar1.Value = 100;
-            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            this.sizeOcsil_trackBar.Location = new System.Drawing.Point(727, 8);
+            this.sizeOcsil_trackBar.Maximum = 100;
+            this.sizeOcsil_trackBar.Minimum = 1;
+            this.sizeOcsil_trackBar.Name = "sizeOcsil_trackBar";
+            this.sizeOcsil_trackBar.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.sizeOcsil_trackBar.Size = new System.Drawing.Size(45, 125);
+            this.sizeOcsil_trackBar.TabIndex = 13;
+            this.sizeOcsil_trackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.sizeOcsil_trackBar.Value = 100;
+            this.sizeOcsil_trackBar.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             // 
             // label8
             // 
@@ -395,7 +395,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(811, 342);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(884, 276);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // panel2
@@ -406,7 +406,7 @@
             this.panel2.Location = new System.Drawing.Point(4, 5);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(803, 332);
+            this.panel2.Size = new System.Drawing.Size(876, 266);
             this.panel2.TabIndex = 2;
             // 
             // possibleParamPanel
@@ -419,7 +419,7 @@
             this.possibleParamPanel.Location = new System.Drawing.Point(0, 35);
             this.possibleParamPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.possibleParamPanel.Name = "possibleParamPanel";
-            this.possibleParamPanel.Size = new System.Drawing.Size(803, 297);
+            this.possibleParamPanel.Size = new System.Drawing.Size(876, 231);
             this.possibleParamPanel.TabIndex = 6;
             // 
             // listView1
@@ -435,7 +435,7 @@
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(803, 297);
+            this.listView1.Size = new System.Drawing.Size(876, 231);
             this.listView1.TabIndex = 8;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -450,7 +450,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(803, 35);
+            this.label2.Size = new System.Drawing.Size(876, 35);
             this.label2.TabIndex = 4;
             this.label2.Text = "Возможные для осциллографирования параметры";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -477,7 +477,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(811, 527);
+            this.ClientSize = new System.Drawing.Size(884, 461);
             this.Controls.Add(this.ConfigToSystem_label);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.panel1);
@@ -485,6 +485,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MinimumSize = new System.Drawing.Size(900, 500);
             this.Name = "ScopeSetupForm";
             this.Text = "Конфигурация осциллографа";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ScopeSetupForm_FormClosing);
@@ -492,7 +493,7 @@
             this.toolStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sizeOcsil_trackBar)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.possibleParamPanel.ResumeLayout(false);
@@ -530,7 +531,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label ConfigToSystem_label;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar sizeOcsil_trackBar;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label9;

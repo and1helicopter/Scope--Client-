@@ -436,7 +436,7 @@ namespace ScopeSetupApp
                 return 0;
             }
 
-            uint oscS = ScopeConfig.ConnectMcu ? Convert.ToUInt32((double)ScopeConfig.OscilAllSize / Convert.ToUInt32(_nowScopeCount) * ((double)trackBar1.Value / 100)) : Convert.ToUInt32((double)allSize *1024 / Convert.ToUInt32(_nowScopeCount) * ((double)trackBar1.Value / 100));
+            uint oscS = ScopeConfig.ConnectMcu ? Convert.ToUInt32((double)ScopeConfig.OscilAllSize / Convert.ToUInt32(_nowScopeCount) * ((double)sizeOcsil_trackBar.Value / 100)) : Convert.ToUInt32((double)allSize *1024 / Convert.ToUInt32(_nowScopeCount) * ((double)sizeOcsil_trackBar.Value / 100));
 
             while (oscS % 64 != 0 || oscS % sampleSize != 0)   // 
             { 		
@@ -954,8 +954,8 @@ namespace ScopeSetupApp
             else hystoryRadioButton.Clear();
             if (ScopeSysType.FrequncyCount != 0) oscFreqRadioButton.Text = Convert.ToString(ScopeSysType.FrequncyCount);
             else oscFreqRadioButton.Clear();
-            if (ScopeSysType.SizeValue > 0 && ScopeSysType.SizeValue <= 100) trackBar1.Value = ScopeSysType.SizeValue;
-            else trackBar1.Value = 100;
+            if (ScopeSysType.SizeValue > 0 && ScopeSysType.SizeValue <= 100) sizeOcsil_trackBar.Value = ScopeSysType.SizeValue;
+            else sizeOcsil_trackBar.Value = 100;
             radioButton.Clear();
 
             if (ScopeSysType.OscilEnable == 0) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false;}
@@ -1034,7 +1034,7 @@ namespace ScopeSetupApp
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("Size");
-                xmlOut.WriteAttributeString("Count", Convert.ToString(trackBar1.Value));
+                xmlOut.WriteAttributeString("Count", Convert.ToString(sizeOcsil_trackBar.Value));
                 xmlOut.WriteEndElement();
 
                 xmlOut.WriteStartElement("OscilEnable");
@@ -1129,7 +1129,7 @@ namespace ScopeSetupApp
         {
             if (ScopeConfig.ScopeCount != 0)
             {
-                trackBar1.Value = ScopeConfig.OscilSize * 100 * ScopeConfig.ScopeCount % ScopeConfig.OscilAllSize == 0 
+                sizeOcsil_trackBar.Value = ScopeConfig.OscilSize * 100 * ScopeConfig.ScopeCount % ScopeConfig.OscilAllSize == 0 
                     ? (int)(ScopeConfig.OscilSize * 100 * ScopeConfig.ScopeCount / ScopeConfig.OscilAllSize)
                     : (int)(ScopeConfig.OscilSize * 100 * ScopeConfig.ScopeCount / ScopeConfig.OscilAllSize) + 1;
             }
