@@ -231,8 +231,10 @@ namespace ModBusLibrary
 
            if (closeClicked) { closeClicked = false; CloseModBusPortProcess(); return; }
            
-           if (sendModBusData.RequestType == 0) { modBus.GetData(sendModBusData.StartAddr, sendModBusData.ReadCount); }
+           if (sendModBusData.RequestType == 0) { modBus.GetData(sendModBusData.StartAddr, sendModBusData.ReadCount, 0x03); }
            if (sendModBusData.RequestType == 1) { modBus.SetData(sendModBusData.StartAddr, sendModBusData.WriteCount, sendModBusData.WriteData); }
+           if (sendModBusData.RequestType == 2) { modBus.GetData(sendModBusData.StartAddr, sendModBusData.ReadCount, 0x04); }
+
         }
 
         static void CancelModBusRequest()

@@ -200,11 +200,11 @@ namespace ModBusLibrary
 
         }
 
-        public void GetData(ushort startAddr, ushort wordCount)
+        public void GetData(ushort startAddr, ushort wordCount, byte func)
         {
             if (requestProcessed) { return; }
             errorCount = 0;
-            CalcReadRequest((byte)addr, startAddr, wordCount);
+            CalcReadRequest((byte)addr, startAddr, wordCount, func);
             SendData();
         }
 
@@ -231,10 +231,10 @@ namespace ModBusLibrary
             }
         }
         
-        private void CalcReadRequest(byte addr, ushort startAddr, ushort wordCount)
+        private void CalcReadRequest(byte addr, ushort startAddr, ushort wordCount, byte func)
         {
             txBuffer[0] = addr;
-            txBuffer[1] = 0x03;
+            txBuffer[1] = func;   //0x03
             txBuffer[2] = (byte)(startAddr >> 8);
             txBuffer[3] = (byte)(startAddr);
             txBuffer[4] = (byte)(wordCount >> 8);

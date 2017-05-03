@@ -14,4 +14,9 @@
     <StartAction>Project</StartAction>
     <StartArguments>A</StartArguments>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <EnableSQLServerDebugging>false</EnableSQLServerDebugging>
+    <StartArguments>a</StartArguments>
+  </PropertyGroup>
 </Project>

@@ -1203,22 +1203,27 @@ namespace ScopeSetupApp
 
                 //Загрузка данных
                 case 1:
-                    {
-                        if (_loadOscDataSubStep == 0)
-                        {
-                            
-                            uint oscilLoadTemp = (CalcOscilLoadTemp());
-                           
-                            _writeArr[0] = 0x0001;
-                            _writeArr[1] = Convert.ToUInt16((oscilLoadTemp << 16) >> 16); 
-                            _writeArr[2] = Convert.ToUInt16(oscilLoadTemp >> 16);
+                {
 
-                            _modBusUnit.SetData((ushort)(ScopeSysType.OscilCmndAddr + 5), 3, _writeArr);
-                        }
-                        else
-                        {
-                            _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 40 + (_loadOscDataSubStep - 1) * 8), 8);
-                        }
+                    //if (_loadOscDataSubStep == 0)
+                    //{
+                    //    uint oscilLoadTemp = 0;//(CalcOscilLoadTemp());
+
+
+                    //    _writeArr[0] = 0x0001;
+                    //    _writeArr[1] = Convert.ToUInt16((oscilLoadTemp << 16) >> 16);
+                    //    _writeArr[2] = Convert.ToUInt16(oscilLoadTemp >> 16);
+
+                    //    _modBusUnit.SetData((ushort)(ScopeSysType.OscilCmndAddr + 5), 3, _writeArr);
+                    //}
+                    //else
+                    {
+                            // _modBusUnit.GetData((ushort)(ScopeSysType.OscilCmndAddr + 40 + (_loadOscDataSubStep - 1) * 8), 32);
+                            uint oscilLoadTemp = (CalcOscilLoadTemp()) >> 5;
+                            //(ushort)(oscilLoadTemp >> 5
+                            //_modBusUnit.GetData((ushort)((ScopeSysType.OscilCmndAddr + 40 + (_loadOscDataSubStep - 1) * 8) >> 0), 32);
+                        _modBusUnit.GetData04((ushort)(oscilLoadTemp), 32);
+                    }
 
                     } break;
             } 
@@ -1251,25 +1256,20 @@ namespace ScopeSetupApp
                     {
                         if (!_modBusUnit.modBusData.RequestError)
                         {
-                            switch (_loadOscDataSubStep)
-                            {
-                                case 0:
-                                    {
+                            //switch (_loadOscDataSubStep)
+                            //{
+                            //    case 0: break;
+                            //    case 1:
 
-                                    }break;
-                                case 1:
-                                case 2:
-                                case 3:
-                                case 4:
-                                    {
-                                        for (int i = 0; i < 8; i++)
+                            //        {
+                                        for (int i = 0; i < 32; i++)
                                         {
-                                            _loadParamPart[i + (_loadOscDataSubStep - 1) * 8] = _modBusUnit.modBusData.ReadData[i];
+                                            _loadParamPart[i/* + (_loadOscDataSubStep - 1) * 8*/] = _modBusUnit.modBusData.ReadData[i];
                                         }
-                                    }break;
-                            }
-                            _loadOscDataSubStep++;
-                            if (_loadOscDataSubStep == 5) 
+                            //        }break;
+                            //}
+                            //_loadOscDataSubStep++;
+                            //if (_loadOscDataSubStep == 2) 
                             {
                                 _downloadedData.Add(new ushort[32]);
                                 for (int i = 0; i < 32; i++)
@@ -1434,7 +1434,7 @@ namespace ScopeSetupApp
                 }
                 j = 0;
             }
-            paramsLines.RemoveAt(paramsLines.Count-1);
+           // paramsLines.RemoveAt(paramsLines.Count-1);
             //Формирую список начиная с предыстории 
             for(int i = 0; i < paramsLines.Count; i++)
             {
@@ -1806,15 +1806,22 @@ namespace ScopeSetupApp
         //Запуск приложения для просмотра осциллограмм
         private void ExecuteScopeView(string fileName)
         {
-            Process proc = new Process
+            try
             {
-                StartInfo =
+                Process proc = new Process
                 {
-                    FileName = CalcApplPath() + "ScopeViewer.exe",
-                    Arguments = "\"" + fileName + "\""
-                }
-            };
-            proc.Start();
+                    StartInfo =
+                    {
+                        FileName = CalcApplPath() + "ScopeViewer.exe",
+                        Arguments = "\"" + fileName + "\""
+                    }
+                };
+                proc.Start();
+            }
+            catch
+            {
+                MessageBox.Show(@"Программа для просмотра осциллограмм не найдена!", @"ScopeViewer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void toolStripButton2_Click_1(object sender, EventArgs e)

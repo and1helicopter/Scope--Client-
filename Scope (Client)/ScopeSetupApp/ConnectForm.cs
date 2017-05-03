@@ -106,7 +106,7 @@ namespace ScopeSetupApp
             }
             catch
             {
-                MessageBox.Show(@"Ошибка при создании файла!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"Ошибка при открытии COM - порта!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             Close();

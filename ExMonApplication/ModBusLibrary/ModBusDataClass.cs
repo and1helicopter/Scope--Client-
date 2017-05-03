@@ -11,7 +11,7 @@ namespace ModBusLibrary
         public byte RequestType
         {
             get { return requestType; }
-            set { if (value != 0) { requestType = 1; } else { requestType = 0; } }
+            set { requestType = value; }// requesttype   { if (value != 0) { requestType = 1; } else { requestType = 0; } }
         }
 
         int tag = 0;

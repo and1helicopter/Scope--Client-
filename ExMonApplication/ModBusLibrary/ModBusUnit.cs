@@ -57,7 +57,7 @@ namespace ModBusLibrary
             if (!ErrorLink)
             {
                 modBusData.RequestError = false;
-                if (modBusData.RequestType == 0)
+                if (modBusData.RequestType == 0 || modBusData.RequestType == 2)
                 {
                     for (i = 0; i < modBusData.ReadCount; i++)
                     {
@@ -84,6 +84,18 @@ namespace ModBusLibrary
             if (!portOpened) { return; }
             if (lineBusy) { return; } else { lineBusy = true; }
             modBusData.RequestType = 0;
+            modBusData.StartAddr = addr;
+            modBusData.ReadCount = (ushort)count;
+
+            while (ModBusClient.ModBusLocked) { }
+            if (NewRequest != null) NewRequest(this, new EventArgs());
+        }
+
+        public void GetData04(ushort addr, byte count)
+        {
+            if (!portOpened) { return; }
+            if (lineBusy) { return; } else { lineBusy = true; }
+            modBusData.RequestType = 2;
             modBusData.StartAddr = addr;
             modBusData.ReadCount = (ushort)count;
 
