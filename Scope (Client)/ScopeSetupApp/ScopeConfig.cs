@@ -141,8 +141,8 @@ namespace ScopeSetupApp
             for (int i = 0; i < 16; i++)
             {
                 char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
-                channelName += chars[1].ToString();
                 channelName += chars[0].ToString();
+                channelName += chars[1].ToString();
             }
             ChannelName.Add(channelName);
         }
@@ -155,8 +155,8 @@ namespace ScopeSetupApp
             string сhannelPhase = "";
 
             char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[0]));
-            сhannelPhase += chars[1].ToString();
             сhannelPhase += chars[0].ToString();
+            сhannelPhase += chars[1].ToString();
 
             ChannelPhase.Add(сhannelPhase);
         }
@@ -170,8 +170,8 @@ namespace ScopeSetupApp
             for (int i = 0; i < 8; i++)
             {
                 char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
-                channelCcbm += chars[1].ToString();
                 channelCcbm += chars[0].ToString();
+                channelCcbm += chars[1].ToString();
             }
             ChannelCcbm.Add(channelCcbm);
         }
@@ -184,8 +184,8 @@ namespace ScopeSetupApp
             for (int i = 0; i < 4; i++)
             {
                 char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
-                channelDemension += chars[1].ToString();
                 channelDemension += chars[0].ToString();
+                channelDemension += chars[1].ToString();
             }
             ChannelDemension.Add(channelDemension);
         }
@@ -207,8 +207,8 @@ namespace ScopeSetupApp
             for (int i = 0; i < 16; i++)
             {
                 char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
-                StationName += chars[1].ToString();
                 StationName += chars[0].ToString();
+                StationName += chars[1].ToString();
             }         
         }
         
@@ -221,8 +221,8 @@ namespace ScopeSetupApp
             for (int i = 0; i < 8; i++)
             {
                 char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
-                RecordingId += chars[1].ToString();
                 RecordingId += chars[0].ToString();
+                RecordingId += chars[1].ToString();
             }
         }
 
@@ -235,8 +235,8 @@ namespace ScopeSetupApp
             for (int i = 0; i < 4; i++)
             {
                 char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
-                TimeCode += chars[1].ToString();
                 TimeCode += chars[0].ToString();
+                TimeCode += chars[1].ToString();
             }
         }
 
@@ -249,8 +249,8 @@ namespace ScopeSetupApp
             for (int i = 0; i < 4; i++)
             {
                 char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
-                LocalCode += chars[1].ToString();
                 LocalCode += chars[0].ToString();
+                LocalCode += chars[1].ToString();
             }
         }
 
@@ -263,8 +263,8 @@ namespace ScopeSetupApp
             for (int i = 0; i < 4; i++)
             {
                 char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
-                TmqCode += chars[1].ToString();
                 TmqCode += chars[0].ToString();
+                TmqCode += chars[1].ToString();
             }
         }
 
@@ -277,8 +277,8 @@ namespace ScopeSetupApp
             for (int i = 0; i < 4; i++)
             {
                 char[] chars = Encoding.Default.GetChars(BitConverter.GetBytes(loadParams[i]));
-                Leapsec += chars[1].ToString();
                 Leapsec += chars[0].ToString();
+                Leapsec += chars[1].ToString();
             }
         }
     }
