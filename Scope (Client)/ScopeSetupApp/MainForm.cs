@@ -55,17 +55,16 @@ namespace ScopeSetupApp
             }
             catch
             {
-                MessageBox.Show(@"Неизв. формат удалось открыть файл с настройками!", @"Ошибка", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                Application.Exit();
+                MessageBox.Show(@"Файл с настройками не найден!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+              //  Application.Exit();
             }
 
             var xmls = doc.GetElementsByTagName(@"MainWindow");
 
             if (xmls.Count != 1)
             {
-                MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
+                //MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Application.Exit();
             }
             var xmlNode = xmls[0];
             try
@@ -79,8 +78,17 @@ namespace ScopeSetupApp
                 newHeight = 600;
                 newWidth = 800;
                 newWinState = 0;
-                MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public static Size SizeMainWindow;
+        public static FormWindowState WindowStateMainWindow;
+
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        {
+            SizeMainWindow = Size;
+            WindowStateMainWindow = WindowState;
         }
 
         private void SaveWindowSize(string comPortXmlName)
@@ -244,16 +252,16 @@ namespace ScopeSetupApp
             try { doc.Load(comPortXmlName); }
             catch
             {
-                MessageBox.Show(@"Не удалось открыть файл с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
+                //MessageBox.Show(@"Не удалось открыть файл с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Application.Exit();
             }
 
             var xmls = doc.GetElementsByTagName("ComPort");
 
             if (xmls.Count != 1)
             {
-                MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
+                //MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Application.Exit();
             }
             var xmlNode = xmls[0];
             try
@@ -262,7 +270,7 @@ namespace ScopeSetupApp
                 newPortIndex = Convert.ToInt32(xmlNode.Attributes["Name"].Value);
                 newSpeed = Convert.ToInt32(xmlNode.Attributes["Speed"].Value);
                 newPar = Convert.ToInt32(xmlNode.Attributes["Parity"].Value);
-                newAddr = Convert.ToInt32(xmlNode.Attributes["Addr"].Value);
+                newAddr = Convert.ToInt32(xmlNode.Attributes["Addr"].Value) - 1;
             }
             catch
             {
@@ -270,8 +278,8 @@ namespace ScopeSetupApp
                 newSpeed = 0;
                 newPar = 0;
                 newAddr = 1;
-                MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
+                //MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Application.Exit();
             }
         }
 
@@ -1189,8 +1197,6 @@ namespace ScopeSetupApp
         //Загрузка осциллограмм
         private List<ushort[]> _downloadedData = new List<ushort[]>();
 
-        private readonly ushort[] _writeArr = new ushort[4];
-
         private void LoadOscDataRequest()
         {
             switch (_loadOscDataStep)
@@ -1319,11 +1325,8 @@ namespace ScopeSetupApp
         private int     _loadOscDataStep;            //0 - загрузка loadOscilTemp
                                                     //1 - загрузка непосредственно тела
 
-        private int     _loadOscDataSubStep;            //0 - расчет MemoryAddr
-                                                    //1 - получение порции данных
-                                                    //2 - 
-                                                    //3 -
-                                                    //4 -
+        private int     _loadOscDataSubStep;           
+
         private readonly ushort[] _loadParamPart = new ushort[32];
 
         private int _loadOscNum;
@@ -1839,6 +1842,7 @@ namespace ScopeSetupApp
 
         private bool _createFileFlag;
         private int _createFileNum;
+
         private void timer2_Tick(object sender, EventArgs e)
         {
             timer2.Enabled = false;

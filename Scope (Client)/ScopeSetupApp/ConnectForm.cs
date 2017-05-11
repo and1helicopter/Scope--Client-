@@ -1,8 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 using ModBusLibrary;
-using System.Xml;
-
+using System.Xml.Linq;
 namespace ScopeSetupApp
 {
     public partial class ConnectForm : Form
@@ -11,29 +11,29 @@ namespace ScopeSetupApp
         {
             try
             {
-                var doc = new XmlDocument();
-                doc.Load(comPortXmlName);
+                FileStream fs = new FileStream(comPortXmlName, FileMode.Create);
 
-                XmlNodeList adds = doc.GetElementsByTagName("ComPort");
-                foreach (XmlNode add in adds)
-                {
-                    if (add.Attributes != null)
-                    {
-                        add.Attributes["Name"].Value = portComboBox.SelectedIndex.ToString();
-                        add.Attributes["Speed"].Value = speedComboBox.SelectedIndex.ToString();
-                        add.Attributes["Parity"].Value = parityComboBox.SelectedIndex.ToString();
-                        add.Attributes["Addr"].Value = addrComboBox.SelectedIndex.ToString();
-                    }
-                }
-                doc.Save(comPortXmlName);
+                XDocument xDocument =
+                    new XDocument(
+                        new XDeclaration("1.0", "utf-16", null),
+                        new XElement("Settings",
+                            new XElement("ComPort",
+                                new XAttribute("Name", portComboBox.SelectedIndex.ToString()),
+                                new XAttribute("Speed", speedComboBox.SelectedIndex.ToString()),
+                                new XAttribute("Parity", parityComboBox.SelectedIndex.ToString()),
+                                new XAttribute("Addr", addrComboBox.SelectedIndex.ToString())),
+                            new XElement("MainWindow",
+                                new XAttribute("Height", MainForm.SizeMainWindow.Height.ToString()),
+                                new XAttribute("Width", MainForm.SizeMainWindow.Width.ToString()),
+                                new XAttribute("WindowState", MainForm.WindowStateMainWindow == FormWindowState.Maximized ? 1.ToString() : 0.ToString()))));
+
+                xDocument.Save(fs);
+                fs.Close();
             }
             catch
             {
                 MessageBox.Show(@"Ошибка при создании файла!", @"Настройка соединения", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
             }
-
-            MessageBox.Show(@"Ошибка при создании файла!", @"Настройка соединения", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         
