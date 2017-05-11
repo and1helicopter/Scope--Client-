@@ -450,6 +450,27 @@ namespace ScopeSetupApp
             ScopeSysType.OscilSampleRate = Convert.ToUInt16(convert_text(sampleRate_textBox.Text, ""));
             ScopeSysType.OscilComment = Convert.ToString(CommentRichTextBox.Text);
 
+            if (!AdvanceConvert.StrToInt(ConfigAddr_textBox.Text))
+            {
+                MessageBox.Show(@"Ошибка в поле Configuration Addr");
+                return;
+            }
+            else
+            {
+                ScopeSysType.ConfigurationAddr = AdvanceConvert.uValue;
+            }
+
+
+            if (!AdvanceConvert.StrToInt(OscilCmndAddr_textBox.Text))
+            {
+                MessageBox.Show(@"Ошибка в поле Oscil Cmnd Addr");
+                return;
+            }
+            else
+            {
+                ScopeSysType.OscilCmndAddr = AdvanceConvert.uValue;
+            }
+
             ScopeSysType.StationName = Convert.ToString(stationName_textBox.Text);
             ScopeSysType.RecordingDevice = Convert.ToString(recordingDevice_textBox.Text);
             ScopeSysType.OscilNominalFrequency = Convert.ToUInt16(convert_text(nominalFrequency_textBox.Text, ""));

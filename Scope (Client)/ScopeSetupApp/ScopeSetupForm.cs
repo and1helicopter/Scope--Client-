@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Text;
 using System.Windows.Forms;
 using ModBusLibrary;
@@ -335,7 +336,14 @@ namespace ScopeSetupApp
                     double sampleCount = (double)OscilSize(_oscilAllSize, false) / OscilSize(_oscilAllSize, true);
                     double freq = (double)ScopeConfig.SampleRate / _nowOscFreq;
                     double timeSec = ((uint)sampleCount) / freq;
-                    DelayOsc.Text = @"Длительность: " + timeSec.ToString("0.000") + @" сек";
+                    if (Math.Abs(timeSec) < 0.001)
+                    {
+                        DelayOsc.Text = @"Длительность: " + @"-----";
+                    }
+                    else
+                    {
+                        DelayOsc.Text = @"Длительность: " + timeSec.ToString("0.000") + @" сек";
+                    }
                     DelayOsc.Visible = true;
                 }
                 else
@@ -343,7 +351,14 @@ namespace ScopeSetupApp
                     double sampleCount = (double) OscilSize(_oscilAllSize, false) / OscilSize(_oscilAllSize, true);
                     double freq = (double)ScopeSysType.OscilSampleRate / _nowOscFreq;
                     double timeSec = ((uint)sampleCount) / freq;
-                    DelayOsc.Text = @"Длительность: " + timeSec.ToString("0.000") + @" сек";
+                    if (Math.Abs(timeSec) < 0.001)
+                    {
+                        DelayOsc.Text = @"Длительность: " + @"-----";
+                    }
+                    else
+                    {
+                        DelayOsc.Text = @"Длительность: " + timeSec.ToString("0.000") + @" сек";
+                    }
                     DelayOsc.Visible = true;
                 }
             }
@@ -739,6 +754,7 @@ namespace ScopeSetupApp
                 if (j < tmqCode.Length) temptmqCodeStr[j] = tmqCodeStr[j];
                 else temptmqCodeStr[j] = 32;
             }
+
             for (int j = 1; j < 8; j += 2)
             {
                 _oscillConfig[1063 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(temptmqCodeStr[j]) << 8);
@@ -1131,9 +1147,16 @@ namespace ScopeSetupApp
         {
             if (ScopeConfig.ScopeCount != 0)
             {
-                sizeOcsil_trackBar.Value = ScopeConfig.OscilSize * 100 * ScopeConfig.ScopeCount % ScopeConfig.OscilAllSize == 0 
-                    ? (int)(ScopeConfig.OscilSize * 100 * ScopeConfig.ScopeCount / ScopeConfig.OscilAllSize)
-                    : (int)(ScopeConfig.OscilSize * 100 * ScopeConfig.ScopeCount / ScopeConfig.OscilAllSize) + 1;
+                try
+                {
+                    sizeOcsil_trackBar.Value = ScopeConfig.OscilSize * 100 * ScopeConfig.ScopeCount % ScopeConfig.OscilAllSize == 0
+                        ? (int) (ScopeConfig.OscilSize * 100 * ScopeConfig.ScopeCount / ScopeConfig.OscilAllSize)
+                        : (int) (ScopeConfig.OscilSize * 100 * ScopeConfig.ScopeCount / ScopeConfig.OscilAllSize) + 1;
+                }
+                catch
+                {
+                    MessageBox.Show(@"Ошибка при чтении конфигурации с платы", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
