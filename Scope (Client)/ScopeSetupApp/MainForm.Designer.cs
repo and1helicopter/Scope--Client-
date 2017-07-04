@@ -133,12 +133,12 @@ namespace ScopeSetupApp
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.connectBtn,
-			this.ConfigScopeButton,
-			this.toolStripButton,
-			this.OpenScope_Button,
-			this.loadScopeToolStripLabel,
-			this.loadDataProgressBar});
+            this.connectBtn,
+            this.ConfigScopeButton,
+            this.toolStripButton,
+            this.OpenScope_Button,
+            this.loadScopeToolStripLabel,
+            this.loadDataProgressBar});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -251,8 +251,8 @@ namespace ScopeSetupApp
 			this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip2.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.toolStripButton2,
-			this.Setting_toolStripButton});
+            this.toolStripButton2,
+            this.Setting_toolStripButton});
 			this.toolStrip2.Location = new System.Drawing.Point(813, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -292,7 +292,7 @@ namespace ScopeSetupApp
 			this.Setting_toolStripButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.Setting_toolStripButton.Size = new System.Drawing.Size(42, 42);
 			this.Setting_toolStripButton.Text = "Settings";
-			this.Setting_toolStripButton.Visible = false;
+			this.Setting_toolStripButton.Click += new System.EventHandler(this.Setting_toolStripButton_Click);
 			// 
 			// toolStripContainer2
 			// 
@@ -321,7 +321,7 @@ namespace ScopeSetupApp
 			// 
 			this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.label1});
+            this.label1});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 0);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(857, 22);

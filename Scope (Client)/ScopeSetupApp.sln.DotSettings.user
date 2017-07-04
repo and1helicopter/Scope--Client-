@@ -1,4 +1,12 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=F7B4C1FE3EA7421887F7FD79B951DA74/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=F7B4C1FE3EA7421887F7FD79B951DA74/ProductVersion/@EntryValue">2017.1</s:String>
+	<s:String x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=F7B4C1FE3EA7421887F7FD79B951DA74/SnapshotLocation/@EntryValue">C:\Users\and1h\AppData\Local\Temp\ssm.Dolaxox.tmp</s:String>
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/ContinuousTesting/ScopeCriterion/@EntryValue">9b0nIQIAAADRDtxcHwAAAEMAbwBuAHQAaQBuAHUAbwB1AHMAVABlAHMAdABpAG4AZwBIAG8AcwB0AFAAcgBvAHYAaQBkAGUAcgBJAGQAMIdivwEAAADlmsKXBgAAAE0AUwBUAGUAcwB0ACQAAAAzAEMARgA5AEMAQwA3AEYALQA5AEIAMwAxAC0ANAA2ADcAQQAtAEEAOQA3ADMALQBDADAAOAA2ADIAQQA5AEUAMgA3AEUAQwAcAAAALgBOAEUAVABGAHIAYQBtAGUAdwBvAHIAawAsAFYAZQByAHMAaQBvAG4APQB2ADQALgA1AC4AMgAcAAAAVQBuAGkAdABUAGUAcwB0AFAAcgBvAGoAZQBjAHQALgBIAGUAeABSAGUAZwB1AGwATQBvAGQAZQA=</s:String>
+	<s:Int64 x:Key="/Default/Environment/ContinuousTestingSessionDescriptor/GroupingIndex/@EntryValue">0</s:Int64>
 	<s:Boolean x:Key="/Default/Environment/RuntimeUsedReferences/SolutionImplicitUsedModulesNames/=ADSPLibrary/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/RuntimeUsedReferences/SolutionImplicitUsedModulesNames/=ModBusLibrary/@EntryIndexedValue">True</s:Boolean>
 	<s:Int64 x:Key="/Default/Environment/SearchAndNavigation/DefaultOccurrencesGroupingIndex/@EntryValue">2</s:Int64></wpf:ResourceDictionary>

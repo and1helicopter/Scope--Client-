@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Formats>
+	<Format name = "HexToPercent" index = "0" A = "1/40.96" B = "0" Z = "1" bitDepth = "int16" Smaller = "4"/>
+	<Format name = "HexToUint16" index = "1" A = "1" B = "0" Z = "1" bitDepth = "uint16" Smaller = "4"/>
+	<Format name = "HexToInt16" index = "2" A = "1" B = "0" Z = "1" bitDepth = "int16" Smaller = "4"/>
+	<Format name = "HexToFreq" index = "3" A = "1/8000.0" B = "0" Z = "-1" bitDepth = "uint16" Smaller = "4">
+		<Exaption message = "Н/Д" value = "0"/>
+		<Exaption message = "Н/Д" value = "‭16384‬"/>
+	</Format>
+	<Format name = "HexTo8_8" index = "4" A = "1/256.0" B = "0" Z = "1" bitDepth = "int16" Smaller = "4"/>
+	<Format name = "HexTo0_16" index = "5" A = "1/65536.0" B = "0" Z = "1" bitDepth = "uint16" Smaller = "4"/>
+	<Format name = "HexToSlide" index ="6" A = "1/327.68" B = "0" Z = "1" bitDepth = "uint16" Smaller = "4">
+		<Exaption message = "0" value = "320"/>
+	<Format/>
+	<Format name = "HexToDigits" index = "7" A ="1" B = "0" Z = "1" bitDepth = "uint16" OutFormat = "binary" Smaller = "0"/>
+	<Format name = "HexRegulMode" index = "8" A ="1" B = "0" Z = "1" bitDepth = "uint16" OutFormat = "string" Smaller = "4">
+		<Exaption message = "Авто" Value = "0"/>
+		<Exaption message = "Ручн." Value = "1"/>
+		<Exaption message = "Тест" Value = "other"/>
+	</Format>
+	<Format name = "HexToAVRType" index = "9" A ="1" B = "0" Z = "1" bitDepth = "uint16" OutFormat = "string" Smaller = "4">
+		<Exaption message = "cosФ" Value = "1"/>
+		<Exaption message = "Ire." Value = "2"/>
+		<Exaption message = "If" Value = "3"/>
+		<Exaption message = "U" Value = "other"/>
+	</Format>
+	<Format name = "HexToInt10" index = "10" A = "1/10.0" B = "0" Z = "1" bitDepth = "int16" Smaller = "4"/>
+	<Format name = "HexToHex" index = "11" A = "1" B = "0" Z = "1" bitDepth = "uint16" OutFormat = "hex" Smaller = "0"/>
+	<Format name = "HexToUf" index = "12" A = "0.135" B = "0" Z = "1" bitDepth = "int16" Smaller = "0"/>
+	<Format name = "HexToFreqNew" index = "13" A = "1/500.0" B = "0" Z = "1" bitDepth = "uint16" Smaller = "0"/>
+	<Format name = "HexToTT" index = "14" A = "1/2560.0" B = "0" Z = "-1" bitDepth = "int16" Smaller = "0">
+		<Exaption message = "Ошибка" Value = "16"/>
+	</Format>
+	<Format name = "HexToTransAlarm" index = "15" A = "0.00172633491500621954199424893092" B = "0" Z = "1" bitDepth = "int16" Smaller = "0"/>
+	<Format name = "HexToInt8" num = "16" A = "1/8.0" B = "0" Z = "1" bitDepth = "int16" Smaller = "0"/>
+	<Format name = "HexToUint1000" index = "17" A = "1/1000.0" B = "0" Z = "1" bitDepth = "uint16" Smaller = "0"/>
+	<Format name = "HexToPercent4" index = "18" A = "1/10.24" B = "0" Z = "1" bitDepth = "int16" Smaller = "0"/>
+	<Format name = "HexToFreqNew2" index = "19" A = "1/90000.0" B = "0" Z = "-1" bitDepth = "uint16" Smaller = "0">
+		<Exaption message = "Нет данных" value = "0"/>
+		<Exaption message = "Нет данных" value = "3600"/>
+	</Format>
+	<Format name = "HexToPercentUpp" index = "20" A = "1/20.48" B = "0" Z = "1" bitDepth = "int16" Smaller = "0"/>
+	<Format name = "HexToFreqUPTF" index = "21" A = "16000.0" B = "0" Z = "1" bitDepth = "uint16" Smaller = "0">
+		<Exaption message = "Нет данных" value = "0"/>
+		<Exaption message = "Нет данных" value = "‭16384‬"/>
+	</Format>
+</Formats>

@@ -9,6 +9,7 @@ using ADSPLibrary;
 using System.Xml;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using ScopeSetupApp.Format;
 
 namespace ScopeSetupApp
 {
@@ -122,6 +123,9 @@ namespace ScopeSetupApp
 
 
 			InitializeComponent();
+
+			FormatConverter.ReadFormats();
+
 			try
 			{
 				ScopeSysType.InitScopeSysType();
@@ -1808,6 +1812,14 @@ namespace ScopeSetupApp
 
 		private bool _createFileFlag;
 		private int _createFileNum;
+
+		private Form1 _formTest;
+
+		private void Setting_toolStripButton_Click(object sender, EventArgs e)
+		{
+			_formTest = new Form1();
+			_formTest.Show();
+		}
 
 		private void timer2_Tick(object sender, EventArgs e)
 		{

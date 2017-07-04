@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ScopeSetupApp;
+using ScopeSetupApp.Format;
 
 namespace UnitTestProject
 {
@@ -112,6 +112,12 @@ namespace UnitTestProject
 		public void HexToSlide_2()
 		{
 			Assert.AreEqual((100).ToString("F4"), FormatConverter.GetValue(32768, 6));
+		}
+
+		[TestMethod]
+		public void HexToSlide_3()
+		{
+			Assert.AreEqual((0.9765625).ToString("F4"), FormatConverter.GetValue(320, 6));
 		}
 	}
 
@@ -232,5 +238,40 @@ namespace UnitTestProject
 			Assert.AreEqual((-24.7487373).ToString("F7"), FormatConverter.GetValue(51200, 15));
 		}
 	}
+
+	[TestClass]
+	public class HexRegulMode
+	{
+		[TestMethod]
+		public void HexRegulMode_1()
+		{
+			Assert.AreEqual((0).ToString("D"), FormatConverter.GetValue(0, 8));
+		}
+
+		[TestMethod]
+		public void HexRegulMode_2()
+		{
+			Assert.AreEqual((1).ToString("D"), FormatConverter.GetValue(1, 8));
+		}
+
+		[TestMethod]
+		public void HexRegulMode_3()
+		{
+			Assert.AreEqual((11).ToString("D"), FormatConverter.GetValue(11, 8));
+		}
+	}
+
+	//[TestClass]
+	//public class TestDouble
+	//{
+	//	[TestMethod]
+	//	public void TestDouble_1()
+	//	{
+	//		FormatConverter.FormatList.Add(new FormatConverter.Format("HexToPercent", "int16", "1 / 40.96", "0", "1", "double", 2));
+
+	//		Assert.AreEqual((0.0244140625).ToString("F2"), (FormatConverter.FormatList[0].A).ToString("F2"));
+	//	}
+
+	//}
 
 }

@@ -1,38 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 
-namespace ScopeSetupApp
+namespace ScopeSetupApp.Format
 {
 	public static class FormatConverter
 	{
-		public static List<Format> formatList = new List<Format>()
+		public static List<Format> FormatList = new List<Format>()
 		{
-			new Format("HexToPercent", 0, "int16", 1/40.96, 0, 1, "double", 2),
-			new Format("HexToUint16", 1, "uint16", 1, 0, 1, "double", 4),
-			new Format("HexToInt16", 2, "int16", 1, 0, 1, "double", 4),
-			new Format("HexToFreq", 3, "uint16", 1/8000.0, 0, -1, "double", 4),
-			new Format("HexTo8_8", 4, "int16", 1/256.0, 0, 1, "double", 4),
-			new Format("HexTo0_16", 5, "uint16", 1/65536.0, 0, 1, "double", 4),
-			new Format("HexToSlide", 6, "uint16", 1/327.68, 0, 1, "double", 4),
-			new Format("HexToDigits", 7, "uint16", 1, 0, 1, "binary", 0),
-			new Format("OLOLOLO", 8, "uint16", 1/327.68, 0, 1, "double", 4),
-			new Format("OLOLOLO", 9, "uint16", 1, 0, 1, "binary", 0),
-			new Format("HexToInt10", 10, "int16", 1/10.0, 0, 1, "double", 4),
-			new Format("HexToHex", 11, "uint16", 1, 0, 1, "hex", 0),
-			new Format("HexToUf", 12, "int16", 0.135, 0, 1, "double", 4),
-			new Format("HexToFreqNew", 13, "uint16", 1/500.0, 0, 1, "double", 4),
-			new Format("HexToTT", 14, "int16", 1/2560.0, 0, -1, "double", 2),
-			new Format("HexToTransAlarm", 15, "int16", 0.00172633491500621954199424893092, 0, 1, "double", 7 ),
-			new Format("HexToInt8", 16, "int16", 1/8.0, 0, 1, "double", 2),
-			new Format("HexToUint1000", 17, "uint16", 1/1000.0, 0, 1, "double", 2),
-			new Format("HexToPercent4", 18, "int16", 1/10.24, 0, 1, "double", 2),
-			new Format("HexToFreqNew2", 19, "uint16", 1/90000.0, 0, -1, "double", 2),
-			new Format("HexToPercentUpp", 20, "int16", 1/20.48, 0, 1, "double", 2),
-			new Format("HexToFreqUPTF", 21, "uint16", 16000, 0, 1, "double", 2)
+			new Format("HexToPercent",  "int16", "1/40.96", "0", "1", "double", 2),
+			new Format("HexToUint16", "uint16", "1", "0", "1", "double", 4),
+			new Format("HexToInt16", "int16", "1", "0", "1", "double", 4),
+			new Format("HexToFreq", "uint16", "1/8000.0", "0", "-1", "double", 4),
+			new Format("HexTo8_8", "int16", "1/256.0", "0", "1", "double", 4),
+			new Format("HexTo0_16", "uint16", "1/65536.0", "0", "1", "double", 4),
+			new Format("HexToSlide", "uint16", "1/327.68", "0", "1", "double", 4),
+			new Format("HexToDigits", "uint16", "1", "0", "1", "binary", 0),
+			new Format("HexRegulMode", "uint16", "1", "0", "1", "double", 0),
+			new Format("HexToAVRType", "uint16", "1", "0", "1", "double", 0),
+			new Format("HexToInt10", "int16", "1/10.0", "0", "1", "double", 4),
+			new Format("HexToHex", "uint16", "1", "0", "1", "hex", 0),
+			new Format("HexToUf", "int16", "0.135", "0", "1", "double", 4),
+			new Format("HexToFreqNew", "uint16", "1/500.0", "0", "1", "double", 4),
+			new Format("HexToTT", "int16", "1/2560.0", "0", "-1", "double", 2),
+			new Format("HexToTransAlarm", "int16", "0.00172633491500621954199424893092", "0", "1", "double", 7 ),
+			new Format("HexToInt8", "int16", "1/8.0", "0", "1", "double", 2),
+			new Format("HexToUint1000", "uint16", "1/1000.0", "0", "1", "double", 2),
+			new Format("HexToPercent4", "int16", "1/10.24", "0", "1", "double", 2),
+			new Format("HexToFreqNew2", "uint16", "1/90000.0", "0", "-1", "double", 2),
+			new Format("HexToPercentUpp", "int16", "1/20.48", "0", "1", "double", 2),
+			new Format("HexToFreqUPTF", "uint16", "16000", "0", "1", "double", 2)
 		};
-
-
+		
 		/*  ____Discription____ 
 		(A*value + B)^Z
 								
@@ -47,14 +48,14 @@ namespace ScopeSetupApp
 
 		binary
 		hex
-		string
 		double
 		*/
 
 		public static string GetValue(ulong value, byte indexFormat)
 		{
-			Format temp = formatList[indexFormat];
+			Format temp = FormatList[indexFormat];
 			string str = "";
+		
 			switch (temp.BitDepth.Sign)
 			{
 				case true:
@@ -81,7 +82,7 @@ namespace ScopeSetupApp
 							str = Math.Pow((temp.A * (uint)value + temp.B), temp.Z).ToString($"F{temp.Smaller}");
 							break;
 						case 3:
-							str = Math.Pow((temp.A * (ulong)value + temp.B), temp.Z).ToString($"F{temp.Smaller}");
+							str = Math.Pow((temp.A * value + temp.B), temp.Z).ToString($"F{temp.Smaller}");
 							break;
 					}
 					break;
@@ -95,67 +96,96 @@ namespace ScopeSetupApp
 				case "hex":
 					str = Convert.ToString(Convert.ToInt64(str), 16).ToUpper();
 					break;
-				case "string":
-					break;
-			}
-
-			if (temp.ExaptionList.Any())
-			{
-				foreach (var itemExaption in temp.ExaptionList)
-				{
-					if (Math.Abs(itemExaption.Value - Convert.ToDouble(str)) < 0.00001)
-					{
-						str = itemExaption.Massage;
-						break;
-					}
-				}
 			}
 
 			return str;
 		}
 
-
-
-
 		public class Format
 		{
-			public string Name { get;  }
-			public int Index { get;  }
-			public BitDepth BitDepth { get; }
-			public double A { get;  }
-			public double B { get;  }
-			public double Z { get;  }
-			public string OutFormat { get;  }
-			public int Smaller { get; }
-			public List<Exaption> ExaptionList = new List<Exaption>();
+			public string Name { get; set; }
+			public BitDepth BitDepth { get; set; }
+			public string AStr { get; private set; }
+			public double A { get; private set; }
+			public string BStr { get; private set; }
+			public double B { get; private set; }
+			public string ZStr{ get; private set; }
+			public double Z { get; private set; }
+			public string OutFormat { get; set; }
+			public uint Smaller { get; set; }
 
-			public Format(string name, int index, string bitDepth, double a, double b, double z, string outFormat, int smaller)
+			public void AChange(string a)
+			{
+				AStr = a;
+				A = ConvertToDouble(AStr);
+			}
+
+			public void BChange(string b)
+			{
+				BStr = b;
+				B = ConvertToDouble(BStr);
+			}
+
+			public void ZChange(string z)
+			{
+				ZStr = z;
+				Z = ConvertToDouble(ZStr);
+			}
+
+			public Format(string name, string bitDepth, string a, string b, string z, string outFormat, uint smaller)
 			{
 				Name = name;
-				Index = index;
 				BitDepth = new BitDepth(bitDepth);
-				A = a;
-				B = b;
-				Z = z;
+				AStr = a;
+				A = ConvertToDouble(AStr);
+				BStr = b;
+				B = ConvertToDouble(BStr);
+				ZStr = z;
+				Z = ConvertToDouble(ZStr);
 				OutFormat = outFormat;
 				Smaller = smaller;
 			}
 
-			public class Exaption 
+			private double ConvertToDouble(string val)
 			{
-				public double Value { get; }
-				public string Massage { get; }
+				double valOut;
 
-				public Exaption(double val, string mes)
+				if (val.Split('/').Length == 2)
 				{
-					Value = val;
-					Massage = mes;
+					var valStr = val.Split('/');
+					valOut = Convert.ToDouble(valStr[0].Length != 0 ? valStr[0].Replace('.', ','):"0") 
+						/ Convert.ToDouble(valStr[1].Length != 0 ? valStr[1].Replace('.',','):"1");
 				}
+				//else if (val.Split('*').Length == 2)
+				//{
+				//	var valStr = val.Split('*');
+				//	valOut = Convert.ToDouble(valStr[0].Length != 0 ? valStr[0].Replace('.', ',') : "0")
+				//	         * Convert.ToDouble(valStr[1].Length != 0 ? valStr[1].Replace('.', ',') : "0");
+				//}
+				//else if (val.Split('+').Length == 2)
+				//{
+				//	var valStr = val.Split('+');
+				//	valOut = Convert.ToDouble(valStr[0].Length != 0 ? valStr[0].Replace('.', ','):"0") 
+				//		+ Convert.ToDouble(valStr[1].Length != 0 ? valStr[1].Replace('.', ',') : "0");
+				//}
+				//else if (val.Split('-').Length == 2)
+				//{
+				//	var valStr = val.Split('-');
+				//	valOut = Convert.ToDouble(valStr[0].Length != 0 ? valStr[0].Replace('.', ',') : "0") 
+				//		- Convert.ToDouble(valStr[1].Length != 0? valStr[1].Replace('.', ','):"0");
+				//}
+				else
+				{
+					valOut = Convert.ToDouble(val.Replace('.', ','));
+				}
+
+				return valOut;
 			}
 		}
 
 		public class BitDepth
 		{
+			public string Name { get; }
 			public ushort Bit { get; }		// 16 - 1, 32 - 2, 64 - 3
 			public bool Sign { get; }		// Signed - true, Unsigned - false
 
@@ -166,29 +196,144 @@ namespace ScopeSetupApp
 					case "uint16":
 						Bit = 1;
 						Sign = false;
+						Name = "uint16";
 						break;
 					case "uint32":
 						Bit = 2;
 						Sign = false;
+						Name = "uint32";
 						break;
 					case "uint64":
 						Bit = 3;
 						Sign = false;
+						Name = "uint64";
 						break;
 					case "int16":
 						Bit = 1;
 						Sign = true;
+						Name = "int16";
 						break;
 					case "int32":
 						Bit = 2;
 						Sign = true;
+						Name = "int32";
 						break;
 					case "int64":
 						Bit = 3;
 						Sign = true;
+						Name = "int64";
 						break;
 				}
 			}
 		}
+
+		public static void ReadFormats()
+		{
+			//задаем путь к нашему рабочему файлу XML
+			string filePath = @"Formats.xml";
+
+			XDocument doc;
+			try
+			{
+				doc = XDocument.Load(filePath);
+			}
+			catch
+			{
+				return;
+			}
+
+			//читаем данные из файла
+			var xElement = doc.Element("Formats");
+			if (xElement != null)
+			{
+				var formatList = xElement.Elements("Format").ToList();
+
+				foreach (var itemFormat in formatList)
+				{
+					if (itemFormat.Attribute("name") != null)
+					{
+						if (!(from x in FormatList
+							 where x.Name == itemFormat.Attribute("name")?.Value
+							 select x).ToList().Any())
+						{
+							FormatList.Add(new Format(
+								itemFormat.Attribute("name")?.Value,
+								itemFormat.Attribute("bitDepth")?.Value,
+								itemFormat.Attribute("A")?.Value,
+								itemFormat.Attribute("B")?.Value, 
+								itemFormat.Attribute("Z")?.Value,
+								itemFormat.Attribute("OutFormat")?.Value,
+								Convert.ToUInt32(itemFormat.Attribute("Smaller")?.Value)));
+						}
+					}
+				}
+			}
+		}
+
+		public static void SaveFormats()
+		{
+			string savePath = "Formats.xml";
+
+			FileStream fs = new FileStream(savePath, FileMode.Create);
+
+			XDocument xDocument =new XDocument(new XElement("Formats"));
+
+			foreach (var itemFormat in FormatList)
+			{
+				xDocument.Element("Formats")?.Add(new XElement("Format",
+					new XAttribute("name", Convert.ToString(itemFormat.Name)),
+					new XAttribute("bitDepth", BitDepthToString(itemFormat.BitDepth)),
+					new XAttribute("OutFormat", Convert.ToString(itemFormat.OutFormat)),
+					new XAttribute("Smaller", Convert.ToString(itemFormat.Smaller)),
+					new XAttribute("A", itemFormat.AStr),
+					new XAttribute("B", itemFormat.BStr),
+					new XAttribute("Z", itemFormat.ZStr)));
+			}
+
+			xDocument.Save(fs);
+			fs.Close();
+		}
+
+		private static string BitDepthToString(BitDepth item)
+		{
+			//public ushort Bit { get; }      // 16 - 1, 32 - 2, 64 - 3
+			//public bool Sign { get; }		// Signed - true, Unsigned - false
+
+			string val;
+
+			if (item.Sign)
+			{
+				switch (item.Bit)
+				{
+					case 3:
+						val = "int64";
+						break;
+					case 2:
+						val = "int32";
+						break;
+					default:
+						val = "int16";
+						break;
+				}
+			}
+			else
+			{
+				switch (item.Bit)
+				{
+					case 3:
+						val = "uint64";
+						break;
+					case 2:
+						val = "uint32";
+						break;
+					default:
+						val = "uint16";
+						break;
+				}
+			}
+
+			return val;
+		}
+
 	}
 }
