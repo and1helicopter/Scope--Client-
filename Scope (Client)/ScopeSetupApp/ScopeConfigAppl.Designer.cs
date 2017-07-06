@@ -2,35 +2,36 @@
 
 namespace ScopeSetupApp
 {
-    partial class ScopeConfigForm
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+	partial class ScopeConfigForm
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
-        #region Windows Form Designer generated code
+		#region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScopeConfigForm));
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.mailToolStrip = new System.Windows.Forms.ToolStrip();
 			this.openButton = new System.Windows.Forms.ToolStripButton();
 			this.saveButton = new System.Windows.Forms.ToolStripButton();
@@ -642,6 +643,7 @@ namespace ScopeSetupApp
 			// ChanneldataGridView
 			// 
 			this.ChanneldataGridView.AllowUserToAddRows = false;
+			this.ChanneldataGridView.AllowUserToDeleteRows = false;
 			this.ChanneldataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.ChanneldataGridView.BackgroundColor = System.Drawing.SystemColors.HighlightText;
 			this.ChanneldataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -657,6 +659,14 @@ namespace ScopeSetupApp
             this.Column_channelDimension,
             this.Column_channelMin,
             this.Column_channelMax});
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ChanneldataGridView.DefaultCellStyle = dataGridViewCellStyle1;
 			this.ChanneldataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ChanneldataGridView.Location = new System.Drawing.Point(0, 0);
 			this.ChanneldataGridView.Name = "ChanneldataGridView";
@@ -843,74 +853,74 @@ namespace ScopeSetupApp
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
-        }
+		}
 
-        #endregion
+		#endregion
 
-        private System.Windows.Forms.ToolStrip mailToolStrip;
-        private System.Windows.Forms.ToolStripButton saveButton;
-        private System.Windows.Forms.TextBox nominalFrequency_textBox;
-        private System.Windows.Forms.Label nominalFrequency_label;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.TextBox OscilSizeData_TextBox;
-        private System.Windows.Forms.Label OscilSizeData_label;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Panel configPanel;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox leapsec_textBox;
-        private System.Windows.Forms.TextBox timeCode_textBox;
-        private System.Windows.Forms.Label leapsec_label;
-        private System.Windows.Forms.Label timeCode_label;
-        private System.Windows.Forms.TextBox tmqCode_textBox;
-        private System.Windows.Forms.Label localCode_label;
-        private System.Windows.Forms.Label tmqCode_label;
-        private System.Windows.Forms.TextBox localCode_textBox;
-        private System.Windows.Forms.TextBox recordingDevice_textBox;
-        private System.Windows.Forms.Label recordingDevice_label;
-        private System.Windows.Forms.TextBox stationName_textBox;
-        private System.Windows.Forms.Label stationName_label;
-        private System.Windows.Forms.ToolStripButton openButton;
-        private System.Windows.Forms.TextBox sampleRate_textBox;
-        private System.Windows.Forms.Label sampleRate_label;
-        private System.Windows.Forms.PrintDialog SCPrintDialog;
-        private System.Drawing.Printing.PrintDocument SCPrintDocument;
-        private System.Windows.Forms.PrintPreviewDialog SCPrintPreviewDialog;
-        private System.Windows.Forms.RichTextBox CommentRichTextBox;
-        private System.Windows.Forms.ToolStripButton View_toolStripButton;
-        private System.Windows.Forms.ToolStripButton Print_toolStripButton;
-        private System.Windows.Forms.ToolStripButton Update_toolStripButton;
-        private System.Windows.Forms.ToolStripButton SetDefault_toolStripButton;
-        private System.Windows.Forms.TextBox ConfigAddr_textBox;
-        private System.Windows.Forms.Label ConfigAddr_label;
-        private System.Windows.Forms.TextBox OscilCmndAddr_textBox;
-        private System.Windows.Forms.Label OscilCmndAddr_label;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.Label ConfigToSystem_label;
-        private System.Windows.Forms.DataGridView ChanneldataGridView;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private DataGridViewTextBoxColumn Column_channelNames;
-        private DataGridViewTextBoxColumn Column_channelGroupNames;
-        private DataGridViewComboBoxColumn Column_channelTypeAd;
-        private DataGridViewTextBoxColumn Column_channelAddrs;
-        private DataGridViewComboBoxColumn Column_channelformatNumeric;
-        private DataGridViewComboBoxColumn Column_channelFormats;
-        private DataGridViewTextBoxColumn Column_channelPhase;
-        private DataGridViewTextBoxColumn Column_channelCcbm;
-        private DataGridViewTextBoxColumn Column_channelDimension;
-        private DataGridViewTextBoxColumn Column_channelMin;
-        private DataGridViewTextBoxColumn Column_channelMax;
+		private System.Windows.Forms.ToolStrip mailToolStrip;
+		private System.Windows.Forms.ToolStripButton saveButton;
+		private System.Windows.Forms.TextBox nominalFrequency_textBox;
+		private System.Windows.Forms.Label nominalFrequency_label;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.TabPage tabPage3;
+		private System.Windows.Forms.Panel panel5;
+		private System.Windows.Forms.TextBox OscilSizeData_TextBox;
+		private System.Windows.Forms.Label OscilSizeData_label;
+		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.Panel configPanel;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.TextBox leapsec_textBox;
+		private System.Windows.Forms.TextBox timeCode_textBox;
+		private System.Windows.Forms.Label leapsec_label;
+		private System.Windows.Forms.Label timeCode_label;
+		private System.Windows.Forms.TextBox tmqCode_textBox;
+		private System.Windows.Forms.Label localCode_label;
+		private System.Windows.Forms.Label tmqCode_label;
+		private System.Windows.Forms.TextBox localCode_textBox;
+		private System.Windows.Forms.TextBox recordingDevice_textBox;
+		private System.Windows.Forms.Label recordingDevice_label;
+		private System.Windows.Forms.TextBox stationName_textBox;
+		private System.Windows.Forms.Label stationName_label;
+		private System.Windows.Forms.ToolStripButton openButton;
+		private System.Windows.Forms.TextBox sampleRate_textBox;
+		private System.Windows.Forms.Label sampleRate_label;
+		private System.Windows.Forms.PrintDialog SCPrintDialog;
+		private System.Drawing.Printing.PrintDocument SCPrintDocument;
+		private System.Windows.Forms.PrintPreviewDialog SCPrintPreviewDialog;
+		private System.Windows.Forms.RichTextBox CommentRichTextBox;
+		private System.Windows.Forms.ToolStripButton View_toolStripButton;
+		private System.Windows.Forms.ToolStripButton Print_toolStripButton;
+		private System.Windows.Forms.ToolStripButton Update_toolStripButton;
+		private System.Windows.Forms.ToolStripButton SetDefault_toolStripButton;
+		private System.Windows.Forms.TextBox ConfigAddr_textBox;
+		private System.Windows.Forms.Label ConfigAddr_label;
+		private System.Windows.Forms.TextBox OscilCmndAddr_textBox;
+		private System.Windows.Forms.Label OscilCmndAddr_label;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.Label ConfigToSystem_label;
+		private System.Windows.Forms.DataGridView ChanneldataGridView;
+		private System.Windows.Forms.ToolStrip toolStrip1;
+		private System.Windows.Forms.ToolStripButton toolStripButton5;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripButton toolStripButton3;
+		private System.Windows.Forms.ToolStripButton toolStripButton2;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+		private System.Windows.Forms.ToolStripButton toolStripButton1;
+		private DataGridViewTextBoxColumn Column_channelNames;
+		private DataGridViewTextBoxColumn Column_channelGroupNames;
+		private DataGridViewComboBoxColumn Column_channelTypeAd;
+		private DataGridViewTextBoxColumn Column_channelAddrs;
+		private DataGridViewComboBoxColumn Column_channelformatNumeric;
+		private DataGridViewComboBoxColumn Column_channelFormats;
+		private DataGridViewTextBoxColumn Column_channelPhase;
+		private DataGridViewTextBoxColumn Column_channelCcbm;
+		private DataGridViewTextBoxColumn Column_channelDimension;
+		private DataGridViewTextBoxColumn Column_channelMin;
+		private DataGridViewTextBoxColumn Column_channelMax;
 
-    }
+	}
 }
 

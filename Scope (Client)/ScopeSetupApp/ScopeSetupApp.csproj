@@ -81,6 +81,7 @@
     <Compile Include="ConnectForm.Designer.cs">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Format\FormatList.cs" />
     <Compile Include="Format\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

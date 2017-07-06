@@ -36,6 +36,8 @@ namespace ScopeSetupApp
 			this.timer2 = new System.Windows.Forms.Timer(this.components);
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.MainPanel = new System.Windows.Forms.Panel();
+			this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.nowStatusFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.connectBtn = new System.Windows.Forms.ToolStripButton();
@@ -48,13 +50,16 @@ namespace ScopeSetupApp
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.Setting_toolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
-			this.label1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.connect_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.config_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			MainForm.format_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripContainer3 = new System.Windows.Forms.ToolStripContainer();
 			this.toolStripContainer4 = new System.Windows.Forms.ToolStripContainer();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
 			this.MainPanel.SuspendLayout();
+			this.tableLayoutPanel.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.toolStrip2.SuspendLayout();
 			this.toolStripContainer2.ContentPanel.SuspendLayout();
@@ -104,7 +109,7 @@ namespace ScopeSetupApp
 			// MainPanel
 			// 
 			this.MainPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.MainPanel.Controls.Add(this.nowStatusFlowLayoutPanel);
+			this.MainPanel.Controls.Add(this.tableLayoutPanel);
 			this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.MainPanel.Location = new System.Drawing.Point(244, 0);
 			this.MainPanel.Margin = new System.Windows.Forms.Padding(0);
@@ -112,15 +117,39 @@ namespace ScopeSetupApp
 			this.MainPanel.Size = new System.Drawing.Size(569, 444);
 			this.MainPanel.TabIndex = 0;
 			// 
+			// tableLayoutPanel
+			// 
+			this.tableLayoutPanel.ColumnCount = 2;
+			this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.tableLayoutPanel.Controls.Add(this.flowLayoutPanel1, 0, 0);
+			this.tableLayoutPanel.Controls.Add(this.nowStatusFlowLayoutPanel, 1, 0);
+			this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+			this.tableLayoutPanel.Name = "tableLayoutPanel";
+			this.tableLayoutPanel.RowCount = 1;
+			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.tableLayoutPanel.Size = new System.Drawing.Size(569, 444);
+			this.tableLayoutPanel.TabIndex = 4;
+			// 
+			// flowLayoutPanel1
+			// 
+			this.flowLayoutPanel1.BackColor = System.Drawing.Color.DarkRed;
+			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(278, 438);
+			this.flowLayoutPanel1.TabIndex = 3;
+			// 
 			// nowStatusFlowLayoutPanel
 			// 
 			this.nowStatusFlowLayoutPanel.AutoScroll = true;
 			this.nowStatusFlowLayoutPanel.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.nowStatusFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.nowStatusFlowLayoutPanel.Location = new System.Drawing.Point(0, 0);
+			this.nowStatusFlowLayoutPanel.Location = new System.Drawing.Point(287, 4);
 			this.nowStatusFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.nowStatusFlowLayoutPanel.Name = "nowStatusFlowLayoutPanel";
-			this.nowStatusFlowLayoutPanel.Size = new System.Drawing.Size(569, 444);
+			this.nowStatusFlowLayoutPanel.Size = new System.Drawing.Size(279, 436);
 			this.nowStatusFlowLayoutPanel.TabIndex = 2;
 			this.nowStatusFlowLayoutPanel.Tag = "";
 			// 
@@ -133,12 +162,12 @@ namespace ScopeSetupApp
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.connectBtn,
-            this.ConfigScopeButton,
-            this.toolStripButton,
-            this.OpenScope_Button,
-            this.loadScopeToolStripLabel,
-            this.loadDataProgressBar});
+			this.connectBtn,
+			this.ConfigScopeButton,
+			this.toolStripButton,
+			this.OpenScope_Button,
+			this.loadScopeToolStripLabel,
+			this.loadDataProgressBar});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -251,8 +280,8 @@ namespace ScopeSetupApp
 			this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip2.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton2,
-            this.Setting_toolStripButton});
+			this.toolStripButton2,
+			this.Setting_toolStripButton});
 			this.toolStrip2.Location = new System.Drawing.Point(813, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -312,21 +341,33 @@ namespace ScopeSetupApp
 			this.toolStripContainer2.Text = "toolStripContainer2";
 			this.toolStripContainer2.TopToolStripPanelVisible = false;
 			// 
-			// label1
+			// connect_toolStripStatusLabel
 			// 
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(0, 17);
+			this.connect_toolStripStatusLabel.Name = "connect_toolStripStatusLabel";
+			this.connect_toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
 			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.label1});
+			this.connect_toolStripStatusLabel,
+			this.config_toolStripStatusLabel,
+			MainForm.format_toolStripStatusLabel});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 0);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(857, 22);
 			this.statusStrip1.TabIndex = 0;
 			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// config_toolStripStatusLabel
+			// 
+			this.config_toolStripStatusLabel.Name = "config_toolStripStatusLabel";
+			this.config_toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
+			// 
+			// format_toolStripStatusLabel
+			// 
+			MainForm.format_toolStripStatusLabel.Name = "format_toolStripStatusLabel";
+			MainForm.format_toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
 			// 
 			// toolStripContainer3
 			// 
@@ -392,6 +433,7 @@ namespace ScopeSetupApp
 			this.toolStripContainer1.ResumeLayout(false);
 			this.toolStripContainer1.PerformLayout();
 			this.MainPanel.ResumeLayout(false);
+			this.tableLayoutPanel.ResumeLayout(false);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
 			this.toolStrip2.ResumeLayout(false);
@@ -428,13 +470,17 @@ namespace ScopeSetupApp
 		private System.Windows.Forms.ToolStripProgressBar loadDataProgressBar;
 		private System.Windows.Forms.FlowLayoutPanel nowStatusFlowLayoutPanel;
 		private System.Windows.Forms.ToolStripContainer toolStripContainer2;
-		private System.Windows.Forms.ToolStripStatusLabel label1;
+		private System.Windows.Forms.ToolStripStatusLabel connect_toolStripStatusLabel;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripContainer toolStripContainer3;
 		private System.Windows.Forms.ToolStripContainer toolStripContainer4;
 		private System.Windows.Forms.ToolStrip toolStrip2;
 		private System.Windows.Forms.ToolStripButton toolStripButton2;
 		private System.Windows.Forms.ToolStripButton Setting_toolStripButton;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
+		private System.Windows.Forms.ToolStripStatusLabel config_toolStripStatusLabel;
+		private static System.Windows.Forms.ToolStripStatusLabel format_toolStripStatusLabel;
 	}
 }
 

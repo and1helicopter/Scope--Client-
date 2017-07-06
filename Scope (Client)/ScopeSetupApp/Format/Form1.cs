@@ -21,10 +21,6 @@ namespace ScopeSetupApp.Format
 			{
 				ChangeSmallCol(e);
 			}
-			else if (FormatsdataGridView.Columns[e.ColumnIndex].Name == "zCol")
-			{
-				ChangeZCol(e);
-			}
 			else if (FormatsdataGridView.Columns[e.ColumnIndex].Name == "bCol")
 			{
 				ChangeBCol(e);
@@ -43,13 +39,6 @@ namespace ScopeSetupApp.Format
 			}
 		}
 
-		private void button1_Click(object sender, EventArgs e)
-		{
-			//FormatConverter.ReadFormats();
-			//	smallerCol.
-
-		}
-
 		private void ChangeSmallCol(DataGridViewCellEventArgs i)
 		{
 			try
@@ -62,20 +51,6 @@ namespace ScopeSetupApp.Format
 			{
 				MessageBox.Show(@"Неверно введены данные", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				FormatsdataGridView.Rows[i.RowIndex].Cells[i.ColumnIndex].Value = i.RowIndex < FormatConverter.FormatList.Count ? FormatConverter.FormatList[i.RowIndex].Smaller : 0;
-			}
-		}
-
-		private void ChangeZCol(DataGridViewCellEventArgs i)
-		{
-			var val = FormatsdataGridView.Rows[i.RowIndex].Cells[i.ColumnIndex].Value.ToString();
-			if (ValidateConvertToDouble(val))
-			{
-				FormatConverter.FormatList[i.RowIndex].ZChange(val);
-			}
-			else
-			{
-				MessageBox.Show(@"Неверно введены данные", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				FormatsdataGridView.Rows[i.RowIndex].Cells[i.ColumnIndex].Value = FormatConverter.FormatList[i.RowIndex].ZStr;
 			}
 		}
 
@@ -143,22 +118,6 @@ namespace ScopeSetupApp.Format
 			}
 		}
 
-		//private void addLineButton_Click(object sender, EventArgs e)
-		//{
-		//	ChanneldataGridView.Rows.Add("Параметр", "", _typeChannel[0], "0x" + (ChanneldataGridView.Rows.Count - 1).ToString("X4"), _sizeFormat[0], _format[0], "", "", "NONE", -1, 1);
-		//	UpdateTable();
-		//}
-
-
-		//private void deleteButton_Click(object sender, EventArgs e)
-		//{
-		//	foreach (DataGridViewRow item in ChanneldataGridView.SelectedRows)
-		//	{
-		//		ChanneldataGridView.Rows.RemoveAt(item.Index);
-		//	}
-		//	UpdateTable();
-		//}
-
 		private void InitTable()
 		{
 			CreateTable();
@@ -176,9 +135,7 @@ namespace ScopeSetupApp.Format
 						f.BitDepth.Name,
 						f.AStr,
 						f.BStr,
-						f.ZStr,
-						f.Smaller
-					);
+						f.Smaller);
 				}
 				catch
 				{
@@ -186,16 +143,6 @@ namespace ScopeSetupApp.Format
 					return;
 				}
 			}
-		}
-
-		private void UpdateTable()
-		{
-			foreach (DataGridViewRow r in FormatsdataGridView.Rows)
-			{
-				FormatsdataGridView.Rows[r.Index].HeaderCell.Value = (r.Index + 1).ToString();
-			}
-
-			SetDoubleBuffered(FormatsdataGridView, true);
 		}
 
 		void SetDoubleBuffered(Control c, bool value)
@@ -207,9 +154,66 @@ namespace ScopeSetupApp.Format
 			}
 		}
 
-		private void button2_Click(object sender, EventArgs e)
+		private void oldFormat_checkBox_Click(object sender, EventArgs e)
 		{
-			FormatConverter.SaveFormats();
+			FormatConverter.OldFormat = !FormatConverter.OldFormat;
+			FormatConverter.UpdateVisualFormat();
+			MainForm.FormatStatusLabel.Invoke();
+		}
+
+		private void addFormatButton_Click(object sender, EventArgs e)
+		{
+			FormatsdataGridView.Rows.Add("Format", "uint16", "1", "0", "0");
+			FormatConverter.FormatList.Add(new FormatConverter.Format("Format", "uint16", "1", "0", 0));
+
+			UpdateTable();
+		}
+
+		private void UpdateTable()
+		{
+			foreach (DataGridViewRow r in FormatsdataGridView.Rows)
+			{
+				//FormatsdataGridView.Rows[r.Index].HeaderCell.Value = (r.Index + 1).ToString();
+			}
+
+			SetDoubleBuffered(FormatsdataGridView, true);
+		}
+
+		private static string _nameFileFormat = "Formats.xml";
+
+		private void openFormatButton_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog ofd = new OpenFileDialog
+			{
+				DefaultExt = @".xml",			// Default file extension
+				Filter = @"XML|*.xml"			// Filter files by extension 
+			};
+
+			if (ofd.ShowDialog() == DialogResult.OK)
+			{
+				_nameFileFormat = ofd.FileName;
+				FormatConverter.ReadFormats(ofd.FileName);
+			}
+		}
+
+		private void saveFormatButton_Click(object sender, EventArgs e)
+		{
+			SaveFileDialog sfd = new SaveFileDialog
+			{
+				DefaultExt = @".xml",			// Default file extension
+				Filter = @"XML|*.xml",
+				FileName = _nameFileFormat
+			};
+
+			if (sfd.ShowDialog() == DialogResult.OK)
+			{
+				FormatConverter.SaveFormats(sfd.FileName);
+			}
+		}
+
+		private void removeFormatButton_Click(object sender, EventArgs e)
+		{
+			//FormatsdataGridView.
 		}
 	}
 }

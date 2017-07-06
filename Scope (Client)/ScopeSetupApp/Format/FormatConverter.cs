@@ -6,37 +6,33 @@ using System.Xml.Linq;
 
 namespace ScopeSetupApp.Format
 {
-	public static class FormatConverter
+	public static partial class FormatConverter
 	{
-		public static List<Format> FormatList = new List<Format>()
+		public static bool OldFormat;
+
+		public static readonly List<Format> FormatList = new List<Format>()
 		{
-			new Format("HexToPercent",  "int16", "1/40.96", "0", "1", "double", 2),
-			new Format("HexToUint16", "uint16", "1", "0", "1", "double", 4),
-			new Format("HexToInt16", "int16", "1", "0", "1", "double", 4),
-			new Format("HexToFreq", "uint16", "1/8000.0", "0", "-1", "double", 4),
-			new Format("HexTo8_8", "int16", "1/256.0", "0", "1", "double", 4),
-			new Format("HexTo0_16", "uint16", "1/65536.0", "0", "1", "double", 4),
-			new Format("HexToSlide", "uint16", "1/327.68", "0", "1", "double", 4),
-			new Format("HexToDigits", "uint16", "1", "0", "1", "binary", 0),
-			new Format("HexRegulMode", "uint16", "1", "0", "1", "double", 0),
-			new Format("HexToAVRType", "uint16", "1", "0", "1", "double", 0),
-			new Format("HexToInt10", "int16", "1/10.0", "0", "1", "double", 4),
-			new Format("HexToHex", "uint16", "1", "0", "1", "hex", 0),
-			new Format("HexToUf", "int16", "0.135", "0", "1", "double", 4),
-			new Format("HexToFreqNew", "uint16", "1/500.0", "0", "1", "double", 4),
-			new Format("HexToTT", "int16", "1/2560.0", "0", "-1", "double", 2),
-			new Format("HexToTransAlarm", "int16", "0.00172633491500621954199424893092", "0", "1", "double", 7 ),
-			new Format("HexToInt8", "int16", "1/8.0", "0", "1", "double", 2),
-			new Format("HexToUint1000", "uint16", "1/1000.0", "0", "1", "double", 2),
-			new Format("HexToPercent4", "int16", "1/10.24", "0", "1", "double", 2),
-			new Format("HexToFreqNew2", "uint16", "1/90000.0", "0", "-1", "double", 2),
-			new Format("HexToPercentUpp", "int16", "1/20.48", "0", "1", "double", 2),
-			new Format("HexToFreqUPTF", "uint16", "16000", "0", "1", "double", 2)
+			new Format("HexToPercent",  "int16", "1/40.96", "0", 2),
+			new Format("HexToUint16", "uint16", "1", "0", 4),
+			new Format("HexToInt16", "int16", "1", "0", 4),
+			new Format("HexTo8_8", "int16", "1/256.0", "0", 4),
+			new Format("HexTo0_16", "uint16", "1/65536.0", "0", 4),
+			new Format("HexToSlide", "uint16", "1/327.68", "0", 4),
+			new Format("HexToInt10", "int16", "1/10.0", "0", 4),
+			new Format("HexToHex", "uint16", "1", "0", 0),
+			new Format("HexToUf", "int16", "0.135", "0", 4),
+			new Format("HexToFreqNew", "uint16", "1/500.0", "0", 4),
+			new Format("HexToTransAlarm", "int16", "0.00172633491500621954199424893092", "0", 7 ),
+			new Format("HexToInt8", "int16", "1/8.0", "0", 2),
+			new Format("HexToUint1000", "uint16", "1/1000.0", "0", 2),
+			new Format("HexToPercent4", "int16", "1/10.24", "0", 2),
+			new Format("HexToPercentUpp", "int16", "1/20.48", "0", 2),
+			new Format("HexToFreqUPTF", "uint16", "16000", "0", 2)
 		};
-		
+
 		/*  ____Discription____ 
 		(A*value + B)^Z
-								
+		A*value + B  // нужно получить такой вид						
 		Bit depth:		 
 						
 		uint16  int16	16bit	1
@@ -50,25 +46,30 @@ namespace ScopeSetupApp.Format
 		hex
 		double
 		*/
-
+	
 		public static string GetValue(ulong value, byte indexFormat)
+		{
+			return OldFormat ? GetOldFormat(value, indexFormat) : GetNewFormat(value, indexFormat);
+		}
+
+		private static string GetNewFormat(ulong value, byte indexFormat)
 		{
 			Format temp = FormatList[indexFormat];
 			string str = "";
-		
+
 			switch (temp.BitDepth.Sign)
 			{
 				case true:
 					switch (temp.BitDepth.Bit)
 					{
 						case 1:
-							str = Math.Pow((temp.A * (short)value + temp.B), temp.Z).ToString($"F{temp.Smaller}");
+							str = (temp.A * (short)value + temp.B).ToString($"F{temp.Smaller}");
 							break;
 						case 2:
-							str = Math.Pow((temp.A * (int)value + temp.B), temp.Z).ToString($"F{temp.Smaller}");
+							str = (temp.A * (int)value + temp.B).ToString($"F{temp.Smaller}");
 							break;
 						case 3:
-							str = Math.Pow((temp.A * (long)value + temp.B), temp.Z).ToString($"F{temp.Smaller}");
+							str = (temp.A * (long)value + temp.B).ToString($"F{temp.Smaller}");
 							break;
 					}
 					break;
@@ -76,25 +77,15 @@ namespace ScopeSetupApp.Format
 					switch (temp.BitDepth.Bit)
 					{
 						case 1:
-							str = Math.Pow((temp.A * (ushort)value + temp.B), temp.Z).ToString($"F{temp.Smaller}");
+							str = (temp.A * (ushort)value + temp.B).ToString($"F{temp.Smaller}");
 							break;
 						case 2:
-							str = Math.Pow((temp.A * (uint)value + temp.B), temp.Z).ToString($"F{temp.Smaller}");
+							str = (temp.A * (uint)value + temp.B).ToString($"F{temp.Smaller}");
 							break;
 						case 3:
-							str = Math.Pow((temp.A * value + temp.B), temp.Z).ToString($"F{temp.Smaller}");
+							str = (temp.A * value + temp.B).ToString($"F{temp.Smaller}");
 							break;
 					}
-					break;
-			}
-
-			switch (temp.OutFormat)
-			{
-				case "binary":
-					str = Convert.ToString(Convert.ToInt64(str), 2).ToUpper();
-					break;
-				case "hex":
-					str = Convert.ToString(Convert.ToInt64(str), 16).ToUpper();
 					break;
 			}
 
@@ -109,9 +100,6 @@ namespace ScopeSetupApp.Format
 			public double A { get; private set; }
 			public string BStr { get; private set; }
 			public double B { get; private set; }
-			public string ZStr{ get; private set; }
-			public double Z { get; private set; }
-			public string OutFormat { get; set; }
 			public uint Smaller { get; set; }
 
 			public void AChange(string a)
@@ -126,13 +114,7 @@ namespace ScopeSetupApp.Format
 				B = ConvertToDouble(BStr);
 			}
 
-			public void ZChange(string z)
-			{
-				ZStr = z;
-				Z = ConvertToDouble(ZStr);
-			}
-
-			public Format(string name, string bitDepth, string a, string b, string z, string outFormat, uint smaller)
+			public Format(string name, string bitDepth, string a, string b, uint smaller)
 			{
 				Name = name;
 				BitDepth = new BitDepth(bitDepth);
@@ -140,9 +122,6 @@ namespace ScopeSetupApp.Format
 				A = ConvertToDouble(AStr);
 				BStr = b;
 				B = ConvertToDouble(BStr);
-				ZStr = z;
-				Z = ConvertToDouble(ZStr);
-				OutFormat = outFormat;
 				Smaller = smaller;
 			}
 
@@ -156,24 +135,6 @@ namespace ScopeSetupApp.Format
 					valOut = Convert.ToDouble(valStr[0].Length != 0 ? valStr[0].Replace('.', ','):"0") 
 						/ Convert.ToDouble(valStr[1].Length != 0 ? valStr[1].Replace('.',','):"1");
 				}
-				//else if (val.Split('*').Length == 2)
-				//{
-				//	var valStr = val.Split('*');
-				//	valOut = Convert.ToDouble(valStr[0].Length != 0 ? valStr[0].Replace('.', ',') : "0")
-				//	         * Convert.ToDouble(valStr[1].Length != 0 ? valStr[1].Replace('.', ',') : "0");
-				//}
-				//else if (val.Split('+').Length == 2)
-				//{
-				//	var valStr = val.Split('+');
-				//	valOut = Convert.ToDouble(valStr[0].Length != 0 ? valStr[0].Replace('.', ','):"0") 
-				//		+ Convert.ToDouble(valStr[1].Length != 0 ? valStr[1].Replace('.', ',') : "0");
-				//}
-				//else if (val.Split('-').Length == 2)
-				//{
-				//	var valStr = val.Split('-');
-				//	valOut = Convert.ToDouble(valStr[0].Length != 0 ? valStr[0].Replace('.', ',') : "0") 
-				//		- Convert.ToDouble(valStr[1].Length != 0? valStr[1].Replace('.', ','):"0");
-				//}
 				else
 				{
 					valOut = Convert.ToDouble(val.Replace('.', ','));
@@ -227,10 +188,10 @@ namespace ScopeSetupApp.Format
 			}
 		}
 
-		public static void ReadFormats()
+		public static void ReadFormats(string filePath)
 		{
 			//задаем путь к нашему рабочему файлу XML
-			string filePath = @"Formats.xml";
+			if(filePath == null) filePath = @"Formats.xml";
 
 			XDocument doc;
 			try
@@ -239,6 +200,7 @@ namespace ScopeSetupApp.Format
 			}
 			catch
 			{
+				OldFormat = true;
 				return;
 			}
 
@@ -261,18 +223,18 @@ namespace ScopeSetupApp.Format
 								itemFormat.Attribute("bitDepth")?.Value,
 								itemFormat.Attribute("A")?.Value,
 								itemFormat.Attribute("B")?.Value, 
-								itemFormat.Attribute("Z")?.Value,
-								itemFormat.Attribute("OutFormat")?.Value,
 								Convert.ToUInt32(itemFormat.Attribute("Smaller")?.Value)));
 						}
 					}
 				}
 			}
+
+			OldFormat = false;
 		}
 
-		public static void SaveFormats()
+		public static void SaveFormats(string savePath)
 		{
-			string savePath = "Formats.xml";
+			if(savePath == null) savePath = "Formats.xml";
 
 			FileStream fs = new FileStream(savePath, FileMode.Create);
 
@@ -283,11 +245,9 @@ namespace ScopeSetupApp.Format
 				xDocument.Element("Formats")?.Add(new XElement("Format",
 					new XAttribute("name", Convert.ToString(itemFormat.Name)),
 					new XAttribute("bitDepth", BitDepthToString(itemFormat.BitDepth)),
-					new XAttribute("OutFormat", Convert.ToString(itemFormat.OutFormat)),
 					new XAttribute("Smaller", Convert.ToString(itemFormat.Smaller)),
 					new XAttribute("A", itemFormat.AStr),
-					new XAttribute("B", itemFormat.BStr),
-					new XAttribute("Z", itemFormat.ZStr)));
+					new XAttribute("B", itemFormat.BStr)));
 			}
 
 			xDocument.Save(fs);
@@ -333,6 +293,262 @@ namespace ScopeSetupApp.Format
 			}
 
 			return val;
+		}
+
+		private static string GetOldFormat(ulong value, byte indexFormat)
+		{
+
+			string str;
+			switch (indexFormat)
+			{
+				case 0:
+					str = HexToPercent(value);
+					break;
+				case 1:
+					str = HexToUint16(value);
+					break;
+				case 2:
+					str = HexToInt16(value);
+					break;
+				case 3:
+					str = HexToFreq(value);
+					break;
+				case 4:
+					str = HexTo8_8(value);
+					break;
+				case 5:
+					str = HexTo0_16(value);
+					break;
+				case 6:
+					str = HexToSlide(value);
+					break;
+				case 7:
+					str = HexToDigits(value);
+					break;
+				case 8:
+					str = HexRegulMode(value);
+					break;
+				case 9:
+					str = HexToAVRType(value);
+					break;
+				case 10:
+					str = HexToInt10(value);
+					break;
+				case 11:
+					str = HexToHex(value);
+					break;
+				case 12:
+					str = HexToUf(value);
+					break;
+				case 13:
+					str = HexToFreqNew(value);
+					break;
+				case 14:
+					str = HexToTT(value);
+					break;
+				case 15:
+					str = HexToTransAlarm(value);
+					break;
+				case 16:
+					str = HexToInt8(value);
+					break;
+				case 17:
+					str = HexToUint1000(value);
+					break;
+				case 18:
+					str = HexToPercent4(value);
+					break;
+				case 19:
+					str = HexToFreqNew2(value);
+					break;
+				case 20:
+					str = HexToPercentUpp(value);
+					break;
+				case 21:
+					str = HexToFreqUPTF(value);
+					break;
+				default:
+					str = "Неизв. формат";
+					break;
+			}
+			return (str);
+		}
+
+		private static string HexToPercent(ulong value)
+		{
+			double f = (short)value / 40.96;
+			return (f.ToString("F"));
+		}
+
+		private static string HexToUint16(ulong value)
+		{
+			return ((ushort)value).ToString();
+		}
+
+		private static string HexToInt16(ulong value)
+		{
+			return ((short)value).ToString();
+		}
+
+		private static string HexToFreq(ulong value)
+		{
+			string str;
+			switch (value)
+			{
+				case 0:
+					str = "Н/Д";
+					break;
+				case 0x4000:
+					str = "Н/Д";
+					break;
+				default:
+					double f = 8000.0 / value;
+					str = f.ToString("F2");
+					break;
+			}
+			return str;
+		}
+
+		private static string HexTo8_8(ulong value)
+		{
+			double f = (short)value / 256.0;
+			return (f.ToString("F2"));
+		}
+
+		private static string HexTo0_16(ulong value)
+		{
+			double f = (ushort)(value) / 65536.0;
+			return (f.ToString("F3"));
+		}
+
+		private static string HexToSlide(ulong value)
+		{
+			double f = (ushort)value / 327.68;
+			if (value == 320) { f = 0; }
+			return (f.ToString("F2"));
+		}
+
+		private static string HexToDigits(ulong value)
+		{
+			string str = Convert.ToString((long)value, 2);
+			return str;
+		}
+
+		private static string HexRegulMode(ulong value)
+		{
+			string str;
+			switch (value)
+			{
+				case 0: { str = "Авто"; } break;
+				case 1: { str = "Ручн."; } break;
+				default: { str = "Тест"; } break;
+			}
+			return str;
+		}
+
+		private static string HexToAVRType(ulong value)
+		{
+			string str;
+			switch (value)
+			{
+				case 1: { str = "cosФ"; } break;
+				case 2: { str = "Ire"; } break;
+				case 3: { str = "If"; } break;
+				default: { str = "U"; } break;
+			}
+			return str;
+		}
+
+		private static string HexToInt10(ulong value)
+		{
+			double f = (short)value / 10.0;
+			return f.ToString("F1");
+		}
+
+		private static string HexToHex(ulong value)
+		{
+			return ("0x" + ((ushort)value).ToString("X4"));
+		}
+
+		private static string HexToUf(ulong value)
+		{
+			double f = (short)value * 0.135;
+			return (f.ToString("F1"));
+		}
+
+		private static string HexToFreqNew(ulong value)
+		{
+			double f = (ushort)value / 500.0;
+			return (f.ToString("F1"));
+		}
+
+		private static string HexToTT(ulong value)
+		{
+			if (value < 0x0010) { return "Ошибка"; }
+			double f = 2560.0 / (short)(value);
+			return (f.ToString("F2"));
+		}
+
+		private static string HexToTransAlarm(ulong value)
+		{
+			double f = (short)value * 0.00172633491500621954199424893092;
+			return (f.ToString("F1"));
+		}
+
+		private static string HexToInt8(ulong value)
+		{
+			double f = (short)value / 8.0;
+			return (f.ToString("F0"));
+		}
+
+		private static string HexToUint1000(ulong value)
+		{
+			double f = value / 1000.0;
+			return (f.ToString("F3"));
+		}
+
+		private static string HexToPercent4(ulong value)
+		{
+			double f = (short)value / 10.24;
+			return (f.ToString("F2"));
+		}
+
+		private static string HexToFreqNew2(ulong value)
+		{
+			string str;
+			switch (value)
+			{
+				case 0:
+					str = "Нет данных";
+					break;
+				case 3600:
+					str = "Нет данных";
+					break;
+				default:
+					double f = 90000.0 / value;
+					str = f.ToString("F2");
+					break;
+			}
+			return str;
+		}
+
+		private static string HexToPercentUpp(ulong value)
+		{
+			double f = (short)value / 20.48;
+			return (f.ToString("F"));
+		}
+
+		private static string HexToFreqUPTF(ulong value)
+		{
+			string str;
+			if (value == 0) { str = "Нет данных"; }
+			else if (value == 0x4000) { str = "Нет данных"; }
+			else
+			{
+				double f = 16000.0 / value;
+				str = f.ToString("F3");
+			}
+			return str;
 		}
 
 	}

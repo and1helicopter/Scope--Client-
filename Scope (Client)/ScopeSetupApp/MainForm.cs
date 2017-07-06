@@ -124,17 +124,18 @@ namespace ScopeSetupApp
 
 			InitializeComponent();
 
-			FormatConverter.ReadFormats();
+			InitializeFormat();
+			FormatStrLabel();
 
-			try
-			{
-				ScopeSysType.InitScopeSysType();
-			}
+			InitializeConfig();
 
-			catch (Exception e)
-			{
-				MessageBox.Show(e.Message);
-			}
+
+
+			tableLayoutPanel.ColumnStyles[0].Width = 80;
+			tableLayoutPanel.ColumnStyles[1].Width = 20;
+
+
+
 			if (agrs.Length > 0)
 			{
 				if (agrs[0] == "a" || agrs[0] == "A") ConfigScopeButton.Visible = true; 
@@ -155,13 +156,40 @@ namespace ScopeSetupApp
 			WindowState = winState == 1 ? FormWindowState.Maximized : FormWindowState.Normal;
 		}
 
+		private static void InitializeFormat()
+		{
+			FormatConverter.ReadFormats(null);
+			FormatConverter.UpdateVisualFormat();
+		}
+
+		private void InitializeConfig()
+		{
+			try
+			{
+				ScopeSysType.InitScopeSysType();
+			}
+			catch (Exception e)
+			{
+				MessageBox.Show(e.Message);
+			}
+		}
+
+		public delegate void FormatLabel();
+		public static readonly FormatLabel FormatStatusLabel = FormatStrLabel;
+
+		private static void FormatStrLabel()
+		{
+			format_toolStripStatusLabel.Text = FormatConverter.OldFormat ? @"Формат данных: OLD" : @"Формат данных: NEW";
+		}
+
+
 		private delegate void SetStringDelegate(string parameter);
 
 		private void SetTimeLabel(string statusConnect)
 		{
 			try
 			{
-				label1.Text = statusConnect;
+				connect_toolStripStatusLabel.Text = statusConnect;
 			}
 			catch
 			{
@@ -1837,6 +1865,7 @@ namespace ScopeSetupApp
 		{
 			_initManStartFlag = true;
 		}
+
 
 	}
 }
