@@ -116,16 +116,16 @@ namespace ScopeSetupApp
 		}
 
 		private readonly string[] _argsG;
+		private byte _buttonsStatus;
 
 		public MainForm(string[] agrs)
 		{
 			_argsG = agrs;
 
-
 			InitializeComponent();
 
 			InitializeFormat();
-			FormatStrLabel();
+			//FormatStrLabel();
 
 			InitializeConfig();
 
@@ -138,7 +138,11 @@ namespace ScopeSetupApp
 
 			if (agrs.Length > 0)
 			{
-				if (agrs[0] == "a" || agrs[0] == "A") ConfigScopeButton.Visible = true; 
+				if (agrs[0] == "a" || agrs[0] == "A")
+				{
+					ConfigScopeButton.Visible = true;
+					Setting_Button.Visible = true;
+				} 
 			}
 
 			_modBusUnit = new ModBusUnit();
@@ -264,8 +268,70 @@ namespace ScopeSetupApp
 				};
 				_scopeConfigForm.Show();
 			}
+
+
+			_buttonsStatus = (byte) (_buttonsStatus == 0x00 ? 0x01 : 0x00);
+			UpdateButtons();
 		}
 
+		private void UpdateButtons()
+		{
+			if (_buttonsStatus == 0x00)
+			{
+				toolStrip1.Size = new Size(244, 444);
+				UpdateButtonsReset(connectBtn);
+				UpdateButtonsReset(ConfigScopeButton);
+				UpdateButtonsReset(ConfigMCUButton);
+				UpdateButtonsReset(OpenScope_Button);
+				UpdateButtonsReset(Setting_Button);
+			}
+			else
+			{
+				toolStrip1.Size = new Size(74, 444);
+
+				UpdateButtonsSets(connectBtn);
+				UpdateButtonsSets(OpenScope_Button);
+
+				switch (_buttonsStatus)
+				{
+					case 0x01:
+						UpdateButtonsSet(ConfigScopeButton);
+						UpdateButtonsSets(ConfigMCUButton);
+						UpdateButtonsSets(Setting_Button);
+						break;
+					case 0x02:
+						UpdateButtonsSets(ConfigScopeButton);
+						UpdateButtonsSet(ConfigMCUButton);
+						UpdateButtonsSets(Setting_Button);
+						break;
+					case 0x03:
+						UpdateButtonsSets(ConfigScopeButton);
+						UpdateButtonsSets(ConfigMCUButton);
+						UpdateButtonsSet(Setting_Button);
+						break;
+				}
+			}
+		}
+		
+		private void UpdateButtonsSet(ToolStripButton button)
+		{
+			button.Size = new Size(60, 60);
+			button.BackColor = Color.CornflowerBlue;
+			button.DisplayStyle = ToolStripItemDisplayStyle.Image;
+		}
+
+		private void UpdateButtonsSets(ToolStripButton button)
+		{
+			button.Size = new Size(60, 60);
+			button.DisplayStyle = ToolStripItemDisplayStyle.Image;
+		}
+
+		private void UpdateButtonsReset(ToolStripButton button)
+		{		
+			button.Size = new Size(230, 60);
+			button.BackColor = SystemColors.ButtonFace;
+			button.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
+		}
 
 		//***************************************************************************//
 		//***************************************************************************//
@@ -1843,8 +1909,18 @@ namespace ScopeSetupApp
 
 		private Form1 _formTest;
 
-		private void Setting_toolStripButton_Click(object sender, EventArgs e)
+		private Settings _settings;
+
+		private void Setting_Button_Click(object sender, EventArgs e)
 		{
+			_settings = new Settings()
+			{
+				Dock = DockStyle.Fill,
+			};
+			flowLayoutPanel1.Container?.Add(_settings);
+			_settings.Show();
+
+
 			_formTest = new Form1();
 			_formTest.Show();
 		}

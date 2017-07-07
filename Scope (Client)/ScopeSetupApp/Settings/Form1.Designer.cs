@@ -116,11 +116,11 @@
 			this.FormatsdataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
 			this.FormatsdataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.FormatsdataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.nameCol,
-            this.bitCol,
-            this.aCol,
-            this.bCol,
-            this.smallerCol});
+			this.nameCol,
+			this.bitCol,
+			this.aCol,
+			this.bCol,
+			this.smallerCol});
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -173,34 +173,38 @@
 			// 
 			this.nameCol.HeaderText = "Название";
 			this.nameCol.Name = "nameCol";
+			this.nameCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// bitCol
 			// 
 			this.bitCol.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
 			this.bitCol.HeaderText = "Формат входных данных";
 			this.bitCol.Items.AddRange(new object[] {
-            "int16",
-            "uint16",
-            "int32",
-            "uint32",
-            "int64",
-            "uint64"});
+			"int16",
+			"uint16",
+			"int32",
+			"uint32",
+			"int64",
+			"uint64"});
 			this.bitCol.Name = "bitCol";
 			// 
 			// aCol
 			// 
 			this.aCol.HeaderText = "A";
 			this.aCol.Name = "aCol";
+			this.aCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// bCol
 			// 
 			this.bCol.HeaderText = "B";
 			this.bCol.Name = "bCol";
+			this.bCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// smallerCol
 			// 
 			this.smallerCol.HeaderText = "Число знаков после запятой";
 			this.smallerCol.Name = "smallerCol";
+			this.smallerCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// Form1
 			// 

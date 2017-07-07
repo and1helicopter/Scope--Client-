@@ -82,18 +82,18 @@
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Format\FormatList.cs" />
-    <Compile Include="Format\Form1.cs">
+    <Compile Include="Settings\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Format\Form1.Designer.cs">
+    <Compile Include="Settings\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Format\FormatConverter.cs" />
-    <Compile Include="Format\UserControl1.cs">
+    <Compile Include="Settings\Settings.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Format\UserControl1.Designer.cs">
-      <DependentUpon>UserControl1.cs</DependentUpon>
+    <Compile Include="Settings\Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="LoadOscQueryForm.cs">
       <SubType>Form</SubType>
@@ -134,11 +134,11 @@
     <EmbeddedResource Include="ConnectForm.resx">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Format\Form1.resx">
+    <EmbeddedResource Include="Settings\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Format\UserControl1.resx">
-      <DependentUpon>UserControl1.cs</DependentUpon>
+    <EmbeddedResource Include="Settings\Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoadOscQueryForm.resx">
       <DependentUpon>LoadOscQueryForm.cs</DependentUpon>
@@ -180,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Electrical_Threshold-50.ico" />
+    <None Include="Resources\Support-50.png" />
     <None Include="Resources\Format.txt" />
     <Resource Include="Resources\Record-48.png" />
     <Resource Include="Resources\Circle Thin-64.png" />

@@ -313,6 +313,16 @@ namespace ScopeSetupApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Support_50 {
+            get {
+                object obj = ResourceManager.GetObject("Support_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Upload_50 {
             get {
                 object obj = ResourceManager.GetObject("Upload_50", resourceCulture);

@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
 namespace ScopeSetupApp.Format
 {
-	public partial class Form1 : Form
+	public partial class Settings : UserControl
 	{
-		public Form1()
+		public Settings()
 		{
 			InitializeComponent();
 
@@ -103,7 +104,7 @@ namespace ScopeSetupApp.Format
 				{
 					var valStr = val.Split('/');
 					// ReSharper disable once RedundantAssignment
-					value = Convert.ToDouble(valStr[0].Replace('.', ','))/Convert.ToDouble(valStr[1].Replace('.', ','));
+					value = Convert.ToDouble(valStr[0].Replace('.', ',')) / Convert.ToDouble(valStr[1].Replace('.', ','));
 				}
 				else
 				{
@@ -112,7 +113,7 @@ namespace ScopeSetupApp.Format
 				}
 				return true;
 			}
-			catch 
+			catch
 			{
 				return false;
 			}
@@ -163,8 +164,9 @@ namespace ScopeSetupApp.Format
 
 		private void addFormatButton_Click(object sender, EventArgs e)
 		{
-			FormatsdataGridView.Rows.Add("Format", "uint16", "1", "0", "0");
-			FormatConverter.FormatList.Add(new FormatConverter.Format("Format", "uint16", "1", "0", 0));
+			int index = FormatsdataGridView.Rows.Count;
+			FormatsdataGridView.Rows.Add($"Format{index}", "uint16", "1", "0", "0");
+			FormatConverter.FormatList.Add(new FormatConverter.Format($"Format{index}", "uint16", "1", "0", 0));
 
 			UpdateTable();
 		}
@@ -173,7 +175,14 @@ namespace ScopeSetupApp.Format
 		{
 			foreach (DataGridViewRow r in FormatsdataGridView.Rows)
 			{
-				//FormatsdataGridView.Rows[r.Index].HeaderCell.Value = (r.Index + 1).ToString();
+
+				var sdfvds = (from x in FormatConverter.FormatList
+					where x.Name == r.Cells["nameCol"].Value as string
+					select x).First();
+
+				int index = FormatConverter.FormatList.IndexOf(sdfvds);
+
+				FormatsdataGridView.Rows[r.Index].HeaderCell.Value = (index + 1).ToString();
 			}
 
 			SetDoubleBuffered(FormatsdataGridView, true);
@@ -185,8 +194,8 @@ namespace ScopeSetupApp.Format
 		{
 			OpenFileDialog ofd = new OpenFileDialog
 			{
-				DefaultExt = @".xml",			// Default file extension
-				Filter = @"XML|*.xml"			// Filter files by extension 
+				DefaultExt = @".xml",           // Default file extension
+				Filter = @"XML|*.xml"           // Filter files by extension 
 			};
 
 			if (ofd.ShowDialog() == DialogResult.OK)
@@ -200,7 +209,7 @@ namespace ScopeSetupApp.Format
 		{
 			SaveFileDialog sfd = new SaveFileDialog
 			{
-				DefaultExt = @".xml",			// Default file extension
+				DefaultExt = @".xml",           // Default file extension
 				Filter = @"XML|*.xml",
 				FileName = _nameFileFormat
 			};
@@ -213,7 +222,16 @@ namespace ScopeSetupApp.Format
 
 		private void removeFormatButton_Click(object sender, EventArgs e)
 		{
-			//FormatsdataGridView.
+			foreach (DataGridViewRow item in FormatsdataGridView.SelectedRows)
+			{
+				FormatConverter.FormatList.Remove((from x in FormatConverter.FormatList
+					where x.Name == item.Cells["nameCol"].Value as string
+					select x).First());
+
+				FormatsdataGridView.Rows.RemoveAt(item.Index);
+			}
+
+			UpdateTable();
 		}
 	}
 }
