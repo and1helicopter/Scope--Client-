@@ -125,7 +125,7 @@ namespace ScopeSetupApp
 			InitializeComponent();
 
 			InitializeFormat();
-			//FormatStrLabel();
+			FormatStrLabel();
 
 			InitializeConfig();
 
@@ -180,6 +180,7 @@ namespace ScopeSetupApp
 
 		public delegate void FormatLabel();
 		public static readonly FormatLabel FormatStatusLabel = FormatStrLabel;
+
 
 		private static void FormatStrLabel()
 		{
@@ -284,6 +285,9 @@ namespace ScopeSetupApp
 				UpdateButtonsReset(ConfigMCUButton);
 				UpdateButtonsReset(OpenScope_Button);
 				UpdateButtonsReset(Setting_Button);
+
+				tableLayoutPanel.ColumnStyles[0].Width = 0;
+				tableLayoutPanel.ColumnStyles[1].Width = 100;
 			}
 			else
 			{
@@ -310,6 +314,10 @@ namespace ScopeSetupApp
 						UpdateButtonsSet(Setting_Button);
 						break;
 				}
+
+				tableLayoutPanel.ColumnStyles[0].Width = 80;
+				tableLayoutPanel.ColumnStyles[1].Width = 20;
+				panel1.Controls.Clear();
 			}
 		}
 		
@@ -1909,38 +1917,26 @@ namespace ScopeSetupApp
 
 		private Form1 _formTest;
 
-		public static Settings _settings;
+		private static Settings _settings = new Settings()
+		{
+			Dock = DockStyle.Fill
+		};
+
+		private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+		{
+
+		}
 
 		private void Setting_Button_Click(object sender, EventArgs e)
 		{
-			flowLayoutPanel1.Dock = DockStyle.Fill;
+			_buttonsStatus = (byte)(_buttonsStatus == 0x03 ? 0x00 : 0x03);
+			UpdateButtons();
 
-
-			if (_settings == null)
-			{
-				_settings = new Settings()
-				{
-					Anchor = AnchorStyles.Left & AnchorStyles.Right & AnchorStyles.Bottom & AnchorStyles.Top,
-				};
-			}
-
-			flowLayoutPanel1.Controls.Add(_settings);
+			panel1.Controls.Add(_settings);
 			_settings.Show();
-			//flowLayoutPanel1.
-
-
 		}
 
-		private void timer2_Tick(object sender, EventArgs e)
-		{
-			timer2.Enabled = false;
-			if (_createFileFlag)
-			{
-				_createFileFlag = false;
-				CreateFile();
-			}
-			timer2.Enabled = true; 
-		}
+
 
 		//Ручной запуск осциллографа
 		private void manStartBtn_Click(object sender, EventArgs e)

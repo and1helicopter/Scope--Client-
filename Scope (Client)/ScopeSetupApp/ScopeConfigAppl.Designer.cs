@@ -673,6 +673,7 @@ namespace ScopeSetupApp
 			this.ChanneldataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
 			this.ChanneldataGridView.Size = new System.Drawing.Size(885, 276);
 			this.ChanneldataGridView.TabIndex = 0;
+			this.ChanneldataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChanneldataGridView_CellContentClick);
 			this.ChanneldataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChanneldataGridView_CellEndEdit);
 			this.ChanneldataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.ChanneldataGridView_BindingComplete);
 			// 

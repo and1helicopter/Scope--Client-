@@ -673,6 +673,11 @@ namespace ScopeSetupApp
 			ToolTip tTip = new ToolTip();
 			tTip.SetToolTip(ConfigAddr_label, @"Адрес конфигурации");
 		}
+
+		private void ChanneldataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+
+		}
 	}
 }
 

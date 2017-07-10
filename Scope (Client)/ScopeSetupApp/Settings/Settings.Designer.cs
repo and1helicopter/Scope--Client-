@@ -53,25 +53,29 @@
 			// 
 			// tabControl1
 			// 
+			this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
-			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.tabControl1.Location = new System.Drawing.Point(0, 6);
+			this.tabControl1.Location = new System.Drawing.Point(0, 0);
+			this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(588, 513);
+			this.tabControl1.Size = new System.Drawing.Size(704, 484);
+			this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.tabControl1.TabIndex = 3;
 			// 
 			// tabPage1
 			// 
 			this.tabPage1.Controls.Add(this.FormatsdataGridView);
 			this.tabPage1.Controls.Add(this.toolStrip1);
-			this.tabPage1.Location = new System.Drawing.Point(4, 22);
+			this.tabPage1.Location = new System.Drawing.Point(4, 4);
+			this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(580, 487);
+			this.tabPage1.Size = new System.Drawing.Size(696, 458);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "tabPage1";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -81,7 +85,7 @@
 			this.FormatsdataGridView.AllowUserToAddRows = false;
 			this.FormatsdataGridView.AllowUserToDeleteRows = false;
 			this.FormatsdataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-			this.FormatsdataGridView.BackgroundColor = System.Drawing.Color.Khaki;
+			this.FormatsdataGridView.BackgroundColor = System.Drawing.SystemColors.HighlightText;
 			this.FormatsdataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.FormatsdataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SunkenHorizontal;
 			this.FormatsdataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -102,13 +106,14 @@
 			this.FormatsdataGridView.DefaultCellStyle = dataGridViewCellStyle1;
 			this.FormatsdataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.FormatsdataGridView.GridColor = System.Drawing.SystemColors.ControlLight;
-			this.FormatsdataGridView.Location = new System.Drawing.Point(3, 3);
+			this.FormatsdataGridView.Location = new System.Drawing.Point(3, 41);
+			this.FormatsdataGridView.Margin = new System.Windows.Forms.Padding(0);
 			this.FormatsdataGridView.Name = "FormatsdataGridView";
 			this.FormatsdataGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
 			this.FormatsdataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
 			this.FormatsdataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
 			this.FormatsdataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.FormatsdataGridView.Size = new System.Drawing.Size(574, 447);
+			this.FormatsdataGridView.Size = new System.Drawing.Size(690, 414);
 			this.FormatsdataGridView.TabIndex = 8;
 			// 
 			// nameCol
@@ -150,8 +155,8 @@
 			// 
 			// toolStrip1
 			// 
-			this.toolStrip1.BackColor = System.Drawing.Color.Gray;
-			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.toolStrip1.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.toolStrip1.GripMargin = new System.Windows.Forms.Padding(0);
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
@@ -159,10 +164,10 @@
             this.toolStripButton3,
             this.toolStripButton4,
             this.toolStripButton5});
-			this.toolStrip1.Location = new System.Drawing.Point(3, 450);
+			this.toolStrip1.Location = new System.Drawing.Point(3, 3);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-			this.toolStrip1.Size = new System.Drawing.Size(574, 34);
+			this.toolStrip1.Size = new System.Drawing.Size(690, 38);
 			this.toolStrip1.TabIndex = 7;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -172,53 +177,67 @@
 			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
 			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton1.Margin = new System.Windows.Forms.Padding(2);
+			this.toolStripButton1.Margin = new System.Windows.Forms.Padding(3);
 			this.toolStripButton1.Name = "toolStripButton1";
-			this.toolStripButton1.Size = new System.Drawing.Size(30, 30);
+			this.toolStripButton1.Size = new System.Drawing.Size(32, 32);
 			this.toolStripButton1.Text = "toolStripButton1";
+			this.toolStripButton1.Click += new System.EventHandler(this.addFormatButton_Click);
 			// 
 			// toolStripButton2
 			// 
+			this.toolStripButton2.AutoSize = false;
 			this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
 			this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton2.Margin = new System.Windows.Forms.Padding(3);
 			this.toolStripButton2.Name = "toolStripButton2";
-			this.toolStripButton2.Size = new System.Drawing.Size(23, 31);
+			this.toolStripButton2.Size = new System.Drawing.Size(32, 32);
 			this.toolStripButton2.Text = "toolStripButton2";
+			this.toolStripButton2.Click += new System.EventHandler(this.removeFormatButton_Click);
 			// 
 			// toolStripButton3
 			// 
+			this.toolStripButton3.AutoSize = false;
 			this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
 			this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton3.Margin = new System.Windows.Forms.Padding(3);
 			this.toolStripButton3.Name = "toolStripButton3";
-			this.toolStripButton3.Size = new System.Drawing.Size(23, 31);
+			this.toolStripButton3.Size = new System.Drawing.Size(32, 32);
 			this.toolStripButton3.Text = "toolStripButton3";
+			this.toolStripButton3.Click += new System.EventHandler(this.openFormatButton_Click);
 			// 
 			// toolStripButton4
 			// 
+			this.toolStripButton4.AutoSize = false;
 			this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
 			this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton4.Margin = new System.Windows.Forms.Padding(3);
 			this.toolStripButton4.Name = "toolStripButton4";
-			this.toolStripButton4.Size = new System.Drawing.Size(23, 31);
+			this.toolStripButton4.Size = new System.Drawing.Size(32, 32);
 			this.toolStripButton4.Text = "toolStripButton4";
+			this.toolStripButton4.Click += new System.EventHandler(this.saveFormatButton_Click);
 			// 
 			// toolStripButton5
 			// 
+			this.toolStripButton5.AutoSize = false;
 			this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
 			this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
 			this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton5.Margin = new System.Windows.Forms.Padding(3);
 			this.toolStripButton5.Name = "toolStripButton5";
-			this.toolStripButton5.Size = new System.Drawing.Size(23, 31);
+			this.toolStripButton5.Size = new System.Drawing.Size(32, 32);
 			this.toolStripButton5.Text = "toolStripButton5";
+			this.toolStripButton5.Click += new System.EventHandler(this.oldFormat_checkBox_Click);
 			// 
 			// tabPage2
 			// 
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Location = new System.Drawing.Point(4, 4);
+			this.tabPage2.Margin = new System.Windows.Forms.Padding(0);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(580, 487);
+			this.tabPage2.Size = new System.Drawing.Size(511, 458);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "tabPage2";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -226,14 +245,15 @@
 			// Settings
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.AutoScroll = true;
+			this.AutoSize = true;
+			this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.Controls.Add(this.tabControl1);
 			this.DoubleBuffered = true;
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "Settings";
-			this.Size = new System.Drawing.Size(588, 519);
+			this.Size = new System.Drawing.Size(704, 484);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
