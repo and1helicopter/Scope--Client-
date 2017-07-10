@@ -37,7 +37,6 @@ namespace ScopeSetupApp
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.MainPanel = new System.Windows.Forms.Panel();
 			this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.nowStatusFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.connectBtn = new System.Windows.Forms.ToolStripButton();
@@ -55,6 +54,7 @@ namespace ScopeSetupApp
 			this.config_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripContainer3 = new System.Windows.Forms.ToolStripContainer();
 			this.toolStripContainer4 = new System.Windows.Forms.ToolStripContainer();
+			this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
 			this.MainPanel.SuspendLayout();
@@ -131,15 +131,6 @@ namespace ScopeSetupApp
 			this.tableLayoutPanel.Size = new System.Drawing.Size(569, 444);
 			this.tableLayoutPanel.TabIndex = 4;
 			// 
-			// flowLayoutPanel1
-			// 
-			this.flowLayoutPanel1.BackColor = System.Drawing.Color.White;
-			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(278, 438);
-			this.flowLayoutPanel1.TabIndex = 3;
-			// 
 			// nowStatusFlowLayoutPanel
 			// 
 			this.nowStatusFlowLayoutPanel.AutoScroll = true;
@@ -161,13 +152,13 @@ namespace ScopeSetupApp
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.connectBtn,
-            this.ConfigScopeButton,
-            this.ConfigMCUButton,
-            this.OpenScope_Button,
-            this.Setting_Button,
-            this.loadScopeToolStripLabel,
-            this.loadDataProgressBar});
+			this.connectBtn,
+			this.ConfigScopeButton,
+			this.ConfigMCUButton,
+			this.OpenScope_Button,
+			this.Setting_Button,
+			this.loadScopeToolStripLabel,
+			this.loadDataProgressBar});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -296,7 +287,7 @@ namespace ScopeSetupApp
 			this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip2.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton2});
+			this.toolStripButton2});
 			this.toolStrip2.Location = new System.Drawing.Point(813, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -352,8 +343,8 @@ namespace ScopeSetupApp
 			// 
 			this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.connect_toolStripStatusLabel,
-            this.config_toolStripStatusLabel});
+			this.connect_toolStripStatusLabel,
+			this.config_toolStripStatusLabel});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 0);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(857, 22);
@@ -408,6 +399,17 @@ namespace ScopeSetupApp
 			this.toolStripContainer4.TabIndex = 17;
 			this.toolStripContainer4.Text = "toolStripContainer4";
 			this.toolStripContainer4.TopToolStripPanelVisible = false;
+			// 
+			// flowLayoutPanel1
+			// 
+			this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+			this.flowLayoutPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+			this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(278, 438);
+			this.flowLayoutPanel1.TabIndex = 3;
 			// 
 			// MainForm
 			// 
@@ -472,11 +474,11 @@ namespace ScopeSetupApp
 		private System.Windows.Forms.ToolStripContainer toolStripContainer4;
 		private System.Windows.Forms.ToolStrip toolStrip2;
 		private System.Windows.Forms.ToolStripButton toolStripButton2;
-		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
 		private System.Windows.Forms.ToolStripStatusLabel config_toolStripStatusLabel;
 		private static System.Windows.Forms.ToolStripStatusLabel format_toolStripStatusLabel;
 		private System.Windows.Forms.ToolStripButton Setting_Button;
+		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
 	}
 }
 

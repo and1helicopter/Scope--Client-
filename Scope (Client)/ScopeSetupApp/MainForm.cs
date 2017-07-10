@@ -1909,20 +1909,26 @@ namespace ScopeSetupApp
 
 		private Form1 _formTest;
 
-		private Settings _settings;
+		public static Settings _settings;
 
 		private void Setting_Button_Click(object sender, EventArgs e)
 		{
-			_settings = new Settings()
+			flowLayoutPanel1.Dock = DockStyle.Fill;
+
+
+			if (_settings == null)
 			{
-				Dock = DockStyle.Fill,
-			};
-			flowLayoutPanel1.Container?.Add(_settings);
+				_settings = new Settings()
+				{
+					Anchor = AnchorStyles.Left & AnchorStyles.Right & AnchorStyles.Bottom & AnchorStyles.Top,
+				};
+			}
+
+			flowLayoutPanel1.Controls.Add(_settings);
 			_settings.Show();
+			//flowLayoutPanel1.
 
 
-			_formTest = new Form1();
-			_formTest.Show();
 		}
 
 		private void timer2_Tick(object sender, EventArgs e)

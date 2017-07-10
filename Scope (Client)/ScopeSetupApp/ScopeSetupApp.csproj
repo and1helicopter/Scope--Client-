@@ -165,6 +165,9 @@
     <EmbeddedResource Include="SelectChannel.resx">
       <DependentUpon>SelectChannel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Settings\Settings.ru.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ScopeSysType.datasource" />

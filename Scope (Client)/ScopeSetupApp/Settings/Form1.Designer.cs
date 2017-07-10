@@ -35,14 +35,14 @@
 			this.addFormatButton = new System.Windows.Forms.Button();
 			this.oldFormat_checkBox = new System.Windows.Forms.CheckBox();
 			this.FormatsdataGridView = new System.Windows.Forms.DataGridView();
-			this.openFormatButton = new System.Windows.Forms.Button();
-			this.saveFormatButton = new System.Windows.Forms.Button();
-			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.nameCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.bitCol = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.aCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.bCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.smallerCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.openFormatButton = new System.Windows.Forms.Button();
+			this.saveFormatButton = new System.Windows.Forms.Button();
+			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormatsdataGridView)).BeginInit();
@@ -77,7 +77,7 @@
 			// 
 			// removeFormatButton
 			// 
-			this.removeFormatButton.Location = new System.Drawing.Point(8, 418);
+			this.removeFormatButton.Location = new System.Drawing.Point(6, 421);
 			this.removeFormatButton.Name = "removeFormatButton";
 			this.removeFormatButton.Size = new System.Drawing.Size(75, 23);
 			this.removeFormatButton.TabIndex = 5;
@@ -87,7 +87,7 @@
 			// 
 			// addFormatButton
 			// 
-			this.addFormatButton.Location = new System.Drawing.Point(8, 389);
+			this.addFormatButton.Location = new System.Drawing.Point(87, 423);
 			this.addFormatButton.Name = "addFormatButton";
 			this.addFormatButton.Size = new System.Drawing.Size(75, 23);
 			this.addFormatButton.TabIndex = 4;
@@ -98,7 +98,7 @@
 			// oldFormat_checkBox
 			// 
 			this.oldFormat_checkBox.AutoSize = true;
-			this.oldFormat_checkBox.Location = new System.Drawing.Point(592, 395);
+			this.oldFormat_checkBox.Location = new System.Drawing.Point(624, 427);
 			this.oldFormat_checkBox.Name = "oldFormat_checkBox";
 			this.oldFormat_checkBox.Size = new System.Drawing.Size(48, 17);
 			this.oldFormat_checkBox.TabIndex = 3;
@@ -116,11 +116,11 @@
 			this.FormatsdataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
 			this.FormatsdataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.FormatsdataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.nameCol,
-			this.bitCol,
-			this.aCol,
-			this.bCol,
-			this.smallerCol});
+            this.nameCol,
+            this.bitCol,
+            this.aCol,
+            this.bCol,
+            this.smallerCol});
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -129,45 +129,16 @@
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.FormatsdataGridView.DefaultCellStyle = dataGridViewCellStyle1;
-			this.FormatsdataGridView.Dock = System.Windows.Forms.DockStyle.Top;
 			this.FormatsdataGridView.Location = new System.Drawing.Point(3, 3);
+			this.FormatsdataGridView.Margin = new System.Windows.Forms.Padding(3, 3, 3, 50);
 			this.FormatsdataGridView.Name = "FormatsdataGridView";
 			this.FormatsdataGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
 			this.FormatsdataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
 			this.FormatsdataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+			this.FormatsdataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.FormatsdataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.FormatsdataGridView.Size = new System.Drawing.Size(900, 369);
+			this.FormatsdataGridView.Size = new System.Drawing.Size(900, 394);
 			this.FormatsdataGridView.TabIndex = 2;
-			// 
-			// openFormatButton
-			// 
-			this.openFormatButton.Location = new System.Drawing.Point(170, 391);
-			this.openFormatButton.Name = "openFormatButton";
-			this.openFormatButton.Size = new System.Drawing.Size(75, 23);
-			this.openFormatButton.TabIndex = 0;
-			this.openFormatButton.Text = "open";
-			this.openFormatButton.UseVisualStyleBackColor = true;
-			this.openFormatButton.Click += new System.EventHandler(this.openFormatButton_Click);
-			// 
-			// saveFormatButton
-			// 
-			this.saveFormatButton.Location = new System.Drawing.Point(170, 418);
-			this.saveFormatButton.Name = "saveFormatButton";
-			this.saveFormatButton.Size = new System.Drawing.Size(75, 23);
-			this.saveFormatButton.TabIndex = 1;
-			this.saveFormatButton.Text = "save";
-			this.saveFormatButton.UseVisualStyleBackColor = true;
-			this.saveFormatButton.Click += new System.EventHandler(this.saveFormatButton_Click);
-			// 
-			// tabPage2
-			// 
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(906, 452);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "tabPage2";
-			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
 			// nameCol
 			// 
@@ -180,12 +151,12 @@
 			this.bitCol.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
 			this.bitCol.HeaderText = "Формат входных данных";
 			this.bitCol.Items.AddRange(new object[] {
-			"int16",
-			"uint16",
-			"int32",
-			"uint32",
-			"int64",
-			"uint64"});
+            "int16",
+            "uint16",
+            "int32",
+            "uint32",
+            "int64",
+            "uint64"});
 			this.bitCol.Name = "bitCol";
 			// 
 			// aCol
@@ -205,6 +176,36 @@
 			this.smallerCol.HeaderText = "Число знаков после запятой";
 			this.smallerCol.Name = "smallerCol";
 			this.smallerCol.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
+			// openFormatButton
+			// 
+			this.openFormatButton.Location = new System.Drawing.Point(206, 423);
+			this.openFormatButton.Name = "openFormatButton";
+			this.openFormatButton.Size = new System.Drawing.Size(75, 23);
+			this.openFormatButton.TabIndex = 0;
+			this.openFormatButton.Text = "open";
+			this.openFormatButton.UseVisualStyleBackColor = true;
+			this.openFormatButton.Click += new System.EventHandler(this.openFormatButton_Click);
+			// 
+			// saveFormatButton
+			// 
+			this.saveFormatButton.Location = new System.Drawing.Point(287, 421);
+			this.saveFormatButton.Name = "saveFormatButton";
+			this.saveFormatButton.Size = new System.Drawing.Size(75, 23);
+			this.saveFormatButton.TabIndex = 1;
+			this.saveFormatButton.Text = "save";
+			this.saveFormatButton.UseVisualStyleBackColor = true;
+			this.saveFormatButton.Click += new System.EventHandler(this.saveFormatButton_Click);
+			// 
+			// tabPage2
+			// 
+			this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			this.tabPage2.Name = "tabPage2";
+			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size = new System.Drawing.Size(906, 452);
+			this.tabPage2.TabIndex = 1;
+			this.tabPage2.Text = "tabPage2";
+			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
 			// Form1
 			// 
@@ -226,7 +227,6 @@
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage tabPage2;
-		private System.Windows.Forms.DataGridView FormatsdataGridView;
 		private System.Windows.Forms.CheckBox oldFormat_checkBox;
 		private System.Windows.Forms.Button addFormatButton;
 		private System.Windows.Forms.Button removeFormatButton;
@@ -237,5 +237,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn aCol;
 		private System.Windows.Forms.DataGridViewTextBoxColumn bCol;
 		private System.Windows.Forms.DataGridViewTextBoxColumn smallerCol;
+		private System.Windows.Forms.DataGridView FormatsdataGridView;
 	}
 }
