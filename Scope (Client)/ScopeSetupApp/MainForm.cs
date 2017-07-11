@@ -241,10 +241,7 @@ namespace ScopeSetupApp
 		}
 
 		private ScopeConfigForm _scopeConfigForm;
-		private UcScopeConfig _ucScopeConfig = new UcScopeConfig()
-		{
-			Dock = DockStyle.Fill
-		};
+		private UcScopeConfig _ucScopeConfig = null;
 
 		private void toolStripButton3_Click(object sender, EventArgs e)
 		{
@@ -274,6 +271,14 @@ namespace ScopeSetupApp
 			//	};
 			//	_scopeConfigForm.Show();
 			//}
+			if (_ucScopeConfig == null)
+			{
+				_ucScopeConfig = new UcScopeConfig()
+				{
+					Dock = DockStyle.Fill
+				};
+			}
+
 
 			_buttonsStatus = (byte) (_buttonsStatus == 0x01 ? 0x00 : 0x01);
 			UpdateButtons();
