@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using ScopeSetupApp.Format;
 using ScopeSetupApp.ucScopeConfig;
+using ScopeSetupApp.ucScopeSetup;
 
 namespace ScopeSetupApp
 {
@@ -130,12 +131,8 @@ namespace ScopeSetupApp
 
 			InitializeConfig();
 
-
-
-			tableLayoutPanel.ColumnStyles[0].Width = 80;
-			tableLayoutPanel.ColumnStyles[1].Width = 20;
-
-
+			tableLayoutPanel.ColumnStyles[0].Width = 0;
+			tableLayoutPanel.ColumnStyles[1].Width = 100;
 
 			if (agrs.Length > 0)
 			{
@@ -172,11 +169,21 @@ namespace ScopeSetupApp
 			try
 			{
 				ScopeSysType.InitScopeSysType();
+				config_toolStripStatusLabel.Text = ScopeSysType.XmlFileName;
 			}
 			catch (Exception e)
 			{
 				MessageBox.Show(e.Message);
 			}
+		}
+
+		public delegate void ConfigLabel();
+		public static readonly ConfigLabel ConfigStatusLabel = ConfigStrLabel;
+
+
+		private static void ConfigStrLabel()
+		{
+			config_toolStripStatusLabel.Text = ScopeSysType.XmlFileName;
 		}
 
 		public delegate void FormatLabel();
@@ -208,69 +215,29 @@ namespace ScopeSetupApp
 		//***************************************************************************************//
 		//***************************************************************************************//
 
-		private ScopeSetupForm _scopeSetupForm;
+		private UcScopeSetup _ucScopeSetup;
 
 		private void toolStripButton1_Click(object sender, EventArgs e)
 		{
-			if (_scopeSetupForm != null)
+			if (_ucScopeSetup == null)
 			{
-				try
+				_ucScopeSetup = new UcScopeSetup(_argsG)
 				{
-					_scopeSetupForm.Show();
-					_scopeSetupForm.Activate();
-				}
-				catch (Exception)
-				{
-					_scopeSetupForm = new ScopeSetupForm(_argsG)
-					{
-						Size = Size,
-						WindowState = WindowState
-					};
-					_scopeSetupForm.Show();
-				}
-			}
-			else
-			{
-				_scopeSetupForm = new ScopeSetupForm(_argsG)
-				{
-					Size = Size,
-					WindowState = WindowState
+					Dock = DockStyle.Fill
 				};
-				_scopeSetupForm.Show();
-			}  
+			}
+
+			_buttonsStatus = (byte)(_buttonsStatus == 0x02 ? 0x00 : 0x02);
+			UpdateButtons();
+
+			panel1.Controls.Add(_ucScopeSetup);
+			_ucScopeSetup.Show();
 		}
 
-		private ScopeConfigForm _scopeConfigForm;
-		private UcScopeConfig _ucScopeConfig = null;
+		private UcScopeConfig _ucScopeConfig;
 
 		private void toolStripButton3_Click(object sender, EventArgs e)
 		{
-			//if (_scopeConfigForm != null)
-			//{
-			//	try
-			//	{
-			//		_scopeConfigForm.Show();
-			//		_scopeConfigForm.Activate();
-			//	}
-			//	catch (Exception)
-			//	{
-			//		_scopeConfigForm = new ScopeConfigForm()
-			//		{
-			//			Size = Size,
-			//			WindowState = WindowState
-			//		};
-			//		_scopeConfigForm.Show();
-			//	}
-			//}
-			//else
-			//{
-			//	_scopeConfigForm = new ScopeConfigForm()
-			//	{
-			//		Size = Size,
-			//		WindowState = WindowState
-			//	};
-			//	_scopeConfigForm.Show();
-			//}
 			if (_ucScopeConfig == null)
 			{
 				_ucScopeConfig = new UcScopeConfig()
@@ -278,7 +245,6 @@ namespace ScopeSetupApp
 					Dock = DockStyle.Fill
 				};
 			}
-
 
 			_buttonsStatus = (byte) (_buttonsStatus == 0x01 ? 0x00 : 0x01);
 			UpdateButtons();
@@ -327,8 +293,8 @@ namespace ScopeSetupApp
 						break;
 				}
 
-				tableLayoutPanel.ColumnStyles[0].Width = 80;
-				tableLayoutPanel.ColumnStyles[1].Width = 20;
+				tableLayoutPanel.ColumnStyles[0].Width = 85;
+				tableLayoutPanel.ColumnStyles[1].Width = 15;
 				panel1.Controls.Clear();
 			}
 		}
@@ -1928,15 +1894,18 @@ namespace ScopeSetupApp
 		private bool _createFileFlag;
 		private int _createFileNum;
 
-		private Form1 _formTest;
-
-		private static Settings _settings = new Settings()
-		{
-			Dock = DockStyle.Fill
-		};
+		private Settings _settings;
 
 		private void Setting_Button_Click(object sender, EventArgs e)
 		{
+			if (_settings == null)
+			{
+				_settings = new Settings()
+				{
+					Dock = DockStyle.Fill
+				};
+			}
+
 			_buttonsStatus = (byte)(_buttonsStatus == 0x03 ? 0x00 : 0x03);
 			UpdateButtons();
 
@@ -1944,7 +1913,16 @@ namespace ScopeSetupApp
 			_settings.Show();
 		}
 
-
+		private void timer2_Tick(object sender, EventArgs e)
+		{
+			timer2.Enabled = false;
+			if (_createFileFlag)
+			{
+				_createFileFlag = false;
+				CreateFile();
+			}
+			timer2.Enabled = true;
+		}
 
 		//Ручной запуск осциллографа
 		private void manStartBtn_Click(object sender, EventArgs e)

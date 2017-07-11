@@ -85,11 +85,11 @@
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Format\FormatList.cs" />
-    <Compile Include="ucSettings\Form1.cs">
-      <SubType>Form</SubType>
+    <Compile Include="ucScopeSetup\UcScopeSetup.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucSettings\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ucScopeSetup\UcScopeSetup.Designer.cs">
+      <DependentUpon>UcScopeSetup.cs</DependentUpon>
     </Compile>
     <Compile Include="Format\FormatConverter.cs" />
     <Compile Include="ucSettings\Settings.cs">
@@ -143,8 +143,8 @@
     <EmbeddedResource Include="ConnectForm.resx">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucSettings\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="ucScopeSetup\UcScopeSetup.resx">
+      <DependentUpon>UcScopeSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucSettings\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>

@@ -63,7 +63,7 @@
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(704, 484);
+			this.tabControl1.Size = new System.Drawing.Size(687, 486);
 			this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.tabControl1.TabIndex = 3;
 			// 
@@ -75,7 +75,7 @@
 			this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(696, 458);
+			this.tabPage1.Size = new System.Drawing.Size(679, 460);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "tabPage1";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -113,7 +113,7 @@
 			this.FormatsdataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
 			this.FormatsdataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
 			this.FormatsdataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.FormatsdataGridView.Size = new System.Drawing.Size(690, 414);
+			this.FormatsdataGridView.Size = new System.Drawing.Size(673, 416);
 			this.FormatsdataGridView.TabIndex = 8;
 			// 
 			// nameCol
@@ -167,7 +167,7 @@
 			this.toolStrip1.Location = new System.Drawing.Point(3, 3);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-			this.toolStrip1.Size = new System.Drawing.Size(690, 38);
+			this.toolStrip1.Size = new System.Drawing.Size(673, 38);
 			this.toolStrip1.TabIndex = 7;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -237,7 +237,7 @@
 			this.tabPage2.Margin = new System.Windows.Forms.Padding(0);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(511, 458);
+			this.tabPage2.Size = new System.Drawing.Size(570, 458);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "tabPage2";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -253,7 +253,7 @@
 			this.DoubleBuffered = true;
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "Settings";
-			this.Size = new System.Drawing.Size(704, 484);
+			this.Size = new System.Drawing.Size(687, 486);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();

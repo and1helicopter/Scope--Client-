@@ -30,15 +30,15 @@
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcScopeConfig));
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.mailToolStrip = new System.Windows.Forms.ToolStrip();
 			this.openButton = new System.Windows.Forms.ToolStripButton();
 			this.saveButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.View_toolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.Print_toolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.Update_toolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.SetDefault_toolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.mailToolStrip = new System.Windows.Forms.ToolStrip();
 			this.SCPrintDocument = new System.Drawing.Printing.PrintDocument();
 			this.SCPrintDialog = new System.Windows.Forms.PrintDialog();
 			this.SCPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
@@ -104,6 +104,36 @@
 			this.panel5.SuspendLayout();
 			this.SuspendLayout();
 			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
+			// 
+			// mailToolStrip
+			// 
+			this.mailToolStrip.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.mailToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+			this.mailToolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
+			this.mailToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openButton,
+            this.saveButton,
+            this.toolStripSeparator2,
+            this.View_toolStripButton,
+            this.Print_toolStripButton,
+            this.toolStripSeparator1,
+            this.Update_toolStripButton,
+            this.SetDefault_toolStripButton});
+			this.mailToolStrip.Location = new System.Drawing.Point(0, 0);
+			this.mailToolStrip.Name = "mailToolStrip";
+			this.mailToolStrip.Size = new System.Drawing.Size(954, 38);
+			this.mailToolStrip.TabIndex = 35;
+			this.mailToolStrip.Text = "toolStrip1";
+			// 
 			// openButton
 			// 
 			this.openButton.AutoSize = false;
@@ -135,11 +165,6 @@
 			this.saveButton.ToolTipText = "Сохранить в файл";
 			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
 			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
-			// 
 			// View_toolStripButton
 			// 
 			this.View_toolStripButton.AutoSize = false;
@@ -169,11 +194,6 @@
 			this.Print_toolStripButton.ToolTipText = "Распечатать конфигурацию";
 			this.Print_toolStripButton.Click += new System.EventHandler(this.Print_toolStripButton_Click);
 			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
-			// 
 			// Update_toolStripButton
 			// 
 			this.Update_toolStripButton.AutoSize = false;
@@ -202,25 +222,9 @@
 			this.SetDefault_toolStripButton.Text = "Применить конфигурацию по умолчанию ";
 			this.SetDefault_toolStripButton.Click += new System.EventHandler(this.SetDefault_toolStripButton_Click);
 			// 
-			// mailToolStrip
+			// SCPrintDocument
 			// 
-			this.mailToolStrip.BackColor = System.Drawing.SystemColors.ControlLight;
-			this.mailToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-			this.mailToolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
-			this.mailToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openButton,
-            this.saveButton,
-            this.toolStripSeparator2,
-            this.View_toolStripButton,
-            this.Print_toolStripButton,
-            this.toolStripSeparator1,
-            this.Update_toolStripButton,
-            this.SetDefault_toolStripButton});
-			this.mailToolStrip.Location = new System.Drawing.Point(0, 0);
-			this.mailToolStrip.Name = "mailToolStrip";
-			this.mailToolStrip.Size = new System.Drawing.Size(954, 38);
-			this.mailToolStrip.TabIndex = 35;
-			this.mailToolStrip.Text = "toolStrip1";
+			this.SCPrintDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.SCPrintDocument_PrintPage);
 			// 
 			// SCPrintDialog
 			// 
@@ -370,6 +374,9 @@
 			this.ChanneldataGridView.AllowUserToDeleteRows = false;
 			this.ChanneldataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.ChanneldataGridView.BackgroundColor = System.Drawing.SystemColors.HighlightText;
+			this.ChanneldataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.ChanneldataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SunkenHorizontal;
+			this.ChanneldataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
 			this.ChanneldataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.ChanneldataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column_channelNames,
@@ -393,10 +400,13 @@
 			this.ChanneldataGridView.DefaultCellStyle = dataGridViewCellStyle1;
 			this.ChanneldataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ChanneldataGridView.Location = new System.Drawing.Point(0, 0);
+			this.ChanneldataGridView.Margin = new System.Windows.Forms.Padding(0);
 			this.ChanneldataGridView.Name = "ChanneldataGridView";
 			this.ChanneldataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
 			this.ChanneldataGridView.Size = new System.Drawing.Size(954, 284);
 			this.ChanneldataGridView.TabIndex = 0;
+			this.ChanneldataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChanneldataGridView_CellEndEdit);
+			this.ChanneldataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.ChanneldataGridView_BindingComplete);
 			// 
 			// Column_channelNames
 			// 
@@ -546,7 +556,7 @@
 			this.tabPage3.Location = new System.Drawing.Point(4, 24);
 			this.tabPage3.Margin = new System.Windows.Forms.Padding(0);
 			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Size = new System.Drawing.Size(946, 113);
+			this.tabPage3.Size = new System.Drawing.Size(946, 99);
 			this.tabPage3.TabIndex = 1;
 			this.tabPage3.Text = " COMETRADE Config";
 			// 
@@ -691,7 +701,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 24);
 			this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
 			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Size = new System.Drawing.Size(946, 99);
+			this.tabPage1.Size = new System.Drawing.Size(944, 99);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Oscil Config";
 			// 
@@ -712,7 +722,7 @@
 			this.panel5.Location = new System.Drawing.Point(0, 0);
 			this.panel5.Margin = new System.Windows.Forms.Padding(0);
 			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(946, 99);
+			this.panel5.Size = new System.Drawing.Size(944, 99);
 			this.panel5.TabIndex = 3;
 			// 
 			// Comment_label

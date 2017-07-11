@@ -36,9 +36,6 @@ namespace ScopeSetupApp.ucScopeConfig
 			Column_channelFormats.Items.Clear();
 			Column_channelFormats.Items.AddRange(_format);
 
-
-			ConfigToSystem();
-
 			InitTable();
 		}
 
@@ -188,6 +185,7 @@ namespace ScopeSetupApp.ucScopeConfig
 					return;
 				}
 				InitTable();
+
 			}
 		}
 
@@ -482,14 +480,6 @@ namespace ScopeSetupApp.ucScopeConfig
 
 				ScopeSysType.ScopeItem.Add(Item);
 			}
-
-			ConfigToSystem();
-		}
-
-		private void ConfigToSystem()
-		{
-			string str = Path.GetFileName(ScopeSysType.XmlFileName);
-			//ConfigToSystem_label.Text = @"Actual configuration: " + str;
 		}
 
 		private void ChanneldataGridView_BindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
