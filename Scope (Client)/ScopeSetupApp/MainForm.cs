@@ -10,6 +10,7 @@ using System.Xml;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using ScopeSetupApp.Format;
+using ScopeSetupApp.ucScopeConfig;
 
 namespace ScopeSetupApp
 {
@@ -240,39 +241,45 @@ namespace ScopeSetupApp
 		}
 
 		private ScopeConfigForm _scopeConfigForm;
+		private UcScopeConfig _ucScopeConfig = new UcScopeConfig()
+		{
+			Dock = DockStyle.Fill
+		};
 
 		private void toolStripButton3_Click(object sender, EventArgs e)
 		{
-			if (_scopeConfigForm != null)
-			{
-				try
-				{
-					_scopeConfigForm.Show();
-					_scopeConfigForm.Activate();
-				}
-				catch (Exception)
-				{
-					_scopeConfigForm = new ScopeConfigForm()
-					{
-						Size = Size,
-						WindowState = WindowState
-					};
-					_scopeConfigForm.Show();
-				}
-			}
-			else
-			{
-				_scopeConfigForm = new ScopeConfigForm()
-				{
-					Size = Size,
-					WindowState = WindowState
-				};
-				_scopeConfigForm.Show();
-			}
+			//if (_scopeConfigForm != null)
+			//{
+			//	try
+			//	{
+			//		_scopeConfigForm.Show();
+			//		_scopeConfigForm.Activate();
+			//	}
+			//	catch (Exception)
+			//	{
+			//		_scopeConfigForm = new ScopeConfigForm()
+			//		{
+			//			Size = Size,
+			//			WindowState = WindowState
+			//		};
+			//		_scopeConfigForm.Show();
+			//	}
+			//}
+			//else
+			//{
+			//	_scopeConfigForm = new ScopeConfigForm()
+			//	{
+			//		Size = Size,
+			//		WindowState = WindowState
+			//	};
+			//	_scopeConfigForm.Show();
+			//}
 
-
-			_buttonsStatus = (byte) (_buttonsStatus == 0x00 ? 0x01 : 0x00);
+			_buttonsStatus = (byte) (_buttonsStatus == 0x01 ? 0x00 : 0x01);
 			UpdateButtons();
+
+			panel1.Controls.Add(_ucScopeConfig);
+			_ucScopeConfig.Show();
 		}
 
 		private void UpdateButtons()
@@ -331,6 +338,7 @@ namespace ScopeSetupApp
 		private void UpdateButtonsSets(ToolStripButton button)
 		{
 			button.Size = new Size(60, 60);
+			button.BackColor = SystemColors.ButtonFace;
 			button.DisplayStyle = ToolStripItemDisplayStyle.Image;
 		}
 
@@ -1921,11 +1929,6 @@ namespace ScopeSetupApp
 		{
 			Dock = DockStyle.Fill
 		};
-
-		private void toolStripStatusLabel1_Click(object sender, EventArgs e)
-		{
-
-		}
 
 		private void Setting_Button_Click(object sender, EventArgs e)
 		{

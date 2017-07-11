@@ -85,17 +85,17 @@
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Format\FormatList.cs" />
-    <Compile Include="Settings\Form1.cs">
+    <Compile Include="ucSettings\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings\Form1.Designer.cs">
+    <Compile Include="ucSettings\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Format\FormatConverter.cs" />
-    <Compile Include="Settings\Settings.cs">
+    <Compile Include="ucSettings\Settings.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Settings\Settings.Designer.cs">
+    <Compile Include="ucSettings\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="LoadOscQueryForm.cs">
@@ -134,13 +134,19 @@
     <Compile Include="SelectChannel.Designer.cs">
       <DependentUpon>SelectChannel.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucScopeConfig\UcScopeConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucScopeConfig\UcScopeConfig.Designer.cs">
+      <DependentUpon>UcScopeConfig.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ConnectForm.resx">
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\Form1.resx">
+    <EmbeddedResource Include="ucSettings\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\Settings.resx">
+    <EmbeddedResource Include="ucSettings\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoadOscQueryForm.resx">
@@ -168,8 +174,11 @@
     <EmbeddedResource Include="SelectChannel.resx">
       <DependentUpon>SelectChannel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings\Settings.ru.resx">
+    <EmbeddedResource Include="ucSettings\Settings.ru.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucScopeConfig\UcScopeConfig.resx">
+      <DependentUpon>UcScopeConfig.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
