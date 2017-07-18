@@ -869,19 +869,8 @@ namespace ScopeSetupApp.ucScopeSetup
 		//*************ЗАКРЫТИЕ ФОРМЫ, ОСВОБОЖДЕНИЕ РЕСУРСОВ *************************************************//
 		//****************************************************************************************************//
 		//****************************************************************************************************//
-		private void ScopeSetupForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			try
-			{
-				ModBusUnits.ScopeSetupModbusUnit.RequestFinished -= EndRequest;
-			}
-			catch
-			{
-				// ignored
-			}
-		}
 
-		//***************************Invok и****************************************************//
+	    //***************************Invok и****************************************************//
 
 		private delegate void NoParamDelegate();
 		private void LinkError()

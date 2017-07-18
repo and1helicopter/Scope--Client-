@@ -85,6 +85,11 @@
       <DependentUpon>ConnectForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Format\FormatList.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ucScopeSetup\UcScopeSetup.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -92,11 +97,11 @@
       <DependentUpon>UcScopeSetup.cs</DependentUpon>
     </Compile>
     <Compile Include="Format\FormatConverter.cs" />
-    <Compile Include="ucSettings\Settings.cs">
+    <Compile Include="ucSettings\UcSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucSettings\Settings.Designer.cs">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <Compile Include="ucSettings\UcSettings.Designer.cs">
+      <DependentUpon>UcSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="LoadOscQueryForm.cs">
       <SubType>Form</SubType>
@@ -146,8 +151,8 @@
     <EmbeddedResource Include="ucScopeSetup\UcScopeSetup.resx">
       <DependentUpon>UcScopeSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucSettings\Settings.resx">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <EmbeddedResource Include="ucSettings\UcSettings.resx">
+      <DependentUpon>UcSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoadOscQueryForm.resx">
       <DependentUpon>LoadOscQueryForm.cs</DependentUpon>
@@ -157,14 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="ScopeConfigAppl.resx">
       <DependentUpon>ScopeConfigAppl.cs</DependentUpon>
     </EmbeddedResource>
@@ -174,8 +174,8 @@
     <EmbeddedResource Include="SelectChannel.resx">
       <DependentUpon>SelectChannel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucSettings\Settings.ru.resx">
-      <DependentUpon>Settings.cs</DependentUpon>
+    <EmbeddedResource Include="ucSettings\UcSettings.ru.resx">
+      <DependentUpon>UcSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucScopeConfig\UcScopeConfig.resx">
       <DependentUpon>UcScopeConfig.cs</DependentUpon>
@@ -195,8 +195,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Electrical_Threshold-50.ico" />
+    <None Include="Resources\icons8-Unchecked Checkbox-50.png" />
+    <None Include="Resources\icons8-Unchecked Checkbox-48.png" />
+    <Resource Include="Resources\Checked.png" />
+    <None Include="Resources\icons8-Checked Checkbox-48.png" />
     <None Include="Resources\Support-50.png" />
-    <None Include="Resources\Format.txt" />
     <Resource Include="Resources\Record-48.png" />
     <Resource Include="Resources\Circle Thin-64.png" />
     <Resource Include="Resources\Circle Thin-64%282%29.png" />
@@ -220,7 +223,6 @@
     <None Include="Resources\Connected-50.png" />
     <None Include="Resources\Chromatography-50.png" />
     <None Include="Resources\Checkmark-50.png" />
-    <None Include="Resources\Checked-50.png" />
     <None Include="Resources\Cancel-50.png" />
     <None Include="Resources\Add Database-50.png" />
     <None Include="Resources\Minus.bmp" />

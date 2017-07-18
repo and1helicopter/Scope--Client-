@@ -1,8 +1,9 @@
 ﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace ScopeSetupApp
 {
-	partial class MainForm
+	sealed partial class MainForm
 	{
 		/// <summary>
 		/// Required designer variable.

@@ -1,43 +1,46 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using ScopeSetupApp.Format;
+using ScopeSetupApp.Properties;
 
-namespace ScopeSetupApp.Format
+namespace ScopeSetupApp.ucSettings
 {
-	public partial class Settings : UserControl
+	public partial class UcSettings : UserControl
 	{
-		public Settings()
+		public UcSettings()
 		{
 			InitializeComponent();
 
 			InitTable();
 
-			FormatsdataGridView.CellValidated += FormatsdataGridView_CellValidated;
+			OldFormatChange();
 		}
 
 		private void FormatsdataGridView_CellValidated(object sender, DataGridViewCellEventArgs e)
 		{
-			if (FormatsdataGridView.Columns[e.ColumnIndex].Name == "smallerCol")
+			switch (FormatsdataGridView.Columns[e.ColumnIndex].Name)
 			{
-				ChangeSmallCol(e);
+				case "smallerCol":
+					ChangeSmallCol(e);
+					break;
+				case "bCol":
+					ChangeBCol(e);
+					break;
+				case "aCol":
+					ChangeACol(e);
+					break;
+				case "bitCol":
+					ChangeBitCol(e);
+					break;
+				case "nameCol":
+					ChangeNameCol(e);
+					break;
 			}
-			else if (FormatsdataGridView.Columns[e.ColumnIndex].Name == "bCol")
-			{
-				ChangeBCol(e);
-			}
-			else if (FormatsdataGridView.Columns[e.ColumnIndex].Name == "aCol")
-			{
-				ChangeACol(e);
-			}
-			else if (FormatsdataGridView.Columns[e.ColumnIndex].Name == "bitCol")
-			{
-				ChangeBitCol(e);
-			}
-			else if (FormatsdataGridView.Columns[e.ColumnIndex].Name == "nameCol")
-			{
-				ChangeNameCol(e);
-			}
+
+			FormatsdataGridView_RowEnter(sender, e);
 		}
 
 		private void ChangeSmallCol(DataGridViewCellEventArgs i)
@@ -160,6 +163,24 @@ namespace ScopeSetupApp.Format
 			FormatConverter.OldFormat = !FormatConverter.OldFormat;
 			FormatConverter.UpdateVisualFormat();
 			MainForm.FormatStatusLabel.Invoke();
+
+			OldFormatChange();
+		}
+
+		private void OldFormatChange()
+		{
+			if (FormatConverter.OldFormat)
+			{
+				old_toolStripButton.Image = Resources.Checked;
+				old_toolStripButton.Text = @"Старый формат";
+				old_toolStripButton.ToolTipText = @"Старый формат";
+			}
+			else
+			{
+				old_toolStripButton.Image = Resources.Unchecked;
+				old_toolStripButton.Text = @"Новый формат";
+				old_toolStripButton.ToolTipText = @"Новый формат";
+			}
 		}
 
 		private void addFormatButton_Click(object sender, EventArgs e)
@@ -175,14 +196,7 @@ namespace ScopeSetupApp.Format
 		{
 			foreach (DataGridViewRow r in FormatsdataGridView.Rows)
 			{
-
-				var sdfvds = (from x in FormatConverter.FormatList
-					where x.Name == r.Cells["nameCol"].Value as string
-					select x).First();
-
-				int index = FormatConverter.FormatList.IndexOf(sdfvds);
-
-				FormatsdataGridView.Rows[r.Index].HeaderCell.Value = (index + 1).ToString();
+				FormatsdataGridView.Rows[r.Index].HeaderCell.Value = r.Index.ToString();
 			}
 
 			SetDoubleBuffered(FormatsdataGridView, true);
@@ -232,6 +246,21 @@ namespace ScopeSetupApp.Format
 			}
 
 			UpdateTable();
+		}
+
+		private void FormatsdataGridView_RowEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			var format = FormatConverter.FormatList[e.RowIndex].A.ToString(CultureInfo.InvariantCulture) +
+			             @" * value + " + FormatConverter.FormatList[e.RowIndex].B.ToString(CultureInfo.InvariantCulture);
+
+			if (FormatsdataGridView.Rows[e.RowIndex].Cells["nameCol"].Value as string == "BLOCKED")
+			{
+				format = "BLOCKED";
+			}
+
+			var code = (FormatConverter.FormatList[e.RowIndex].BitDepth.Bit << 8) + e.RowIndex;
+
+			info_format_label.Text = @"Код: " + code + @" Формат: " + format;
 		}
 	}
 }

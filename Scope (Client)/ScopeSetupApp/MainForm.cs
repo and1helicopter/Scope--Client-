@@ -9,14 +9,16 @@ using ADSPLibrary;
 using System.Xml;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using ScopeSetupApp.Format;
 using ScopeSetupApp.ucScopeConfig;
 using ScopeSetupApp.ucScopeSetup;
+using ScopeSetupApp.ucSettings;
 
 namespace ScopeSetupApp
 {
 	[SuppressMessage("ReSharper", "LocalizableElement")]
-	public partial class MainForm : Form
+	public sealed partial class MainForm : Form
 	{
 		//путь приложения
 		private string CalcApplPath()
@@ -131,6 +133,8 @@ namespace ScopeSetupApp
 
 			InitializeConfig();
 
+			DoubleBuffered = true;
+
 			tableLayoutPanel.ColumnStyles[0].Width = 0;
 			tableLayoutPanel.ColumnStyles[1].Width = 100;
 
@@ -169,7 +173,7 @@ namespace ScopeSetupApp
 			try
 			{
 				ScopeSysType.InitScopeSysType();
-				config_toolStripStatusLabel.Text = ScopeSysType.XmlFileName;
+				config_toolStripStatusLabel.Text = "Конфигурация: " + ScopeSysType.XmlFileName;
 			}
 			catch (Exception e)
 			{
@@ -183,7 +187,7 @@ namespace ScopeSetupApp
 
 		private static void ConfigStrLabel()
 		{
-			config_toolStripStatusLabel.Text = ScopeSysType.XmlFileName;
+			config_toolStripStatusLabel.Text = "Конфигурация: " + ScopeSysType.XmlFileName.Split('\\').Last();
 		}
 
 		public delegate void FormatLabel();
@@ -219,13 +223,10 @@ namespace ScopeSetupApp
 
 		private void toolStripButton1_Click(object sender, EventArgs e)
 		{
-			if (_ucScopeSetup == null)
+			_ucScopeSetup = new UcScopeSetup(_argsG)
 			{
-				_ucScopeSetup = new UcScopeSetup(_argsG)
-				{
-					Dock = DockStyle.Fill
-				};
-			}
+				Dock = DockStyle.Fill
+			};
 
 			_buttonsStatus = (byte)(_buttonsStatus == 0x02 ? 0x00 : 0x02);
 			UpdateButtons();
@@ -238,13 +239,10 @@ namespace ScopeSetupApp
 
 		private void toolStripButton3_Click(object sender, EventArgs e)
 		{
-			if (_ucScopeConfig == null)
+			_ucScopeConfig = new UcScopeConfig()
 			{
-				_ucScopeConfig = new UcScopeConfig()
-				{
-					Dock = DockStyle.Fill
-				};
-			}
+				Dock = DockStyle.Fill
+			};
 
 			_buttonsStatus = (byte) (_buttonsStatus == 0x01 ? 0x00 : 0x01);
 			UpdateButtons();
@@ -1894,13 +1892,13 @@ namespace ScopeSetupApp
 		private bool _createFileFlag;
 		private int _createFileNum;
 
-		private Settings _settings;
+		private UcSettings _ucSettings;
 
 		private void Setting_Button_Click(object sender, EventArgs e)
 		{
-			if (_settings == null)
+			if (_ucSettings == null)
 			{
-				_settings = new Settings()
+				_ucSettings = new UcSettings()
 				{
 					Dock = DockStyle.Fill
 				};
@@ -1909,8 +1907,8 @@ namespace ScopeSetupApp
 			_buttonsStatus = (byte)(_buttonsStatus == 0x03 ? 0x00 : 0x03);
 			UpdateButtons();
 
-			panel1.Controls.Add(_settings);
-			_settings.Show();
+			panel1.Controls.Add(_ucSettings);
+			_ucSettings.Show();
 		}
 
 		private void timer2_Tick(object sender, EventArgs e)

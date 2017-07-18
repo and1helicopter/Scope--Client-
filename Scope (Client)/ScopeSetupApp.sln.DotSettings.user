@@ -1,7 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:Boolean x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=F7B4C1FE3EA7421887F7FD79B951DA74/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=F7B4C1FE3EA7421887F7FD79B951DA74/ProductVersion/@EntryValue">2017.1</s:String>
-	<s:String x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=F7B4C1FE3EA7421887F7FD79B951DA74/SnapshotLocation/@EntryValue">C:\Users\and1h\AppData\Local\Temp\ssm.Dolaxox.tmp</s:String>
+	
+	
+	
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>

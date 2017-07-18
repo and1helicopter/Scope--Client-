@@ -38,12 +38,14 @@ namespace ScopeSetupApp.Format
 		private class ObjFormat
 		{
 			public string NameFormat { get; }
+			public string VisualNameFormat { get; }
 			public int IndexSizeFormat { get; }
 
-			public ObjFormat(string nameFormat, int indexSizeFormat)
+			public ObjFormat(string nameFormat, string visualNameFormat , int indexSizeFormat)
 			{
 				NameFormat = nameFormat;
 				IndexSizeFormat = indexSizeFormat;
+				VisualNameFormat = visualNameFormat;
 			}
 		}
 
@@ -58,7 +60,7 @@ namespace ScopeSetupApp.Format
 				ActualFormat = _oldFormat;
 				foreach (var itemFormat in _oldFormat.ToList())
 				{
-					ListObjFormats.Add(new ObjFormat(itemFormat.ToString(), 0));
+					ListObjFormats.Add(new ObjFormat(itemFormat.ToString(), itemFormat.ToString(), 0));
 				}
 			}
 			else
@@ -67,8 +69,8 @@ namespace ScopeSetupApp.Format
 
 				foreach (var itemFormat in FormatList)
 				{
-					ListObjFormats.Add(new ObjFormat(itemFormat.Name, itemFormat.BitDepth.Bit - 1));
-					_newFormat[FormatList.IndexOf(itemFormat)] = itemFormat.Name;
+					ListObjFormats.Add(new ObjFormat(itemFormat.Name, FormatList.IndexOf(itemFormat) + " - " + itemFormat.Name, itemFormat.BitDepth.Bit - 1));
+					_newFormat[FormatList.IndexOf(itemFormat)] = FormatList.IndexOf(itemFormat) + " - "+ itemFormat.Name;
 				}
 				ActualFormat = _newFormat;
 			}
@@ -76,8 +78,10 @@ namespace ScopeSetupApp.Format
 
 		public static int GetIndexSizeFormat(string name)
 		{
+			//Проверка на новый и старый формат, если новый блокировка форматов с номером несуществующих
+
 			return (from x in ListObjFormats
-					where x.NameFormat == name
+					where x.VisualNameFormat == name
 					select x.IndexSizeFormat).First(); 
 		}
 	}

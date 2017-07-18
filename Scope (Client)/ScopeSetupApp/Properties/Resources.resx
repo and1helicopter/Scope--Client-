@@ -124,9 +124,6 @@
   <data name="Cancel_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Cancel-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Checked_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Checked-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Checklist_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Checklist-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -159,6 +156,15 @@
   </data>
   <data name="Fine_Print_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fine Print-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icons8_Checked_Checkbox_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-Checked Checkbox-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icons8_Unchecked_Checkbox_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-Unchecked Checkbox-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Unchecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-Unchecked Checkbox-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Minus_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Minus-32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -198,5 +204,8 @@
   </data>
   <data name="Upload_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Upload-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Checked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

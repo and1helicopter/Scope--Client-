@@ -15,9 +15,13 @@ namespace ScopeSetupApp.Format
 			new Format("HexToPercent",  "int16", "1/40.96", "0", 2),
 			new Format("HexToUint16", "uint16", "1", "0", 4),
 			new Format("HexToInt16", "int16", "1", "0", 4),
+			new Format("BLOCKED", "uint16", "1", "0", 0),
 			new Format("HexTo8_8", "int16", "1/256.0", "0", 4),
 			new Format("HexTo0_16", "uint16", "1/65536.0", "0", 4),
 			new Format("HexToSlide", "uint16", "1/327.68", "0", 4),
+			new Format("BLOCKED", "uint16", "1", "0", 0),
+			new Format("BLOCKED", "uint16", "1", "0", 0),
+			new Format("BLOCKED", "uint16", "1", "0", 0),
 			new Format("HexToInt10", "int16", "1/10.0", "0", 4),
 			new Format("HexToHex", "uint16", "1", "0", 0),
 			new Format("HexToUf", "int16", "0.135", "0", 4),
@@ -26,12 +30,13 @@ namespace ScopeSetupApp.Format
 			new Format("HexToInt8", "int16", "1/8.0", "0", 2),
 			new Format("HexToUint1000", "uint16", "1/1000.0", "0", 2),
 			new Format("HexToPercent4", "int16", "1/10.24", "0", 2),
+			new Format("BLOCKED", "uint16", "1", "0", 0),
 			new Format("HexToPercentUpp", "int16", "1/20.48", "0", 2),
 			new Format("HexToFreqUPTF", "uint16", "16000", "0", 2)
 		};
 
 		/*  ____Discription____ 
-		(A*value + B)^Z
+		(A*value + B)
 		A*value + B  // нужно получить такой вид						
 		Bit depth:		 
 						

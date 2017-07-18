@@ -520,8 +520,8 @@
 			// 
 			// tabControl1
 			// 
-			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Controls.Add(this.tabPage1);
+			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.tabControl1.ItemSize = new System.Drawing.Size(130, 20);
 			this.tabControl1.Location = new System.Drawing.Point(0, 38);
@@ -701,7 +701,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 24);
 			this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
 			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Size = new System.Drawing.Size(944, 99);
+			this.tabPage1.Size = new System.Drawing.Size(946, 99);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Oscil Config";
 			// 
@@ -722,7 +722,7 @@
 			this.panel5.Location = new System.Drawing.Point(0, 0);
 			this.panel5.Margin = new System.Windows.Forms.Padding(0);
 			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(944, 99);
+			this.panel5.Size = new System.Drawing.Size(946, 99);
 			this.panel5.TabIndex = 3;
 			// 
 			// Comment_label

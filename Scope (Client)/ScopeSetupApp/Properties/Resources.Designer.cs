@@ -83,9 +83,9 @@ namespace ScopeSetupApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Checked_50 {
+        internal static System.Drawing.Bitmap Checked {
             get {
-                object obj = ResourceManager.GetObject("Checked_50", resourceCulture);
+                object obj = ResourceManager.GetObject("Checked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -196,6 +196,26 @@ namespace ScopeSetupApp.Properties {
         internal static System.Drawing.Bitmap Fine_Print_50 {
             get {
                 object obj = ResourceManager.GetObject("Fine_Print_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_Checked_Checkbox_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_Checked_Checkbox_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_Unchecked_Checkbox_48 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_Unchecked_Checkbox_48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -316,6 +336,16 @@ namespace ScopeSetupApp.Properties {
         internal static System.Drawing.Bitmap Support_50 {
             get {
                 object obj = ResourceManager.GetObject("Support_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Unchecked {
+            get {
+                object obj = ResourceManager.GetObject("Unchecked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

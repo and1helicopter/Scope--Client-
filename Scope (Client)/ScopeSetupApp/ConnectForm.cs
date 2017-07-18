@@ -16,7 +16,7 @@ namespace ScopeSetupApp
                 XDocument xDocument =
                     new XDocument(
                         new XDeclaration("1.0", "utf-16", null),
-                        new XElement("Settings",
+                        new XElement("UcSettings",
                             new XElement("ComPort",
                                 new XAttribute("Name", portComboBox.SelectedIndex.ToString()),
                                 new XAttribute("Speed", speedComboBox.SelectedIndex.ToString()),

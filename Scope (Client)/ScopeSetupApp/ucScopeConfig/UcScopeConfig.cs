@@ -186,6 +186,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				}
 				InitTable();
 
+				MainForm.ConfigStatusLabel.Invoke();
 			}
 		}
 
@@ -360,12 +361,12 @@ namespace ScopeSetupApp.ucScopeConfig
 				{
 					//Адреса, разрядность, формат
 					if (Convert.ToString(ChanneldataGridView.Rows[i].Cells[3].Value) == Convert.ToString(ChanneldataGridView.Rows[j].Cells[3].Value) &&
-					    ChanneldataGridView.Rows[i].Cells[4].Value == ChanneldataGridView.Rows[j].Cells[4].Value &&
-					    ChanneldataGridView.Rows[i].Cells[5].Value == ChanneldataGridView.Rows[j].Cells[5].Value)
+						ChanneldataGridView.Rows[i].Cells[4].Value == ChanneldataGridView.Rows[j].Cells[4].Value &&
+						ChanneldataGridView.Rows[i].Cells[5].Value == ChanneldataGridView.Rows[j].Cells[5].Value)
 					{
 						str = "Адрес: " + ChanneldataGridView.Rows[i].Cells[3].Value +
-						      " Разряднсоть: " + ChanneldataGridView.Rows[i].Cells[4].Value +
-						      " Формат: " + ChanneldataGridView.Rows[i].Cells[5].Value;
+							  " Разряднсоть: " + ChanneldataGridView.Rows[i].Cells[4].Value +
+							  " Формат: " + ChanneldataGridView.Rows[i].Cells[5].Value;
 						nameChannelRepeat.Add(Convert.ToString(ChanneldataGridView.Rows[j].Cells[0].Value));
 						numChannelRepeat.Add(j);
 					}
@@ -484,10 +485,10 @@ namespace ScopeSetupApp.ucScopeConfig
 
 		private void ChanneldataGridView_BindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
 		{
-			foreach (DataGridViewRow r in ChanneldataGridView.Rows)
-			{
-				ChanneldataGridView.Rows[r.Index].HeaderCell.Value = (r.Index + 1).ToString();
-			}
+			//foreach (DataGridViewRow r in ChanneldataGridView.Rows)
+			//{
+			//	ChanneldataGridView.Rows[r.Index].HeaderCell.Value = (r.Index + 1).ToString();
+			//}
 		}
 
 		private void View_toolStripButton_Click(object sender, EventArgs e)
@@ -592,10 +593,15 @@ namespace ScopeSetupApp.ucScopeConfig
 
 		private void ChanneldataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
+			var index = e.RowIndex;
 
-			ChanneldataGridView.Rows[e.RowIndex].Cells[4].Value = _sizeFormat[
-				FormatConverter.GetIndexSizeFormat(ChanneldataGridView.Rows[e.RowIndex]
-					.Cells["Column_channelFormats"].Value.ToString())];
+			if (ChanneldataGridView.Rows[index].Cells["Column_channelFormats"].Value.ToString().Contains("BLOCKED"))
+			{
+				ChanneldataGridView.Rows[index].Cells["Column_channelFormats"].Value = _format[0];
+			}
+			
+			ChanneldataGridView.Rows[index].Cells["Column_channelformatNumeric"].Value = _sizeFormat[FormatConverter.
+				GetIndexSizeFormat(ChanneldataGridView.Rows[index].Cells["Column_channelFormats"].Value.ToString())];
 		}
 
 		private void stationName_MouseEnter(object sender, EventArgs e)
