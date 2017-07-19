@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace ScopeSetupApp.Format
 {
@@ -83,6 +85,25 @@ namespace ScopeSetupApp.Format
 			return (from x in ListObjFormats
 					where x.VisualNameFormat == name
 					select x.IndexSizeFormat).First(); 
+		}
+
+		private static int GetIndexListFormat(string name)
+		{
+			return ListObjFormats.IndexOf((from x in ListObjFormats
+										   where x.VisualNameFormat == name
+										   select x).First());
+		}
+
+		public static string GetCodeFormat(string name)
+		{
+			var index = GetIndexListFormat(name);
+			return (((ListObjFormats[index].IndexSizeFormat + 1) << 8) + index).ToString();
+		}
+
+		public static string GetEquationFormat(int index)
+		{
+			return FormatConverter.FormatList[index].A.ToString(CultureInfo.InvariantCulture) +
+			                @" * value + " + FormatConverter.FormatList[index].B.ToString(CultureInfo.InvariantCulture); ;
 		}
 	}
 }

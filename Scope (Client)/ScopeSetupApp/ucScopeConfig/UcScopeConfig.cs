@@ -32,7 +32,6 @@ namespace ScopeSetupApp.ucScopeConfig
 		{
 			InitializeComponent();
 
-
 			Column_channelFormats.Items.Clear();
 			Column_channelFormats.Items.AddRange(_format);
 
@@ -55,7 +54,6 @@ namespace ScopeSetupApp.ucScopeConfig
 		}
 
 		private static readonly List<ScopeChannelConfig> ScopeItemCopy = new List<ScopeChannelConfig>();
-
 
 		private void copyButton_Click(object sender, EventArgs e)
 		{
@@ -483,14 +481,6 @@ namespace ScopeSetupApp.ucScopeConfig
 			}
 		}
 
-		private void ChanneldataGridView_BindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-		{
-			//foreach (DataGridViewRow r in ChanneldataGridView.Rows)
-			//{
-			//	ChanneldataGridView.Rows[r.Index].HeaderCell.Value = (r.Index + 1).ToString();
-			//}
-		}
-
 		private void View_toolStripButton_Click(object sender, EventArgs e)
 		{
 			VerificationChannel();
@@ -668,6 +658,11 @@ namespace ScopeSetupApp.ucScopeConfig
 		{
 			ToolTip tTip = new ToolTip();
 			tTip.SetToolTip(ConfigAddr_label, @"Адрес конфигурации");
+		}
+
+		private void ChanneldataGridView_RowEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			code_label.Text = @"Код: " + FormatConverter.GetCodeFormat(ChanneldataGridView.Rows[e.RowIndex].Cells["Column_channelFormats"].Value as string);
 		}
 	}
 }

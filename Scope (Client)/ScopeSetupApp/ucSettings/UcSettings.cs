@@ -250,14 +250,12 @@ namespace ScopeSetupApp.ucSettings
 
 		private void FormatsdataGridView_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			var format = FormatConverter.FormatList[e.RowIndex].A.ToString(CultureInfo.InvariantCulture) +
-			             @" * value + " + FormatConverter.FormatList[e.RowIndex].B.ToString(CultureInfo.InvariantCulture);
+			var format = FormatConverter.GetEquationFormat(e.RowIndex);
 
 			if (FormatsdataGridView.Rows[e.RowIndex].Cells["nameCol"].Value as string == "BLOCKED")
 			{
 				format = "BLOCKED";
 			}
-
 			var code = (FormatConverter.FormatList[e.RowIndex].BitDepth.Bit << 8) + e.RowIndex;
 
 			info_format_label.Text = @"Код: " + code + @" Формат: " + format;

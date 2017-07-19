@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcScopeConfig));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.mailToolStrip = new System.Windows.Forms.ToolStrip();
@@ -66,6 +66,18 @@
 			this.Column_channelMin = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column_channelMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.panel5 = new System.Windows.Forms.Panel();
+			this.Comment_label = new System.Windows.Forms.Label();
+			this.ConfigAddr_textBox = new System.Windows.Forms.TextBox();
+			this.ConfigAddr_label = new System.Windows.Forms.Label();
+			this.OscilCmndAddr_textBox = new System.Windows.Forms.TextBox();
+			this.OscilCmndAddr_label = new System.Windows.Forms.Label();
+			this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
+			this.sampleRate_textBox = new System.Windows.Forms.TextBox();
+			this.sampleRate_label = new System.Windows.Forms.Label();
+			this.OscilSizeData_TextBox = new System.Windows.Forms.TextBox();
+			this.OscilSizeData_label = new System.Windows.Forms.Label();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
 			this.leapsec_textBox = new System.Windows.Forms.TextBox();
 			this.recordingDevice_textBox = new System.Windows.Forms.TextBox();
@@ -81,27 +93,16 @@
 			this.recordingDevice_label = new System.Windows.Forms.Label();
 			this.stationName_label = new System.Windows.Forms.Label();
 			this.nominalFrequency_label = new System.Windows.Forms.Label();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.panel5 = new System.Windows.Forms.Panel();
-			this.Comment_label = new System.Windows.Forms.Label();
-			this.ConfigAddr_textBox = new System.Windows.Forms.TextBox();
-			this.ConfigAddr_label = new System.Windows.Forms.Label();
-			this.OscilCmndAddr_textBox = new System.Windows.Forms.TextBox();
-			this.OscilCmndAddr_label = new System.Windows.Forms.Label();
-			this.CommentRichTextBox = new System.Windows.Forms.RichTextBox();
-			this.sampleRate_textBox = new System.Windows.Forms.TextBox();
-			this.sampleRate_label = new System.Windows.Forms.Label();
-			this.OscilSizeData_TextBox = new System.Windows.Forms.TextBox();
-			this.OscilSizeData_label = new System.Windows.Forms.Label();
+			this.code_label = new System.Windows.Forms.Label();
 			this.mailToolStrip.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.configPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.ChanneldataGridView)).BeginInit();
 			this.tabControl1.SuspendLayout();
-			this.tabPage3.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.panel5.SuspendLayout();
+			this.tabPage3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolStripSeparator2
@@ -256,6 +257,7 @@
 			// panel2
 			// 
 			this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+			this.panel2.Controls.Add(this.code_label);
 			this.panel2.Controls.Add(this.toolStrip1);
 			this.panel2.Controls.Add(this.label13);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -390,14 +392,14 @@
             this.Column_channelDimension,
             this.Column_channelMin,
             this.Column_channelMax});
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ChanneldataGridView.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ChanneldataGridView.DefaultCellStyle = dataGridViewCellStyle3;
 			this.ChanneldataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ChanneldataGridView.Location = new System.Drawing.Point(0, 0);
 			this.ChanneldataGridView.Margin = new System.Windows.Forms.Padding(0);
@@ -406,7 +408,7 @@
 			this.ChanneldataGridView.Size = new System.Drawing.Size(954, 284);
 			this.ChanneldataGridView.TabIndex = 0;
 			this.ChanneldataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChanneldataGridView_CellEndEdit);
-			this.ChanneldataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.ChanneldataGridView_BindingComplete);
+			this.ChanneldataGridView.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChanneldataGridView_RowEnter);
 			// 
 			// Column_channelNames
 			// 
@@ -535,6 +537,131 @@
 			this.tabControl1.TabIndex = 45;
 			this.tabControl1.TabStop = false;
 			this.tabControl1.Tag = "";
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.tabPage1.Controls.Add(this.panel5);
+			this.tabPage1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.tabPage1.Location = new System.Drawing.Point(4, 24);
+			this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Size = new System.Drawing.Size(946, 99);
+			this.tabPage1.TabIndex = 0;
+			this.tabPage1.Text = "Oscil Config";
+			// 
+			// panel5
+			// 
+			this.panel5.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.panel5.Controls.Add(this.Comment_label);
+			this.panel5.Controls.Add(this.ConfigAddr_textBox);
+			this.panel5.Controls.Add(this.ConfigAddr_label);
+			this.panel5.Controls.Add(this.OscilCmndAddr_textBox);
+			this.panel5.Controls.Add(this.OscilCmndAddr_label);
+			this.panel5.Controls.Add(this.CommentRichTextBox);
+			this.panel5.Controls.Add(this.sampleRate_textBox);
+			this.panel5.Controls.Add(this.sampleRate_label);
+			this.panel5.Controls.Add(this.OscilSizeData_TextBox);
+			this.panel5.Controls.Add(this.OscilSizeData_label);
+			this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel5.Location = new System.Drawing.Point(0, 0);
+			this.panel5.Margin = new System.Windows.Forms.Padding(0);
+			this.panel5.Name = "panel5";
+			this.panel5.Size = new System.Drawing.Size(946, 99);
+			this.panel5.TabIndex = 3;
+			// 
+			// Comment_label
+			// 
+			this.Comment_label.Location = new System.Drawing.Point(12, 4);
+			this.Comment_label.Name = "Comment_label";
+			this.Comment_label.Size = new System.Drawing.Size(82, 26);
+			this.Comment_label.TabIndex = 34;
+			this.Comment_label.Text = "Комментарий";
+			this.Comment_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// ConfigAddr_textBox
+			// 
+			this.ConfigAddr_textBox.Location = new System.Drawing.Point(395, 8);
+			this.ConfigAddr_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.ConfigAddr_textBox.Name = "ConfigAddr_textBox";
+			this.ConfigAddr_textBox.Size = new System.Drawing.Size(116, 20);
+			this.ConfigAddr_textBox.TabIndex = 33;
+			this.ConfigAddr_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.ConfigAddr_textBox.MouseEnter += new System.EventHandler(this.ConfigAddr_MouseEnter);
+			// 
+			// ConfigAddr_label
+			// 
+			this.ConfigAddr_label.Location = new System.Drawing.Point(262, 4);
+			this.ConfigAddr_label.Name = "ConfigAddr_label";
+			this.ConfigAddr_label.Size = new System.Drawing.Size(115, 26);
+			this.ConfigAddr_label.TabIndex = 32;
+			this.ConfigAddr_label.Text = "Configuration Address";
+			this.ConfigAddr_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// OscilCmndAddr_textBox
+			// 
+			this.OscilCmndAddr_textBox.Location = new System.Drawing.Point(395, 31);
+			this.OscilCmndAddr_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.OscilCmndAddr_textBox.Name = "OscilCmndAddr_textBox";
+			this.OscilCmndAddr_textBox.Size = new System.Drawing.Size(116, 20);
+			this.OscilCmndAddr_textBox.TabIndex = 31;
+			this.OscilCmndAddr_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.OscilCmndAddr_textBox.MouseEnter += new System.EventHandler(this.OscilCmndAddr_MouseEnter);
+			// 
+			// OscilCmndAddr_label
+			// 
+			this.OscilCmndAddr_label.Location = new System.Drawing.Point(266, 27);
+			this.OscilCmndAddr_label.Name = "OscilCmndAddr_label";
+			this.OscilCmndAddr_label.Size = new System.Drawing.Size(111, 26);
+			this.OscilCmndAddr_label.TabIndex = 30;
+			this.OscilCmndAddr_label.Text = "Oscil Cmnd Address";
+			this.OscilCmndAddr_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// CommentRichTextBox
+			// 
+			this.CommentRichTextBox.Location = new System.Drawing.Point(15, 31);
+			this.CommentRichTextBox.Name = "CommentRichTextBox";
+			this.CommentRichTextBox.Size = new System.Drawing.Size(242, 50);
+			this.CommentRichTextBox.TabIndex = 29;
+			this.CommentRichTextBox.Text = "";
+			// 
+			// sampleRate_textBox
+			// 
+			this.sampleRate_textBox.Location = new System.Drawing.Point(395, 54);
+			this.sampleRate_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.sampleRate_textBox.Name = "sampleRate_textBox";
+			this.sampleRate_textBox.Size = new System.Drawing.Size(116, 20);
+			this.sampleRate_textBox.TabIndex = 28;
+			this.sampleRate_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.sampleRate_textBox.MouseEnter += new System.EventHandler(this.sampleRate_MouseEnter);
+			// 
+			// sampleRate_label
+			// 
+			this.sampleRate_label.AutoSize = true;
+			this.sampleRate_label.Location = new System.Drawing.Point(292, 57);
+			this.sampleRate_label.Name = "sampleRate_label";
+			this.sampleRate_label.Size = new System.Drawing.Size(85, 13);
+			this.sampleRate_label.TabIndex = 27;
+			this.sampleRate_label.Text = "Sample rate (Hz)";
+			// 
+			// OscilSizeData_TextBox
+			// 
+			this.OscilSizeData_TextBox.Location = new System.Drawing.Point(395, 77);
+			this.OscilSizeData_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.OscilSizeData_TextBox.Name = "OscilSizeData_TextBox";
+			this.OscilSizeData_TextBox.Size = new System.Drawing.Size(116, 20);
+			this.OscilSizeData_TextBox.TabIndex = 21;
+			this.OscilSizeData_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.OscilSizeData_TextBox.MouseEnter += new System.EventHandler(this.OscilSizeData_MouseEnter);
+			// 
+			// OscilSizeData_label
+			// 
+			this.OscilSizeData_label.Location = new System.Drawing.Point(254, 73);
+			this.OscilSizeData_label.Name = "OscilSizeData_label";
+			this.OscilSizeData_label.Size = new System.Drawing.Size(123, 26);
+			this.OscilSizeData_label.TabIndex = 22;
+			this.OscilSizeData_label.Text = "Oscill Size Data (Kbyte)";
+			this.OscilSizeData_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// tabPage3
 			// 
@@ -693,130 +820,15 @@
 			this.nominalFrequency_label.TabIndex = 23;
 			this.nominalFrequency_label.Text = "Nominal frequency (Hz)";
 			// 
-			// tabPage1
+			// code_label
 			// 
-			this.tabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.tabPage1.Controls.Add(this.panel5);
-			this.tabPage1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.tabPage1.Location = new System.Drawing.Point(4, 24);
-			this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Size = new System.Drawing.Size(946, 99);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "Oscil Config";
-			// 
-			// panel5
-			// 
-			this.panel5.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.panel5.Controls.Add(this.Comment_label);
-			this.panel5.Controls.Add(this.ConfigAddr_textBox);
-			this.panel5.Controls.Add(this.ConfigAddr_label);
-			this.panel5.Controls.Add(this.OscilCmndAddr_textBox);
-			this.panel5.Controls.Add(this.OscilCmndAddr_label);
-			this.panel5.Controls.Add(this.CommentRichTextBox);
-			this.panel5.Controls.Add(this.sampleRate_textBox);
-			this.panel5.Controls.Add(this.sampleRate_label);
-			this.panel5.Controls.Add(this.OscilSizeData_TextBox);
-			this.panel5.Controls.Add(this.OscilSizeData_label);
-			this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel5.Location = new System.Drawing.Point(0, 0);
-			this.panel5.Margin = new System.Windows.Forms.Padding(0);
-			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(946, 99);
-			this.panel5.TabIndex = 3;
-			// 
-			// Comment_label
-			// 
-			this.Comment_label.Location = new System.Drawing.Point(12, 4);
-			this.Comment_label.Name = "Comment_label";
-			this.Comment_label.Size = new System.Drawing.Size(82, 26);
-			this.Comment_label.TabIndex = 34;
-			this.Comment_label.Text = "Комментарий";
-			this.Comment_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// ConfigAddr_textBox
-			// 
-			this.ConfigAddr_textBox.Location = new System.Drawing.Point(395, 8);
-			this.ConfigAddr_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.ConfigAddr_textBox.Name = "ConfigAddr_textBox";
-			this.ConfigAddr_textBox.Size = new System.Drawing.Size(116, 20);
-			this.ConfigAddr_textBox.TabIndex = 33;
-			this.ConfigAddr_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.ConfigAddr_textBox.MouseEnter += new System.EventHandler(this.ConfigAddr_MouseEnter);
-			// 
-			// ConfigAddr_label
-			// 
-			this.ConfigAddr_label.Location = new System.Drawing.Point(262, 4);
-			this.ConfigAddr_label.Name = "ConfigAddr_label";
-			this.ConfigAddr_label.Size = new System.Drawing.Size(115, 26);
-			this.ConfigAddr_label.TabIndex = 32;
-			this.ConfigAddr_label.Text = "Configuration Address";
-			this.ConfigAddr_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// OscilCmndAddr_textBox
-			// 
-			this.OscilCmndAddr_textBox.Location = new System.Drawing.Point(395, 31);
-			this.OscilCmndAddr_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.OscilCmndAddr_textBox.Name = "OscilCmndAddr_textBox";
-			this.OscilCmndAddr_textBox.Size = new System.Drawing.Size(116, 20);
-			this.OscilCmndAddr_textBox.TabIndex = 31;
-			this.OscilCmndAddr_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.OscilCmndAddr_textBox.MouseEnter += new System.EventHandler(this.OscilCmndAddr_MouseEnter);
-			// 
-			// OscilCmndAddr_label
-			// 
-			this.OscilCmndAddr_label.Location = new System.Drawing.Point(266, 27);
-			this.OscilCmndAddr_label.Name = "OscilCmndAddr_label";
-			this.OscilCmndAddr_label.Size = new System.Drawing.Size(111, 26);
-			this.OscilCmndAddr_label.TabIndex = 30;
-			this.OscilCmndAddr_label.Text = "Oscil Cmnd Address";
-			this.OscilCmndAddr_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// CommentRichTextBox
-			// 
-			this.CommentRichTextBox.Location = new System.Drawing.Point(15, 31);
-			this.CommentRichTextBox.Name = "CommentRichTextBox";
-			this.CommentRichTextBox.Size = new System.Drawing.Size(242, 50);
-			this.CommentRichTextBox.TabIndex = 29;
-			this.CommentRichTextBox.Text = "";
-			// 
-			// sampleRate_textBox
-			// 
-			this.sampleRate_textBox.Location = new System.Drawing.Point(395, 54);
-			this.sampleRate_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.sampleRate_textBox.Name = "sampleRate_textBox";
-			this.sampleRate_textBox.Size = new System.Drawing.Size(116, 20);
-			this.sampleRate_textBox.TabIndex = 28;
-			this.sampleRate_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.sampleRate_textBox.MouseEnter += new System.EventHandler(this.sampleRate_MouseEnter);
-			// 
-			// sampleRate_label
-			// 
-			this.sampleRate_label.AutoSize = true;
-			this.sampleRate_label.Location = new System.Drawing.Point(292, 57);
-			this.sampleRate_label.Name = "sampleRate_label";
-			this.sampleRate_label.Size = new System.Drawing.Size(85, 13);
-			this.sampleRate_label.TabIndex = 27;
-			this.sampleRate_label.Text = "Sample rate (Hz)";
-			// 
-			// OscilSizeData_TextBox
-			// 
-			this.OscilSizeData_TextBox.Location = new System.Drawing.Point(395, 77);
-			this.OscilSizeData_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.OscilSizeData_TextBox.Name = "OscilSizeData_TextBox";
-			this.OscilSizeData_TextBox.Size = new System.Drawing.Size(116, 20);
-			this.OscilSizeData_TextBox.TabIndex = 21;
-			this.OscilSizeData_TextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.OscilSizeData_TextBox.MouseEnter += new System.EventHandler(this.OscilSizeData_MouseEnter);
-			// 
-			// OscilSizeData_label
-			// 
-			this.OscilSizeData_label.Location = new System.Drawing.Point(254, 73);
-			this.OscilSizeData_label.Name = "OscilSizeData_label";
-			this.OscilSizeData_label.Size = new System.Drawing.Size(123, 26);
-			this.OscilSizeData_label.TabIndex = 22;
-			this.OscilSizeData_label.Text = "Oscill Size Data (Kbyte)";
-			this.OscilSizeData_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.code_label.AutoSize = true;
+			this.code_label.BackColor = System.Drawing.SystemColors.Control;
+			this.code_label.Location = new System.Drawing.Point(327, 14);
+			this.code_label.Name = "code_label";
+			this.code_label.Size = new System.Drawing.Size(29, 13);
+			this.code_label.TabIndex = 8;
+			this.code_label.Text = "Код:";
 			// 
 			// UcScopeConfig
 			// 
@@ -837,11 +849,11 @@
 			this.configPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.ChanneldataGridView)).EndInit();
 			this.tabControl1.ResumeLayout(false);
-			this.tabPage3.ResumeLayout(false);
-			this.tabPage3.PerformLayout();
 			this.tabPage1.ResumeLayout(false);
 			this.panel5.ResumeLayout(false);
 			this.panel5.PerformLayout();
+			this.tabPage3.ResumeLayout(false);
+			this.tabPage3.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -912,5 +924,6 @@
 		private System.Windows.Forms.TextBox OscilSizeData_TextBox;
 		private System.Windows.Forms.Label OscilSizeData_label;
 		private System.Windows.Forms.Label Comment_label;
+		private System.Windows.Forms.Label code_label;
 	}
 }
