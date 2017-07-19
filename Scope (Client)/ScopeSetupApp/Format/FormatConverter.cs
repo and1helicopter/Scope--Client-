@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -190,6 +191,56 @@ namespace ScopeSetupApp.Format
 						Name = "int64";
 						break;
 				}
+			}
+		}
+
+		public static string GetRangeMax(int index)
+		{
+			return (FormatList[index].A * GetMax(index) + FormatList[index].B).ToString("0.#####");
+		}
+
+		private static double GetMax(int index)
+		{
+			switch (FormatList[index].BitDepth.Name)
+			{
+				case "int64":
+					return 9223372036854775807;
+				case "int32":
+					return 2147483647;
+				case "int16":
+					return 32767;
+				case "uint64":
+					return 18446744073709551615;
+				case "uint32":
+					return 4294967295;
+				case "uint16":
+					return 65535;
+				default: return 0;
+			}
+		}
+
+		public static string GetRangeMin(int index)
+		{
+			return (FormatList[index].A * GetMin(index) + FormatList[index].B).ToString("0.#####");
+		}
+
+		private static double GetMin(int index)
+		{
+			switch (FormatList[index].BitDepth.Name)
+			{
+				case "int64":
+					return -9223372036854775808;
+				case "int32":
+					return -2147483648;
+				case "int16":
+					return -32768;
+				case "uint64":
+					return 0;
+				case "uint32":
+					return 0;
+				case "uint16":
+					return 0;
+				default: return 0;
 			}
 		}
 

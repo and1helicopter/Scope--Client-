@@ -261,17 +261,33 @@ namespace UnitTestProject
 		}
 	}
 
+	[TestClass]
+	public class Range
+	{
+		[TestMethod]
+		public void MinRange()
+		{
+			Assert.AreEqual((-800).ToString(), FormatConverter.GetRangeMin(0));
+		}
+
+		[TestMethod]
+		public void MinRange1()
+		{
+			Assert.AreEqual((-800).ToString(), FormatConverter.GetRangeMin(14));
+		}
+	}
+
 	//[TestClass]
-	//public class TestDouble
-	//{
-	//	[TestMethod]
-	//	public void TestDouble_1()
-	//	{
-	//		FormatConverter.FormatList.Add(new FormatConverter.Format("HexToPercent", "int16", "1 / 40.96", "0", "1", "double", 2));
+		//public class TestDouble
+		//{
+		//	[TestMethod]
+		//	public void TestDouble_1()
+		//	{
+		//		FormatConverter.FormatList.Add(new FormatConverter.Format("HexToPercent", "int16", "1 / 40.96", "0", "1", "double", 2));
 
-	//		Assert.AreEqual((0.0244140625).ToString("F2"), (FormatConverter.FormatList[0].A).ToString("F2"));
-	//	}
+		//		Assert.AreEqual((0.0244140625).ToString("F2"), (FormatConverter.FormatList[0].A).ToString("F2"));
+		//	}
 
-	//}
+		//}
 
 }

@@ -87,7 +87,7 @@ namespace ScopeSetupApp.Format
 					select x.IndexSizeFormat).First(); 
 		}
 
-		private static int GetIndexListFormat(string name)
+		public static int GetIndexListFormat(string name)
 		{
 			return ListObjFormats.IndexOf((from x in ListObjFormats
 										   where x.VisualNameFormat == name

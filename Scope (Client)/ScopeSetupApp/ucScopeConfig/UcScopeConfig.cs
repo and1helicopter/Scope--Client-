@@ -126,6 +126,7 @@ namespace ScopeSetupApp.ucScopeConfig
 			foreach (DataGridViewRow r in ChanneldataGridView.Rows)
 			{
 				ChanneldataGridView.Rows[r.Index].HeaderCell.Value = (r.Index + 1).ToString();
+				UpdateRange(r.Index);
 			}
 
 			SetDoubleBuffered(ChanneldataGridView, true);
@@ -150,6 +151,8 @@ namespace ScopeSetupApp.ucScopeConfig
 						t.ChannelMin,
 						t.ChannelMax
 					);
+
+					UpdateRange(ChanneldataGridView.Rows.Count - 1);
 				}
 				catch
 				{
@@ -592,6 +595,17 @@ namespace ScopeSetupApp.ucScopeConfig
 			
 			ChanneldataGridView.Rows[index].Cells["Column_channelformatNumeric"].Value = _sizeFormat[FormatConverter.
 				GetIndexSizeFormat(ChanneldataGridView.Rows[index].Cells["Column_channelFormats"].Value.ToString())];
+
+			UpdateRange(index);
+		}
+		 
+		private void UpdateRange(int index)
+		{
+			ChanneldataGridView.Rows[index].Cells["Column_channelMin"].Value = FormatConverter.GetRangeMin(
+				FormatConverter.GetIndexListFormat(ChanneldataGridView.Rows[index].Cells["Column_channelFormats"].Value.ToString()));
+
+			ChanneldataGridView.Rows[index].Cells["Column_channelMax"].Value = FormatConverter.GetRangeMax(
+				FormatConverter.GetIndexListFormat(ChanneldataGridView.Rows[index].Cells["Column_channelFormats"].Value.ToString()));
 		}
 
 		private void stationName_MouseEnter(object sender, EventArgs e)

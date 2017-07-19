@@ -239,10 +239,6 @@
       <Project>{30188FF0-11C6-4302-8B16-F30EEBEF8761}</Project>
       <Name>ModBusLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ObjectListView\ObjectListView\ObjectListView2012.csproj">
-      <Project>{18FEDA0C-D147-4286-B39A-01204808106A}</Project>
-      <Name>ObjectListView2012</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

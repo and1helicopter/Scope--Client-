@@ -18,3 +18,5 @@ C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProj
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\obj\Debug\UnitTestProject.dll
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\obj\Debug\UnitTestProject.pdb
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\ru\ScopeSetup.resources.dll
+C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\dotMemory.Unit.dll
+C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\dotMemory.Unit.xml

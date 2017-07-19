@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -198,6 +197,8 @@ namespace ScopeSetupApp.ucSettings
 			{
 				FormatsdataGridView.Rows[r.Index].HeaderCell.Value = r.Index.ToString();
 			}
+
+			FormatConverter.UpdateVisualFormat();
 
 			SetDoubleBuffered(FormatsdataGridView, true);
 		}
