@@ -12,7 +12,7 @@ namespace ScopeSetupApp
         public string ChannelPhase { get; set; }
         public string ChannelCcbm { get; set; } 
         public string ChannelDimension { get; set; }
-        public int ChannelMin { get; set; }   
-        public int ChannelMax { get; set; }
+        public double ChannelMin { get; set; }   
+        public double ChannelMax { get; set; }
     }
 }

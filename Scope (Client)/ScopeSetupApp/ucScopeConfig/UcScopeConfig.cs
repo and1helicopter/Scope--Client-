@@ -49,7 +49,7 @@ namespace ScopeSetupApp.ucScopeConfig
 
 		private void addLineButton_Click(object sender, EventArgs e)
 		{
-			ChanneldataGridView.Rows.Add("Параметр", "", _typeChannel[0], "0x" + (ChanneldataGridView.Rows.Count - 1).ToString("X4"), _sizeFormat[0], _format[0], "", "", "NONE", -1, 1);
+			ChanneldataGridView.Rows.Add("Параметр", "", _typeChannel[0], "0x" + (ChanneldataGridView.Rows.Count).ToString("X4"), _sizeFormat[0], _format[0], "", "", "NONE", -1, 1);
 			UpdateTable();
 		}
 
@@ -464,23 +464,33 @@ namespace ScopeSetupApp.ucScopeConfig
 
 			foreach (DataGridViewRow item in ChanneldataGridView.Rows)
 			{
-				// ReSharper disable once InconsistentNaming
-				ScopeChannelConfig Item = new ScopeChannelConfig
+				try
 				{
-					ChannelNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[0].Value),
-					ChannelGroupNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value),
-					ChannelTypeAd = Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[2].Value)),
-					ChannelAddrs = Convert.ToUInt16(convert_text(ChanneldataGridView.Rows[item.Index].Cells[3].Value, "0x")),
-					ChannelformatNumeric = Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[item.Index].Cells[4].Value),
-					ChannelFormats = Array.IndexOf(_format, ChanneldataGridView.Rows[item.Index].Cells[5].Value),
-					ChannelPhase = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[6].Value),
-					ChannelCcbm = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value),
-					ChannelDimension = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value),
-					ChannelMin = Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[9].Value),
-					ChannelMax = Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[10].Value)
-				};
+					// ReSharper disable once InconsistentNaming
+					ScopeChannelConfig Item = new ScopeChannelConfig
+					{
 
-				ScopeSysType.ScopeItem.Add(Item);
+
+						ChannelNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[0].Value),
+						ChannelGroupNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value),
+						ChannelTypeAd = Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[2].Value)),
+						ChannelAddrs = Convert.ToUInt16(convert_text(ChanneldataGridView.Rows[item.Index].Cells[3].Value, "0x")),
+						ChannelformatNumeric = Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[item.Index].Cells[4].Value),
+						ChannelFormats = Array.IndexOf(_format, ChanneldataGridView.Rows[item.Index].Cells[5].Value),
+						ChannelPhase = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[6].Value),
+						ChannelCcbm = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value),
+						ChannelDimension = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value),
+						ChannelMin = Convert.ToDouble(ChanneldataGridView.Rows[item.Index].Cells[9].Value),
+						ChannelMax = Convert.ToDouble(ChanneldataGridView.Rows[item.Index].Cells[10].Value)
+					};
+
+					ScopeSysType.ScopeItem.Add(Item);
+				}
+				catch 
+				{
+					MessageBox.Show(@"Неправильно заполнены поля каналов");
+					return;
+				}
 			}
 		}
 

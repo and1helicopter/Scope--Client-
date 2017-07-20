@@ -105,11 +105,11 @@
 			this.FormatsdataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
 			this.FormatsdataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.FormatsdataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.nameCol,
-            this.bitCol,
-            this.aCol,
-            this.bCol,
-            this.smallerCol});
+			this.nameCol,
+			this.bitCol,
+			this.aCol,
+			this.bCol,
+			this.smallerCol});
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -143,12 +143,12 @@
 			this.bitCol.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
 			this.bitCol.HeaderText = "Формат входных данных";
 			this.bitCol.Items.AddRange(new object[] {
-            "int16",
-            "uint16",
-            "int32",
-            "uint32",
-            "int64",
-            "uint64"});
+			"int16",
+			"uint16",
+			"int32",
+			"uint32",
+			"int64",
+			"uint64"});
 			this.bitCol.Name = "bitCol";
 			// 
 			// aCol
@@ -176,13 +176,13 @@
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.open_toolStripButton,
-            this.save_toolStripButton,
-            this.toolStripSeparator1,
-            this.add_toolStripButton,
-            this.remove_toolStripButton,
-            this.toolStripSeparator2,
-            this.old_toolStripButton});
+			this.open_toolStripButton,
+			this.save_toolStripButton,
+			this.toolStripSeparator1,
+			this.add_toolStripButton,
+			this.remove_toolStripButton,
+			this.toolStripSeparator2,
+			this.old_toolStripButton});
 			this.toolStrip1.Location = new System.Drawing.Point(3, 3);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;

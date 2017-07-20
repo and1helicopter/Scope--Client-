@@ -1576,8 +1576,8 @@ namespace ScopeSetupApp
 			string a = "1";
 			string b = "0";
 			int skew = 0;
-			int min;
-			int max;
+			double min;
+			double max;
 			try
 			{
 				min = ScopeSysType.ScopeItem[ScopeConfig.OscilParams[num]].ChannelMin;
