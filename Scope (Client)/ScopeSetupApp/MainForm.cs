@@ -389,7 +389,7 @@ namespace ScopeSetupApp
 				newPortIndex = Convert.ToInt32(xmlNode.Attributes["Name"].Value);
 				newSpeed = Convert.ToInt32(xmlNode.Attributes["Speed"].Value);
 				newPar = Convert.ToInt32(xmlNode.Attributes["Parity"].Value);
-				newAddr = Convert.ToInt32(xmlNode.Attributes["Addr"].Value) - 1;
+				newAddr = Convert.ToInt32(xmlNode.Attributes["Addr"].Value);
 			}
 			catch
 			{

@@ -101,7 +101,7 @@ namespace ScopeSetupApp
             byte par = (byte)parityComboBox.SelectedIndex;
             try
             {
-                ModBusClient.OpenModBusPort((ushort)(addrComboBox.SelectedIndex + 1), 
+                ModBusClient.OpenModBusPort((ushort)(addrComboBox.SelectedIndex), 
                     CalcPortIndex(portComboBox.Items[portComboBox.SelectedIndex].ToString()), sp, par);
             }
             catch
