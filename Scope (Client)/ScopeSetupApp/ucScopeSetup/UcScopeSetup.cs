@@ -1132,7 +1132,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				writeToSystemBtn.Enabled = true;
 			}
 
-			DelayOscil();
+		//	DelayOscil();
 
 			StatusDownloadConfig.Visible = ScopeConfig.ConnectMcu;
 			StatusDownloadConfigToSystem();

@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcScopeConfig));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.mailToolStrip = new System.Windows.Forms.ToolStrip();
@@ -37,13 +37,13 @@
 			this.saveButton = new System.Windows.Forms.ToolStripButton();
 			this.View_toolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.Print_toolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.Update_toolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.SetDefault_toolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.SCPrintDocument = new System.Drawing.Printing.PrintDocument();
 			this.SCPrintDialog = new System.Windows.Forms.PrintDialog();
 			this.SCPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
 			this.miniToolStrip = new System.Windows.Forms.ToolStrip();
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.code_label = new System.Windows.Forms.Label();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -93,7 +93,6 @@
 			this.recordingDevice_label = new System.Windows.Forms.Label();
 			this.stationName_label = new System.Windows.Forms.Label();
 			this.nominalFrequency_label = new System.Windows.Forms.Label();
-			this.code_label = new System.Windows.Forms.Label();
 			this.mailToolStrip.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
@@ -127,7 +126,6 @@
             this.View_toolStripButton,
             this.Print_toolStripButton,
             this.toolStripSeparator1,
-            this.Update_toolStripButton,
             this.SetDefault_toolStripButton});
 			this.mailToolStrip.Location = new System.Drawing.Point(0, 0);
 			this.mailToolStrip.Name = "mailToolStrip";
@@ -195,20 +193,6 @@
 			this.Print_toolStripButton.ToolTipText = "Распечатать конфигурацию";
 			this.Print_toolStripButton.Click += new System.EventHandler(this.Print_toolStripButton_Click);
 			// 
-			// Update_toolStripButton
-			// 
-			this.Update_toolStripButton.AutoSize = false;
-			this.Update_toolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.Update_toolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("Update_toolStripButton.Image")));
-			this.Update_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.Update_toolStripButton.Margin = new System.Windows.Forms.Padding(3);
-			this.Update_toolStripButton.Name = "Update_toolStripButton";
-			this.Update_toolStripButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.Update_toolStripButton.Size = new System.Drawing.Size(32, 32);
-			this.Update_toolStripButton.Tag = "";
-			this.Update_toolStripButton.Text = "Применить конфигурацию";
-			this.Update_toolStripButton.Click += new System.EventHandler(this.Update_toolStripButton_Click);
-			// 
 			// SetDefault_toolStripButton
 			// 
 			this.SetDefault_toolStripButton.AutoSize = false;
@@ -266,6 +250,16 @@
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(954, 40);
 			this.panel2.TabIndex = 37;
+			// 
+			// code_label
+			// 
+			this.code_label.AutoSize = true;
+			this.code_label.BackColor = System.Drawing.SystemColors.Control;
+			this.code_label.Location = new System.Drawing.Point(327, 14);
+			this.code_label.Name = "code_label";
+			this.code_label.Size = new System.Drawing.Size(29, 13);
+			this.code_label.TabIndex = 8;
+			this.code_label.Text = "Код:";
 			// 
 			// toolStrip1
 			// 
@@ -392,14 +386,14 @@
             this.Column_channelDimension,
             this.Column_channelMin,
             this.Column_channelMax});
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ChanneldataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ChanneldataGridView.DefaultCellStyle = dataGridViewCellStyle1;
 			this.ChanneldataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ChanneldataGridView.Location = new System.Drawing.Point(0, 0);
 			this.ChanneldataGridView.Margin = new System.Windows.Forms.Padding(0);
@@ -820,16 +814,6 @@
 			this.nominalFrequency_label.TabIndex = 23;
 			this.nominalFrequency_label.Text = "Nominal frequency (Hz)";
 			// 
-			// code_label
-			// 
-			this.code_label.AutoSize = true;
-			this.code_label.BackColor = System.Drawing.SystemColors.Control;
-			this.code_label.Location = new System.Drawing.Point(327, 14);
-			this.code_label.Name = "code_label";
-			this.code_label.Size = new System.Drawing.Size(29, 13);
-			this.code_label.TabIndex = 8;
-			this.code_label.Text = "Код:";
-			// 
 			// UcScopeConfig
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -867,7 +851,6 @@
 		private System.Windows.Forms.ToolStripButton View_toolStripButton;
 		private System.Windows.Forms.ToolStripButton Print_toolStripButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripButton Update_toolStripButton;
 		private System.Windows.Forms.ToolStripButton SetDefault_toolStripButton;
 		private System.Windows.Forms.ToolStrip mailToolStrip;
 		private System.Drawing.Printing.PrintDocument SCPrintDocument;

@@ -51,6 +51,8 @@ namespace ScopeSetupApp.ucScopeConfig
 		{
 			ChanneldataGridView.Rows.Add("Параметр", "", _typeChannel[0], "0x" + (ChanneldataGridView.Rows.Count).ToString("X4"), _sizeFormat[0], _format[0], "", "", "NONE", -1, 1);
 			UpdateTable();
+
+			Update_Config();
 		}
 
 		private static readonly List<ScopeChannelConfig> ScopeItemCopy = new List<ScopeChannelConfig>();
@@ -98,6 +100,8 @@ namespace ScopeSetupApp.ucScopeConfig
 				);
 			}
 			UpdateTable();
+
+			Update_Config();
 		}
 
 		private void deleteButton_Click(object sender, EventArgs e)
@@ -107,6 +111,8 @@ namespace ScopeSetupApp.ucScopeConfig
 				ChanneldataGridView.Rows.RemoveAt(item.Index);
 			}
 			UpdateTable();
+
+			Update_Config();
 		}
 
 		private string convert_text(object obj, string del)
@@ -418,7 +424,7 @@ namespace ScopeSetupApp.ucScopeConfig
 			Update_Oscil();
 		}
 
-		private void Update_toolStripButton_Click(object sender, EventArgs e)
+		private void Update_Config()
 		{
 			VerificationChannel();
 
