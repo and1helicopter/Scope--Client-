@@ -223,6 +223,7 @@ namespace ScopeSetupApp
 
 		private void toolStripButton1_Click(object sender, EventArgs e)
 		{
+			VarificationUc();
 			_ucScopeSetup = new UcScopeSetup(_argsG)
 			{
 				Dock = DockStyle.Fill
@@ -239,6 +240,7 @@ namespace ScopeSetupApp
 
 		private void toolStripButton3_Click(object sender, EventArgs e)
 		{
+			VarificationUc();
 			_ucScopeConfig = new UcScopeConfig()
 			{
 				Dock = DockStyle.Fill
@@ -249,6 +251,39 @@ namespace ScopeSetupApp
 
 			panel1.Controls.Add(_ucScopeConfig);
 			_ucScopeConfig.Show();
+		}
+
+		private UcSettings _ucSettings;
+
+		private void Setting_Button_Click(object sender, EventArgs e)
+		{
+			VarificationUc();
+			if (_ucSettings == null)
+			{
+				_ucSettings = new UcSettings()
+				{
+					Dock = DockStyle.Fill
+				};
+			}
+
+			_buttonsStatus = (byte)(_buttonsStatus == 0x03 ? 0x00 : 0x03);
+			UpdateButtons();
+
+			panel1.Controls.Add(_ucSettings);
+			_ucSettings.Show();
+		}
+
+		delegate void Varification();
+
+		private Varification _varification;
+
+		private void VarificationUc()
+		{
+			if(_ucScopeConfig != null)
+			{
+				_varification = _ucScopeConfig.Varification;
+				_varification.Invoke();
+			}
 		}
 
 		private void UpdateButtons()
@@ -1892,24 +1927,6 @@ namespace ScopeSetupApp
 		private bool _createFileFlag;
 		private int _createFileNum;
 
-		private UcSettings _ucSettings;
-
-		private void Setting_Button_Click(object sender, EventArgs e)
-		{
-			if (_ucSettings == null)
-			{
-				_ucSettings = new UcSettings()
-				{
-					Dock = DockStyle.Fill
-				};
-			}
-
-			_buttonsStatus = (byte)(_buttonsStatus == 0x03 ? 0x00 : 0x03);
-			UpdateButtons();
-
-			panel1.Controls.Add(_ucSettings);
-			_ucSettings.Show();
-		}
 
 		private void timer2_Tick(object sender, EventArgs e)
 		{

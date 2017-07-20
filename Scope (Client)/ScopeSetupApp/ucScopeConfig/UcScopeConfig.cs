@@ -50,9 +50,12 @@ namespace ScopeSetupApp.ucScopeConfig
 		private void addLineButton_Click(object sender, EventArgs e)
 		{
 			ChanneldataGridView.Rows.Add("Параметр", "", _typeChannel[0], "0x" + (ChanneldataGridView.Rows.Count).ToString("X4"), _sizeFormat[0], _format[0], "", "", "NONE", -1, 1);
-			UpdateTable();
 
-			Update_Config();
+			var index = ChanneldataGridView.RowCount - 1;
+			ChanneldataGridView.Rows[index].HeaderCell.Value = (index + 1).ToString();
+			UpdateRange(index);
+
+			Update_Oscil();
 		}
 
 		private static readonly List<ScopeChannelConfig> ScopeItemCopy = new List<ScopeChannelConfig>();
@@ -73,8 +76,8 @@ namespace ScopeSetupApp.ucScopeConfig
 					ChannelPhase = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[6].Value),
 					ChannelCcbm = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value),
 					ChannelDimension = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value),
-					ChannelMin = Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[9].Value),
-					ChannelMax = Convert.ToInt32(ChanneldataGridView.Rows[item.Index].Cells[10].Value)
+					ChannelMin = Convert.ToDouble(ChanneldataGridView.Rows[item.Index].Cells[9].Value),
+					ChannelMax = Convert.ToDouble(ChanneldataGridView.Rows[item.Index].Cells[10].Value)
 				};
 
 				ScopeItemCopy.Add(itemCopy);
@@ -98,21 +101,36 @@ namespace ScopeSetupApp.ucScopeConfig
 					t.ChannelMin,
 					t.ChannelMax
 				);
+
+				ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].HeaderCell.Value = ChanneldataGridView.RowCount.ToString();
+				UpdateRange(ChanneldataGridView.RowCount - 1);
 			}
 			UpdateTable();
 
-			Update_Config();
+			Update_Oscil();
 		}
 
 		private void deleteButton_Click(object sender, EventArgs e)
 		{
 			foreach (DataGridViewRow item in ChanneldataGridView.SelectedRows)
 			{
+				UpdateTabelHeader(item.Index);
 				ChanneldataGridView.Rows.RemoveAt(item.Index);
 			}
 			UpdateTable();
 
-			Update_Config();
+			Update_Oscil();
+		}
+
+		private void UpdateTabelHeader(int index)
+		{
+			foreach (DataGridViewRow item in ChanneldataGridView.Rows)
+			{
+				if (index < item.Index)
+				{
+					ChanneldataGridView.Rows[item.Index].HeaderCell.Value = (Convert.ToInt32(ChanneldataGridView.Rows[item.Index].HeaderCell.Value) - 1).ToString();
+				}
+			}
 		}
 
 		private string convert_text(object obj, string del)
@@ -131,7 +149,6 @@ namespace ScopeSetupApp.ucScopeConfig
 		{
 			foreach (DataGridViewRow r in ChanneldataGridView.Rows)
 			{
-				ChanneldataGridView.Rows[r.Index].HeaderCell.Value = (r.Index + 1).ToString();
 				UpdateRange(r.Index);
 			}
 
@@ -158,7 +175,8 @@ namespace ScopeSetupApp.ucScopeConfig
 						t.ChannelMax
 					);
 
-					UpdateRange(ChanneldataGridView.Rows.Count - 1);
+					ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].HeaderCell.Value = ChanneldataGridView.RowCount.ToString();
+					UpdateRange(ChanneldataGridView.RowCount - 1);
 				}
 				catch
 				{
@@ -353,6 +371,15 @@ namespace ScopeSetupApp.ucScopeConfig
 			fs.Close();
 		}
 
+		public void Varification()
+		{
+			VerificationChannel();
+
+			UpdateTable();
+
+			Update_Oscil();
+		}
+
 		private void VerificationChannel()
 		{
 			List<string> nameChannelRepeat = new List<string>();
@@ -420,13 +447,6 @@ namespace ScopeSetupApp.ucScopeConfig
 			string pathfile = Path.GetDirectoryName(Path.GetFullPath(ScopeSysType.XmlFileName));
 			sfd.FileName = pathfile + "\\" + namefile;
 			Save_To_file(sfd);
-
-			Update_Oscil();
-		}
-
-		private void Update_Config()
-		{
-			VerificationChannel();
 
 			Update_Oscil();
 		}

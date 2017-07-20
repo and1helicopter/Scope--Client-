@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcScopeConfig));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.mailToolStrip = new System.Windows.Forms.ToolStrip();
@@ -264,6 +264,7 @@
 			// toolStrip1
 			// 
 			this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
+			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -275,7 +276,7 @@
             this.toolStripButton1});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(954, 38);
+			this.toolStrip1.Size = new System.Drawing.Size(954, 40);
 			this.toolStrip1.TabIndex = 7;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -386,19 +387,22 @@
             this.Column_channelDimension,
             this.Column_channelMin,
             this.Column_channelMax});
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ChanneldataGridView.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ChanneldataGridView.DefaultCellStyle = dataGridViewCellStyle2;
 			this.ChanneldataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ChanneldataGridView.GridColor = System.Drawing.SystemColors.ControlLight;
 			this.ChanneldataGridView.Location = new System.Drawing.Point(0, 0);
 			this.ChanneldataGridView.Margin = new System.Windows.Forms.Padding(0);
 			this.ChanneldataGridView.Name = "ChanneldataGridView";
+			this.ChanneldataGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
 			this.ChanneldataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+			this.ChanneldataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
 			this.ChanneldataGridView.Size = new System.Drawing.Size(954, 284);
 			this.ChanneldataGridView.TabIndex = 0;
 			this.ChanneldataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChanneldataGridView_CellEndEdit);
