@@ -1,9 +1,8 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace ScopeSetupApp
 {
-	sealed partial class MainForm
+	public sealed partial class MainForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -53,10 +52,11 @@ namespace ScopeSetupApp
 			this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
 			this.connect_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-			MainForm.config_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			MainForm.format_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripContainer3 = new System.Windows.Forms.ToolStripContainer();
 			this.toolStripContainer4 = new System.Windows.Forms.ToolStripContainer();
+			MainForm.config_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			MainForm.format_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			MainForm.systemConfig_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
 			this.MainPanel.SuspendLayout();
@@ -355,23 +355,14 @@ namespace ScopeSetupApp
 			this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
 			this.connect_toolStripStatusLabel,
+			MainForm.format_toolStripStatusLabel,
 			MainForm.config_toolStripStatusLabel,
-			MainForm.format_toolStripStatusLabel});
+			MainForm.systemConfig_toolStripStatusLabel});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 0);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(857, 22);
 			this.statusStrip1.TabIndex = 0;
 			this.statusStrip1.Text = "statusStrip1";
-			// 
-			// config_toolStripStatusLabel
-			// 
-			MainForm.config_toolStripStatusLabel.Name = "config_toolStripStatusLabel";
-			MainForm.config_toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
-			// 
-			// config_toolStripStatusLabel
-			// 
-			MainForm.format_toolStripStatusLabel.Name = "format_toolStripStatusLabel";
-			MainForm.format_toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
 			// 
 			// toolStripContainer3
 			// 
@@ -416,6 +407,24 @@ namespace ScopeSetupApp
 			this.toolStripContainer4.TabIndex = 17;
 			this.toolStripContainer4.Text = "toolStripContainer4";
 			this.toolStripContainer4.TopToolStripPanelVisible = false;
+			// 
+			// config_toolStripStatusLabel
+			// 
+			MainForm.config_toolStripStatusLabel.Name = "config_toolStripStatusLabel";
+			MainForm.config_toolStripStatusLabel.Size = new System.Drawing.Size(151, 17);
+			MainForm.config_toolStripStatusLabel.Text = "config_toolStripStatusLabel";
+			// 
+			// format_toolStripStatusLabel
+			// 
+			MainForm.format_toolStripStatusLabel.Name = "format_toolStripStatusLabel";
+			MainForm.format_toolStripStatusLabel.Size = new System.Drawing.Size(151, 17);
+			MainForm.format_toolStripStatusLabel.Text = "format_toolStripStatusLabel";
+			//
+			// systemConfig_toolStripStatusLabel
+			// 
+			MainForm.systemConfig_toolStripStatusLabel.Name = "systemConfig_toolStripStatusLabel";
+			MainForm.systemConfig_toolStripStatusLabel.Size = new System.Drawing.Size(151, 17);
+			MainForm.systemConfig_toolStripStatusLabel.Text = "";
 			// 
 			// MainForm
 			// 
@@ -481,10 +490,11 @@ namespace ScopeSetupApp
 		private System.Windows.Forms.ToolStrip toolStrip2;
 		private System.Windows.Forms.ToolStripButton toolStripButton2;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
-		private static System.Windows.Forms.ToolStripStatusLabel config_toolStripStatusLabel;
 		private System.Windows.Forms.ToolStripButton Setting_Button;
 		private System.Windows.Forms.Panel panel1;
 		private static System.Windows.Forms.ToolStripStatusLabel format_toolStripStatusLabel;
+		private static System.Windows.Forms.ToolStripStatusLabel config_toolStripStatusLabel;
+		private static System.Windows.Forms.ToolStripStatusLabel systemConfig_toolStripStatusLabel;
 	}
 }
 

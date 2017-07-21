@@ -130,8 +130,9 @@ namespace ScopeSetupApp
 
 			InitializeFormat();
 			FormatStrLabel();
-
+			
 			InitializeConfig();
+			ConfigStrLabel();
 
 			DoubleBuffered = true;
 
@@ -181,25 +182,81 @@ namespace ScopeSetupApp
 			}
 		}
 
-		public delegate void ConfigLabel();
-		public static readonly ConfigLabel ConfigStatusLabel = ConfigStrLabel;
+		private delegate void ConfigLabel();
+		private static ConfigLabel _configStatusLabel;
+		
+		public static void ConfigStrLabel()
+		{
+			if (config_toolStripStatusLabel != null)
+			{
+				_configStatusLabel = UpdateConfigStrLabel;
+				_configStatusLabel.Invoke();
+			}
+		}
 
-
-		private static void ConfigStrLabel()
+		private static void UpdateConfigStrLabel()
 		{
 			config_toolStripStatusLabel.Text = "Конфигурация: " + ScopeSysType.XmlFileName.Split('\\').Last();
 		}
 
-		public delegate void FormatLabel();
-		public static readonly FormatLabel FormatStatusLabel = FormatStrLabel;
+		private delegate void FormatLabel();
+		private static FormatLabel _formatStatusLabel;
 
+		public static void FormatStrLabel()
+		{
+			if (format_toolStripStatusLabel != null)
+			{
+				_formatStatusLabel = UpdateFormatStrLabel;
+				_formatStatusLabel.Invoke();
+			}
+		}
 
-		private static void FormatStrLabel()
+		private static void UpdateFormatStrLabel()
 		{
 			format_toolStripStatusLabel.Text = FormatConverter.OldFormat ? @"Формат данных: OLD" : @"Формат данных: NEW";
 		}
 
+		private delegate void StatusConfigToSystem();
+		private static StatusConfigToSystem _statusConfigToSystem;
 
+		private static void StatusConfigToSystemStrLabel()
+		{
+			if (systemConfig_toolStripStatusLabel != null)
+			{
+				_statusConfigToSystem = UpdateStatusConfigToSystemStrLabel;
+				_statusConfigToSystem.Invoke();
+			}
+		}
+
+		private static void UpdateStatusConfigToSystemStrLabel()
+		{
+			if ((ScopeConfig.StatusOscil & 0x0001) == 0x0000)
+			{
+				systemConfig_toolStripStatusLabel.Text = @"Статус загрузки конфигурации: " + @"Конфигурация отсутствует";
+			}
+			if ((ScopeConfig.StatusOscil & 0x0001) == 0x0001)
+			{
+				systemConfig_toolStripStatusLabel.Text = @"Статус загрузки конфигурации: " + @"Конфигурация успешно загружена и принята";
+
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена и принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			if ((ScopeConfig.StatusOscil & 0x0002) == 0x0002)
+			{
+				systemConfig_toolStripStatusLabel.Text = @"Статус загрузки конфигурации:" + "\n" + @"Конфигурация загружена, но не прошла проверку";
+
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена, но не принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			if ((ScopeConfig.StatusOscil & 0x0004) == 0x0004)
+			{
+				systemConfig_toolStripStatusLabel.Text = @"Статус загрузки конфигурации:" + "\n" + @"При загрузке нарушена целостность данных";
+
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Нарушена целостность данных", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+		
 		private delegate void SetStringDelegate(string parameter);
 
 		private void SetTimeLabel(string statusConnect)
@@ -213,8 +270,6 @@ namespace ScopeSetupApp
 				// ignored
 			}
 		}
-
-
 		//************************** ВЫЗОВЫ ДОЧЕРНИХ ОКОН ***************************************//
 		//***************************************************************************************//
 		//***************************************************************************************//
@@ -956,12 +1011,27 @@ namespace ScopeSetupApp
 			_manStartFlag = false;
 		}
 
+		delegate void ScopeSetupShowButtonsLoad();
+
+		private ScopeSetupShowButtonsLoad _scopeSetupShwoButtonsLoad;
+
+		private void UpdateScopeSetupShowButtonsLoad()
+		{
+			if (_ucScopeSetup != null)
+			{
+				_scopeSetupShwoButtonsLoad = _ucScopeSetup.ButtonsVisibale;
+				_scopeSetupShwoButtonsLoad.Invoke();
+			}
+		}
+
 		private void EndRequest(object sender, EventArgs e)
 		{
 			if (_modBusUnit.modBusData.RequestError)
 			{
 				ScopeConfig.ConnectMcu = false;
 				ScopeConfig.ChangeScopeConfig = false;
+				UpdateScopeSetupShowButtonsLoad();
+				StatusConfigToSystemStrLabel();
 				RemoveButtonsInvoke();
 				HideProgressBarInvoke();
 				_loadOscDataStep = 0;            

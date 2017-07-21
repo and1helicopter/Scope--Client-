@@ -61,11 +61,11 @@
 			this.formats_tabControl.Controls.Add(this.tabPage2);
 			this.formats_tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.formats_tabControl.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.formats_tabControl.Location = new System.Drawing.Point(0, 0);
+			this.formats_tabControl.Location = new System.Drawing.Point(1, 1);
 			this.formats_tabControl.Margin = new System.Windows.Forms.Padding(0);
 			this.formats_tabControl.Name = "formats_tabControl";
 			this.formats_tabControl.SelectedIndex = 0;
-			this.formats_tabControl.Size = new System.Drawing.Size(687, 486);
+			this.formats_tabControl.Size = new System.Drawing.Size(661, 484);
 			this.formats_tabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.formats_tabControl.TabIndex = 3;
 			// 
@@ -78,7 +78,7 @@
 			this.formats_tab.Margin = new System.Windows.Forms.Padding(0);
 			this.formats_tab.Name = "formats_tab";
 			this.formats_tab.Padding = new System.Windows.Forms.Padding(3);
-			this.formats_tab.Size = new System.Drawing.Size(679, 460);
+			this.formats_tab.Size = new System.Drawing.Size(653, 458);
 			this.formats_tab.TabIndex = 0;
 			this.formats_tab.Text = "Форматы";
 			this.formats_tab.UseVisualStyleBackColor = true;
@@ -105,11 +105,11 @@
 			this.FormatsdataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
 			this.FormatsdataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.FormatsdataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-			this.nameCol,
-			this.bitCol,
-			this.aCol,
-			this.bCol,
-			this.smallerCol});
+            this.nameCol,
+            this.bitCol,
+            this.aCol,
+            this.bCol,
+            this.smallerCol});
 			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
 			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -127,7 +127,7 @@
 			this.FormatsdataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
 			this.FormatsdataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
 			this.FormatsdataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.FormatsdataGridView.Size = new System.Drawing.Size(673, 416);
+			this.FormatsdataGridView.Size = new System.Drawing.Size(647, 414);
 			this.FormatsdataGridView.TabIndex = 8;
 			this.FormatsdataGridView.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.FormatsdataGridView_CellValidated);
 			this.FormatsdataGridView.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.FormatsdataGridView_RowEnter);
@@ -143,12 +143,12 @@
 			this.bitCol.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
 			this.bitCol.HeaderText = "Формат входных данных";
 			this.bitCol.Items.AddRange(new object[] {
-			"int16",
-			"uint16",
-			"int32",
-			"uint32",
-			"int64",
-			"uint64"});
+            "int16",
+            "uint16",
+            "int32",
+            "uint32",
+            "int64",
+            "uint64"});
 			this.bitCol.Name = "bitCol";
 			// 
 			// aCol
@@ -176,17 +176,17 @@
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.open_toolStripButton,
-			this.save_toolStripButton,
-			this.toolStripSeparator1,
-			this.add_toolStripButton,
-			this.remove_toolStripButton,
-			this.toolStripSeparator2,
-			this.old_toolStripButton});
+            this.open_toolStripButton,
+            this.save_toolStripButton,
+            this.toolStripSeparator1,
+            this.add_toolStripButton,
+            this.remove_toolStripButton,
+            this.toolStripSeparator2,
+            this.old_toolStripButton});
 			this.toolStrip1.Location = new System.Drawing.Point(3, 3);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-			this.toolStrip1.Size = new System.Drawing.Size(673, 38);
+			this.toolStrip1.Size = new System.Drawing.Size(647, 38);
 			this.toolStrip1.TabIndex = 7;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -282,13 +282,14 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoScroll = true;
 			this.AutoSize = true;
-			this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+			this.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.Controls.Add(this.formats_tabControl);
 			this.DoubleBuffered = true;
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "UcSettings";
-			this.Size = new System.Drawing.Size(687, 486);
+			this.Padding = new System.Windows.Forms.Padding(1);
+			this.Size = new System.Drawing.Size(663, 486);
 			this.formats_tabControl.ResumeLayout(false);
 			this.formats_tab.ResumeLayout(false);
 			this.formats_tab.PerformLayout();

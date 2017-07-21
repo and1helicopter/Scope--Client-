@@ -161,7 +161,7 @@ namespace ScopeSetupApp.ucSettings
 		{
 			FormatConverter.OldFormat = !FormatConverter.OldFormat;
 			FormatConverter.UpdateVisualFormat();
-			MainForm.FormatStatusLabel.Invoke();
+			MainForm.FormatStrLabel();
 
 			OldFormatChange();
 		}

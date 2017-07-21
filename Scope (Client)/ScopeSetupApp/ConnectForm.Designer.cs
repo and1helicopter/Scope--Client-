@@ -213,7 +213,6 @@
             this.Name = "ConnectForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Установка соединения";
-            this.Load += new System.EventHandler(this.ConnectForm_Load);
             this.comsetPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 

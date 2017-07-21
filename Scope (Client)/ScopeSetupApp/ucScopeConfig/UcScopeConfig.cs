@@ -211,7 +211,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				}
 				InitTable();
 
-				MainForm.ConfigStatusLabel.Invoke();
+				MainForm.ConfigStrLabel();
 			}
 		}
 

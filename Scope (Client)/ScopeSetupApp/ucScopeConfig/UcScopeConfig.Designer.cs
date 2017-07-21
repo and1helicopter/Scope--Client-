@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcScopeConfig));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.mailToolStrip = new System.Windows.Forms.ToolStrip();
@@ -127,9 +127,9 @@
             this.Print_toolStripButton,
             this.toolStripSeparator1,
             this.SetDefault_toolStripButton});
-			this.mailToolStrip.Location = new System.Drawing.Point(0, 0);
+			this.mailToolStrip.Location = new System.Drawing.Point(1, 1);
 			this.mailToolStrip.Name = "mailToolStrip";
-			this.mailToolStrip.Size = new System.Drawing.Size(954, 38);
+			this.mailToolStrip.Size = new System.Drawing.Size(952, 38);
 			this.mailToolStrip.TabIndex = 35;
 			this.mailToolStrip.Text = "toolStrip1";
 			// 
@@ -245,10 +245,10 @@
 			this.panel2.Controls.Add(this.toolStrip1);
 			this.panel2.Controls.Add(this.label13);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel2.Location = new System.Drawing.Point(0, 165);
+			this.panel2.Location = new System.Drawing.Point(1, 166);
 			this.panel2.Margin = new System.Windows.Forms.Padding(0);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(954, 40);
+			this.panel2.Size = new System.Drawing.Size(952, 40);
 			this.panel2.TabIndex = 37;
 			// 
 			// code_label
@@ -276,7 +276,7 @@
             this.toolStripButton1});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(954, 40);
+			this.toolStrip1.Size = new System.Drawing.Size(952, 40);
 			this.toolStrip1.TabIndex = 7;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -296,7 +296,7 @@
 			// toolStripSeparator3
 			// 
 			this.toolStripSeparator3.Name = "toolStripSeparator3";
-			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 38);
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 40);
 			// 
 			// toolStripButton3
 			// 
@@ -327,7 +327,7 @@
 			// toolStripSeparator4
 			// 
 			this.toolStripSeparator4.Name = "toolStripSeparator4";
-			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 38);
+			this.toolStripSeparator4.Size = new System.Drawing.Size(6, 40);
 			// 
 			// toolStripButton1
 			// 
@@ -359,10 +359,10 @@
 			this.configPanel.BackColor = System.Drawing.SystemColors.ButtonHighlight;
 			this.configPanel.Controls.Add(this.ChanneldataGridView);
 			this.configPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.configPanel.Location = new System.Drawing.Point(0, 205);
+			this.configPanel.Location = new System.Drawing.Point(1, 206);
 			this.configPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.configPanel.Name = "configPanel";
-			this.configPanel.Size = new System.Drawing.Size(954, 284);
+			this.configPanel.Size = new System.Drawing.Size(952, 282);
 			this.configPanel.TabIndex = 41;
 			// 
 			// ChanneldataGridView
@@ -387,14 +387,14 @@
             this.Column_channelDimension,
             this.Column_channelMin,
             this.Column_channelMax});
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ChanneldataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ChanneldataGridView.DefaultCellStyle = dataGridViewCellStyle1;
 			this.ChanneldataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ChanneldataGridView.GridColor = System.Drawing.SystemColors.ControlLight;
 			this.ChanneldataGridView.Location = new System.Drawing.Point(0, 0);
@@ -403,7 +403,7 @@
 			this.ChanneldataGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
 			this.ChanneldataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
 			this.ChanneldataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-			this.ChanneldataGridView.Size = new System.Drawing.Size(954, 284);
+			this.ChanneldataGridView.Size = new System.Drawing.Size(952, 282);
 			this.ChanneldataGridView.TabIndex = 0;
 			this.ChanneldataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChanneldataGridView_CellEndEdit);
 			this.ChanneldataGridView.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChanneldataGridView_RowEnter);
@@ -524,13 +524,13 @@
 			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.tabControl1.ItemSize = new System.Drawing.Size(130, 20);
-			this.tabControl1.Location = new System.Drawing.Point(0, 38);
+			this.tabControl1.Location = new System.Drawing.Point(1, 39);
 			this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
 			this.tabControl1.Multiline = true;
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.Padding = new System.Drawing.Point(0, 0);
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(954, 127);
+			this.tabControl1.Size = new System.Drawing.Size(952, 127);
 			this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.tabControl1.TabIndex = 45;
 			this.tabControl1.TabStop = false;
@@ -544,7 +544,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 24);
 			this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
 			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Size = new System.Drawing.Size(946, 99);
+			this.tabPage1.Size = new System.Drawing.Size(944, 99);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Oscil Config";
 			// 
@@ -565,7 +565,7 @@
 			this.panel5.Location = new System.Drawing.Point(0, 0);
 			this.panel5.Margin = new System.Windows.Forms.Padding(0);
 			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(946, 99);
+			this.panel5.Size = new System.Drawing.Size(944, 99);
 			this.panel5.TabIndex = 3;
 			// 
 			// Comment_label
@@ -822,11 +822,14 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.SystemColors.ControlLight;
 			this.Controls.Add(this.configPanel);
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.mailToolStrip);
+			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "UcScopeConfig";
+			this.Padding = new System.Windows.Forms.Padding(1);
 			this.Size = new System.Drawing.Size(954, 489);
 			this.mailToolStrip.ResumeLayout(false);
 			this.mailToolStrip.PerformLayout();

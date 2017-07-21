@@ -31,12 +31,12 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScopeSetupForm));
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.writeToSystemBtn = new System.Windows.Forms.ToolStripButton();
-			this.reloadButton = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.openButton2 = new System.Windows.Forms.ToolStripButton();
 			this.saveButton2 = new System.Windows.Forms.ToolStripButton();
 			this.StatusDownloadConfig = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.writeToSystemBtn = new System.Windows.Forms.ToolStripButton();
+			this.reloadButton = new System.Windows.Forms.ToolStripButton();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
@@ -92,39 +92,6 @@
 			this.toolStrip1.TabIndex = 7;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
-			// writeToSystemBtn
-			// 
-			this.writeToSystemBtn.AutoSize = false;
-			this.writeToSystemBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.writeToSystemBtn.Enabled = false;
-			this.writeToSystemBtn.Image = ((System.Drawing.Image)(resources.GetObject("writeToSystemBtn.Image")));
-			this.writeToSystemBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.writeToSystemBtn.Margin = new System.Windows.Forms.Padding(3);
-			this.writeToSystemBtn.Name = "writeToSystemBtn";
-			this.writeToSystemBtn.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.writeToSystemBtn.Size = new System.Drawing.Size(32, 32);
-			this.writeToSystemBtn.Text = "Загрузиь конфигурацию в систему";
-			this.writeToSystemBtn.Click += new System.EventHandler(this.writeToSystemBtn_Click);
-			// 
-			// reloadButton
-			// 
-			this.reloadButton.AutoSize = false;
-			this.reloadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.reloadButton.Enabled = false;
-			this.reloadButton.Image = ((System.Drawing.Image)(resources.GetObject("reloadButton.Image")));
-			this.reloadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.reloadButton.Margin = new System.Windows.Forms.Padding(3);
-			this.reloadButton.Name = "reloadButton";
-			this.reloadButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.reloadButton.Size = new System.Drawing.Size(32, 32);
-			this.reloadButton.Text = "Считать конфигурацию  из системы";
-			this.reloadButton.Click += new System.EventHandler(this.reloadButton_Click);
-			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
-			// 
 			// openButton2
 			// 
 			this.openButton2.AutoSize = false;
@@ -165,6 +132,39 @@
 			this.StatusDownloadConfig.Text = "toolStripButton1";
 			this.StatusDownloadConfig.ToolTipText = "Статус загрузки конфигурации";
 			this.StatusDownloadConfig.Visible = false;
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 38);
+			// 
+			// writeToSystemBtn
+			// 
+			this.writeToSystemBtn.AutoSize = false;
+			this.writeToSystemBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.writeToSystemBtn.Enabled = false;
+			this.writeToSystemBtn.Image = ((System.Drawing.Image)(resources.GetObject("writeToSystemBtn.Image")));
+			this.writeToSystemBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.writeToSystemBtn.Margin = new System.Windows.Forms.Padding(3);
+			this.writeToSystemBtn.Name = "writeToSystemBtn";
+			this.writeToSystemBtn.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.writeToSystemBtn.Size = new System.Drawing.Size(32, 32);
+			this.writeToSystemBtn.Text = "Загрузиь конфигурацию в систему";
+			this.writeToSystemBtn.Click += new System.EventHandler(this.writeToSystemBtn_Click);
+			// 
+			// reloadButton
+			// 
+			this.reloadButton.AutoSize = false;
+			this.reloadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.reloadButton.Enabled = false;
+			this.reloadButton.Image = ((System.Drawing.Image)(resources.GetObject("reloadButton.Image")));
+			this.reloadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.reloadButton.Margin = new System.Windows.Forms.Padding(3);
+			this.reloadButton.Name = "reloadButton";
+			this.reloadButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.reloadButton.Size = new System.Drawing.Size(32, 32);
+			this.reloadButton.Text = "Считать конфигурацию  из системы";
+			this.reloadButton.Click += new System.EventHandler(this.reloadButton_Click);
 			// 
 			// panel1
 			// 

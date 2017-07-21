@@ -8,6 +8,7 @@ using System.Xml;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using ScopeSetupApp.Format;
 
 namespace ScopeSetupApp.ucScopeSetup
 {
@@ -18,36 +19,9 @@ namespace ScopeSetupApp.ucScopeSetup
 		private ushort _nowScopeCount = 1;          //Количество осциллограмм
 		private ushort _nowMaxChannelCount;    //Количество каналов
 		private ushort _nowOscFreq = 1;             //Делитель     
-		private uint _oscilAllSize = 1;             //
-		private bool _changeConfig;
+		private readonly uint _oscilAllSize = ScopeSysType.OscilAllSize;             //
 
-		private readonly object[] _format =
-		{
-			"0 - Percent",
-			"1 - uint16",
-			"2 - int16",
-			"3 - Freq standart",
-			"4 - 8.8",
-			"5 - 0.16",
-			"6 - Slide",
-			"7 - Digits",
-			"8 - RegulMode",
-			"9 - AVR type",
-			"10 - Int/10",
-			"11 - Hex",
-			"12 - *0.135 (Uf)",
-			"13 - FreqNew",
-			"14 - Current trans",
-			"15 - trans alarm",
-			"16 - int/8",
-			"17 - uint/1000",
-			"18 - percent/4",
-			"19 - FreqNew2",
-			"20 - Percent upp",
-			"21 - Freq UPTF",
-			"22 - 16.16",
-			"23 - 32.32"
-		};
+		private readonly object[] _format = FormatConverter.ActualFormat;
 
 		private readonly object[] _sizeFormat =
 		{
@@ -246,6 +220,8 @@ namespace ScopeSetupApp.ucScopeSetup
 					chCountRadioButton.Clear();
 				}
 			}
+
+			DelayOscil();
 		}
 
 		//Предыстория 
@@ -293,6 +269,8 @@ namespace ScopeSetupApp.ucScopeSetup
 					oscFreqRadioButton.Clear();
 				}
 			}
+
+			DelayOscil();
 		}
 
 		//Длительность осциллограммы:
@@ -775,7 +753,6 @@ namespace ScopeSetupApp.ucScopeSetup
 				{
 					MessageBox.Show(@"Ошибка связи!", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
-				LinkErrorInvoke();
 			}
 			else
 			{
@@ -788,56 +765,8 @@ namespace ScopeSetupApp.ucScopeSetup
 					{
 						_writeStep = 0;
 						ScopeConfig.ChangeScopeConfig = true;
-						_changeConfig = true;
 					}
 				}
-			}
-		}
-
-		private void StatusDownloadConfigToSystem()
-		{
-			if ((ScopeConfig.StatusOscil & 0x0001) == 0x0000)
-			{
-				StatusDownloadConfig.Image = Properties.Resources.Circle_Thin_64_2_;
-				// ReSharper disable once LocalizableElement
-				StatusDownloadConfig.ToolTipText = @"Статус загрузки конфигурации:" + "\n" + @"Конфигурация отсутствует.";
-			}
-			if ((ScopeConfig.StatusOscil & 0x0001) == 0x0001)
-			{
-				StatusDownloadConfig.Image = Properties.Resources.Circle_Thin_64_1_;
-				// ReSharper disable once LocalizableElement
-				StatusDownloadConfig.ToolTipText = @"Статус загрузки конфигурации:" + "\n" + @"Конфигурация успешно загружена и принята.";
-			}
-			if ((ScopeConfig.StatusOscil & 0x0002) == 0x0002)
-			{
-				StatusDownloadConfig.Image = Properties.Resources.Circle_Thin_64;
-				// ReSharper disable once LocalizableElement
-				StatusDownloadConfig.ToolTipText = @"Статус загрузки конфигурации:" + "\n" + @"Конфигурация загружена, но не прошла проверку.";
-			}
-			if ((ScopeConfig.StatusOscil & 0x0004) == 0x0004)
-			{
-				StatusDownloadConfig.Image = Properties.Resources.Circle_Thin_64;
-				// ReSharper disable once LocalizableElement
-				StatusDownloadConfig.ToolTipText = @"Статус загрузки конфигурации:" + "\n" + @"При загрузке нарушена целостность данных.";
-			}
-		}
-
-		private void MessageAnswer()
-		{
-			if (ScopeConfig.StatusOscil == 0x0001)
-			{
-				// ReSharper disable once LocalizableElement
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена и принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
-			if (ScopeConfig.StatusOscil == 0x0002)
-			{
-				// ReSharper disable once LocalizableElement
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена, но не принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-			if (ScopeConfig.StatusOscil == 0x0004)
-			{
-				// ReSharper disable once LocalizableElement
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Нарушена целостность данных", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -871,23 +800,6 @@ namespace ScopeSetupApp.ucScopeSetup
 		//****************************************************************************************************//
 
 	    //***************************Invok и****************************************************//
-
-		private delegate void NoParamDelegate();
-		private void LinkError()
-		{
-			
-		}
-		private void LinkErrorInvoke()
-		{
-			try
-			{
-				Invoke(new NoParamDelegate(LinkError), null);
-			}
-			catch
-			{
-				// ignored
-			}
-		}
 
 		//Загрузка из файла
 		#region
@@ -1117,10 +1029,8 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 		}
 
-		private void timer1_Tick(object sender, EventArgs e)
+		public void ButtonsVisibale()
 		{
-			timer1.Enabled = false;
-
 			if (ModBusClient.ModBusOpened == false || ScopeConfig.ConnectMcu == false)
 			{
 				reloadButton.Enabled = false;
@@ -1131,19 +1041,12 @@ namespace ScopeSetupApp.ucScopeSetup
 				reloadButton.Enabled = true;
 				writeToSystemBtn.Enabled = true;
 			}
-
-		//	DelayOscil();
-
-			StatusDownloadConfig.Visible = ScopeConfig.ConnectMcu;
-			StatusDownloadConfigToSystem();
-
-			if (_changeConfig)
-			{
-				MessageAnswer();
-				_changeConfig = false;
-			}
-
-			timer1.Enabled = true;
 		}
+
+		private void ChannelCount_TextChanged(object sender, EventArgs e)
+		{
+			DelayOscil();
+		}
+
 	}
 }
