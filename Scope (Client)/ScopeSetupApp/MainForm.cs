@@ -423,11 +423,13 @@ namespace ScopeSetupApp
 		private void LoadComPortSettings(string comPortXmlName, out int newPar, out int newSpeed, out int newPortIndex, out int newAddr)
 		{
 			var doc = new XmlDocument();
-			try { doc.Load(comPortXmlName); }
+			try
+			{
+				doc.Load(comPortXmlName); 
+			}
 			catch
 			{
-				//MessageBox.Show(@"Не удалось открыть файл с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				//Application.Exit();
+				// ignored
 			}
 
 			var xmls = doc.GetElementsByTagName("ComPort");
@@ -925,28 +927,7 @@ namespace ScopeSetupApp
 
 		private void EndLoadTime()
 		{
-			if (!_modBusUnit.modBusData.RequestError)
-			{
-				try
-				{
-					Invoke(new SetStringDelegate(SetTimeLabel), @"CONNECT");
-				}
-				catch
-				{
-					// ignored
-				}
-			}
-			else
-			{
-				try
-				{
-					Invoke(new SetStringDelegate(SetTimeLabel), @"NO CONNECT");
-				}
-				catch
-				{
-					// ignored
-				}
-			}
+			Invoke(new SetStringDelegate(SetTimeLabel), !_modBusUnit.modBusData.RequestError ? @"CONNECT" : @"NO CONNECT");
 		}
 
 
@@ -1192,8 +1173,6 @@ namespace ScopeSetupApp
 			_buttonsAlreadyCreated = true;
 
 		}
-
-
 
 		//*************** ОБНОВЛЕНИЕ КОНТРОЛОВ В АСИНХРОННОМ РЕЖИМЕ ***************************************//
 		//*************************************************************************************************//

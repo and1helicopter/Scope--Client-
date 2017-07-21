@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -271,15 +270,26 @@ namespace ScopeSetupApp.Format
 					if (itemFormat.Attribute("name") != null)
 					{
 						if (!(from x in FormatList
-							 where x.Name == itemFormat.Attribute("name")?.Value
-							 select x).ToList().Any())
+							  where x.Name == itemFormat.Attribute("name")?.Value
+							  select x).ToList().Any())
 						{
 							FormatList.Add(new Format(
 								itemFormat.Attribute("name")?.Value,
 								itemFormat.Attribute("bitDepth")?.Value,
 								itemFormat.Attribute("A")?.Value,
-								itemFormat.Attribute("B")?.Value, 
+								itemFormat.Attribute("B")?.Value,
 								Convert.ToUInt32(itemFormat.Attribute("Smaller")?.Value)));
+						}
+						else
+						{
+							var item = (from x in FormatList
+										where x.Name == itemFormat.Attribute("name")?.Value
+										select x).ToList().First();
+
+							item.AChange(itemFormat.Attribute("A")?.Value);
+							item.BChange(itemFormat.Attribute("B")?.Value);
+							item.Smaller = Convert.ToUInt32(itemFormat.Attribute("Smaller")?.Value);
+							item.BitDepth = new BitDepth(itemFormat.Attribute("bitDepth")?.Value);
 						}
 					}
 				}
@@ -353,7 +363,6 @@ namespace ScopeSetupApp.Format
 
 		private static string GetOldFormat(ulong value, byte indexFormat)
 		{
-
 			string str;
 			switch (indexFormat)
 			{
