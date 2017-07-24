@@ -288,6 +288,7 @@ namespace ScopeSetupApp
 
 			panel1.Controls.Add(_ucScopeSetup);
 			_ucScopeSetup.Show();
+			Refresh();
 		}
 
 		private UcScopeConfig _ucScopeConfig;
@@ -305,6 +306,7 @@ namespace ScopeSetupApp
 
 			panel1.Controls.Add(_ucScopeConfig);
 			_ucScopeConfig.Show();
+			Refresh();
 		}
 
 		private UcSettings _ucSettings;
@@ -325,6 +327,7 @@ namespace ScopeSetupApp
 
 			panel1.Controls.Add(_ucSettings);
 			_ucSettings.Show();
+			Refresh();
 		}
 
 		delegate void Varification();
@@ -384,8 +387,10 @@ namespace ScopeSetupApp
 				tableLayoutPanel.ColumnStyles[1].Width = 15;
 				panel1.Controls.Clear();
 			}
+
+			Refresh();
 		}
-		
+
 		private void UpdateButtonsSet(ToolStripButton button)
 		{
 			button.Size = new Size(60, 60);
