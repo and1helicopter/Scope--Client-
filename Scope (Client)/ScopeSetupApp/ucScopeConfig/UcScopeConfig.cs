@@ -5,7 +5,6 @@ using System.Windows.Forms;
 using System.Xml;
 using System.IO;
 using System.Reflection;
-using ADSPLibrary;
 using System.Drawing;
 using ScopeSetupApp.Format;
 
@@ -237,52 +236,15 @@ namespace ScopeSetupApp.ucScopeConfig
 
 		private void Save_To_file(SaveFileDialog sfd)
 		{
-			string oscillSizeDataStr, oscilCmndStr, configStr;
 			List<string> paramAddrStrs = new List<string>();
 
-			if (!AdvanceConvert.StrToInt(ConfigAddr_textBox.Text))
-			{
-				MessageBox.Show(@"Ошибка в поле Configuration Addr");
-				return;
-			}
-			else
-			{
-				configStr = AdvanceConvert.uValue.ToString();
-			}
-
-
-			if (!AdvanceConvert.StrToInt(OscilCmndAddr_textBox.Text))
-			{
-				MessageBox.Show(@"Ошибка в поле Oscil Cmnd Addr");
-				return;
-			}
-			else
-			{
-				oscilCmndStr = AdvanceConvert.uValue.ToString();
-			}
+			var configStr = convert_text(ConfigAddr_textBox.Text, "0x");
+			var oscilCmndStr = convert_text(OscilCmndAddr_textBox.Text, "0x");
+			var oscillSizeDataStr = convert_text(OscilSizeData_TextBox.Text, "0x");
 
 			for (int i = 0; i < ChanneldataGridView.Rows.Count; i++)
 			{
-				if (!AdvanceConvert.StrToInt(Convert.ToString(ChanneldataGridView.Rows[i].Cells[3].Value)))
-				{
-					MessageBox.Show(@"Ошибка в поле адреса параметра\n" + Convert.ToString(ChanneldataGridView.Rows[i].Cells[3].Value));
-					return;
-				}
-				else
-				{
-					paramAddrStrs.Add(AdvanceConvert.uValue.ToString());
-				}
-
-			}
-
-			if (!AdvanceConvert.StrToInt(OscilSizeData_TextBox.Text))
-			{
-				MessageBox.Show(@"Ошибка в поле Oscill Size Data");
-				return;
-			}
-			else
-			{
-				oscillSizeDataStr = AdvanceConvert.uValue.ToString();
+				paramAddrStrs.Add(convert_text(Convert.ToString(ChanneldataGridView.Rows[i].Cells[3].Value), "0x"));
 			}
 
 			ScopeSysType.XmlFileName = sfd.FileName;
@@ -456,28 +418,8 @@ namespace ScopeSetupApp.ucScopeConfig
 			ScopeSysType.OscilAllSize = Convert.ToUInt16(convert_text(OscilSizeData_TextBox.Text, "0x"));
 			ScopeSysType.OscilSampleRate = Convert.ToUInt16(convert_text(sampleRate_textBox.Text, ""));
 			ScopeSysType.OscilComment = Convert.ToString(CommentRichTextBox.Text);
-
-			if (!AdvanceConvert.StrToInt(ConfigAddr_textBox.Text))
-			{
-				MessageBox.Show(@"Ошибка в поле Configuration Addr");
-				return;
-			}
-			else
-			{
-				ScopeSysType.ConfigurationAddr = AdvanceConvert.uValue;
-			}
-
-
-			if (!AdvanceConvert.StrToInt(OscilCmndAddr_textBox.Text))
-			{
-				MessageBox.Show(@"Ошибка в поле Oscil Cmnd Addr");
-				return;
-			}
-			else
-			{
-				ScopeSysType.OscilCmndAddr = AdvanceConvert.uValue;
-			}
-
+			ScopeSysType.ConfigurationAddr = Convert.ToUInt16(convert_text(ConfigAddr_textBox.Text, "0x"));
+			ScopeSysType.OscilCmndAddr = Convert.ToUInt16(convert_text(OscilCmndAddr_textBox.Text, "0x"));
 			ScopeSysType.StationName = Convert.ToString(stationName_textBox.Text);
 			ScopeSysType.RecordingDevice = Convert.ToString(recordingDevice_textBox.Text);
 			ScopeSysType.OscilNominalFrequency = Convert.ToUInt16(convert_text(nominalFrequency_textBox.Text, ""));
@@ -495,8 +437,6 @@ namespace ScopeSetupApp.ucScopeConfig
 					// ReSharper disable once InconsistentNaming
 					ScopeChannelConfig Item = new ScopeChannelConfig
 					{
-
-
 						ChannelNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[0].Value),
 						ChannelGroupNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value),
 						ChannelTypeAd = Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[2].Value)),

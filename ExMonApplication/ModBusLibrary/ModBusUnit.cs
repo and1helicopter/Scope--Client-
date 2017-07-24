@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 
 namespace ModBusLibrary
 {
@@ -80,7 +76,6 @@ namespace ModBusLibrary
         
         public void GetData(ushort addr, byte count)
         {
-
             if (!portOpened) { return; }
             if (lineBusy) { return; } else { lineBusy = true; }
             modBusData.RequestType = 0;
@@ -119,5 +114,4 @@ namespace ModBusLibrary
             if (NewRequest != null) NewRequest(this, new EventArgs());
         }
     }
-
 }

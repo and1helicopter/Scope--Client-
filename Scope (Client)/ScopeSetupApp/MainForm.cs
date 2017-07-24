@@ -5,7 +5,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using ModBusLibrary;
-using ADSPLibrary;
 using System.Xml;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -956,6 +955,7 @@ namespace ScopeSetupApp
 		private int _clearOscNum = 0x7FFF;
 		private bool _clearOscFlag;
 		private bool _initClearOscFlag;
+
 		private void ClearOscRequest()
 		{
 			if (_clearOscNum >= ScopeConfig.ScopeCount)
@@ -965,12 +965,14 @@ namespace ScopeSetupApp
 				return;
 			}
 
+			UnsetScopeStatus(_clearOscNum);
+
+
 			ushort u = (ushort)(ScopeSysType.OscilCmndAddr + 8 + _clearOscNum);
 			ushort[] uv = {0,0,0,0};
 			_modBusUnit.SetData(u,1,uv);
 		}
-
-
+		
 		private void ClearOscResponce()
 		{
 			_clearOscFlag = false;
@@ -1031,9 +1033,26 @@ namespace ScopeSetupApp
 			{
 				LoadOscDataResponce();
 				_lineBusy = false;
+				//CheckStatus();
 				return;
 			}
 
+			CheckStatus();
+
+			if (ScopeConfig.ChangeScopeConfig)
+			{
+				ScopeConfig.ChangeScopeConfig = false;
+				RemoveButtonsInvoke();
+			}
+
+			if (_initLoadOscilFlag) { InitLoadOscillInvoke(); _initLoadOscilFlag = false; _requestStep = 0;  _lineBusy = false; return; }
+			if (_initClearOscFlag) { _clearOscFlag = true; _initClearOscFlag = false; }
+			if (_initManStartFlag) { _manStartFlag = true; _initManStartFlag = false; }
+			_lineBusy = false;
+		}
+
+		private void CheckStatus()
+		{
 			if (!_configLoaded)
 			{
 				EndLoadConfig();
@@ -1061,22 +1080,10 @@ namespace ScopeSetupApp
 				EndLoadStatus(1);
 				_requestStep = 3;
 			}
-
-			else if (_requestStep == 3 || _requestStep == 4)
+			if (_requestStep == 3 || _requestStep == 4)
 			{
 				EndTimeStampRequest();
 			}
-
-			if (ScopeConfig.ChangeScopeConfig)
-			{
-				ScopeConfig.ChangeScopeConfig = false;
-				RemoveButtonsInvoke();
-			}
-
-			if (_initLoadOscilFlag) { InitLoadOscillInvoke(); _initLoadOscilFlag = false; _requestStep = 0;  _lineBusy = false; return; }
-			if (_initClearOscFlag) { _clearOscFlag = true; _initClearOscFlag = false; }
-			if (_initManStartFlag) { _manStartFlag = true; _initManStartFlag = false; }
-			_lineBusy = false;
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
@@ -1171,7 +1178,6 @@ namespace ScopeSetupApp
 				nowStatusFlowLayoutPanel.Controls.Add(_statusButtons[i]);
 			}
 			_buttonsAlreadyCreated = true;
-
 		}
 
 		//*************** ОБНОВЛЕНИЕ КОНТРОЛОВ В АСИНХРОННОМ РЕЖИМЕ ***************************************//
@@ -1181,9 +1187,36 @@ namespace ScopeSetupApp
 
 		private void UpdateOscilsStatus()
 		{
-			int i;
-			
-			for (i = 0; i < ScopeConfig.ScopeCount; i++)
+			if (_buttonsStatus == 0x00)
+			{
+				if (_statusButtons.Count != 0)
+				{
+					if (_statusButtons[0].Size != new Size(120, 60))
+					{
+						foreach (var button in _statusButtons)
+						{
+							button.Size = new Size(120, 60);
+							button.Font = new Font(@"Open Sans", 9);
+						}
+					}
+				}
+			}
+			else
+			{
+				if (_statusButtons.Count != 0)
+				{
+					if (_statusButtons[0].Size != new Size(60, 30))
+					{
+						foreach (var button in _statusButtons)
+						{
+							button.Size = new Size(60, 30);
+							button.Font = new Font(@"Open Sans", 6);
+						}
+					}
+				}
+			}
+
+			for (int i = 0; i < ScopeConfig.ScopeCount; i++)
 			{
 				if (_oscilsStatus[i] == 0) 
 				{
@@ -1344,6 +1377,7 @@ namespace ScopeSetupApp
 			if (dlgr == DialogResult.OK)
 			{
 				_loadOscNum = (int)((Button)sender).Tag;
+				SetScopeStatus(_loadOscNum);
 				_initLoadOscilFlag = true;
 				_oscilStartTemp = ((uint)_loadOscNum * (ScopeConfig.OscilSize >> 1)); //Начало осциллограммы 
 				_oscilEndTemp = (((uint)_loadOscNum + 1) * (ScopeConfig.OscilSize >> 1)); //Конец осциллограммы 
@@ -1353,6 +1387,7 @@ namespace ScopeSetupApp
 			else if (dlgr == DialogResult.Abort)
 			{
 				_clearOscNum = (int)((Button) sender).Tag;
+				UnsetScopeStatus(_clearOscNum);
 				_initClearOscFlag = true;
 			}
 		}
@@ -1374,12 +1409,51 @@ namespace ScopeSetupApp
 				case 1:
 				{
 					{
-							uint oscilLoadTemp = (CalcOscilLoadTemp()) >> 5;
+						uint oscilLoadTemp = (CalcOscilLoadTemp()) >> 5;
 						_modBusUnit.GetData04((ushort)(oscilLoadTemp), 32);
 					}
-
-					} break;
+				} break;
 			} 
+		}
+
+		private byte CodeDevice = 0x00;
+
+		private void SetScopeStatus(int index)
+		{
+			var statusGet = _oscilsStatus[index];
+			if ((byte) statusGet == 0x04)
+			{
+				if ((byte)((statusGet >> 8) & (ushort)(1 << CodeDevice)) != (1 << CodeDevice))
+				{
+					ushort [] statusSet =
+					{
+						Convert.ToUInt16(statusGet | (1 << 8 + CodeDevice))
+					};
+
+					ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + 8 + index);
+
+					_modBusUnit.SetData(addr, 1,statusSet);
+				}
+			}
+		}
+
+		private void UnsetScopeStatus(int index)
+		{
+			var statusGet = _oscilsStatus[index];
+			if ((byte)statusGet == 0x04)
+			{
+				if ((byte)((statusGet >> 8) & (ushort)(1 << CodeDevice)) == (1 << CodeDevice))
+				{
+					ushort [] statusSet =
+					{
+						Convert.ToUInt16(statusGet ^ (1 << 8 + CodeDevice))
+					};
+
+					ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + 8 + index);
+
+					_modBusUnit.SetData(addr, 1, statusSet);
+				}
+			}
 		}
 
 		private void LoadOscDataResponce()
@@ -1443,6 +1517,7 @@ namespace ScopeSetupApp
 							_loadOscData = false;
 							_loadOscDataStep = 0;
 							_countTemp = 0;
+							UnsetScopeStatus(_loadOscNum);
 						}
 
 					} break;
@@ -1515,7 +1590,7 @@ namespace ScopeSetupApp
 			for (i = 0, _count64 = 0, _count32 = 0, _count16 = 0; i < ScopeConfig.ChannelCount; i++)
 			{
 				var ulTemp = ParseArr(i, paramLine);
-				str = str + AdvanceConvert.HexToFormat(ulTemp, (byte)ScopeConfig.OscilFormat[i]) + "\t";
+				str = str + FormatConverter.GetValue(ulTemp, (byte) ScopeConfig.OscilFormat[i]) + "\t";
 			}
 			return str;
 		}
@@ -1607,7 +1682,7 @@ namespace ScopeSetupApp
 				if (ScopeConfig.ChannelType[i] == 0)
 				{
 					ulTemp = ParseArr(i, paramLine);
-					str1 = AdvanceConvert.HexToFormat(ulTemp, (byte)ScopeConfig.OscilFormat[i]);
+					str1 = FormatConverter.GetValue(ulTemp, (byte)ScopeConfig.OscilFormat[i]);
 					str1 = str1.Replace(",", ".");
 					str = str + "," + str1;
 				}
@@ -1618,7 +1693,7 @@ namespace ScopeSetupApp
 				if (ScopeConfig.ChannelType[i] == 1)
 				{
 					ulTemp = ParseArr(i, paramLine);
-					str1 = AdvanceConvert.HexToFormat(ulTemp, (byte)ScopeConfig.OscilFormat[i]);
+					str1 = FormatConverter.GetValue(ulTemp, (byte)ScopeConfig.OscilFormat[i]);
 					str1 = str1.Replace(",", ".");
 					str = str + "," + str1;
 				}
@@ -1993,7 +2068,5 @@ namespace ScopeSetupApp
 		{
 			_initManStartFlag = true;
 		}
-
-
 	}
 }
