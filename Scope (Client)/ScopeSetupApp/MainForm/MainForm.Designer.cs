@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace ScopeSetupApp
+﻿namespace ScopeSetupApp.MainForm
 {
 	public sealed partial class MainForm
 	{
@@ -32,7 +30,7 @@ namespace ScopeSetupApp
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.ButtonsTimer = new System.Windows.Forms.Timer(this.components);
 			this.timer2 = new System.Windows.Forms.Timer(this.components);
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.MainPanel = new System.Windows.Forms.Panel();
@@ -52,11 +50,11 @@ namespace ScopeSetupApp
 			this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
 			this.connect_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.format_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.config_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.systemConfig_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripContainer3 = new System.Windows.Forms.ToolStripContainer();
 			this.toolStripContainer4 = new System.Windows.Forms.ToolStripContainer();
-			MainForm.config_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			MainForm.format_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-			MainForm.systemConfig_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
 			this.MainPanel.SuspendLayout();
@@ -73,11 +71,11 @@ namespace ScopeSetupApp
 			this.toolStripContainer4.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// timer1
+			// ButtonsTimer
 			// 
-			this.timer1.Enabled = true;
-			this.timer1.Interval = 20;
-			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			this.ButtonsTimer.Enabled = true;
+			this.ButtonsTimer.Interval = 20;
+			this.ButtonsTimer.Tick += new System.EventHandler(this.ButtonsTimer_Tick);
 			// 
 			// timer2
 			// 
@@ -163,13 +161,13 @@ namespace ScopeSetupApp
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.connectBtn,
-			this.ConfigScopeButton,
-			this.ConfigMCUButton,
-			this.OpenScope_Button,
-			this.Setting_Button,
-			this.loadScopeToolStripLabel,
-			this.loadDataProgressBar});
+            this.connectBtn,
+            this.ConfigScopeButton,
+            this.ConfigMCUButton,
+            this.OpenScope_Button,
+            this.Setting_Button,
+            this.loadScopeToolStripLabel,
+            this.loadDataProgressBar});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -298,7 +296,7 @@ namespace ScopeSetupApp
 			this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip2.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.toolStripButton2});
+            this.toolStripButton2});
 			this.toolStrip2.Location = new System.Drawing.Point(813, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -348,21 +346,40 @@ namespace ScopeSetupApp
 			// connect_toolStripStatusLabel
 			// 
 			this.connect_toolStripStatusLabel.Name = "connect_toolStripStatusLabel";
-			this.connect_toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
+			this.connect_toolStripStatusLabel.Size = new System.Drawing.Size(160, 17);
+			this.connect_toolStripStatusLabel.Text = "connect_toolStripStatusLabel";
 			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.connect_toolStripStatusLabel,
-			MainForm.format_toolStripStatusLabel,
-			MainForm.config_toolStripStatusLabel,
-			MainForm.systemConfig_toolStripStatusLabel});
+            this.connect_toolStripStatusLabel,
+            this.format_toolStripStatusLabel,
+            this.config_toolStripStatusLabel,
+            this.systemConfig_toolStripStatusLabel});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 0);
 			this.statusStrip1.Name = "statusStrip1";
 			this.statusStrip1.Size = new System.Drawing.Size(857, 22);
 			this.statusStrip1.TabIndex = 0;
 			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// format_toolStripStatusLabel
+			// 
+			this.format_toolStripStatusLabel.Name = "format_toolStripStatusLabel";
+			this.format_toolStripStatusLabel.Size = new System.Drawing.Size(153, 17);
+			this.format_toolStripStatusLabel.Text = "format_toolStripStatusLabel";
+			// 
+			// config_toolStripStatusLabel
+			// 
+			this.config_toolStripStatusLabel.Name = "config_toolStripStatusLabel";
+			this.config_toolStripStatusLabel.Size = new System.Drawing.Size(151, 17);
+			this.config_toolStripStatusLabel.Text = "config_toolStripStatusLabel";
+			// 
+			// systemConfig_toolStripStatusLabel
+			// 
+			this.systemConfig_toolStripStatusLabel.Name = "systemConfig_toolStripStatusLabel";
+			this.systemConfig_toolStripStatusLabel.Size = new System.Drawing.Size(190, 17);
+			this.systemConfig_toolStripStatusLabel.Text = "systemConfig_toolStripStatusLabel";
 			// 
 			// toolStripContainer3
 			// 
@@ -408,24 +425,6 @@ namespace ScopeSetupApp
 			this.toolStripContainer4.Text = "toolStripContainer4";
 			this.toolStripContainer4.TopToolStripPanelVisible = false;
 			// 
-			// config_toolStripStatusLabel
-			// 
-			MainForm.config_toolStripStatusLabel.Name = "config_toolStripStatusLabel";
-			MainForm.config_toolStripStatusLabel.Size = new System.Drawing.Size(151, 17);
-			MainForm.config_toolStripStatusLabel.Text = "config_toolStripStatusLabel";
-			// 
-			// format_toolStripStatusLabel
-			// 
-			MainForm.format_toolStripStatusLabel.Name = "format_toolStripStatusLabel";
-			MainForm.format_toolStripStatusLabel.Size = new System.Drawing.Size(151, 17);
-			MainForm.format_toolStripStatusLabel.Text = "format_toolStripStatusLabel";
-			//
-			// systemConfig_toolStripStatusLabel
-			// 
-			MainForm.systemConfig_toolStripStatusLabel.Name = "systemConfig_toolStripStatusLabel";
-			MainForm.systemConfig_toolStripStatusLabel.Size = new System.Drawing.Size(151, 17);
-			MainForm.systemConfig_toolStripStatusLabel.Text = "";
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -438,7 +437,6 @@ namespace ScopeSetupApp
 			this.Name = "MainForm";
 			this.Text = "Загрузка осциллограмм";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
-			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.Shown += new System.EventHandler(this.MainForm_Shown);
 			this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
 			this.SizeChanged += new System.EventHandler(this.MainForm_ResizeEnd);
@@ -470,7 +468,7 @@ namespace ScopeSetupApp
 
 		#endregion
 
-		private System.Windows.Forms.Timer timer1;
+		private System.Windows.Forms.Timer ButtonsTimer;
 		private System.Windows.Forms.Timer timer2;
 		private System.Windows.Forms.ToolStripContainer toolStripContainer1;
 		private System.Windows.Forms.Panel MainPanel;
@@ -483,7 +481,6 @@ namespace ScopeSetupApp
 		private System.Windows.Forms.ToolStripProgressBar loadDataProgressBar;
 		private System.Windows.Forms.FlowLayoutPanel nowStatusFlowLayoutPanel;
 		private System.Windows.Forms.ToolStripContainer toolStripContainer2;
-		private System.Windows.Forms.ToolStripStatusLabel connect_toolStripStatusLabel;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripContainer toolStripContainer3;
 		private System.Windows.Forms.ToolStripContainer toolStripContainer4;
@@ -492,9 +489,10 @@ namespace ScopeSetupApp
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
 		private System.Windows.Forms.ToolStripButton Setting_Button;
 		private System.Windows.Forms.Panel panel1;
-		private static System.Windows.Forms.ToolStripStatusLabel format_toolStripStatusLabel;
-		private static System.Windows.Forms.ToolStripStatusLabel config_toolStripStatusLabel;
-		private static System.Windows.Forms.ToolStripStatusLabel systemConfig_toolStripStatusLabel;
+		private System.Windows.Forms.ToolStripStatusLabel connect_toolStripStatusLabel;
+		private System.Windows.Forms.ToolStripStatusLabel format_toolStripStatusLabel;
+		private System.Windows.Forms.ToolStripStatusLabel config_toolStripStatusLabel;
+		private System.Windows.Forms.ToolStripStatusLabel systemConfig_toolStripStatusLabel;
 	}
 }
 

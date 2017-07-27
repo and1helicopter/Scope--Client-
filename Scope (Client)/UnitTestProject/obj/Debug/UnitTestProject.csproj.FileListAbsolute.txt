@@ -6,15 +6,15 @@ C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProj
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\ScopeSetup.exe
-C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\ModBusLibrary.dll
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\ScopeSetup.pdb
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\ScopeSetup.exe.config
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
-C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\ModBusLibrary.pdb
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\obj\Debug\UnitTestProject.csprojResolveAssemblyReference.cache
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\obj\Debug\UnitTestProject.dll
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\obj\Debug\UnitTestProject.pdb
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\ru\ScopeSetup.resources.dll
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\dotMemory.Unit.dll
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\dotMemory.Unit.xml
+C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\AsynchSerialPort.dll
+C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UnitTestProject\bin\Debug\AsynchSerialPort.pdb

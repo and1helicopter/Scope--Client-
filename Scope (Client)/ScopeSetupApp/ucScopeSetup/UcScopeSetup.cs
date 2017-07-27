@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using ModBusLibrary;
 using System.Xml;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using ScopeSetupApp.Format;
+using UniSerialPort;
 
 namespace ScopeSetupApp.ucScopeSetup
 {
@@ -184,14 +184,15 @@ namespace ScopeSetupApp.ucScopeSetup
 
 		#endregion
 
-		public UcScopeSetup(string[] agrs)
+		private readonly MainForm.MainForm _mainForm;
+
+		public UcScopeSetup(string[] agrs, MainForm.MainForm form)
 		{
+			_mainForm = form;
+
 			InitializeComponent();
 
 			InitTable(agrs);
-
-			// ReSharper disable once RedundantDelegateCreation
-			ModBusUnits.ScopeSetupModbusUnit.RequestFinished += new EventHandler(EndRequest);
 		}
 
 		//****************************************************************************//
@@ -278,7 +279,7 @@ namespace ScopeSetupApp.ucScopeSetup
 		{
 			if (_nowScopeCount != 0)
 			{
-				if (ModBusClient.ModBusOpened && ScopeConfig.ConnectMcu)
+				if (MainForm.MainForm.SerialPort.IsOpen && ScopeConfig.ConnectMcu)
 				{
 					double sampleCount = (double)OscilSize(_oscilAllSize, false) / OscilSize(_oscilAllSize, true);
 					double freq = (double)ScopeConfig.SampleRate / _nowOscFreq;
@@ -728,6 +729,7 @@ namespace ScopeSetupApp.ucScopeSetup
 
 		private void WriteConfigToSystem()
 		{
+			ScopeConfig.ChangeScopeConfig = true;
 			CalcOscillConfig();
 			_writeConfigStep = 0;
 			CalcNewOscillConfig(_writeStep);
@@ -741,13 +743,13 @@ namespace ScopeSetupApp.ucScopeSetup
 			{
 				partParam[i] = _newOscillConfig[i + _writeConfigStep * 8];
 			}
-			ModBusUnits.ScopeSetupModbusUnit.SetData((ushort)(ScopeSysType.OscilCmndAddr + 328 + _writeConfigStep * 8), 8, partParam);
-			// MessageBox.Show(ModBusUnits.ScopeSetupModbusUnit.modBusData.StartAddr.ToString("X4"));0x20 +
-		}
 
-		private void EndRequest(object sender, EventArgs e)
+			MainForm.MainForm.SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 328 + _writeConfigStep * 8), EndRequest, RequestPriority.Normal, null, partParam);
+		}
+		
+		private void EndRequest(bool dataOk, ushort[] paramRtu, object param)
 		{
-			if (ModBusUnits.ScopeSetupModbusUnit.modBusData.RequestError)
+			if (MainForm.MainForm.SerialPort.portError)
 			{
 				if (Visible)
 				{
@@ -757,16 +759,42 @@ namespace ScopeSetupApp.ucScopeSetup
 			else
 			{
 				_writeConfigStep++;
-				if (_writeConfigStep < 5) { WritePartConfigToSystem(); }     //Отправляю новую конфигурацию 
+				if (_writeConfigStep < 5)
+				{
+					WritePartConfigToSystem();
+				}     //Отправляю новую конфигурацию 
 				else
 				{
-					if (_writeStep < 39) { _writeStep++; CalcNewOscillConfig(_writeStep); _writeConfigStep = 0; WritePartConfigToSystem(); }
+					if (_writeStep < 39)
+					{
+						_writeStep++;
+						CalcNewOscillConfig(_writeStep);
+						_writeConfigStep = 0;
+						WritePartConfigToSystem();
+					}
 					else
 					{
 						_writeStep = 0;
-						ScopeConfig.ChangeScopeConfig = true;
+
+						_mainForm.ConfigCheack();
 					}
 				}
+			}
+		}
+
+		public void  StatusConfigToSystemStrLabel()
+		{
+			if ((ScopeConfig.StatusOscil & 0x0001) == 0x0001)
+			{
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена и принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			else if ((ScopeConfig.StatusOscil & 0x0002) == 0x0002)
+			{
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена, но не принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			else if ((ScopeConfig.StatusOscil & 0x0004) == 0x0004)
+			{
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Нарушена целостность данных", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -777,17 +805,14 @@ namespace ScopeSetupApp.ucScopeSetup
 				MessageBox.Show(@"Выбрано неверное число каналов", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			if (!ModBusClient.ModBusOpened)
+			if (!MainForm.MainForm.SerialPort.IsOpen)
 			{
 				MessageBox.Show(@"Соединение с системой не установлено!", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 
 			// ReSharper disable once LocalizableElement
-			if (MessageBox.Show("Изменить конфигурацию осциллографа?\n" +
-			                    @"Все текущие осциллограммы будут удалены из памяти системы!",
-				    @"Настройка осциллографа", MessageBoxButtons.YesNo,
-				    MessageBoxIcon.Question) != DialogResult.Yes)
+			if (MessageBox.Show("Изменить конфигурацию осциллографа?\n" + @"Все текущие осциллограммы будут удалены из памяти системы!", @"Настройка осциллографа", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
 			{
 				return;
 			}
@@ -1029,17 +1054,17 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 		}
 
-		public void ButtonsVisibale()
+		public void ButtonsVisibale(bool connect)
 		{
-			if (ModBusClient.ModBusOpened == false || ScopeConfig.ConnectMcu == false)
-			{
-				reloadButton.Enabled = false;
-				writeToSystemBtn.Enabled = false;
-			}
-			else
+			if (connect)
 			{
 				reloadButton.Enabled = true;
 				writeToSystemBtn.Enabled = true;
+			}
+			else
+			{
+				reloadButton.Enabled = false;
+				writeToSystemBtn.Enabled = false;
 			}
 		}
 

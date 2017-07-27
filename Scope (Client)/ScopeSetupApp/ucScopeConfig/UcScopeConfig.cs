@@ -27,8 +27,12 @@ namespace ScopeSetupApp.ucScopeConfig
 			"64"
 		};
 
-		public UcScopeConfig()
+		private MainForm.MainForm mainForm;
+
+		public UcScopeConfig(MainForm.MainForm form)
 		{
+			mainForm = form;
+
 			InitializeComponent();
 
 			Column_channelFormats.Items.Clear();
@@ -210,7 +214,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				}
 				InitTable();
 
-				MainForm.ConfigStrLabel();
+				mainForm.ConfigStrLabel();
 			}
 		}
 

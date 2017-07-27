@@ -8,7 +8,7 @@ namespace ScopeSetupApp
     public static class ScopeConfig
     {
         //Было сделано изменение конфигурации
-        public static bool ChangeScopeConfig = false;
+        public static bool ChangeScopeConfig = true;
 
         //Скаченные параметры
         public static ushort[] LoadParams { get; set; }

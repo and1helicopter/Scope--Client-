@@ -9,8 +9,12 @@ namespace ScopeSetupApp.ucSettings
 {
 	public partial class UcSettings : UserControl
 	{
-		public UcSettings()
+		private MainForm.MainForm mainForm;
+
+		public UcSettings(MainForm.MainForm form)
 		{
+			mainForm = form;
+
 			InitializeComponent();
 
 			InitTable();
@@ -161,7 +165,7 @@ namespace ScopeSetupApp.ucSettings
 		{
 			FormatConverter.OldFormat = !FormatConverter.OldFormat;
 			FormatConverter.UpdateVisualFormat();
-			MainForm.FormatStrLabel();
+			mainForm.FormatStrLabel();
 
 			OldFormatChange();
 		}
