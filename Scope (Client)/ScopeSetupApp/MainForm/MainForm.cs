@@ -45,7 +45,6 @@ namespace ScopeSetupApp.MainForm
 		public static AsynchSerialPort SerialPort;
 
 		private int _loadConfigStep;
-		private int _loadTimeStampStep;
 
 		private void LoadWindowSize(string comPortXmlName, out int newHeight, out int newWidth, out int newWinState)
 		{
@@ -433,52 +432,29 @@ namespace ScopeSetupApp.MainForm
 		private readonly string[] _oscilTitls = new string[32];
 		private readonly DateTime [] _date = new DateTime[32];
 
-
+		public void StopUpdate()
+		{
+			_updateStatus = false;
+			ScopeConfig.ChangeScopeConfig = true;
+			ScopeConfig.ScopeCount = 0;
+			CreateStatusButtons();
+		}
 
 		//Очистка осциллограмм
 		private int _clearOscNum = 0x7FFF;
-
-		delegate void ScopeSetupShowButtonsLoad(bool connect);
-
-		private ScopeSetupShowButtonsLoad _scopeSetupShwoButtonsLoad;
-
-		private void UpdateScopeSetupShowButtonsLoad()
-		{
-			if (_ucScopeSetup != null)
-			{
-				_scopeSetupShwoButtonsLoad = _ucScopeSetup.ButtonsVisibale;
-				_scopeSetupShwoButtonsLoad.Invoke(_connectToSysem);
-			}
-		}
 
 		private void ButtonsTimer_Tick(object sender, EventArgs e)
 		{
 			ButtonsTimer.Enabled = false;
 
-
-
 			UpdateStatusConnect();
 			UpdateStatusConfigToSystemStrLabel();
 
-			//UpdateStatusButtonsInvoke();
-			//UpdateStatusButtons();
+			UpdateStatusButtonsInvoke();
 			UpdateStatus();
 			UpdateTimeStamp();
 
 			ScopeConfig.ConnectMcu = true;
-
-
-			//CreateStatusButtons();
-
-			if (!SerialPort.IsOpen || SerialPort.portError)
-			{
-				//Удаляем кнопки осциллограмм
-
-			}
-			else
-			{
-				//UpdateOscilsStatus();
-			}
 
 			ButtonsTimer.Enabled = true;
 		}
@@ -489,7 +465,7 @@ namespace ScopeSetupApp.MainForm
 		
 		private bool _buttonsAlreadyCreated;
 
-		private void CreateStatusButtons()
+		public void CreateStatusButtons()
 		{
 			RemoveStatusButtons();
 			AddStutusButtons();
@@ -556,11 +532,9 @@ namespace ScopeSetupApp.MainForm
 		//*************************************************************************************************//
 		private delegate void NoParamDelegate();
 
-		private delegate void UpdateStatusButtonSizeFontDelegate(Size size, Font font);
-
 		private void UpdateStatusButtonsInvoke()
 		{
-			Invoke(new NoParamDelegate(UpdateButtons));
+			Invoke(new NoParamDelegate(UpdateStatusButtons));
 		}
 
 		private void UpdateStatusButtons()
@@ -618,7 +592,12 @@ namespace ScopeSetupApp.MainForm
 						_statusButtons[i].Text = @"№" + (i + 1) + "\n" + @"Пусто";
 
 					}
-					else if (_oscilsStatus[i] >= 4)
+					else if (_oscilsStatus[i] > 4)
+					{
+						_statusButtons[i].BackColor = Color.SteelBlue;
+						_statusButtons[i].Enabled = true;
+					}
+					else if (_oscilsStatus[i] == 4)
 					{
 						_statusButtons[i].BackColor = Color.LightSteelBlue;
 						_statusButtons[i].Enabled = true;
@@ -630,27 +609,25 @@ namespace ScopeSetupApp.MainForm
 						_statusButtons[i].BackColor = Color.Lavender;
 						_statusButtons[i].Enabled = true;
 						_oscilTitls[i] = @"Осциллограмма №" + (i + 1) + @".";
-						_statusButtons[i].Text = @"№" + (i + 1) + "\n" + @"Идет запись";
+						_statusButtons[i].Text = @"№" + (i + 1) + "\n" + @"Записывается осциллограмма";
 					}
 					else if (_oscilsStatus[i] == 1)
 					{
 						_statusButtons[i].BackColor = Color.GhostWhite;
 						_statusButtons[i].Enabled = true;
 						_oscilTitls[i] = @"Осциллограмма №" + (i + 1) + @".";
-						_statusButtons[i].Text = @"№" + (i + 1) + "\n" + @"Запись предыстории";
+						_statusButtons[i].Text = @"№" + (i + 1) + "\n" + @"Предыстория записывается";
 					}
 					else
 					{
 						_statusButtons[i].BackColor = Color.AliceBlue;
 						_statusButtons[i].Enabled = true;
 						_oscilTitls[i] = @"Осциллограмма №" + (i + 1) + @".";
-						_statusButtons[i].Text = @"№" + (i + 1) + "\n" + @"Готова к записи";
+						_statusButtons[i].Text = @"№" + (i + 1) + "\n" + @"Ожидание события записи";
 					}
 				}
 			}
 		}
-
-
 
 		private delegate void UpdateTimeDelegate(int index, string strStatusButton, string strTitle, DateTime date); 
 
@@ -662,6 +639,7 @@ namespace ScopeSetupApp.MainForm
 		{
 			if (_statusButtons?.Count != 0)
 			{
+				// ReSharper disable once PossibleNullReferenceException
 				_statusButtons[index].Text = strStatusButton;
 				_oscilTitls[index] = strTitle;
 				_date[index] = date;
@@ -670,11 +648,16 @@ namespace ScopeSetupApp.MainForm
 
 		private void UpdateLoadDataProgressBar()
 		{
+			if (!loadDataProgressBar.Visible)
+			{
+				loadDataProgressBar.Visible = true;
+				loadScopeToolStripLabel.Visible = true;
+			}
 			loadDataProgressBar.Value = (int)_loadOscilIndex;
 		}
 		private void UpdateLoadDataProgressBarInvoke()
 		{
-			Invoke(new NoParamDelegate(UpdateLoadDataProgressBar), null);
+			Invoke(new NoParamDelegate(UpdateLoadDataProgressBar));
 		}
 
 		private void HideProgressBar()
@@ -687,9 +670,7 @@ namespace ScopeSetupApp.MainForm
 		{
 			Invoke(new NoParamDelegate(HideProgressBar), null);
 		}
-
-
-
+		
 		//*************************** СКАЧИВАНИЕ ОСЦИЛЛОГРАММ В ФАЙЛ ************************************//
 		//***********************************************************************************************//
 		//***********************************************************************************************//
@@ -707,10 +688,9 @@ namespace ScopeSetupApp.MainForm
 			if (dlgr == DialogResult.OK)
 			{
 				_loadOscNum = (int)((Button)sender).Tag;
-				SetScopeStatus(_loadOscNum);
-				_initLoadOscilFlag = true;
 				_oscilStartTemp = ((uint)_loadOscNum * (ScopeConfig.OscilSize >> 1)); //Начало осциллограммы 
 				_oscilEndTemp = (((uint)_loadOscNum + 1) * (ScopeConfig.OscilSize >> 1)); //Конец осциллограммы 
+				SetScopeStatus(_loadOscNum);
 			}
 
 			//СБРОС ОСЦИЛЛОГРАММ
@@ -720,14 +700,7 @@ namespace ScopeSetupApp.MainForm
 				UnsetScopeStatus(_clearOscNum);
 			}
 		}
-
-
-
-		private bool    _loadOscData;        //Флаг, что идет скачивание осцилограммы, все остальные запросы приостановлены
-		private int     _loadOscDataStep;            //0 - загрузка loadOscilTemp
-													 //1 - загрузка непосредственно тела
-
-
+		
 		private readonly ushort[] _loadParamPart = new ushort[32];
 
 		private int _loadOscNum;
@@ -1170,34 +1143,6 @@ namespace ScopeSetupApp.MainForm
 			{
 				ExecuteScopeView(sfd.FileName);
 			}           
-		}
-
-		private bool _initLoadOscilFlag;
-		private void InitLoadOscill()
-		{
-			_loadOscData = true;
-			_loadOscDataStep = 0;
-			_initLoadOscilFlag = false;
-			_loadOscilIndex = 0;
-
-			loadScopeToolStripLabel.Text = _oscilTitls[_loadOscNum];
-			loadDataProgressBar.Value = 0;
-
-			loadDataProgressBar.Visible = true;
-			loadScopeToolStripLabel.Visible = true;
-
-			_downloadedData = new List<ushort[]>();
-		   // loadOscilCountRound = (UInt16)(ScopeConfig.ScopeCount * 8);
-			LoadOscDataRequest();
-		}
-		private void InitLoadOscillInvoke()
-		{
-			try
-			{
-				Invoke(new NoParamDelegate(InitLoadOscill), null);
-			}
-			// ReSharper disable once EmptyGeneralCatchClause
-			catch { }      
 		}
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

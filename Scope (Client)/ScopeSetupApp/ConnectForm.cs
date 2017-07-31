@@ -38,11 +38,11 @@ namespace ScopeSetupApp
 			}
 		}
 
-		private MainForm.MainForm mainForm;
+		private readonly MainForm.MainForm _mainForm;
 
 		public ConnectForm(bool connected, string currentParity, string currentStopBits, string currentSpeed,  string currentCom, MainForm.MainForm form)
 		{
-			mainForm = form;
+			_mainForm = form;
 
 			InitializeComponent();
 
@@ -81,7 +81,7 @@ namespace ScopeSetupApp
 				MainForm.MainForm.SerialPort.StopBits = GetSerialPortStopBits(stopBitstComboBox.Text);
 				MainForm.MainForm.SerialPort.PortName = GetComPortName(portComboBox.Text);
 
-				mainForm.SerialPortOpen();
+				_mainForm.SerialPortOpen();
 			}
 			catch
 			{
@@ -99,6 +99,7 @@ namespace ScopeSetupApp
 		private void disconnectBtn_Click(object sender, EventArgs e)
 		{
 			MainForm.MainForm.SerialPort.Close();
+			_mainForm.StopUpdate();
 			Close();
 		}
 

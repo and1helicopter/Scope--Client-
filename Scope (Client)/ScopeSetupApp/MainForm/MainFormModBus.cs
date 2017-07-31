@@ -104,24 +104,16 @@ namespace ScopeSetupApp.MainForm
 			return "";
 		}
 		
-		private bool _updateTimeStamp;
-		private int _countOscilWithStatus;
-
 		private void UpdateTimeStamp()
 		{
-			if (!_updateTimeStamp && SerialPort.IsOpen && _statusButtons?.Count != 0 && !ScopeConfig.ChangeScopeConfig)
+			if ( SerialPort.IsOpen && _statusButtons?.Count != 0 && !ScopeConfig.ChangeScopeConfig)
 			{
 				for (int j = 0; j < ScopeConfig.ScopeCount; j++)
 				{
-					if (_oscilsStatus[j] == 4)
+					if (_oscilsStatus[j] >= 4)
 					{
 						SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 136 + j * 6), 6, UpdateTimeStamp, j);
-						_countOscilWithStatus = j + 1;
 					}
-				}
-				if (_countOscilWithStatus != 0)
-				{
-					_updateTimeStamp = true;
 				}
 			}
 		}
@@ -135,13 +127,13 @@ namespace ScopeSetupApp.MainForm
 				string str1 = (paramRtu[0] & 0x3F).ToString("X2") + "/" + ((paramRtu[0] >> 8) & 0x1F).ToString("X2") + @"/20" + (paramRtu[1] & 0xFF).ToString("X2");
 				string str2 = (paramRtu[3] & 0x3F).ToString("X2") + ":" + ((paramRtu[2] >> 8) & 0x7F).ToString("X2") + @":" + (paramRtu[2] & 0x7F).ToString("X2");
 				string str3 = ((paramRtu[4] *1000) >> 8).ToString("D3") + @"000";
-				string strTextButton = @"№" + (index + 1) + "\n" + str1 + "\n" + str2;
+				string strTextButton = @"№" + (index + 1) + "\n" + str2 + "\n" + str1;
 				string strTitle = @"Осциллограмма №" + (index + 1) + "\n" + str1 + "\n" + str2;
 				string str = str1 + "," + str2 + @"." + str3;
 				try
 				{
 					var date = DateTime.Parse(str);
-					if (_oscilsStatus[index] == 4)
+					if (_oscilsStatus[index] >= 4)
 					{
 						UpdateTimeInvoke(index, strTextButton, strTitle, date);
 					}
@@ -149,11 +141,6 @@ namespace ScopeSetupApp.MainForm
 				catch
 				{
 					// ignored
-				}
-
-				if (index == _countOscilWithStatus - 1)
-				{
-					_updateTimeStamp = false;
 				}
 			}
 		}
@@ -174,7 +161,35 @@ namespace ScopeSetupApp.MainForm
 
 					ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + 8 + index);
 
-					SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, statusSet);
+					SerialPort.SetDataRTU(addr, null, RequestPriority.Normal,  null, statusSet);
+					//Инициализируем скачивание осцллограммы
+				 	SerialPort.GetDataRTU(addr, 1, StartScopeLoad, index);
+				}
+			}
+		}
+
+		private void StartScopeLoad(bool dataOk, ushort[] paramRtu, object param)
+		{
+			if (dataOk)
+			{
+				var index = Convert.ToInt32(param);
+
+				var statusGet = paramRtu[0];
+				if ((byte) ((statusGet >> 8) & (ushort) (1 << CodeDevice)) == (1 << CodeDevice))
+				{
+					//Начинаем загрузку
+					loadScopeToolStripLabel.Text = _oscilTitls[_loadOscNum];
+					loadDataProgressBar.Value = 0;
+
+					UpdateLoadDataProgressBarInvoke();
+
+					_downloadedData = new List<ushort[]>();
+
+					LoadOscDataRequest();
+				}
+				else
+				{
+					SetScopeStatus(index);
 				}
 			}
 		}
@@ -227,6 +242,11 @@ namespace ScopeSetupApp.MainForm
 			SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 4), null, RequestPriority.Normal, null, uv);
 		}
 
+
+		private bool    _loadOscData;        //Флаг, что идет скачивание осцилограммы, все остальные запросы приостановлены
+		private int     _loadOscDataStep;            //0 - загрузка loadOscilTemp
+																			//1 - загрузка непосредственно тела
+
 		//Загрузка осциллограмм
 		private List<ushort[]> _downloadedData = new List<ushort[]>();
 
@@ -266,6 +286,7 @@ namespace ScopeSetupApp.MainForm
 						{
 							_startLoadSample = (uint) (paramRtu[1] << 16);
 							_startLoadSample += paramRtu[0];
+							_loadOscData = true;
 							_loadOscilIndex = 0;
 							_loadOscDataStep = 1;
 						}
@@ -309,8 +330,9 @@ namespace ScopeSetupApp.MainForm
 									UpdateLoadDataProgressBarInvoke();
 									_loadOscilTemp = 0;
 									_countTemp = 0;
+									UnsetScopeStatus(_loadOscNum);
+									}
 								}
-							}
 						}
 						else
 						{
