@@ -455,6 +455,8 @@ namespace ScopeSetupApp.MainForm
 		{
 			ButtonsTimer.Enabled = false;
 
+
+
 			UpdateStatusConnect();
 			UpdateStatusConfigToSystemStrLabel();
 
@@ -462,6 +464,9 @@ namespace ScopeSetupApp.MainForm
 			//UpdateStatusButtons();
 			UpdateStatus();
 			UpdateTimeStamp();
+
+			ScopeConfig.ConnectMcu = true;
+
 
 			//CreateStatusButtons();
 
@@ -1244,8 +1249,7 @@ namespace ScopeSetupApp.MainForm
 
 		private bool _createFileFlag;
 		private int _createFileNum;
-
-
+		
 		private void timer2_Tick(object sender, EventArgs e)
 		{
 			timer2.Enabled = false;

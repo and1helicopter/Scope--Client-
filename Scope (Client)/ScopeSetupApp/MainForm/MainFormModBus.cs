@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Windows.Forms;
 using UniSerialPort;
 
 namespace ScopeSetupApp.MainForm
@@ -13,65 +11,6 @@ namespace ScopeSetupApp.MainForm
 			SerialPort.Open();
 
 			ConfigCheack();
-		}
-
-		private Thread _updateThread;
-
-		private void StartUpdateThread()
-		{
-			if (_updateThread == null)
-			{
-				_updateThread = new Thread(UpdateThread)
-				{
-					Name = @"UpdateThread"
-				};
-				_updateThread.Start();
-			}
-		}
-
-		private void UpdateThread()
-		{
-			while (true)
-			{
-				UpdateStatusConnect();
-				UpdateStatusConfigToSystemStrLabel();
-
-				//UpdateStatusButtonsInvoke();
-				//UpdateStatusButtons();
-				//UpdateStatus();
-			//	UpdateTimeStamp();
-
-
-			//	UpdateOscilsStatus();
-
-
-				//if (SerialPort.portError)
-				//{
-				//	ScopeConfig.ConnectMcu = false;
-				//	ScopeConfig.ChangeScopeConfig = false;
-
-				//	UpdateScopeSetupShowButtonsLoad();
-				//	StatusConfigToSystemStrLabel();
-				//	RemoveButtonsInvoke();
-				//	HideProgressBarInvoke();
-				//	_loadOscData = false;
-
-				//	_loadOscDataStep = 0;
-				//	_loadOscilIndex = 0;
-
-				//	Thread.Sleep(500);
-				//	continue;
-				//}
-
-
-
-
-				ScopeConfig.ConnectMcu = true;
-
-
-
-				Thread.Sleep(50);
-			}
 		}
 
 		private bool _updateStatus;
@@ -164,25 +103,25 @@ namespace ScopeSetupApp.MainForm
 			}
 			return "";
 		}
-
-
-
-
-
-
+		
 		private bool _updateTimeStamp;
+		private int _countOscilWithStatus;
 
 		private void UpdateTimeStamp()
 		{
 			if (!_updateTimeStamp && SerialPort.IsOpen && _statusButtons?.Count != 0 && !ScopeConfig.ChangeScopeConfig)
 			{
-				if (ScopeConfig.ScopeCount != 0)
-				{
-					_updateTimeStamp = true;
-				}
 				for (int j = 0; j < ScopeConfig.ScopeCount; j++)
 				{
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 136 + j * 6), 6, UpdateTimeStamp, j);
+					if (_oscilsStatus[j] == 4)
+					{
+						SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 136 + j * 6), 6, UpdateTimeStamp, j);
+						_countOscilWithStatus = j + 1;
+					}
+				}
+				if (_countOscilWithStatus != 0)
+				{
+					_updateTimeStamp = true;
 				}
 			}
 		}
@@ -199,11 +138,20 @@ namespace ScopeSetupApp.MainForm
 				string strTextButton = @"№" + (index + 1) + "\n" + str1 + "\n" + str2;
 				string strTitle = @"Осциллограмма №" + (index + 1) + "\n" + str1 + "\n" + str2;
 				string str = str1 + "," + str2 + @"." + str3;
-				DateTime date = DateTime.Parse(str);
+				try
+				{
+					var date = DateTime.Parse(str);
+					if (_oscilsStatus[index] == 4)
+					{
+						UpdateTimeInvoke(index, strTextButton, strTitle, date);
+					}
+				}
+				catch
+				{
+					// ignored
+				}
 
-				UpdateTimeInvoke(index, strTextButton, strTitle, date);
-
-				if (index == ScopeConfig.ScopeCount - 1)
+				if (index == _countOscilWithStatus - 1)
 				{
 					_updateTimeStamp = false;
 				}
@@ -234,31 +182,41 @@ namespace ScopeSetupApp.MainForm
 		private void UnsetScopeStatus(int index)
 		{
 			var statusGet = _oscilsStatus[index];
-			if ((byte)statusGet == 0x04)
+			ushort addr = (ushort) (ScopeSysType.OscilCmndAddr + 8 + index);
+
+			if ((byte) statusGet == 0x04)
 			{
-				if ((byte)((statusGet >> 8) & (ushort)(1 << CodeDevice)) == (1 << CodeDevice))
+				if ((byte) (statusGet >> 8) == 0)
 				{
-					ushort [] statusSet =
+					//Если осциллограмма записанна, но ее никто не качает, то очищаем осциллограмму
+					ClearScopeStatus(index);
+				}
+				else
+				{
+					if ((byte)((statusGet >> 8) & (ushort)(1 << CodeDevice)) == (1 << CodeDevice))
 					{
-						Convert.ToUInt16(statusGet ^ (1 << 8 + CodeDevice))
-					};
+						ushort[] statusSet =
+						{
+							Convert.ToUInt16(statusGet ^ (1 << 8 + CodeDevice))
+						};
 
-					ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + 8 + index);
-
-					SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, statusSet);
+						SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, statusSet);
+					}
 				}
 			}
-		}
-		
-		private void ClearOscRequest()
-		{
-			if (_clearOscNum >= ScopeConfig.ScopeCount)
+			else
 			{
-				MessageBox.Show(@"Error");
-				return;
+				//Если осциллограмма не записанна, то очищаем осциллограмму
+				ClearScopeStatus(index);
 			}
+		}
 
-			UnsetScopeStatus(_clearOscNum);
+		private void ClearScopeStatus(int index)
+		{
+			ushort addr = (ushort) (ScopeSysType.OscilCmndAddr + 8 + index);
+			ushort[] statusSet = { 0 };
+
+			SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, statusSet);
 		}
 
 		//Ручной запуск
@@ -266,7 +224,7 @@ namespace ScopeSetupApp.MainForm
 		{
 			ushort[] uv = { 1, 1, 1, 1 };
 
-			SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 4), null, RequestPriority.Normal, uv);
+			SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 4), null, RequestPriority.Normal, null, uv);
 		}
 
 		//Загрузка осциллограмм
@@ -720,6 +678,7 @@ namespace ScopeSetupApp.MainForm
 							_loadConfigStep = 0;
 							_ucScopeSetup?.StatusConfigToSystemStrLabel();
 							CreateStatusButtons();
+							
 							ScopeConfig.ChangeScopeConfig = false;
 						}
 							break;

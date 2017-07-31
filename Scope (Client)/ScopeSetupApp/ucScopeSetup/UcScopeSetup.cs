@@ -730,6 +730,7 @@ namespace ScopeSetupApp.ucScopeSetup
 		private void WriteConfigToSystem()
 		{
 			ScopeConfig.ChangeScopeConfig = true;
+			//_mainForm.
 			CalcOscillConfig();
 			_writeConfigStep = 0;
 			CalcNewOscillConfig(_writeStep);
@@ -775,7 +776,6 @@ namespace ScopeSetupApp.ucScopeSetup
 					else
 					{
 						_writeStep = 0;
-
 						_mainForm.ConfigCheack();
 					}
 				}
