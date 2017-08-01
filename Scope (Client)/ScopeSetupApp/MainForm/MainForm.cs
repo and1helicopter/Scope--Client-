@@ -131,8 +131,6 @@ namespace ScopeSetupApp.MainForm
 
 			DoubleBuffered = true;
 
-			tableLayoutPanel.ColumnStyles[0].Width = 0;
-			tableLayoutPanel.ColumnStyles[1].Width = 100;
 
 			if (agrs.Length > 0)
 			{
@@ -144,6 +142,7 @@ namespace ScopeSetupApp.MainForm
 			}
 
 			SerialPort = new AsynchSerialPort();
+			UpdateGrid();
 
 			int height, width, winState;
 			LoadWindowSize("prgSettings.xml", out height, out width, out winState);
@@ -152,8 +151,6 @@ namespace ScopeSetupApp.MainForm
 			Size = size;
 
 			WindowState = winState == 1 ? FormWindowState.Maximized : FormWindowState.Normal;
-
-		//	StartUpdateThread();
 		}
 
 		private static void InitializeFormat()
@@ -294,8 +291,7 @@ namespace ScopeSetupApp.MainForm
 				UpdateButtonsReset(OpenScope_Button);
 				UpdateButtonsReset(Setting_Button);
 
-				tableLayoutPanel.ColumnStyles[0].Width = 0;
-				tableLayoutPanel.ColumnStyles[1].Width = 100;
+				UpdateGrid();
 			}
 			else
 			{
@@ -323,8 +319,7 @@ namespace ScopeSetupApp.MainForm
 						break;
 				}
 
-				tableLayoutPanel.ColumnStyles[0].Width = 85;
-				tableLayoutPanel.ColumnStyles[1].Width = 15;
+				UpdateGrid();
 				panel1.Controls.Clear();
 			}
 
@@ -454,6 +449,8 @@ namespace ScopeSetupApp.MainForm
 			UpdateStatus();
 			UpdateTimeStamp();
 
+			UpdateGrid();
+
 			ScopeConfig.ConnectMcu = true;
 
 			ButtonsTimer.Enabled = true;
@@ -465,7 +462,7 @@ namespace ScopeSetupApp.MainForm
 		
 		private bool _buttonsAlreadyCreated;
 
-		public void CreateStatusButtons()
+		private void CreateStatusButtons()
 		{
 			RemoveStatusButtons();
 			AddStutusButtons();
@@ -1210,6 +1207,42 @@ namespace ScopeSetupApp.MainForm
 		private void manStartBtn_Click(object sender, EventArgs e)
 		{
 			ManStartRequest();
+		}
+
+		private void UpdateGrid()
+		{
+			if (SerialPort.IsOpen && ScopeConfig.ScopeCount != 0)
+			{
+				if (_buttonsStatus != 0x00)
+				{
+					if (Math.Abs(tableLayoutPanel.ColumnStyles[0].Width - 80) > 0.5)
+					{
+						tableLayoutPanel.ColumnStyles[0].Width = 85;
+						tableLayoutPanel.ColumnStyles[1].Width = 15;
+					}
+				}
+				else
+				{
+					tableLayoutPanel.ColumnStyles[0].Width = 0;
+					tableLayoutPanel.ColumnStyles[1].Width = 100;
+				}
+			}
+			else
+			{
+				if (_buttonsStatus != 0x00)
+				{
+					if (Math.Abs(tableLayoutPanel.ColumnStyles[0].Width - 100) > 0.5)
+					{
+						tableLayoutPanel.ColumnStyles[0].Width = 100;
+						tableLayoutPanel.ColumnStyles[1].Width = 0;
+					}
+				}
+				else
+				{
+					tableLayoutPanel.ColumnStyles[0].Width = 0;
+					tableLayoutPanel.ColumnStyles[1].Width = 100;
+				}
+			}
 		}
 	}
 }

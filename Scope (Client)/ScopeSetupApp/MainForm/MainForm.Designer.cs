@@ -94,13 +94,13 @@
 			this.toolStripContainer1.ContentPanel.Controls.Add(this.toolStrip2);
 			this.toolStripContainer1.ContentPanel.ImeMode = System.Windows.Forms.ImeMode.On;
 			this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(857, 444);
+			this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1034, 489);
 			this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
 			this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.toolStripContainer1.Name = "toolStripContainer1";
 			this.toolStripContainer1.RightToolStripPanelVisible = false;
-			this.toolStripContainer1.Size = new System.Drawing.Size(857, 444);
+			this.toolStripContainer1.Size = new System.Drawing.Size(1034, 489);
 			this.toolStripContainer1.TabIndex = 14;
 			this.toolStripContainer1.Text = "toolStripContainer1";
 			this.toolStripContainer1.TopToolStripPanelVisible = false;
@@ -113,7 +113,7 @@
 			this.MainPanel.Location = new System.Drawing.Point(244, 0);
 			this.MainPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.MainPanel.Name = "MainPanel";
-			this.MainPanel.Size = new System.Drawing.Size(569, 444);
+			this.MainPanel.Size = new System.Drawing.Size(746, 489);
 			this.MainPanel.TabIndex = 0;
 			// 
 			// tableLayoutPanel
@@ -128,7 +128,7 @@
 			this.tableLayoutPanel.Name = "tableLayoutPanel";
 			this.tableLayoutPanel.RowCount = 1;
 			this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel.Size = new System.Drawing.Size(569, 444);
+			this.tableLayoutPanel.Size = new System.Drawing.Size(746, 489);
 			this.tableLayoutPanel.TabIndex = 4;
 			// 
 			// nowStatusFlowLayoutPanel
@@ -136,10 +136,10 @@
 			this.nowStatusFlowLayoutPanel.AutoScroll = true;
 			this.nowStatusFlowLayoutPanel.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.nowStatusFlowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.nowStatusFlowLayoutPanel.Location = new System.Drawing.Point(284, 0);
+			this.nowStatusFlowLayoutPanel.Location = new System.Drawing.Point(373, 0);
 			this.nowStatusFlowLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.nowStatusFlowLayoutPanel.Name = "nowStatusFlowLayoutPanel";
-			this.nowStatusFlowLayoutPanel.Size = new System.Drawing.Size(285, 444);
+			this.nowStatusFlowLayoutPanel.Size = new System.Drawing.Size(373, 489);
 			this.nowStatusFlowLayoutPanel.TabIndex = 2;
 			this.nowStatusFlowLayoutPanel.Tag = "";
 			// 
@@ -149,7 +149,7 @@
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(284, 444);
+			this.panel1.Size = new System.Drawing.Size(373, 489);
 			this.panel1.TabIndex = 3;
 			// 
 			// toolStrip1
@@ -172,7 +172,7 @@
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this.toolStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.toolStrip1.Size = new System.Drawing.Size(244, 444);
+			this.toolStrip1.Size = new System.Drawing.Size(244, 489);
 			this.toolStrip1.TabIndex = 1;
 			this.toolStrip1.Tag = "0";
 			this.toolStrip1.Text = "toolStrip1";
@@ -297,11 +297,11 @@
 			this.toolStrip2.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton2});
-			this.toolStrip2.Location = new System.Drawing.Point(813, 0);
+			this.toolStrip2.Location = new System.Drawing.Point(990, 0);
 			this.toolStrip2.Name = "toolStrip2";
 			this.toolStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this.toolStrip2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.toolStrip2.Size = new System.Drawing.Size(44, 444);
+			this.toolStrip2.Size = new System.Drawing.Size(44, 489);
 			this.toolStrip2.TabIndex = 4;
 			this.toolStrip2.Tag = "0";
 			this.toolStrip2.Text = "toolStrip2";
@@ -333,12 +333,12 @@
 			// 
 			this.toolStripContainer2.ContentPanel.AutoScroll = true;
 			this.toolStripContainer2.ContentPanel.Controls.Add(this.toolStripContainer1);
-			this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(857, 444);
+			this.toolStripContainer2.ContentPanel.Size = new System.Drawing.Size(1034, 489);
 			this.toolStripContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer2.LeftToolStripPanelVisible = false;
 			this.toolStripContainer2.Location = new System.Drawing.Point(0, 0);
 			this.toolStripContainer2.Name = "toolStripContainer2";
-			this.toolStripContainer2.Size = new System.Drawing.Size(857, 444);
+			this.toolStripContainer2.Size = new System.Drawing.Size(1034, 489);
 			this.toolStripContainer2.TabIndex = 15;
 			this.toolStripContainer2.Text = "toolStripContainer2";
 			this.toolStripContainer2.TopToolStripPanelVisible = false;
@@ -359,7 +359,7 @@
             this.systemConfig_toolStripStatusLabel});
 			this.statusStrip1.Location = new System.Drawing.Point(0, 0);
 			this.statusStrip1.Name = "statusStrip1";
-			this.statusStrip1.Size = new System.Drawing.Size(857, 22);
+			this.statusStrip1.Size = new System.Drawing.Size(1034, 22);
 			this.statusStrip1.TabIndex = 0;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
@@ -389,7 +389,7 @@
 			// 
 			this.toolStripContainer3.ContentPanel.AutoScroll = true;
 			this.toolStripContainer3.ContentPanel.Controls.Add(this.toolStripContainer2);
-			this.toolStripContainer3.ContentPanel.Size = new System.Drawing.Size(857, 444);
+			this.toolStripContainer3.ContentPanel.Size = new System.Drawing.Size(1034, 489);
 			this.toolStripContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer3.LeftToolStripPanelVisible = false;
 			this.toolStripContainer3.Location = new System.Drawing.Point(0, 0);
@@ -398,7 +398,7 @@
 			// toolStripContainer3.RightToolStripPanel
 			// 
 			this.toolStripContainer3.RightToolStripPanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
-			this.toolStripContainer3.Size = new System.Drawing.Size(857, 444);
+			this.toolStripContainer3.Size = new System.Drawing.Size(1034, 489);
 			this.toolStripContainer3.TabIndex = 16;
 			this.toolStripContainer3.Text = "toolStripContainer3";
 			this.toolStripContainer3.TopToolStripPanelVisible = false;
@@ -414,13 +414,13 @@
 			// 
 			this.toolStripContainer4.ContentPanel.AutoScroll = true;
 			this.toolStripContainer4.ContentPanel.Controls.Add(this.toolStripContainer3);
-			this.toolStripContainer4.ContentPanel.Size = new System.Drawing.Size(857, 444);
+			this.toolStripContainer4.ContentPanel.Size = new System.Drawing.Size(1034, 489);
 			this.toolStripContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStripContainer4.LeftToolStripPanelVisible = false;
 			this.toolStripContainer4.Location = new System.Drawing.Point(0, 0);
 			this.toolStripContainer4.Name = "toolStripContainer4";
 			this.toolStripContainer4.RightToolStripPanelVisible = false;
-			this.toolStripContainer4.Size = new System.Drawing.Size(857, 466);
+			this.toolStripContainer4.Size = new System.Drawing.Size(1034, 511);
 			this.toolStripContainer4.TabIndex = 17;
 			this.toolStripContainer4.Text = "toolStripContainer4";
 			this.toolStripContainer4.TopToolStripPanelVisible = false;
@@ -429,11 +429,12 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(857, 466);
+			this.ClientSize = new System.Drawing.Size(1034, 511);
 			this.Controls.Add(this.toolStripContainer4);
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.MinimumSize = new System.Drawing.Size(1050, 550);
 			this.Name = "MainForm";
 			this.Text = "Загрузка осциллограмм";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);

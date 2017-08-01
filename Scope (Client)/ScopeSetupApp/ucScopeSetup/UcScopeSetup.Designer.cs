@@ -66,7 +66,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(312, 9);
+			this.label3.Location = new System.Drawing.Point(287, 9);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(59, 13);
 			this.label3.TabIndex = 14;
@@ -84,7 +84,7 @@
 			// radioButton
 			// 
 			this.radioButton.Enabled = false;
-			this.radioButton.Location = new System.Drawing.Point(176, 6);
+			this.radioButton.Location = new System.Drawing.Point(151, 6);
 			this.radioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.radioButton.Name = "radioButton";
 			this.radioButton.Size = new System.Drawing.Size(130, 20);
@@ -95,12 +95,12 @@
 			// 
 			// sizeOcsil_trackBar
 			// 
-			this.sizeOcsil_trackBar.Location = new System.Drawing.Point(682, 6);
+			this.sizeOcsil_trackBar.Location = new System.Drawing.Point(614, 3);
 			this.sizeOcsil_trackBar.Maximum = 100;
 			this.sizeOcsil_trackBar.Minimum = 1;
 			this.sizeOcsil_trackBar.Name = "sizeOcsil_trackBar";
 			this.sizeOcsil_trackBar.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.sizeOcsil_trackBar.Size = new System.Drawing.Size(45, 125);
+			this.sizeOcsil_trackBar.Size = new System.Drawing.Size(45, 108);
 			this.sizeOcsil_trackBar.TabIndex = 13;
 			this.sizeOcsil_trackBar.TickStyle = System.Windows.Forms.TickStyle.None;
 			this.sizeOcsil_trackBar.Value = 100;
@@ -109,7 +109,7 @@
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(6, 63);
+			this.label8.Location = new System.Drawing.Point(6, 56);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(79, 13);
 			this.label8.TabIndex = 3;
@@ -118,7 +118,7 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(312, 90);
+			this.label5.Location = new System.Drawing.Point(287, 77);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(29, 13);
 			this.label5.TabIndex = 4;
@@ -127,7 +127,7 @@
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(312, 36);
+			this.label10.Location = new System.Drawing.Point(287, 32);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(59, 13);
 			this.label10.TabIndex = 1;
@@ -137,7 +137,7 @@
 			// 
 			this.label6.AutoSize = true;
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			this.label6.Location = new System.Drawing.Point(312, 63);
+			this.label6.Location = new System.Drawing.Point(287, 53);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(81, 15);
 			this.label6.TabIndex = 2;
@@ -225,7 +225,7 @@
 			// checkBox3
 			// 
 			this.checkBox3.AutoSize = true;
-			this.checkBox3.Location = new System.Drawing.Point(411, 62);
+			this.checkBox3.Location = new System.Drawing.Point(372, 53);
 			this.checkBox3.Name = "checkBox3";
 			this.checkBox3.Size = new System.Drawing.Size(222, 17);
 			this.checkBox3.TabIndex = 12;
@@ -234,7 +234,7 @@
 			// 
 			// hystoryRadioButton
 			// 
-			this.hystoryRadioButton.Location = new System.Drawing.Point(176, 60);
+			this.hystoryRadioButton.Location = new System.Drawing.Point(151, 52);
 			this.hystoryRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.hystoryRadioButton.Name = "hystoryRadioButton";
 			this.hystoryRadioButton.Size = new System.Drawing.Size(130, 20);
@@ -246,7 +246,7 @@
 			// 
 			// oscFreqRadioButton
 			// 
-			this.oscFreqRadioButton.Location = new System.Drawing.Point(176, 87);
+			this.oscFreqRadioButton.Location = new System.Drawing.Point(151, 74);
 			this.oscFreqRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.oscFreqRadioButton.Name = "oscFreqRadioButton";
 			this.oscFreqRadioButton.Size = new System.Drawing.Size(130, 20);
@@ -259,18 +259,17 @@
 			// CommentRichTextBox
 			// 
 			this.CommentRichTextBox.BackColor = System.Drawing.SystemColors.Control;
-			this.CommentRichTextBox.Location = new System.Drawing.Point(411, 8);
+			this.CommentRichTextBox.Location = new System.Drawing.Point(372, 6);
 			this.CommentRichTextBox.Name = "CommentRichTextBox";
 			this.CommentRichTextBox.ReadOnly = true;
-			this.CommentRichTextBox.Size = new System.Drawing.Size(265, 45);
+			this.CommentRichTextBox.Size = new System.Drawing.Size(236, 45);
 			this.CommentRichTextBox.TabIndex = 11;
 			this.CommentRichTextBox.Text = "";
 			// 
 			// label7
 			// 
-			this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(6, 88);
+			this.label7.Location = new System.Drawing.Point(6, 77);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(60, 13);
 			this.label7.TabIndex = 7;
@@ -278,7 +277,7 @@
 			// 
 			// chCountRadioButton
 			// 
-			this.chCountRadioButton.Location = new System.Drawing.Point(176, 33);
+			this.chCountRadioButton.Location = new System.Drawing.Point(151, 29);
 			this.chCountRadioButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.chCountRadioButton.Name = "chCountRadioButton";
 			this.chCountRadioButton.Size = new System.Drawing.Size(130, 20);
@@ -291,7 +290,7 @@
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(6, 36);
+			this.label11.Location = new System.Drawing.Point(6, 32);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(147, 13);
 			this.label11.TabIndex = 3;
@@ -300,7 +299,7 @@
 			// DelayOsc
 			// 
 			this.DelayOsc.AutoSize = true;
-			this.DelayOsc.Location = new System.Drawing.Point(6, 118);
+			this.DelayOsc.Location = new System.Drawing.Point(6, 98);
 			this.DelayOsc.Name = "DelayOsc";
 			this.DelayOsc.Size = new System.Drawing.Size(172, 13);
 			this.DelayOsc.TabIndex = 8;
@@ -310,7 +309,7 @@
 			// enaScopeCheckBox
 			// 
 			this.enaScopeCheckBox.AutoSize = true;
-			this.enaScopeCheckBox.Location = new System.Drawing.Point(411, 115);
+			this.enaScopeCheckBox.Location = new System.Drawing.Point(372, 95);
 			this.enaScopeCheckBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.enaScopeCheckBox.Name = "enaScopeCheckBox";
 			this.enaScopeCheckBox.Size = new System.Drawing.Size(195, 17);
@@ -343,13 +342,13 @@
 			this.panel1.Location = new System.Drawing.Point(1, 39);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(827, 139);
+			this.panel1.Size = new System.Drawing.Size(827, 120);
 			this.panel1.TabIndex = 36;
 			// 
 			// checkBox1
 			// 
 			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(411, 89);
+			this.checkBox1.Location = new System.Drawing.Point(372, 74);
 			this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(236, 17);
@@ -364,10 +363,10 @@
 			this.possibleParamPanel.Controls.Add(this.listView1);
 			this.possibleParamPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.possibleParamPanel.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.possibleParamPanel.Location = new System.Drawing.Point(1, 221);
+			this.possibleParamPanel.Location = new System.Drawing.Point(1, 202);
 			this.possibleParamPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.possibleParamPanel.Name = "possibleParamPanel";
-			this.possibleParamPanel.Size = new System.Drawing.Size(827, 193);
+			this.possibleParamPanel.Size = new System.Drawing.Size(827, 212);
 			this.possibleParamPanel.TabIndex = 17;
 			// 
 			// listView1
@@ -384,7 +383,7 @@
 			this.listView1.Location = new System.Drawing.Point(0, 0);
 			this.listView1.Margin = new System.Windows.Forms.Padding(0);
 			this.listView1.Name = "listView1";
-			this.listView1.Size = new System.Drawing.Size(827, 193);
+			this.listView1.Size = new System.Drawing.Size(827, 212);
 			this.listView1.TabIndex = 8;
 			this.listView1.UseCompatibleStateImageBehavior = false;
 			this.listView1.View = System.Windows.Forms.View.Details;
@@ -396,7 +395,7 @@
 			this.label2.BackColor = System.Drawing.SystemColors.Control;
 			this.label2.Dock = System.Windows.Forms.DockStyle.Top;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-			this.label2.Location = new System.Drawing.Point(1, 178);
+			this.label2.Location = new System.Drawing.Point(1, 159);
 			this.label2.Margin = new System.Windows.Forms.Padding(0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(827, 43);
