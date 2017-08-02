@@ -142,6 +142,7 @@ namespace ScopeSetupApp.MainForm
 			}
 
 			SerialPort = new AsynchSerialPort();
+
 			UpdateGrid();
 
 			int height, width, winState;
@@ -429,29 +430,40 @@ namespace ScopeSetupApp.MainForm
 
 		public void StopUpdate()
 		{
+			_updateTimer = false;
 			_updateStatus = false;
+			SerialPort.requests.Clear();
+			RemoveStatusButtons();
+
 			ScopeConfig.ChangeScopeConfig = true;
 			ScopeConfig.ScopeCount = 0;
-			CreateStatusButtons();
+			ScopeConfig.StatusOscil = 0x0000;
 		}
 
 		//Очистка осциллограмм
 		private int _clearOscNum = 0x7FFF;
 
+		private bool _updateTimer;
+
 		private void ButtonsTimer_Tick(object sender, EventArgs e)
 		{
 			ButtonsTimer.Enabled = false;
 
-			UpdateStatusConnect();
-			UpdateStatusConfigToSystemStrLabel();
+			if (SerialPort != null)
+			{
+				UpdateStatusConnect();
+				UpdateStatusConfigToSystemStrLabel();
+				UpdateGrid();
 
-			UpdateStatusButtonsInvoke();
-			UpdateStatus();
-			UpdateTimeStamp();
-
-			UpdateGrid();
-
-			ScopeConfig.ConnectMcu = true;
+				if (_updateTimer)
+				{
+					UpdateStatusButtonsInvoke();
+					UpdateStatus();
+					UpdateTimeStamp();
+					
+					ScopeConfig.ConnectMcu = true;
+				}
+			}
 
 			ButtonsTimer.Enabled = true;
 		}

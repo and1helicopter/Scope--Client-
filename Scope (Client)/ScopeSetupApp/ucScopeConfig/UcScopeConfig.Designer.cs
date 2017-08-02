@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcScopeConfig));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.mailToolStrip = new System.Windows.Forms.ToolStrip();
@@ -120,13 +120,13 @@
 			this.mailToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.mailToolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.mailToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openButton,
-            this.saveButton,
-            this.toolStripSeparator2,
-            this.View_toolStripButton,
-            this.Print_toolStripButton,
-            this.toolStripSeparator1,
-            this.SetDefault_toolStripButton});
+			this.openButton,
+			this.saveButton,
+			this.toolStripSeparator2,
+			this.View_toolStripButton,
+			this.Print_toolStripButton,
+			this.toolStripSeparator1,
+			this.SetDefault_toolStripButton});
 			this.mailToolStrip.Location = new System.Drawing.Point(1, 1);
 			this.mailToolStrip.Name = "mailToolStrip";
 			this.mailToolStrip.Size = new System.Drawing.Size(902, 38);
@@ -268,12 +268,12 @@
 			this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
 			this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton5,
-            this.toolStripSeparator3,
-            this.toolStripButton3,
-            this.toolStripButton2,
-            this.toolStripSeparator4,
-            this.toolStripButton1});
+			this.toolStripButton5,
+			this.toolStripButton1,
+			this.toolStripSeparator3,
+			this.toolStripButton3,
+			this.toolStripButton2,
+			this.toolStripSeparator4});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(902, 40);
@@ -376,25 +376,25 @@
 			this.ChanneldataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
 			this.ChanneldataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.ChanneldataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column_channelNames,
-            this.Column_channelGroupNames,
-            this.Column_channelTypeAd,
-            this.Column_channelAddrs,
-            this.Column_channelformatNumeric,
-            this.Column_channelFormats,
-            this.Column_channelPhase,
-            this.Column_channelCcbm,
-            this.Column_channelDimension,
-            this.Column_channelMin,
-            this.Column_channelMax});
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.ChanneldataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+			this.Column_channelNames,
+			this.Column_channelGroupNames,
+			this.Column_channelTypeAd,
+			this.Column_channelAddrs,
+			this.Column_channelformatNumeric,
+			this.Column_channelFormats,
+			this.Column_channelPhase,
+			this.Column_channelCcbm,
+			this.Column_channelDimension,
+			this.Column_channelMin,
+			this.Column_channelMax});
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.ChanneldataGridView.DefaultCellStyle = dataGridViewCellStyle1;
 			this.ChanneldataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.ChanneldataGridView.GridColor = System.Drawing.SystemColors.ControlLight;
 			this.ChanneldataGridView.Location = new System.Drawing.Point(0, 0);
@@ -425,8 +425,8 @@
 			this.Column_channelTypeAd.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
 			this.Column_channelTypeAd.HeaderText = "Тип";
 			this.Column_channelTypeAd.Items.AddRange(new object[] {
-            "Analog",
-            "Digital"});
+			"Analog",
+			"Digital"});
 			this.Column_channelTypeAd.Name = "Column_channelTypeAd";
 			this.Column_channelTypeAd.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			this.Column_channelTypeAd.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
@@ -443,9 +443,9 @@
 			this.Column_channelformatNumeric.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
 			this.Column_channelformatNumeric.HeaderText = "Разрядность";
 			this.Column_channelformatNumeric.Items.AddRange(new object[] {
-            "16",
-            "32",
-            "64"});
+			"16",
+			"32",
+			"64"});
 			this.Column_channelformatNumeric.Name = "Column_channelformatNumeric";
 			this.Column_channelformatNumeric.ReadOnly = true;
 			this.Column_channelformatNumeric.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -457,30 +457,30 @@
 			this.Column_channelFormats.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
 			this.Column_channelFormats.HeaderText = "Формат";
 			this.Column_channelFormats.Items.AddRange(new object[] {
-            "0 - Percent",
-            "1 - uint16",
-            "2 - int16",
-            "3 - Freq standart",
-            "4 - 8.8",
-            "5 - 0.16",
-            "6 - Slide",
-            "7 - Digits",
-            "8 - RegulMode",
-            "9 - AVR type",
-            "10 - Int/10",
-            "11 - Hex",
-            "12 - *0.135 (Uf)",
-            "13 - FreqNew",
-            "14 - Current trans",
-            "15 - trans alarm",
-            "16 - int/8",
-            "17 - uint/1000",
-            "18 - percent/4",
-            "19 - FreqNew2",
-            "20 - Percent upp",
-            "21 - Freq UPTF",
-            "22 - 16.16",
-            "23 - 32.32"});
+			"0 - Percent",
+			"1 - uint16",
+			"2 - int16",
+			"3 - Freq standart",
+			"4 - 8.8",
+			"5 - 0.16",
+			"6 - Slide",
+			"7 - Digits",
+			"8 - RegulMode",
+			"9 - AVR type",
+			"10 - Int/10",
+			"11 - Hex",
+			"12 - *0.135 (Uf)",
+			"13 - FreqNew",
+			"14 - Current trans",
+			"15 - trans alarm",
+			"16 - int/8",
+			"17 - uint/1000",
+			"18 - percent/4",
+			"19 - FreqNew2",
+			"20 - Percent upp",
+			"21 - Freq UPTF",
+			"22 - 16.16",
+			"23 - 32.32"});
 			this.Column_channelFormats.Name = "Column_channelFormats";
 			this.Column_channelFormats.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			this.Column_channelFormats.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
@@ -509,14 +509,14 @@
 			this.Column_channelMin.HeaderText = "Min.";
 			this.Column_channelMin.Name = "Column_channelMin";
 			this.Column_channelMin.ToolTipText = "Целое, равное минимальной величине (нижняя граница диапазона) для выборок этого к" +
-    "анала";
+	"анала";
 			// 
 			// Column_channelMax
 			// 
 			this.Column_channelMax.HeaderText = "Max.";
 			this.Column_channelMax.Name = "Column_channelMax";
 			this.Column_channelMax.ToolTipText = "Целое, равное максимальной величине (верхняя граница диапазона) для выборок этого" +
-    " канала";
+	" канала";
 			// 
 			// tabControl1
 			// 

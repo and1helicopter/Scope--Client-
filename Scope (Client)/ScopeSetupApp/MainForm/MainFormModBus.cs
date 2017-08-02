@@ -68,14 +68,20 @@ namespace ScopeSetupApp.MainForm
 
 		private void UpdateStatusConnect()
 		{
-			Invoke(new SetStringDelegate(SetTimeLabel), SerialPort.IsOpen && !SerialPort.portError ? @"CONNECT" : @"NO CONNECT");
+			if (connect_toolStripStatusLabel != null)
+			{
+				Invoke(new SetStringDelegate(SetTimeLabel), SerialPort.IsOpen && !SerialPort.portError ? @"CONNECT" : @"NO CONNECT");
+			}
 		}
 
 		private delegate void StatusConfigToSystem(string status);
 
 		private void UpdateStatusConfigToSystemStrLabel()
 		{
-			Invoke(new StatusConfigToSystem(SetStatusConfigToSystemLabel), StatusConfigToSystemStrLabel());
+			if (systemConfig_toolStripStatusLabel != null)
+			{
+				Invoke(new StatusConfigToSystem(SetStatusConfigToSystemLabel), StatusConfigToSystemStrLabel());
+			}
 		}
 
 		private void SetStatusConfigToSystemLabel(string status)
@@ -106,9 +112,10 @@ namespace ScopeSetupApp.MainForm
 		
 		private void UpdateTimeStamp()
 		{
-			if ( SerialPort.IsOpen && _statusButtons?.Count != 0 && !ScopeConfig.ChangeScopeConfig)
+			if (SerialPort.IsOpen && _statusButtons?.Count != 0 && !ScopeConfig.ChangeScopeConfig)
 			{
-				for (int j = 0; j < ScopeConfig.ScopeCount; j++)
+				var maxCount = ScopeConfig.ScopeCount < 32 ? ScopeConfig.ScopeCount : 32;
+				for (int j = 0; j < maxCount; j++)
 				{
 					if (_oscilsStatus[j] >= 4)
 					{
@@ -145,18 +152,18 @@ namespace ScopeSetupApp.MainForm
 			}
 		}
 
-		private byte CodeDevice = 0x00;
+		
 
 		private void SetScopeStatus(int index)
 		{
 			var statusGet = _oscilsStatus[index];
 			if ((byte)statusGet == 0x04)
 			{
-				if ((byte)((statusGet >> 8) & (ushort)(1 << CodeDevice)) != (1 << CodeDevice))
+				if ((byte)((statusGet >> 8) & (ushort)(1 << ScopeConfig.CodeDevice)) != (1 << ScopeConfig.CodeDevice))
 				{
 					ushort [] statusSet =
 					{
-						Convert.ToUInt16(statusGet | (1 << 8 + CodeDevice))
+						Convert.ToUInt16(statusGet | (1 << 8 + ScopeConfig.CodeDevice))
 					};
 
 					ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + 8 + index);
@@ -175,7 +182,7 @@ namespace ScopeSetupApp.MainForm
 				var index = Convert.ToInt32(param);
 
 				var statusGet = paramRtu[0];
-				if ((byte) ((statusGet >> 8) & (ushort) (1 << CodeDevice)) == (1 << CodeDevice))
+				if ((byte) ((statusGet >> 8) & (ushort) (1 << ScopeConfig.CodeDevice)) == (1 << ScopeConfig.CodeDevice))
 				{
 					//Начинаем загрузку
 					loadScopeToolStripLabel.Text = _oscilTitls[_loadOscNum];
@@ -208,11 +215,11 @@ namespace ScopeSetupApp.MainForm
 				}
 				else
 				{
-					if ((byte)((statusGet >> 8) & (ushort)(1 << CodeDevice)) == (1 << CodeDevice))
+					if ((byte)((statusGet >> 8) & (ushort)(1 << ScopeConfig.CodeDevice)) == (1 << ScopeConfig.CodeDevice))
 					{
 						ushort[] statusSet =
 						{
-							Convert.ToUInt16(statusGet ^ (1 << 8 + CodeDevice))
+							Convert.ToUInt16(statusGet ^ (1 << 8 + ScopeConfig.CodeDevice))
 						};
 
 						SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, statusSet);
@@ -365,6 +372,11 @@ namespace ScopeSetupApp.MainForm
 
 		public void ConfigCheack()
 		{
+			//Отключить обновление информации об осциллограммах
+			StopUpdate();
+			_loadConfigStep = 0;
+			SerialPort.UnsetPortBusy();
+
 			LoadConfig();
 		}
 
@@ -564,8 +576,11 @@ namespace ScopeSetupApp.MainForm
 						{
 							if (ScopeConfig.ChannelCount == 0) //Если в системе нет конфигурации
 							{
-								_loadConfigStep = 0;
-								_buttonsAlreadyCreated = false;
+								//_loadConfigStep = 0;
+								//_buttonsAlreadyCreated = false;
+
+								EndLoadConfig(false);
+
 								break;
 							}
 							if (_indexChannel == 0) ScopeConfig.ChannelName.Clear();
@@ -697,11 +712,8 @@ namespace ScopeSetupApp.MainForm
 						{
 							ScopeConfig.InitLeapsec(paramRtu);
 
-							_loadConfigStep = 0;
-							_ucScopeSetup?.StatusConfigToSystemStrLabel();
-							CreateStatusButtons();
-							
-							ScopeConfig.ChangeScopeConfig = false;
+							EndLoadConfig(true);
+
 						}
 							break;
 					}
@@ -710,6 +722,22 @@ namespace ScopeSetupApp.MainForm
 				{
 					_loadConfigStep = 0;
 				}
+			}
+		}
+
+		private void EndLoadConfig(bool foolStatus)
+		{
+
+			_loadConfigStep = 0;
+
+			ScopeConfig.ChangeScopeConfig = false;
+			_updateTimer = true;
+
+			_ucScopeSetup?.StatusConfigToSystemStrLabel();
+			_ucSettings?.UpdateConfig();
+			if (foolStatus)
+			{
+				CreateStatusButtons();
 			}
 		}
 	}

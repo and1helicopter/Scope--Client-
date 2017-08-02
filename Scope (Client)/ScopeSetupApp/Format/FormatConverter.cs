@@ -26,6 +26,7 @@ namespace ScopeSetupApp.Format
 			new Format("HexToHex", "uint16", "1", "0", 0),
 			new Format("HexToUf", "int16", "0.135", "0", 4),
 			new Format("HexToFreqNew", "uint16", "1/500.0", "0", 4),
+			new Format("BLOCKED", "uint16", "1", "0", 0),
 			new Format("HexToTransAlarm", "int16", "0.00172633491500621954199424893092", "0", 7 ),
 			new Format("HexToInt8", "int16", "1/8.0", "0", 2),
 			new Format("HexToUint1000", "uint16", "1/1000.0", "0", 2),

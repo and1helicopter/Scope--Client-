@@ -27,11 +27,11 @@ namespace ScopeSetupApp.ucScopeConfig
 			"64"
 		};
 
-		private MainForm.MainForm mainForm;
+		private readonly MainForm.MainForm _mainForm;
 
 		public UcScopeConfig(MainForm.MainForm form)
 		{
-			mainForm = form;
+			_mainForm = form;
 
 			InitializeComponent();
 
@@ -140,9 +140,16 @@ namespace ScopeSetupApp.ucScopeConfig
 		{
 			int i = 0;
 			string str = Convert.ToString(obj);
-			if (str == "") str = "0";
-			if (del == "0x") i = Convert.ToInt32(str, 16);
-			if (del == "") i = Convert.ToInt32(str);
+			try
+			{
+				if (str == "") str = "0";
+				if (del == "0x") i = Convert.ToInt32(str, 16);
+				if (del == "") i = Convert.ToInt32(str);
+			}
+			catch
+			{
+				MessageBox.Show(@"Неправильно введены данные", @"Ошибка",  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 			str = Convert.ToString(i);
 			//if (del != "") str = str.Replace(del, "");
 			return str;
@@ -170,7 +177,7 @@ namespace ScopeSetupApp.ucScopeConfig
 						_typeChannel[(t.ChannelTypeAd)],
 						"0x" + t.ChannelAddrs.ToString("X4"),
 						_sizeFormat[(t.ChannelformatNumeric)],
-						_format[(t.ChannelFormats)],
+						_format[ChackFormat(t.ChannelFormats)],
 						t.ChannelPhase,
 						t.ChannelCcbm,
 						t.ChannelDimension,
@@ -180,6 +187,7 @@ namespace ScopeSetupApp.ucScopeConfig
 
 					ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].HeaderCell.Value = ChanneldataGridView.RowCount.ToString();
 					UpdateRange(ChanneldataGridView.RowCount - 1);
+					SetDoubleBuffered(ChanneldataGridView, true);
 				}
 				catch
 				{
@@ -187,6 +195,11 @@ namespace ScopeSetupApp.ucScopeConfig
 					return;
 				}
 			}
+		}
+
+		private int ChackFormat(int index)
+		{
+			return index <= _format.Length - 1 ? index : 0;
 		}
 
 		//Загрузка из файла
@@ -214,7 +227,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				}
 				InitTable();
 
-				mainForm.ConfigStrLabel();
+				_mainForm.ConfigStrLabel();
 			}
 		}
 
@@ -235,7 +248,6 @@ namespace ScopeSetupApp.ucScopeConfig
 			leapsec_textBox.Text = ScopeSysType.Leapsec;
 
 			CreateTable();
-			UpdateTable();
 		}
 
 		private void Save_To_file(SaveFileDialog sfd)
@@ -334,14 +346,13 @@ namespace ScopeSetupApp.ucScopeConfig
 			xmlOut.WriteEndElement();
 			xmlOut.WriteEndDocument();
 			xmlOut.Close();
+
 			fs.Close();
 		}
 
 		public void Varification()
 		{
 			VerificationChannel();
-
-			UpdateTable();
 
 			Update_Oscil();
 		}
@@ -383,8 +394,6 @@ namespace ScopeSetupApp.ucScopeConfig
 							if (numChannelRepeat[k] == numChannelRepeat[SelectChannel.NumChannel]) continue;
 							ChanneldataGridView.Rows.RemoveAt(numChannelRepeat[k]);
 						}
-
-						UpdateTable();
 					}
 				}
 			}
@@ -581,11 +590,14 @@ namespace ScopeSetupApp.ucScopeConfig
 		 
 		private void UpdateRange(int index)
 		{
-			ChanneldataGridView.Rows[index].Cells["Column_channelMin"].Value = FormatConverter.GetRangeMin(
-				FormatConverter.GetIndexListFormat(ChanneldataGridView.Rows[index].Cells["Column_channelFormats"].Value.ToString()));
+			if (!FormatConverter.OldFormat)
+			{
+				ChanneldataGridView.Rows[index].Cells["Column_channelMin"].Value = FormatConverter.GetRangeMin(
+					FormatConverter.GetIndexListFormat(ChanneldataGridView.Rows[index].Cells["Column_channelFormats"].Value.ToString()));
 
-			ChanneldataGridView.Rows[index].Cells["Column_channelMax"].Value = FormatConverter.GetRangeMax(
-				FormatConverter.GetIndexListFormat(ChanneldataGridView.Rows[index].Cells["Column_channelFormats"].Value.ToString()));
+				ChanneldataGridView.Rows[index].Cells["Column_channelMax"].Value = FormatConverter.GetRangeMax(
+					FormatConverter.GetIndexListFormat(ChanneldataGridView.Rows[index].Cells["Column_channelFormats"].Value.ToString()));
+			}
 		}
 
 		private void stationName_MouseEnter(object sender, EventArgs e)
@@ -656,7 +668,10 @@ namespace ScopeSetupApp.ucScopeConfig
 
 		private void ChanneldataGridView_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			code_label.Text = @"Код: " + FormatConverter.GetCodeFormat(ChanneldataGridView.Rows[e.RowIndex].Cells["Column_channelFormats"].Value as string);
+			if (!FormatConverter.OldFormat)
+			{
+				code_label.Text = @"Код: " + FormatConverter.GetCodeFormat(ChanneldataGridView.Rows[e.RowIndex].Cells["Column_channelFormats"].Value as string);
+			}
 		}
 	}
 }

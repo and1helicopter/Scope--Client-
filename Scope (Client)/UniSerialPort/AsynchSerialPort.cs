@@ -80,6 +80,11 @@ namespace UniSerialPort
 			get { return portBusy; }
 		}
 
+		public void UnsetPortBusy()
+		{
+			portBusy = false;
+		}
+
 		string ipAddress = "213.21.27.140";
 		public string IpAddress
 		{
