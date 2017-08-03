@@ -1111,7 +1111,7 @@ namespace ScopeSetupApp.MainForm
 			#region
 			if (sfd.FilterIndex != 1) 
 			{
-				StreamWriter sw = new StreamWriter(sfd.FileName, false, Encoding.GetEncoding("Windows-1251"));
+				StreamWriter sw = new StreamWriter(sfd.FileName, false);   //, Encoding.GetEncoding("Windows-1251")
 
 				string namefile;
 				string pathfile;
