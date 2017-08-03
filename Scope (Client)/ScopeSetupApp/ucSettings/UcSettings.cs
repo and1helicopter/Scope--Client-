@@ -344,5 +344,10 @@ namespace ScopeSetupApp.ucSettings
 			//Если конфиграция успешно получена, то выводим конфигурацию
 			Invoke(new UpdateLabelConfig(UpdateLabelScopeConfig), ScopeConfig.StatusOscil == 0x0001);
 		}
+
+		private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+		{
+			ScopeConfig.CodeDevice = Convert.ToByte(1 << Convert.ToInt32(numericUpDown1.Value));
+		}
 	}
 }

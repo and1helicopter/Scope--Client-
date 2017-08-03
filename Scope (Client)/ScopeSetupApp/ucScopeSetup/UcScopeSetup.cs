@@ -730,6 +730,7 @@ namespace ScopeSetupApp.ucScopeSetup
 		private void WriteConfigToSystem()
 		{
 			ScopeConfig.ChangeScopeConfig = true;
+			ScopeConfig.SendNewConfig = true;
 			//_mainForm.
 			CalcOscillConfig();
 			_writeConfigStep = 0;
@@ -796,6 +797,8 @@ namespace ScopeSetupApp.ucScopeSetup
 			{
 				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Нарушена целостность данных", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+
+			ScopeConfig.SendNewConfig = false;
 		}
 
 		private void writeToSystemBtn_Click(object sender, EventArgs e)

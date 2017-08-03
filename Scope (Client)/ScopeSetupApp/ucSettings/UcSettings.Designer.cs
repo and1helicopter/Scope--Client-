@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcSettings));
 			this.formats_tabControl = new System.Windows.Forms.TabControl();
 			this.formats_tab = new System.Windows.Forms.TabPage();
@@ -48,6 +48,13 @@
 			this.old_toolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.info_format_label = new System.Windows.Forms.ToolStripLabel();
 			this.Config_tab = new System.Windows.Forms.TabPage();
+			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.label8 = new System.Windows.Forms.Label();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.label6 = new System.Windows.Forms.Label();
+			this.label7 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
@@ -57,15 +64,13 @@
 			this.OscilCmndAddr_textBox = new System.Windows.Forms.TextBox();
 			this.OscilCmndAddr_label = new System.Windows.Forms.Label();
 			this.updateConfig_button = new System.Windows.Forms.Button();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
 			this.formats_tabControl.SuspendLayout();
 			this.formats_tab.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormatsdataGridView)).BeginInit();
 			this.toolStrip1.SuspendLayout();
 			this.Config_tab.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// formats_tabControl
@@ -112,14 +117,14 @@
             this.aCol,
             this.bCol,
             this.smallerCol});
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.FormatsdataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.FormatsdataGridView.DefaultCellStyle = dataGridViewCellStyle6;
 			this.FormatsdataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.FormatsdataGridView.GridColor = System.Drawing.SystemColors.ControlLight;
 			this.FormatsdataGridView.Location = new System.Drawing.Point(3, 41);
@@ -278,19 +283,9 @@
 			// 
 			// Config_tab
 			// 
-			this.Config_tab.Controls.Add(this.label1);
-			this.Config_tab.Controls.Add(this.label6);
-			this.Config_tab.Controls.Add(this.label7);
-			this.Config_tab.Controls.Add(this.label5);
-			this.Config_tab.Controls.Add(this.label4);
-			this.Config_tab.Controls.Add(this.label3);
-			this.Config_tab.Controls.Add(this.label2);
-			this.Config_tab.Controls.Add(this.configToSystem_label);
-			this.Config_tab.Controls.Add(this.ConfigAddr_textBox);
-			this.Config_tab.Controls.Add(this.ConfigAddr_label);
-			this.Config_tab.Controls.Add(this.OscilCmndAddr_textBox);
-			this.Config_tab.Controls.Add(this.OscilCmndAddr_label);
-			this.Config_tab.Controls.Add(this.updateConfig_button);
+			this.Config_tab.Controls.Add(this.groupBox1);
+			this.Config_tab.Controls.Add(this.label8);
+			this.Config_tab.Controls.Add(this.numericUpDown1);
 			this.Config_tab.Location = new System.Drawing.Point(4, 4);
 			this.Config_tab.Margin = new System.Windows.Forms.Padding(0);
 			this.Config_tab.Name = "Config_tab";
@@ -300,123 +295,167 @@
 			this.Config_tab.Text = "Конфигурация";
 			this.Config_tab.UseVisualStyleBackColor = true;
 			// 
-			// label4
+			// numericUpDown1
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(15, 165);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(35, 13);
-			this.label4.TabIndex = 41;
-			this.label4.Text = "label4";
+			this.numericUpDown1.Location = new System.Drawing.Point(385, 42);
+			this.numericUpDown1.Maximum = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+			this.numericUpDown1.Name = "numericUpDown1";
+			this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDown1.TabIndex = 47;
+			this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
 			// 
-			// label3
+			// label8
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(108, 130);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(35, 13);
-			this.label3.TabIndex = 40;
-			this.label3.Text = "label3";
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(382, 22);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(168, 13);
+			this.label8.TabIndex = 48;
+			this.label8.Text = "Метка бита загрузки в статусе:";
 			// 
-			// label2
+			// groupBox1
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(108, 114);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(35, 13);
-			this.label2.TabIndex = 39;
-			this.label2.Text = "label2";
-			// 
-			// configToSystem_label
-			// 
-			this.configToSystem_label.AutoSize = true;
-			this.configToSystem_label.Location = new System.Drawing.Point(15, 97);
-			this.configToSystem_label.Name = "configToSystem_label";
-			this.configToSystem_label.Size = new System.Drawing.Size(138, 13);
-			this.configToSystem_label.TabIndex = 38;
-			this.configToSystem_label.Text = "Конфигурация в системе:";
-			// 
-			// ConfigAddr_textBox
-			// 
-			this.ConfigAddr_textBox.Location = new System.Drawing.Point(140, 19);
-			this.ConfigAddr_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.ConfigAddr_textBox.Name = "ConfigAddr_textBox";
-			this.ConfigAddr_textBox.Size = new System.Drawing.Size(116, 20);
-			this.ConfigAddr_textBox.TabIndex = 37;
-			this.ConfigAddr_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			// 
-			// ConfigAddr_label
-			// 
-			this.ConfigAddr_label.Location = new System.Drawing.Point(8, 15);
-			this.ConfigAddr_label.Name = "ConfigAddr_label";
-			this.ConfigAddr_label.Size = new System.Drawing.Size(115, 26);
-			this.ConfigAddr_label.TabIndex = 36;
-			this.ConfigAddr_label.Text = "Configuration Address";
-			this.ConfigAddr_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// OscilCmndAddr_textBox
-			// 
-			this.OscilCmndAddr_textBox.Location = new System.Drawing.Point(140, 42);
-			this.OscilCmndAddr_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-			this.OscilCmndAddr_textBox.Name = "OscilCmndAddr_textBox";
-			this.OscilCmndAddr_textBox.Size = new System.Drawing.Size(116, 20);
-			this.OscilCmndAddr_textBox.TabIndex = 35;
-			this.OscilCmndAddr_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			// 
-			// OscilCmndAddr_label
-			// 
-			this.OscilCmndAddr_label.Location = new System.Drawing.Point(12, 39);
-			this.OscilCmndAddr_label.Name = "OscilCmndAddr_label";
-			this.OscilCmndAddr_label.Size = new System.Drawing.Size(111, 26);
-			this.OscilCmndAddr_label.TabIndex = 34;
-			this.OscilCmndAddr_label.Text = "Oscil Cmnd Address";
-			this.OscilCmndAddr_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// updateConfig_button
-			// 
-			this.updateConfig_button.Location = new System.Drawing.Point(154, 69);
-			this.updateConfig_button.Name = "updateConfig_button";
-			this.updateConfig_button.Size = new System.Drawing.Size(88, 25);
-			this.updateConfig_button.TabIndex = 0;
-			this.updateConfig_button.Text = "Обновить";
-			this.updateConfig_button.UseVisualStyleBackColor = true;
-			this.updateConfig_button.Click += new System.EventHandler(this.button1_Click);
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(108, 147);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(35, 13);
-			this.label5.TabIndex = 43;
-			this.label5.Text = "label5";
+			this.groupBox1.Controls.Add(this.label1);
+			this.groupBox1.Controls.Add(this.label6);
+			this.groupBox1.Controls.Add(this.label7);
+			this.groupBox1.Controls.Add(this.label5);
+			this.groupBox1.Controls.Add(this.label4);
+			this.groupBox1.Controls.Add(this.label3);
+			this.groupBox1.Controls.Add(this.label2);
+			this.groupBox1.Controls.Add(this.configToSystem_label);
+			this.groupBox1.Controls.Add(this.ConfigAddr_textBox);
+			this.groupBox1.Controls.Add(this.ConfigAddr_label);
+			this.groupBox1.Controls.Add(this.OscilCmndAddr_textBox);
+			this.groupBox1.Controls.Add(this.OscilCmndAddr_label);
+			this.groupBox1.Controls.Add(this.updateConfig_button);
+			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
+			this.groupBox1.Location = new System.Drawing.Point(3, 3);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(267, 452);
+			this.groupBox1.TabIndex = 49;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Конфигурация в системе";
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(15, 147);
+			this.label1.Location = new System.Drawing.Point(13, 148);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(79, 13);
-			this.label1.TabIndex = 46;
+			this.label1.TabIndex = 59;
 			this.label1.Text = "Предыстории:";
 			// 
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(15, 130);
+			this.label6.Location = new System.Drawing.Point(13, 131);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(53, 13);
-			this.label6.TabIndex = 45;
+			this.label6.TabIndex = 58;
 			this.label6.Text = "Каналов:";
 			// 
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(15, 114);
+			this.label7.Location = new System.Drawing.Point(13, 115);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(87, 13);
-			this.label7.TabIndex = 44;
+			this.label7.TabIndex = 57;
 			this.label7.Text = "Осциллограмм:";
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(106, 148);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(35, 13);
+			this.label5.TabIndex = 56;
+			this.label5.Text = "label5";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(13, 166);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(35, 13);
+			this.label4.TabIndex = 55;
+			this.label4.Text = "label4";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(106, 131);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(35, 13);
+			this.label3.TabIndex = 54;
+			this.label3.Text = "label3";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(106, 115);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(35, 13);
+			this.label2.TabIndex = 53;
+			this.label2.Text = "label2";
+			// 
+			// configToSystem_label
+			// 
+			this.configToSystem_label.AutoSize = true;
+			this.configToSystem_label.Location = new System.Drawing.Point(13, 98);
+			this.configToSystem_label.Name = "configToSystem_label";
+			this.configToSystem_label.Size = new System.Drawing.Size(138, 13);
+			this.configToSystem_label.TabIndex = 52;
+			this.configToSystem_label.Text = "Конфигурация в системе:";
+			// 
+			// ConfigAddr_textBox
+			// 
+			this.ConfigAddr_textBox.Location = new System.Drawing.Point(138, 20);
+			this.ConfigAddr_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.ConfigAddr_textBox.Name = "ConfigAddr_textBox";
+			this.ConfigAddr_textBox.Size = new System.Drawing.Size(116, 20);
+			this.ConfigAddr_textBox.TabIndex = 51;
+			this.ConfigAddr_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// ConfigAddr_label
+			// 
+			this.ConfigAddr_label.Location = new System.Drawing.Point(6, 16);
+			this.ConfigAddr_label.Name = "ConfigAddr_label";
+			this.ConfigAddr_label.Size = new System.Drawing.Size(115, 26);
+			this.ConfigAddr_label.TabIndex = 50;
+			this.ConfigAddr_label.Text = "Configuration Address";
+			this.ConfigAddr_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// OscilCmndAddr_textBox
+			// 
+			this.OscilCmndAddr_textBox.Location = new System.Drawing.Point(138, 43);
+			this.OscilCmndAddr_textBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.OscilCmndAddr_textBox.Name = "OscilCmndAddr_textBox";
+			this.OscilCmndAddr_textBox.Size = new System.Drawing.Size(116, 20);
+			this.OscilCmndAddr_textBox.TabIndex = 49;
+			this.OscilCmndAddr_textBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			// 
+			// OscilCmndAddr_label
+			// 
+			this.OscilCmndAddr_label.Location = new System.Drawing.Point(10, 40);
+			this.OscilCmndAddr_label.Name = "OscilCmndAddr_label";
+			this.OscilCmndAddr_label.Size = new System.Drawing.Size(111, 26);
+			this.OscilCmndAddr_label.TabIndex = 48;
+			this.OscilCmndAddr_label.Text = "Oscil Cmnd Address";
+			this.OscilCmndAddr_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// updateConfig_button
+			// 
+			this.updateConfig_button.Location = new System.Drawing.Point(152, 70);
+			this.updateConfig_button.Name = "updateConfig_button";
+			this.updateConfig_button.Size = new System.Drawing.Size(88, 25);
+			this.updateConfig_button.TabIndex = 47;
+			this.updateConfig_button.Text = "Обновить";
+			this.updateConfig_button.UseVisualStyleBackColor = true;
 			// 
 			// UcSettings
 			// 
@@ -439,6 +478,9 @@
 			this.toolStrip1.PerformLayout();
 			this.Config_tab.ResumeLayout(false);
 			this.Config_tab.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -454,15 +496,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn bCol;
 		private System.Windows.Forms.DataGridViewTextBoxColumn smallerCol;
 		private System.Windows.Forms.TabPage formats_tab;
-		private System.Windows.Forms.Button updateConfig_button;
-		private System.Windows.Forms.TextBox ConfigAddr_textBox;
-		private System.Windows.Forms.Label ConfigAddr_label;
-		private System.Windows.Forms.TextBox OscilCmndAddr_textBox;
-		private System.Windows.Forms.Label OscilCmndAddr_label;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label configToSystem_label;
 		private System.Windows.Forms.ToolStrip toolStrip1;
 		private System.Windows.Forms.ToolStripButton open_toolStripButton;
 		private System.Windows.Forms.ToolStripButton save_toolStripButton;
@@ -472,9 +505,21 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripButton old_toolStripButton;
 		private System.Windows.Forms.ToolStripLabel info_format_label;
-		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label configToSystem_label;
+		private System.Windows.Forms.TextBox ConfigAddr_textBox;
+		private System.Windows.Forms.Label ConfigAddr_label;
+		private System.Windows.Forms.TextBox OscilCmndAddr_textBox;
+		private System.Windows.Forms.Label OscilCmndAddr_label;
+		private System.Windows.Forms.Button updateConfig_button;
 	}
 }

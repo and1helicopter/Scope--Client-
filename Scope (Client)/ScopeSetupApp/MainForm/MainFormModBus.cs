@@ -733,7 +733,10 @@ namespace ScopeSetupApp.MainForm
 			ScopeConfig.ChangeScopeConfig = false;
 			_updateTimer = true;
 
-			_ucScopeSetup?.StatusConfigToSystemStrLabel();
+			if (ScopeConfig.SendNewConfig)
+			{
+				_ucScopeSetup?.StatusConfigToSystemStrLabel();
+			}
 			_ucSettings?.UpdateConfig();
 			if (foolStatus)
 			{

@@ -29,8 +29,8 @@ namespace ScopeSetupApp
 		}
 
 		public static byte CodeDevice  = 0x00;
-
 		public static bool ConnectMcu { get; set; }
+		public static bool SendNewConfig { get; set; }
 
 		//Частота выборки без делителя
 		public static ushort SampleRate { get; set; }
