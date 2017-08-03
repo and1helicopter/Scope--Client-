@@ -72,7 +72,7 @@
 			// 
 			// ButtonsTimer
 			// 
-			this.ButtonsTimer.Enabled = true;
+			this.ButtonsTimer.Enabled = false;
 			this.ButtonsTimer.Interval = 200;
 			this.ButtonsTimer.Tick += new System.EventHandler(this.ButtonsTimer_Tick);
 			// 

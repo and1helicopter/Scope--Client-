@@ -145,7 +145,7 @@ namespace ScopeSetupApp.ucScopeConfig
 			}
 			catch
 			{
-				MessageBox.Show(@"Неправильно введены данные", @"Ошибка",  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(@"Неправильно введены данные", @"Error",  MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			str = Convert.ToString(i);
 			//if (del != "") str = str.Replace(del, "");
@@ -188,7 +188,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка загрузки данных", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(@"Ошибка загрузки данных", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 			}
@@ -219,7 +219,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка загрузки данных", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(@"Ошибка загрузки данных", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				InitTable();
@@ -464,7 +464,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				}
 				catch 
 				{
-					MessageBox.Show(@"Неправильно заполнены поля каналов");
+					MessageBox.Show(@"Неправильно заполнены поля каналов", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 			}

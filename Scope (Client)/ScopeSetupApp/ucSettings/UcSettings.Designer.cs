@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcSettings));
 			this.formats_tabControl = new System.Windows.Forms.TabControl();
 			this.formats_tab = new System.Windows.Forms.TabPage();
@@ -117,14 +117,14 @@
             this.aCol,
             this.bCol,
             this.smallerCol});
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.FormatsdataGridView.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.FormatsdataGridView.DefaultCellStyle = dataGridViewCellStyle2;
 			this.FormatsdataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.FormatsdataGridView.GridColor = System.Drawing.SystemColors.ControlLight;
 			this.FormatsdataGridView.Location = new System.Drawing.Point(3, 41);
@@ -434,6 +434,7 @@
 			this.updateConfig_button.TabIndex = 47;
 			this.updateConfig_button.Text = "Обновить";
 			this.updateConfig_button.UseVisualStyleBackColor = true;
+			this.updateConfig_button.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// label8
 			// 
@@ -446,14 +447,14 @@
 			// 
 			// numericUpDown1
 			// 
-			this.numericUpDown1.Location = new System.Drawing.Point(450, 23);
+			this.numericUpDown1.Location = new System.Drawing.Point(472, 23);
 			this.numericUpDown1.Maximum = new decimal(new int[] {
             7,
             0,
             0,
             0});
 			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDown1.Size = new System.Drawing.Size(65, 20);
 			this.numericUpDown1.TabIndex = 47;
 			this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
 			// 

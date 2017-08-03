@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using ScopeSetupApp.Format;
@@ -55,17 +54,11 @@ namespace ScopeSetupApp.MainForm
 			}
 			catch
 			{
-				MessageBox.Show(@"Файл с настройками не найден!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			  //  Application.Exit();
+				MessageBox.Show(@"Файл с настройками не найден!", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 
 			var xmls = doc.GetElementsByTagName(@"MainWindow");
 
-			if (xmls.Count != 1)
-			{
-				//MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				//Application.Exit();
-			}
 			var xmlNode = xmls[0];
 			try
 			{
@@ -78,7 +71,6 @@ namespace ScopeSetupApp.MainForm
 				newHeight = 600;
 				newWidth = 800;
 				newWinState = 0;
-				//MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -152,6 +144,7 @@ namespace ScopeSetupApp.MainForm
 			Size = size;
 
 			WindowState = winState == 1 ? FormWindowState.Maximized : FormWindowState.Normal;
+			ButtonsTimer.Enabled = true;
 		}
 
 		private static void InitializeFormat()
@@ -169,7 +162,7 @@ namespace ScopeSetupApp.MainForm
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message);
+				MessageBox.Show(e.Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -386,11 +379,6 @@ namespace ScopeSetupApp.MainForm
 
 			var xmls = doc.GetElementsByTagName("ComPort");
 
-			if (xmls.Count != 1)
-			{
-				//MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				//Application.Exit();
-			}
 			var xmlNode = xmls[0];
 			try
 			{
@@ -405,7 +393,7 @@ namespace ScopeSetupApp.MainForm
 				newSpeed = "9600";
 				newParity = "Odd";
 				newStopBits = "One";
-				MessageBox.Show(@"Ошибки в файле с настройками!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(@"Ошибки в файле с настройками!", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 
@@ -413,7 +401,7 @@ namespace ScopeSetupApp.MainForm
 		{
 			if (SerialPort.PortName.Length == 0)
 			{
-				MessageBox.Show(@"Нет ни одного доступного COM-порта!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Нет ни одного доступного COM-порта!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 
@@ -1080,7 +1068,7 @@ namespace ScopeSetupApp.MainForm
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка при создании файла!", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(@"Ошибка при создании файла!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 
@@ -1100,7 +1088,7 @@ namespace ScopeSetupApp.MainForm
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка при записи в файл!", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(@"Ошибка при записи в файл!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				sw.Close();
@@ -1122,7 +1110,7 @@ namespace ScopeSetupApp.MainForm
 				 }
 				 catch
 				 {
-					 MessageBox.Show(@"Ошибка при создании файла!", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					 MessageBox.Show(@"Ошибка при создании файла!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					 return;
 				 }
 
@@ -1155,7 +1143,7 @@ namespace ScopeSetupApp.MainForm
 				 }
 				 catch
 				 {
-					 MessageBox.Show(@"Ошибка при записи в файл!", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					 MessageBox.Show(@"Ошибка при записи в файл!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					 return;
 				 }
 				 sw.Close();
@@ -1167,7 +1155,7 @@ namespace ScopeSetupApp.MainForm
 				 }
 				 catch
 				 {
-					 MessageBox.Show(@"Ошибка при создании файла!", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					 MessageBox.Show(@"Ошибка при создании файла!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					 return;
 				 }
 				 try
@@ -1180,7 +1168,7 @@ namespace ScopeSetupApp.MainForm
 				 }
 				 catch
 				 {
-					 MessageBox.Show(@"Ошибка при записи в файл!", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					 MessageBox.Show(@"Ошибка при записи в файл!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					 return;
 				 }
 				 sw.Close();
@@ -1188,7 +1176,7 @@ namespace ScopeSetupApp.MainForm
 			#endregion
 
 			_loadOscNum = 0;
-			DialogResult dialogResult = MessageBox.Show(@"Открыть осциллограмму?", @"ScopeViewer", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+			DialogResult dialogResult = MessageBox.Show(@"Открыть осциллограмму?", @"Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if (dialogResult == DialogResult.Yes)
 			{
 				ExecuteScopeView(sfd.FileName);
@@ -1225,7 +1213,7 @@ namespace ScopeSetupApp.MainForm
 			}
 			catch
 			{
-				MessageBox.Show(@"Программа для просмотра осциллограмм не найдена!", @"ScopeViewer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Программа для просмотра осциллограмм не найдена!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 

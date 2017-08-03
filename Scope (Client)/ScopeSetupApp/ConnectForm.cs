@@ -34,7 +34,7 @@ namespace ScopeSetupApp
 			}
 			catch
 			{
-				MessageBox.Show(@"Ошибка при создании файла!", @"Настройка соединения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Ошибка при создании файла!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace ScopeSetupApp
 			}
 			catch
 			{
-				MessageBox.Show(@"Ошибка при открытии COM - порта!", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Ошибка при открытии COM - порта!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 			Close();

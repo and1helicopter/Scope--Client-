@@ -213,7 +213,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				_nowScopeCount = Convert.ToUInt16(chCountRadioButton.Text);
 				if (_nowScopeCount < 1 || _nowScopeCount > 32)
 				{
-					MessageBox.Show(@"Ошибка в поле Количество осциллограмм");
+					MessageBox.Show(@"Ошибка в поле Количество осциллограмм", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					chCountRadioButton.Clear();
 				}
 			}
@@ -239,7 +239,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				_nowHystory = Convert.ToUInt16(hystoryRadioButton.Text);
 				if (_nowHystory < 1 || _nowHystory > 99)
 				{
-					MessageBox.Show(@"Ошибка в поле Предыстория");
+					MessageBox.Show(@"Ошибка в поле Предыстория", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					hystoryRadioButton.Clear();
 				}
 			}
@@ -262,7 +262,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				_nowOscFreq = Convert.ToUInt16(oscFreqRadioButton.Text);
 				if (_nowOscFreq < 1 || _nowOscFreq > 1000)
 				{
-					MessageBox.Show(@"Ошибка в поле Делитель");
+					MessageBox.Show(@"Ошибка в поле Делитель", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					oscFreqRadioButton.Clear();
 				}
 			}
@@ -751,7 +751,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			{
 				if (Visible)
 				{
-					MessageBox.Show(@"Ошибка связи!", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(@"Ошибка связи!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 			else
@@ -783,15 +783,18 @@ namespace ScopeSetupApp.ucScopeSetup
 		{
 			if ((ScopeConfig.StatusOscil & 0x0001) == 0x0001)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена и принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена и принята", @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0002) == 0x0002)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена, но не принята", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена, но не принята", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0004) == 0x0004)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Нарушена целостность данных", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Нарушена целостность данных", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 			ScopeConfig.SendNewConfig = false;
@@ -801,17 +804,17 @@ namespace ScopeSetupApp.ucScopeSetup
 		{
 			if (_nowMaxChannelCount < 1 || _nowMaxChannelCount > 32)
 			{
-				MessageBox.Show(@"Выбрано неверное число каналов", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Выбрано неверное число каналов", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 			if (!MainForm.MainForm.SerialPort.IsOpen)
 			{
-				MessageBox.Show(@"Соединение с системой не установлено!", @"Настройка осциллографа", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Соединение с системой не установлено!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 
 			// ReSharper disable once LocalizableElement
-			if (MessageBox.Show("Изменить конфигурацию осциллографа?\n" + @"Все текущие осциллограммы будут удалены из памяти системы!", @"Настройка осциллографа", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+			if (MessageBox.Show(@"Изменить конфигурацию осциллографа?" + "\n" + @"Все текущие осциллограммы будут удалены из памяти системы!", @"Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
 			{
 				return;
 			}
@@ -854,7 +857,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка загрузки данных", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(@"Ошибка загрузки данных", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 			}
@@ -896,7 +899,7 @@ namespace ScopeSetupApp.ucScopeSetup
 					channelInLists = true;
 				}
 			}
-			if (channelInLists) MessageBox.Show(str);
+			if (channelInLists) MessageBox.Show(str, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		//Сохранение осциллограммы в файл
@@ -904,7 +907,7 @@ namespace ScopeSetupApp.ucScopeSetup
 		{
 			if (_nowMaxChannelCount != ChNames().Count)
 			{
-				MessageBox.Show(@"Количество осциллографируемых и выбранных каналов не совпадает");
+				MessageBox.Show(@"Количество осциллографируемых и выбранных каналов не совпадает", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
@@ -979,7 +982,7 @@ namespace ScopeSetupApp.ucScopeSetup
 		{
 			if (ScopeConfig.ChannelCount == 0)
 			{
-				MessageBox.Show(@"В системе отсутствует конфигурация.");
+				MessageBox.Show(@"В системе отсутствует конфигурация", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
@@ -1031,7 +1034,7 @@ namespace ScopeSetupApp.ucScopeSetup
 					channelInLists = true;
 				}
 			}
-			if (channelInLists) MessageBox.Show(str);
+			if (channelInLists) MessageBox.Show(str, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 			SizeTrackBar();
 		}
@@ -1048,7 +1051,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка при чтении конфигурации с платы", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(@"Ошибка при чтении конфигурации с платы", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}

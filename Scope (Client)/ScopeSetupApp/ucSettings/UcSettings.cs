@@ -56,7 +56,7 @@ namespace ScopeSetupApp.ucSettings
 			}
 			catch
 			{
-				MessageBox.Show(@"Неверно введены данные", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(@"Неверно введены данные", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				FormatsdataGridView.Rows[i.RowIndex].Cells[i.ColumnIndex].Value = i.RowIndex < FormatConverter.FormatList.Count ? FormatConverter.FormatList[i.RowIndex].Smaller : 0;
 			}
 		}
@@ -70,7 +70,7 @@ namespace ScopeSetupApp.ucSettings
 			}
 			else
 			{
-				MessageBox.Show(@"Неверно введены данные", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(@"Неверно введены данные", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				FormatsdataGridView.Rows[i.RowIndex].Cells[i.ColumnIndex].Value = FormatConverter.FormatList[i.RowIndex].BStr;
 			}
 		}
@@ -84,7 +84,7 @@ namespace ScopeSetupApp.ucSettings
 			}
 			else
 			{
-				MessageBox.Show(@"Неверно введены данные", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(@"Неверно введены данные", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				FormatsdataGridView.Rows[i.RowIndex].Cells[i.ColumnIndex].Value = FormatConverter.FormatList[i.RowIndex].AStr;
 			}
 		}
@@ -146,7 +146,7 @@ namespace ScopeSetupApp.ucSettings
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка загрузки данных", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(@"Ошибка загрузки данных", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 			}
@@ -283,7 +283,7 @@ namespace ScopeSetupApp.ucSettings
 			}
 			catch
 			{
-				MessageBox.Show(@"Неправильно введены данные", @"Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(@"Неправильно введены данные", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			str = Convert.ToString(i);
 			//if (del != "") str = str.Replace(del, "");
@@ -319,10 +319,6 @@ namespace ScopeSetupApp.ucSettings
 			return str;
 		}
 
-		private void button2_Click(object sender, EventArgs e)
-		{
-			Invoke(new UpdateLabelConfig(UpdateLabelScopeConfig), true);
-		}
 
 		private void InitConfig()
 		{
