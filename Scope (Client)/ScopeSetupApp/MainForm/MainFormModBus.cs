@@ -355,6 +355,7 @@ namespace ScopeSetupApp.MainForm
 				if (!_loadOscData)
 				{
 					HideProgressBarInvoke();
+
 					return;
 				}
 				if (!SerialPort.portError)

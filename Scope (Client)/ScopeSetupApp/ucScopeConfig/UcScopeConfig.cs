@@ -27,12 +27,9 @@ namespace ScopeSetupApp.ucScopeConfig
 			"64"
 		};
 
-		private readonly MainForm.MainForm _mainForm;
 
-		public UcScopeConfig(MainForm.MainForm form)
+		public UcScopeConfig()
 		{
-			_mainForm = form;
-
 			InitializeComponent();
 
 			Column_channelFormats.Items.Clear();
@@ -227,7 +224,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				}
 				InitTable();
 
-				_mainForm.ConfigStrLabel();
+				Program.MainFormWin.ConfigStrLabel();
 			}
 		}
 

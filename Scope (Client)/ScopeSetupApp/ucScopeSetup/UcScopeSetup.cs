@@ -184,12 +184,8 @@ namespace ScopeSetupApp.ucScopeSetup
 
 		#endregion
 
-		private readonly MainForm.MainForm _mainForm;
-
-		public UcScopeSetup(string[] agrs, MainForm.MainForm form)
+		public UcScopeSetup(string[] agrs)
 		{
-			_mainForm = form;
-
 			InitializeComponent();
 
 			InitTable(agrs);
@@ -777,7 +773,7 @@ namespace ScopeSetupApp.ucScopeSetup
 					else
 					{
 						_writeStep = 0;
-						_mainForm.ConfigCheack();
+						Program.MainFormWin.ConfigCheack();
 					}
 				}
 			}

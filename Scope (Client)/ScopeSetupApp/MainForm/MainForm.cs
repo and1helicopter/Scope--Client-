@@ -216,7 +216,7 @@ namespace ScopeSetupApp.MainForm
 		private void toolStripButton1_Click(object sender, EventArgs e)
 		{
 			VarificationUc();
-			_ucScopeSetup = new UcScopeSetup(_argsG, this)
+			_ucScopeSetup = new UcScopeSetup(_argsG)
 			{
 				Dock = DockStyle.Fill
 			};
@@ -225,7 +225,7 @@ namespace ScopeSetupApp.MainForm
 			UpdateButtons();
 
 			panel1.Controls.Add(_ucScopeSetup);
-			_ucScopeSetup.Show();
+			_ucScopeSetup?.Show();
 			Refresh();
 		}
 
@@ -234,7 +234,7 @@ namespace ScopeSetupApp.MainForm
 		private void toolStripButton3_Click(object sender, EventArgs e)
 		{
 			VarificationUc();
-			_ucScopeConfig = new UcScopeConfig(this)
+			_ucScopeConfig = new UcScopeConfig()
 			{
 				Dock = DockStyle.Fill
 			};
@@ -243,7 +243,7 @@ namespace ScopeSetupApp.MainForm
 			UpdateButtons();
 
 			panel1.Controls.Add(_ucScopeConfig);
-			_ucScopeConfig.Show();
+			_ucScopeConfig?.Show();
 			Refresh();
 		}
 
@@ -254,7 +254,7 @@ namespace ScopeSetupApp.MainForm
 			VarificationUc();
 			if (_ucSettings == null)
 			{
-				_ucSettings = new UcSettings(this)
+				_ucSettings = new UcSettings()
 				{
 					Dock = DockStyle.Fill
 				};
@@ -264,7 +264,7 @@ namespace ScopeSetupApp.MainForm
 			UpdateButtons();
 
 			panel1.Controls.Add(_ucSettings);
-			_ucSettings.Show();
+			_ucSettings?.Show();
 			Refresh();
 		}
 
@@ -283,7 +283,6 @@ namespace ScopeSetupApp.MainForm
 
 		private void UpdateButtons()
 		{
-
 			if (_buttonsStatus == 0x00)
 			{
 				toolStrip1.Size = new Size(244, 444);
@@ -292,6 +291,16 @@ namespace ScopeSetupApp.MainForm
 				UpdateButtonsReset(ConfigMCUButton);
 				UpdateButtonsReset(OpenScope_Button);
 				UpdateButtonsReset(Setting_Button);
+
+				panel1.Controls.Remove(_ucSettings);
+				panel1.Controls.Remove(_ucScopeConfig);
+				panel1.Controls.Remove(_ucScopeSetup);
+
+				panel1.Controls.Clear();
+
+				_ucSettings = null;
+				_ucScopeConfig = null;
+				_ucScopeSetup = null;
 
 				UpdateGrid();
 			}
@@ -324,7 +333,7 @@ namespace ScopeSetupApp.MainForm
 				UpdateGrid();
 				panel1.Controls.Clear();
 			}
-			
+
 			UpdateStatusLoad();
 			Refresh();
 			UpdateStatusButtons();
@@ -446,6 +455,7 @@ namespace ScopeSetupApp.MainForm
 		private int _clearOscNum = 0x7FFF;
 
 		private bool _updateTimer;
+		private bool _createFileFlag;
 
 		private void ButtonsTimer_Tick(object sender, EventArgs e)
 		{
@@ -456,6 +466,12 @@ namespace ScopeSetupApp.MainForm
 				UpdateStatusConnect();
 				UpdateStatusConfigToSystemStrLabel();
 				UpdateGrid();
+
+				if (_createFileFlag)
+				{
+					_createFileFlag = false;
+					CreateFile();
+				}
 
 				if (_updateTimer)
 				{
@@ -1226,20 +1242,8 @@ namespace ScopeSetupApp.MainForm
 			}
 		}
 
-		private bool _createFileFlag;
 		private int _createFileNum;
 		
-		private void timer2_Tick(object sender, EventArgs e)
-		{
-			timer2.Enabled = false;
-			if (_createFileFlag)
-			{
-				_createFileFlag = false;
-				CreateFile();
-			}
-			timer2.Enabled = true;
-		}
-
 		//Ручной запуск осциллографа
 		private void manStartBtn_Click(object sender, EventArgs e)
 		{

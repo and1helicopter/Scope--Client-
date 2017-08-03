@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcSettings));
 			this.formats_tabControl = new System.Windows.Forms.TabControl();
 			this.formats_tab = new System.Windows.Forms.TabPage();
@@ -48,8 +48,6 @@
 			this.old_toolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.info_format_label = new System.Windows.Forms.ToolStripLabel();
 			this.Config_tab = new System.Windows.Forms.TabPage();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.label8 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
@@ -64,13 +62,15 @@
 			this.OscilCmndAddr_textBox = new System.Windows.Forms.TextBox();
 			this.OscilCmndAddr_label = new System.Windows.Forms.Label();
 			this.updateConfig_button = new System.Windows.Forms.Button();
+			this.label8 = new System.Windows.Forms.Label();
+			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.formats_tabControl.SuspendLayout();
 			this.formats_tab.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.FormatsdataGridView)).BeginInit();
 			this.toolStrip1.SuspendLayout();
 			this.Config_tab.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			this.groupBox1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// formats_tabControl
@@ -117,14 +117,14 @@
             this.aCol,
             this.bCol,
             this.smallerCol});
-			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.FormatsdataGridView.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.FormatsdataGridView.DefaultCellStyle = dataGridViewCellStyle1;
 			this.FormatsdataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.FormatsdataGridView.GridColor = System.Drawing.SystemColors.ControlLight;
 			this.FormatsdataGridView.Location = new System.Drawing.Point(3, 41);
@@ -295,28 +295,6 @@
 			this.Config_tab.Text = "Конфигурация";
 			this.Config_tab.UseVisualStyleBackColor = true;
 			// 
-			// numericUpDown1
-			// 
-			this.numericUpDown1.Location = new System.Drawing.Point(385, 42);
-			this.numericUpDown1.Maximum = new decimal(new int[] {
-            7,
-            0,
-            0,
-            0});
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDown1.TabIndex = 47;
-			this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(382, 22);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(168, 13);
-			this.label8.TabIndex = 48;
-			this.label8.Text = "Метка бита загрузки в статусе:";
-			// 
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.label1);
@@ -457,6 +435,28 @@
 			this.updateConfig_button.Text = "Обновить";
 			this.updateConfig_button.UseVisualStyleBackColor = true;
 			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(276, 26);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(168, 13);
+			this.label8.TabIndex = 48;
+			this.label8.Text = "Метка бита загрузки в статусе:";
+			// 
+			// numericUpDown1
+			// 
+			this.numericUpDown1.Location = new System.Drawing.Point(450, 23);
+			this.numericUpDown1.Maximum = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+			this.numericUpDown1.Name = "numericUpDown1";
+			this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+			this.numericUpDown1.TabIndex = 47;
+			this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+			// 
 			// UcSettings
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -478,9 +478,9 @@
 			this.toolStrip1.PerformLayout();
 			this.Config_tab.ResumeLayout(false);
 			this.Config_tab.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
 			this.ResumeLayout(false);
 
 		}

@@ -10,11 +10,9 @@ namespace ScopeSetupApp.ucSettings
 {
 	public partial class UcSettings : UserControl
 	{
-		private readonly MainForm.MainForm _mainForm;
 
-		public UcSettings(MainForm.MainForm form)
+		public UcSettings()
 		{
-			_mainForm = form;
 
 			InitializeComponent();
 
@@ -167,7 +165,7 @@ namespace ScopeSetupApp.ucSettings
 		{
 			FormatConverter.OldFormat = !FormatConverter.OldFormat;
 			FormatConverter.UpdateVisualFormat();
-			_mainForm.FormatStrLabel();
+			Program.MainFormWin.FormatStrLabel();
 
 			OldFormatChange();
 		}
@@ -297,7 +295,7 @@ namespace ScopeSetupApp.ucSettings
 			ScopeSysType.ConfigurationAddr = Convert.ToUInt16(convert_text(ConfigAddr_textBox.Text, "0x"));
 			ScopeSysType.OscilCmndAddr = Convert.ToUInt16(convert_text(OscilCmndAddr_textBox.Text, "0x"));
 
-			_mainForm.ConfigCheack();
+			Program.MainFormWin.ConfigCheack();
 		}
 
 		private void UpdateLabelScopeConfig (bool status)

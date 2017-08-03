@@ -31,7 +31,6 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.ButtonsTimer = new System.Windows.Forms.Timer(this.components);
-			this.timer2 = new System.Windows.Forms.Timer(this.components);
 			this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
 			this.MainPanel = new System.Windows.Forms.Panel();
 			this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
@@ -76,11 +75,6 @@
 			this.ButtonsTimer.Enabled = true;
 			this.ButtonsTimer.Interval = 20;
 			this.ButtonsTimer.Tick += new System.EventHandler(this.ButtonsTimer_Tick);
-			// 
-			// timer2
-			// 
-			this.timer2.Enabled = true;
-			this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
 			// 
 			// toolStripContainer1
 			// 
@@ -427,10 +421,12 @@
 			// 
 			// MainForm
 			// 
+			this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1034, 511);
 			this.Controls.Add(this.toolStripContainer4);
+			this.DoubleBuffered = true;
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -470,7 +466,6 @@
 		#endregion
 
 		private System.Windows.Forms.Timer ButtonsTimer;
-		private System.Windows.Forms.Timer timer2;
 		private System.Windows.Forms.ToolStripContainer toolStripContainer1;
 		private System.Windows.Forms.Panel MainPanel;
 		private System.Windows.Forms.ToolStrip toolStrip1;
