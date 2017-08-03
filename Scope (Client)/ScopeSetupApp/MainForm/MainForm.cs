@@ -283,6 +283,7 @@ namespace ScopeSetupApp.MainForm
 
 		private void UpdateButtons()
 		{
+
 			if (_buttonsStatus == 0x00)
 			{
 				toolStrip1.Size = new Size(244, 444);
@@ -323,7 +324,8 @@ namespace ScopeSetupApp.MainForm
 				UpdateGrid();
 				panel1.Controls.Clear();
 			}
-
+			
+			UpdateStatusLoad();
 			Refresh();
 			UpdateStatusButtons();
 		}
@@ -662,6 +664,7 @@ namespace ScopeSetupApp.MainForm
 				loadDataProgressBar.Visible = true;
 				loadScopeToolStripLabel.Visible = true;
 			}
+			UpdateStatusLoad();
 			loadDataProgressBar.Value = (int)_loadOscilIndex;
 		}
 		private void UpdateLoadDataProgressBarInvoke()
@@ -679,7 +682,29 @@ namespace ScopeSetupApp.MainForm
 		{
 			Invoke(new NoParamDelegate(HideProgressBar), null);
 		}
-		
+
+		private void UpdateStatusLoad()
+		{
+			if (loadDataProgressBar.Visible)
+			{
+				if (_buttonsStatus != 0x00)
+				{
+					loadScopeToolStripLabel.Visible = false;
+					loadDataProgressBar.Size = new Size(50, 24);
+				}
+				else
+				{
+					loadScopeToolStripLabel.Visible = true;
+					loadDataProgressBar.Size = new Size(150, 24);
+				}
+			}
+			else
+			{
+				loadDataProgressBar.Visible = false;
+				loadScopeToolStripLabel.Visible = false;
+			}
+		}
+
 		//*************************** СКАЧИВАНИЕ ОСЦИЛЛОГРАММ В ФАЙЛ ************************************//
 		//***********************************************************************************************//
 		//***********************************************************************************************//
