@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Forms;
 using UniSerialPort;
+using MessageBox = System.Windows.MessageBox;
 
 namespace ScopeSetupApp.MainForm
 {
@@ -208,21 +211,21 @@ namespace ScopeSetupApp.MainForm
 
 			if ((byte) statusGet == 0x04)
 			{
-				if ((byte) (statusGet >> 8) == 0)
+				if ((byte)((statusGet >> 8) & (ushort)(1 << ScopeConfig.CodeDevice)) == (1 << ScopeConfig.CodeDevice))
 				{
-					//Если осциллограмма записанна, но ее никто не качает, то очищаем осциллограмму
-					ClearScopeStatus(index);
+					ushort[] statusSet =
+					{
+						Convert.ToUInt16(statusGet ^ (1 << 8 + ScopeConfig.CodeDevice))
+					};
+
+					SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, statusSet);
 				}
 				else
 				{
-					if ((byte)((statusGet >> 8) & (ushort)(1 << ScopeConfig.CodeDevice)) == (1 << ScopeConfig.CodeDevice))
+					MessageBoxResult dialogResult = MessageBox.Show("Осциллограмма может загружаться на другом устростве.\n Удалить осциллограмму?", @"Warring", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+					if (dialogResult == MessageBoxResult.Yes)
 					{
-						ushort[] statusSet =
-						{
-							Convert.ToUInt16(statusGet ^ (1 << 8 + ScopeConfig.CodeDevice))
-						};
-
-						SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, statusSet);
+						ClearScopeStatus(index);
 					}
 				}
 			}
