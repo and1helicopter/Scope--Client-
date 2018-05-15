@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO.Ports;
-using System.Linq;
 using System.Xml.Linq;
 using System.Xml;
 using System.Threading;
@@ -142,7 +141,6 @@ namespace UniSerialPort
 				Interval = 10
 			};
 			requestTimer.Elapsed += requestTimer_Tick;
-			
 		}
 
 		public void Open()

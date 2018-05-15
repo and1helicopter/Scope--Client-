@@ -609,7 +609,7 @@ namespace ScopeSetupApp.MainForm
 					}
 					else if (_oscilsStatus[i] > 4)
 					{
-						_statusButtons[i].BackColor = Color.SteelBlue;
+						_statusButtons[i].BackColor = Color.CornflowerBlue;
 						_statusButtons[i].Enabled = true;
 					}
 					else if (_oscilsStatus[i] == 4)

@@ -35,3 +35,9 @@ C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UniSerialPor
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UniSerialPort\obj\Debug\AsynchSerialPort.dll
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UniSerialPort\obj\Debug\AsynchSerialPort.pdb
 C:\Users\and1h\OneDrive\project\Oscil\Scope (Client)\Scope (Client)\UniSerialPort\obj\Debug\UniSerialPort.csprojResolveAssemblyReference.cache
+F:\project\Scope (Client)\Scope (Client)\UniSerialPort\bin\Debug\AsynchSerialPort.dll
+F:\project\Scope (Client)\Scope (Client)\UniSerialPort\bin\Debug\AsynchSerialPort.pdb
+F:\project\Scope (Client)\Scope (Client)\UniSerialPort\obj\Debug\UniSerialPort.csprojAssemblyReference.cache
+F:\project\Scope (Client)\Scope (Client)\UniSerialPort\obj\Debug\UniSerialPort.csproj.CoreCompileInputs.cache
+F:\project\Scope (Client)\Scope (Client)\UniSerialPort\obj\Debug\AsynchSerialPort.dll
+F:\project\Scope (Client)\Scope (Client)\UniSerialPort\obj\Debug\AsynchSerialPort.pdb

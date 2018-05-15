@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Forms;
 using UniSerialPort;
 using MessageBox = System.Windows.MessageBox;
 
@@ -122,7 +121,7 @@ namespace ScopeSetupApp.MainForm
 				{
 					if (_oscilsStatus[j] >= 4)
 					{
-						SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 136 + j * 6), 6, UpdateTimeStamp, j);
+						SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 136 + j * 4), 4, UpdateTimeStamp, j);
 					}
 				}
 			}
@@ -136,11 +135,11 @@ namespace ScopeSetupApp.MainForm
 
 				string str1 = (paramRtu[0] & 0x3F).ToString("X2") + "/" + ((paramRtu[0] >> 8) & 0x1F).ToString("X2") + @"/20" + (paramRtu[1] & 0xFF).ToString("X2");
 				string str2 = (paramRtu[3] & 0x3F).ToString("X2") + ":" + ((paramRtu[2] >> 8) & 0x7F).ToString("X2") + @":" + (paramRtu[2] & 0x7F).ToString("X2");
-				string str3 = ((paramRtu[4] *1000) >> 8).ToString("D3") + @"000";
+			    string str3 = ((paramRtu[3]  >> 6) & 0x3E7).ToString("D3"); 
 				string strTextButton = @"№" + (index + 1) + "\n" + str2 + "\n" + str1;
 				string strTitle = @"Осциллограмма №" + (index + 1) + "\n" + str1 + "\n" + str2;
-				string str = str1 + "," + str2 + @"." + str3;
-				try
+			    string str = str1 + "," + str2  + @"."+ str3;
+                try
 				{
 					var date = DateTime.Parse(str);
 					if (_oscilsStatus[index] >= 4)
@@ -249,7 +248,7 @@ namespace ScopeSetupApp.MainForm
 		{
 			ushort[] uv = { 1, 1, 1, 1 };
 
-			SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 4), null, RequestPriority.Normal, null, uv);
+			SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 4), null, RequestPriority.High, null, uv);
 		}
 
 
