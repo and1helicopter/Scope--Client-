@@ -12,8 +12,12 @@ namespace ScopeSetupApp.MainForm
 		public void SerialPortOpen()
 		{
 			SerialPort.Open();
-
-			ConfigCheack();
+            //Установлено соединение с COM портом
+		    if (SerialPort.IsOpen)
+		        CheackConnect();
+		    else
+		    {
+		    }
 		}
 
 		private bool _updateStatus;
@@ -53,67 +57,45 @@ namespace ScopeSetupApp.MainForm
 			UpdateOscilsStatusInvoke();
 		}
 
-		private delegate void SetStringDelegate(string parameter);
+	    private delegate void SetBoolDelegate(bool parameter);
 
-		private bool _connectToSysem;
+        private void SetEnableOrDisableLoadConfigToSystem(bool connect)
+	    {
+	        _ucScopeSetup?.ButtonsVisibale(connect);
+	    }
 
-		private void SetTimeLabel(string statusConnect)
+        private delegate void SetStringDelegate(string parameter);
+
+		private void SetComLabel(string status)
 		{
-			connect_toolStripStatusLabel.Text = statusConnect;
-			_connectToSysem = statusConnect == @"CONNECT";
-			SetEnableOrDisableLoadConfigToSystem(_connectToSysem);
+			com_toolStripStatusLabel.Text = status;
 		}
 
-		private void SetEnableOrDisableLoadConfigToSystem(bool connect)
+		private void UpdateStatusComPort()
 		{
-			_ucScopeSetup?.ButtonsVisibale(connect);
-		}
-
-		private void UpdateStatusConnect()
-		{
-			if (connect_toolStripStatusLabel != null)
+			if (com_toolStripStatusLabel != null)
 			{
-				Invoke(new SetStringDelegate(SetTimeLabel), SerialPort.IsOpen && !SerialPort.portError ? @"CONNECT" : @"NO CONNECT");
+				Invoke(new SetStringDelegate(SetComLabel), SerialPort.IsOpen ? @"COM: Открыт" : @"COM: Закрыт");
 			}
 		}
 
-		private delegate void StatusConfigToSystem(string status);
+	    private bool _connectToSystem;
 
-		private void UpdateStatusConfigToSystemStrLabel()
-		{
-			if (systemConfig_toolStripStatusLabel != null)
-			{
-				Invoke(new StatusConfigToSystem(SetStatusConfigToSystemLabel), StatusConfigToSystemStrLabel());
-			}
-		}
+	    private void SetConnectLabel(string status)
+	    {
+	        connect_toolStripStatusLabel.Text = status;
+	    }
 
-		private void SetStatusConfigToSystemLabel(string status)
-		{
-			systemConfig_toolStripStatusLabel.Text = status;
-		}
+	    private void UpdateStatusConnection()
+	    {
+	        if (connect_toolStripStatusLabel != null)
+	        {
+	            Invoke(new SetStringDelegate(SetConnectLabel), _connectToSystem ? @"CONNECT" : @"NO CONNECT");
+	            Invoke(new SetBoolDelegate(SetEnableOrDisableLoadConfigToSystem), _connectToSystem);
+            }
+	    }
 
-		private string StatusConfigToSystemStrLabel()
-		{
-			if ((ScopeConfig.StatusOscil & 0x0001) == 0x0000)
-			{
-				return @"Статус загрузки конфигурации: Конфигурация отсутствует";
-			}
-			if ((ScopeConfig.StatusOscil & 0x0001) == 0x0001)
-			{
-				return @"Статус загрузки конфигурации: " + @"Конфигурация успешно загружена";
-			}
-			if ((ScopeConfig.StatusOscil & 0x0002) == 0x0002)
-			{
-				return @"Статус загрузки конфигурации:" + "\n" + @"Конфигурация загружена, но не прошла проверку";
-			}
-			if ((ScopeConfig.StatusOscil & 0x0004) == 0x0004)
-			{
-				return @"Статус загрузки конфигурации:" + "\n" + @"При загрузке нарушена целостность данных";
-			}
-			return "";
-		}
-		
-		private void UpdateTimeStamp()
+        private void UpdateTimeStamp()
 		{
 			if (SerialPort.IsOpen && _statusButtons?.Count != 0 && !ScopeConfig.ChangeScopeConfig)
 			{
@@ -157,11 +139,18 @@ namespace ScopeSetupApp.MainForm
 
 	    private void UpdateStatusСonfig()
 	    {
-            //OscilStatusLoad 378
-            SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 378), 1, UpdateStatusСonfig, "OscilStatusLoad");
-            //OscilEnable 70
-            SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 70), 1, UpdateStatusСonfig, "OscilEnable");
-
+	        if (_connectToSystem)
+	        {
+	            //OscilStatusLoad 378
+	            SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 378), 1, UpdateStatusСonfig, "OscilStatusLoad");
+	            //OscilEnable 70
+	            SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 70), 1, UpdateStatusСonfig, "OscilEnable");
+            }
+	        else
+	        {
+	            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Соединение не установлено", System.Drawing.SystemColors.ButtonFace);
+	            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Соединение не установлено",  System.Drawing.SystemColors.ButtonFace);
+            }
         }
 
         private delegate void SetOscilStatusLoad(string text, Color color);
@@ -201,10 +190,10 @@ namespace ScopeSetupApp.MainForm
                     switch (paramRtu[0])
                     {
                         case 0:
-                            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Система готова", System.Drawing.SystemColors.ButtonFace);
+                            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Конфигурация в системе остсутствует", System.Drawing.SystemColors.ButtonFace);
                             break;
                         case 1:
-                            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Система готова", Color.LightGreen);
+                            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Конфигурация успешно установлена", Color.LightGreen);
                             break;
                         case 2:
                             Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Конфигурация незагружена", Color.LightCoral);
@@ -455,30 +444,37 @@ namespace ScopeSetupApp.MainForm
 
 		private int _indexChannel;
 
-		public void ConfigCheack()
+	    private void ConfigCheack()
 		{
 			//Отключить обновление информации об осциллограммах
 			StopUpdate();
 			_loadConfigStep = 0;
 			SerialPort.UnsetPortBusy();
-
-
-
 			LoadConfig();
 		}
+
+	    public void CheackConnect()
+	    {
+	        SerialPort.GetDataRTU((ushort) (ScopeSysType.OscilCmndAddr + 379), 1, CheackConnect, "CheackConnect");
+
+	    }
 
 	    private void CheackConnect(bool dataOk, ushort[] paramRtu, object param)
 	    {
 	        if (dataOk)
+	        { 
+	            ConfigCheack();
+	            _connectToSystem = true;
+	        }
+	        else
 	        {
-	            if (paramRtu[0] == 39993)
-	            {
+	            MessageBox.Show("Соединение с системой не установлено", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
+	            SerialPort.Close();
+	            _connectToSystem = false;
+	        }
+        }
 
-	            }
-            }
-	    }
-
-		private void LoadConfig()
+        private void LoadConfig()
 		{
 			switch (_loadConfigStep)
 			{

@@ -773,7 +773,7 @@ namespace ScopeSetupApp.ucScopeSetup
 					else
 					{
 						_writeStep = 0;
-						Program.MainFormWin.ConfigCheack();
+						Program.MainFormWin.CheackConnect();
 					}
 				}
 			}

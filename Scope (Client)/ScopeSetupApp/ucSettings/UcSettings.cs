@@ -295,7 +295,7 @@ namespace ScopeSetupApp.ucSettings
 			ScopeSysType.ConfigurationAddr = Convert.ToUInt16(convert_text(ConfigAddr_textBox.Text, "0x"));
 			ScopeSysType.OscilCmndAddr = Convert.ToUInt16(convert_text(OscilCmndAddr_textBox.Text, "0x"));
 
-			Program.MainFormWin.ConfigCheack();
+			Program.MainFormWin.CheackConnect();
 		}
 
 		private void UpdateLabelScopeConfig (bool status)

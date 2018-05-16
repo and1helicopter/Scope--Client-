@@ -443,6 +443,7 @@ namespace ScopeSetupApp.MainForm
 		{
 			_updateTimer = false;
 			_updateStatus = false;
+		    _connectToSystem = false;
 			SerialPort.requests.Clear();
 			RemoveStatusButtons();
 
@@ -463,9 +464,10 @@ namespace ScopeSetupApp.MainForm
 
 			if (SerialPort != null)
 			{
-				UpdateStatusConnect();
-				UpdateStatusConfigToSystemStrLabel();
-				UpdateGrid();
+				UpdateStatusComPort();
+			    UpdateStatusConnection();
+			    UpdateStatusСonfig();                       //Update statusСonfig in system
+                UpdateGrid();
 
 				if (_createFileFlag)
 				{
@@ -478,7 +480,6 @@ namespace ScopeSetupApp.MainForm
 					UpdateStatusButtonsInvoke();
 					UpdateStatus();
 					UpdateTimeStamp();
-                    UpdateStatusСonfig();                       //Update statusСonfig in system
 
                     ScopeConfig.ConnectMcu = true;
 				}

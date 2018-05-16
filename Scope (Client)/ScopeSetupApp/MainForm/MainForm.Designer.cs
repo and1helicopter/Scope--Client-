@@ -51,11 +51,11 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
-            this.connect_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.com_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.connect_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.format_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.config_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.systemConfig_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripContainer3 = new System.Windows.Forms.ToolStripContainer();
             this.toolStripContainer4 = new System.Windows.Forms.ToolStripContainer();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
@@ -144,6 +144,7 @@
             this.current_config.Name = "current_config";
             this.current_config.Size = new System.Drawing.Size(231, 19);
             this.current_config.Text = "Текущая";
+            this.current_config.ToolTipText = "Соединение не установлено";
             // 
             // new_config
             // 
@@ -155,7 +156,7 @@
             this.new_config.Name = "new_config";
             this.new_config.Size = new System.Drawing.Size(45, 19);
             this.new_config.Text = "Новая";
-            this.new_config.ToolTipText = "Система готова";
+            this.new_config.ToolTipText = "Соединение не установлено";
             // 
             // MainPanel
             // 
@@ -215,8 +216,8 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.connectBtn,
             this.ConfigMCUButton,
-            this.ConfigScopeButton,
             this.OpenScope_Button,
+            this.ConfigScopeButton,
             this.Setting_Button,
             this.loadScopeToolStripLabel,
             this.loadDataProgressBar});
@@ -395,25 +396,31 @@
             this.toolStripContainer2.Text = "toolStripContainer2";
             this.toolStripContainer2.TopToolStripPanelVisible = false;
             // 
-            // connect_toolStripStatusLabel
+            // com_toolStripStatusLabel
             // 
-            this.connect_toolStripStatusLabel.Name = "connect_toolStripStatusLabel";
-            this.connect_toolStripStatusLabel.Size = new System.Drawing.Size(160, 17);
-            this.connect_toolStripStatusLabel.Text = "connect_toolStripStatusLabel";
+            this.com_toolStripStatusLabel.Name = "com_toolStripStatusLabel";
+            this.com_toolStripStatusLabel.Size = new System.Drawing.Size(141, 17);
+            this.com_toolStripStatusLabel.Text = "com_toolStripStatusLabel";
             // 
             // statusStrip1
             // 
             this.statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.connect_toolStripStatusLabel,
+            this.com_toolStripStatusLabel,
             this.format_toolStripStatusLabel,
-            this.config_toolStripStatusLabel,
-            this.systemConfig_toolStripStatusLabel});
+            this.config_toolStripStatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 0);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1034, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // connect_toolStripStatusLabel
+            // 
+            this.connect_toolStripStatusLabel.Name = "connect_toolStripStatusLabel";
+            this.connect_toolStripStatusLabel.Size = new System.Drawing.Size(141, 17);
+            this.connect_toolStripStatusLabel.Text = "com_toolStripStatusLabel";
             // 
             // format_toolStripStatusLabel
             // 
@@ -426,12 +433,6 @@
             this.config_toolStripStatusLabel.Name = "config_toolStripStatusLabel";
             this.config_toolStripStatusLabel.Size = new System.Drawing.Size(151, 17);
             this.config_toolStripStatusLabel.Text = "config_toolStripStatusLabel";
-            // 
-            // systemConfig_toolStripStatusLabel
-            // 
-            this.systemConfig_toolStripStatusLabel.Name = "systemConfig_toolStripStatusLabel";
-            this.systemConfig_toolStripStatusLabel.Size = new System.Drawing.Size(190, 17);
-            this.systemConfig_toolStripStatusLabel.Text = "systemConfig_toolStripStatusLabel";
             // 
             // toolStripContainer3
             // 
@@ -546,10 +547,10 @@
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
 		private System.Windows.Forms.ToolStripButton Setting_Button;
 		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.ToolStripStatusLabel connect_toolStripStatusLabel;
+		private System.Windows.Forms.ToolStripStatusLabel com_toolStripStatusLabel;
 		private System.Windows.Forms.ToolStripStatusLabel format_toolStripStatusLabel;
 		private System.Windows.Forms.ToolStripStatusLabel config_toolStripStatusLabel;
-		private System.Windows.Forms.ToolStripStatusLabel systemConfig_toolStripStatusLabel;
+		private System.Windows.Forms.ToolStripStatusLabel connect_toolStripStatusLabel;
         private System.Windows.Forms.Panel Infopanel;
         private System.Windows.Forms.ToolStrip toolStrip3;
         private System.Windows.Forms.ToolStripButton current_config;
