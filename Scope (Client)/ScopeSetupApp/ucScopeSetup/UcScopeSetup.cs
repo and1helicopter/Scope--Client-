@@ -1005,7 +1005,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			if (ScopeConfig.FreqCount != 0) oscFreqRadioButton.Text = Convert.ToString(ScopeConfig.FreqCount);
 			else hystoryRadioButton.Clear();
 
-			if (ScopeConfig.OscilEnable == 0) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
+			if (ScopeConfig.OscilEnable == 0) { enaScopeCheckBox.Checked = false; checkBox1.Checked = false; checkBox3.Checked = false; }
 			if (ScopeConfig.OscilEnable == 1) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
 			if (ScopeConfig.OscilEnable == 2) { enaScopeCheckBox.Checked = true; checkBox1.Checked = true; checkBox3.Checked = false; }
 			if (ScopeConfig.OscilEnable == 3) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = true; }

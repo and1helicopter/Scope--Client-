@@ -32,14 +32,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ButtonsTimer = new System.Windows.Forms.Timer(this.components);
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.Infopanel = new System.Windows.Forms.Panel();
+            this.toolStrip3 = new System.Windows.Forms.ToolStrip();
+            this.current_config = new System.Windows.Forms.ToolStripButton();
+            this.new_config = new System.Windows.Forms.ToolStripButton();
             this.MainPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.nowStatusFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.connectBtn = new System.Windows.Forms.ToolStripButton();
-            this.ConfigScopeButton = new System.Windows.Forms.ToolStripButton();
             this.ConfigMCUButton = new System.Windows.Forms.ToolStripButton();
+            this.ConfigScopeButton = new System.Windows.Forms.ToolStripButton();
             this.OpenScope_Button = new System.Windows.Forms.ToolStripButton();
             this.Setting_Button = new System.Windows.Forms.ToolStripButton();
             this.loadScopeToolStripLabel = new System.Windows.Forms.ToolStripLabel();
@@ -56,6 +60,8 @@
             this.toolStripContainer4 = new System.Windows.Forms.ToolStripContainer();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
+            this.Infopanel.SuspendLayout();
+            this.toolStrip3.SuspendLayout();
             this.MainPanel.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -72,7 +78,7 @@
             // 
             // ButtonsTimer
             // 
-            this.ButtonsTimer.Interval = 200;
+            this.ButtonsTimer.Interval = 250;
             this.ButtonsTimer.Tick += new System.EventHandler(this.ButtonsTimer_Tick);
             // 
             // toolStripContainer1
@@ -82,6 +88,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.AllowDrop = true;
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.Infopanel);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.MainPanel);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.toolStrip1);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.toolStrip2);
@@ -97,6 +104,58 @@
             this.toolStripContainer1.TabIndex = 14;
             this.toolStripContainer1.Text = "toolStripContainer1";
             this.toolStripContainer1.TopToolStripPanelVisible = false;
+            // 
+            // Infopanel
+            // 
+            this.Infopanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Infopanel.Controls.Add(this.toolStrip3);
+            this.Infopanel.Location = new System.Drawing.Point(0, 418);
+            this.Infopanel.Margin = new System.Windows.Forms.Padding(0);
+            this.Infopanel.Name = "Infopanel";
+            this.Infopanel.Size = new System.Drawing.Size(244, 71);
+            this.Infopanel.TabIndex = 5;
+            // 
+            // toolStrip3
+            // 
+            this.toolStrip3.AutoSize = false;
+            this.toolStrip3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.toolStrip3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStrip3.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.current_config,
+            this.new_config});
+            this.toolStrip3.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
+            this.toolStrip3.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip3.Margin = new System.Windows.Forms.Padding(3);
+            this.toolStrip3.Name = "toolStrip3";
+            this.toolStrip3.Padding = new System.Windows.Forms.Padding(3);
+            this.toolStrip3.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip3.Size = new System.Drawing.Size(244, 71);
+            this.toolStrip3.TabIndex = 0;
+            this.toolStrip3.Text = "toolStrip3";
+            // 
+            // current_config
+            // 
+            this.current_config.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.current_config.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.current_config.Image = ((System.Drawing.Image)(resources.GetObject("current_config.Image")));
+            this.current_config.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.current_config.Margin = new System.Windows.Forms.Padding(3);
+            this.current_config.Name = "current_config";
+            this.current_config.Size = new System.Drawing.Size(231, 19);
+            this.current_config.Text = "Текущая";
+            // 
+            // new_config
+            // 
+            this.new_config.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.new_config.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.new_config.Image = ((System.Drawing.Image)(resources.GetObject("new_config.Image")));
+            this.new_config.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.new_config.Margin = new System.Windows.Forms.Padding(3);
+            this.new_config.Name = "new_config";
+            this.new_config.Size = new System.Drawing.Size(45, 19);
+            this.new_config.Text = "Новая";
+            this.new_config.ToolTipText = "Система готова";
             // 
             // MainPanel
             // 
@@ -155,8 +214,8 @@
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.connectBtn,
-            this.ConfigScopeButton,
             this.ConfigMCUButton,
+            this.ConfigScopeButton,
             this.OpenScope_Button,
             this.Setting_Button,
             this.loadScopeToolStripLabel,
@@ -168,7 +227,7 @@
             this.toolStrip1.Size = new System.Drawing.Size(244, 489);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Tag = "0";
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip1.Text = "Новая";
             // 
             // connectBtn
             // 
@@ -188,6 +247,24 @@
             this.connectBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.connectBtn.Click += new System.EventHandler(this.connectBtn_Click);
             // 
+            // ConfigMCUButton
+            // 
+            this.ConfigMCUButton.AutoSize = false;
+            this.ConfigMCUButton.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.ConfigMCUButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.ConfigMCUButton.Image = ((System.Drawing.Image)(resources.GetObject("ConfigMCUButton.Image")));
+            this.ConfigMCUButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ConfigMCUButton.Margin = new System.Windows.Forms.Padding(2);
+            this.ConfigMCUButton.MergeIndex = 3;
+            this.ConfigMCUButton.Name = "ConfigMCUButton";
+            this.ConfigMCUButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ConfigMCUButton.Size = new System.Drawing.Size(230, 60);
+            this.ConfigMCUButton.Tag = "";
+            this.ConfigMCUButton.Text = "Конфигурация осциллографа";
+            this.ConfigMCUButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ConfigMCUButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.ConfigMCUButton.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
             // ConfigScopeButton
             // 
             this.ConfigScopeButton.AutoSize = false;
@@ -206,24 +283,6 @@
             this.ConfigScopeButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.ConfigScopeButton.Visible = false;
             this.ConfigScopeButton.Click += new System.EventHandler(this.toolStripButton3_Click);
-            // 
-            // ConfigMCUButton
-            // 
-            this.ConfigMCUButton.AutoSize = false;
-            this.ConfigMCUButton.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ConfigMCUButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.ConfigMCUButton.Image = ((System.Drawing.Image)(resources.GetObject("ConfigMCUButton.Image")));
-            this.ConfigMCUButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ConfigMCUButton.Margin = new System.Windows.Forms.Padding(2);
-            this.ConfigMCUButton.MergeIndex = 3;
-            this.ConfigMCUButton.Name = "ConfigMCUButton";
-            this.ConfigMCUButton.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.ConfigMCUButton.Size = new System.Drawing.Size(230, 60);
-            this.ConfigMCUButton.Tag = "";
-            this.ConfigMCUButton.Text = "Конфигурация осциллографа";
-            this.ConfigMCUButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.ConfigMCUButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.ConfigMCUButton.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // OpenScope_Button
             // 
@@ -439,6 +498,9 @@
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
+            this.Infopanel.ResumeLayout(false);
+            this.toolStrip3.ResumeLayout(false);
+            this.toolStrip3.PerformLayout();
             this.MainPanel.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
@@ -488,6 +550,10 @@
 		private System.Windows.Forms.ToolStripStatusLabel format_toolStripStatusLabel;
 		private System.Windows.Forms.ToolStripStatusLabel config_toolStripStatusLabel;
 		private System.Windows.Forms.ToolStripStatusLabel systemConfig_toolStripStatusLabel;
-	}
+        private System.Windows.Forms.Panel Infopanel;
+        private System.Windows.Forms.ToolStrip toolStrip3;
+        private System.Windows.Forms.ToolStripButton current_config;
+        private System.Windows.Forms.ToolStripButton new_config;
+    }
 }
 

@@ -284,8 +284,9 @@ namespace ScopeSetupApp.MainForm
 				UpdateButtonsReset(ConfigMCUButton);
 				UpdateButtonsReset(OpenScope_Button);
 				UpdateButtonsReset(Setting_Button);
+			    Infopanel.Size = new Size(244, 68);
 
-				panel1.Controls.Remove(_ucSettings);
+                panel1.Controls.Remove(_ucSettings);
 				panel1.Controls.Remove(_ucScopeConfig);
 				panel1.Controls.Remove(_ucScopeSetup);
 
@@ -303,8 +304,9 @@ namespace ScopeSetupApp.MainForm
 
 				UpdateButtonsSets(connectBtn);
 				UpdateButtonsSets(OpenScope_Button);
+			    Infopanel.Size = new Size(74, 68);
 
-				switch (_buttonsStatus)
+                switch (_buttonsStatus)
 				{
 					case 0x01:
 						UpdateButtonsSet(ConfigScopeButton);
@@ -353,14 +355,24 @@ namespace ScopeSetupApp.MainForm
 			button.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
 		}
 
-		//***************************************************************************//
-		//***************************************************************************//
-		//***************************************************************************//
+	    private void UpdateButtonBig(Button button)
+	    {
+	        button.Size = new Size(230, 30);
+	    }
 
-		//***************************************************************************//
-		//***************************************************************************//
-		//***************************************************************************//
-		private void connectBtn_Click(object sender, EventArgs e)
+	    private void UpdateButtonSmall(Button button)
+	    {
+	        button.Size = new Size(60, 30);
+	    }
+
+        //***************************************************************************//
+        //***************************************************************************//
+        //***************************************************************************//
+
+        //***************************************************************************//
+        //***************************************************************************//
+        //***************************************************************************//
+        private void connectBtn_Click(object sender, EventArgs e)
 		{
 			OpenPort();
 		}
@@ -466,8 +478,9 @@ namespace ScopeSetupApp.MainForm
 					UpdateStatusButtonsInvoke();
 					UpdateStatus();
 					UpdateTimeStamp();
-					
-					ScopeConfig.ConnectMcu = true;
+                    UpdateStatusСonfig();                       //Update statusСonfig in system
+
+                    ScopeConfig.ConnectMcu = true;
 				}
 			}
 
@@ -1231,9 +1244,9 @@ namespace ScopeSetupApp.MainForm
 		}
 
 		private int _createFileNum;
-		
-		//Ручной запуск осциллографа
-		private void manStartBtn_Click(object sender, EventArgs e)
+
+        //Ручной запуск осциллографа
+        private void manStartBtn_Click(object sender, EventArgs e)
 		{
 			ManStartRequest();
 		}

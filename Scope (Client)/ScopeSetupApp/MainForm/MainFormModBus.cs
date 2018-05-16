@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows;
 using UniSerialPort;
 using MessageBox = System.Windows.MessageBox;
@@ -154,9 +155,90 @@ namespace ScopeSetupApp.MainForm
 			}
 		}
 
-		
+	    private void UpdateStatusСonfig()
+	    {
+            //OscilStatusLoad 378
+            SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 378), 1, UpdateStatusСonfig, "OscilStatusLoad");
+            //OscilEnable 70
+            SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 70), 1, UpdateStatusСonfig, "OscilEnable");
 
-		private void SetScopeStatus(int index)
+        }
+
+        private delegate void SetOscilStatusLoad(string text, Color color);
+
+	    private void SetOscilStatusLoadFunc(string text, Color color)
+	    {
+	        if (new_config.ToolTipText == text || new_config.BackColor == color)
+            {
+                return;
+	        }
+	        new_config.ToolTipText = text;
+	        new_config.BackColor = color;
+        }
+
+	    private delegate void SetOscilEnable(string text, Color color);
+
+	    private void SetOscilEnableFunc(string text, Color color)
+	    {
+	        if (ScopeConfig.ChannelCount == 0)
+	        {
+	            text = @"В системе отсутствует конфигурация";
+	        }
+
+            if (current_config.ToolTipText == text || current_config.BackColor == color)
+	        {
+	            return;
+	        }
+	        current_config.ToolTipText = text;
+	        current_config.BackColor = color;
+	    }
+
+        private void UpdateStatusСonfig(bool dataOk, ushort[] paramRtu, object param)
+        {
+            switch (param.ToString())
+            {
+                case "OscilStatusLoad":
+                    switch (paramRtu[0])
+                    {
+                        case 0:
+                            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Система готова", System.Drawing.SystemColors.ButtonFace);
+                            break;
+                        case 1:
+                            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Система готова", Color.LightGreen);
+                            break;
+                        case 2:
+                            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Конфигурация незагружена", Color.LightCoral);
+                            break;
+                        case 3:
+                            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Конфигурация загружается", Color.LightBlue);
+                            break;
+                    }
+                    break;
+                case "OscilEnable":
+                    switch (paramRtu[0])
+                    {
+                        case 0:
+                            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование отключено", Color.LightCoral);
+                            break;
+                        case 1:
+                            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, с перезаписью (без сохранения)", Color.LightGreen);
+                            break;
+                        case 2:
+                            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, с перезаписью  (с сохранением)", Color.LightGreen);
+                            break;
+                        case 3:
+                            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, без перезаписи (без сохранения)", Color.LightGreen);
+                            break;
+                        case 4:
+                            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, без перезаписи (без сохранения)", Color.LightGreen);
+                            break;
+                    }
+                    break;
+            }
+        }
+
+
+        private void SetScopeStatus(int index)
 		{
 			var statusGet = _oscilsStatus[index];
 			if ((byte)statusGet == 0x04)
@@ -380,8 +462,21 @@ namespace ScopeSetupApp.MainForm
 			_loadConfigStep = 0;
 			SerialPort.UnsetPortBusy();
 
+
+
 			LoadConfig();
 		}
+
+	    private void CheackConnect(bool dataOk, ushort[] paramRtu, object param)
+	    {
+	        if (dataOk)
+	        {
+	            if (paramRtu[0] == 39993)
+	            {
+
+	            }
+            }
+	    }
 
 		private void LoadConfig()
 		{
@@ -427,37 +522,37 @@ namespace ScopeSetupApp.MainForm
 					SerialPort.GetDataRTU(ScopeSysType.ConfigurationAddr, 32, LoadConfig, RequestPriority.Normal, 12);
 					break;
 				case 13:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 71 + 16 * _indexChannel), 16, LoadConfig, RequestPriority.Normal, 13);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 72 + 16 * _indexChannel), 16, LoadConfig, RequestPriority.Normal, 13);
 					break;
 				case 14:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 583 + _indexChannel), 1, LoadConfig, RequestPriority.Normal, 14);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 584 + _indexChannel), 1, LoadConfig, RequestPriority.Normal, 14);
 					break;
 				case 15:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 615 + 8 * _indexChannel), 8, LoadConfig, RequestPriority.Normal, 15);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 616 + 8 * _indexChannel), 8, LoadConfig, RequestPriority.Normal, 15);
 					break;
 				case 16:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 871 + 4 * _indexChannel), 4, LoadConfig, RequestPriority.Normal, 16);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 872 + 4 * _indexChannel), 4, LoadConfig, RequestPriority.Normal, 16);
 					break;
 				case 17:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 999 + _indexChannel), 1, LoadConfig, RequestPriority.Normal, 17);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1000 + _indexChannel), 1, LoadConfig, RequestPriority.Normal, 17);
 					break;
 				case 18:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1031), 16, LoadConfig, RequestPriority.Normal, 18);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1032), 16, LoadConfig, RequestPriority.Normal, 18);
 					break;
 				case 19:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1047), 8, LoadConfig, RequestPriority.Normal, 19);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1048), 8, LoadConfig, RequestPriority.Normal, 19);
 					break;
 				case 20:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1055), 4, LoadConfig, RequestPriority.Normal, 20);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1056), 4, LoadConfig, RequestPriority.Normal, 20);
 					break;
 				case 21:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1059), 4, LoadConfig, RequestPriority.Normal, 21);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1060), 4, LoadConfig, RequestPriority.Normal, 21);
 					break;
 				case 22:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1063), 4, LoadConfig, RequestPriority.Normal, 22);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1064), 4, LoadConfig, RequestPriority.Normal, 22);
 					break;
 				case 23:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1067), 4, LoadConfig, RequestPriority.Normal, 23);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1068), 4, LoadConfig, RequestPriority.Normal, 23);
 					break;
 			}
 		}

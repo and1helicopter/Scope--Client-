@@ -274,3 +274,10 @@ Scope (Client)/UniSerialPort/bin/Release/AsynchSerialPort.pdb
 Scope (Client)/UniSerialPort/bin/Release/AsynchSerialPort.dll
 Scope (Client)/UniSerialPort/bin/Debug/AsynchSerialPort.pdb
 Scope (Client)/UniSerialPort/bin/Debug/AsynchSerialPort.dll
+*.pdb
+*.dll
+*.pdb
+Scope (Client)/UniSerialPort/bin/Debug/AsynchSerialPort.dll
+Scope (Client)/UniSerialPort/bin/Debug/AsynchSerialPort.pdb
+Scope (Client)/UniSerialPort/obj/Debug/AsynchSerialPort.dll
+Scope (Client)/UniSerialPort/obj/Debug/AsynchSerialPort.pdb
