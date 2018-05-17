@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 using System.Windows;
 using UniSerialPort;
 using MessageBox = System.Windows.MessageBox;
@@ -65,19 +66,35 @@ namespace ScopeSetupApp.MainForm
 	    }
 
         private delegate void SetStringDelegate(string parameter);
-
 		private void SetComLabel(string status)
 		{
 			com_toolStripStatusLabel.Text = status;
 		}
 
+	    private bool _cheackComError;
+
+	    private void CheackCom()
+	    {
+	        if (SerialPort.portError && !_cheackComError)
+	        {
+                StopUpdate();
+	            MessageBox.Show(@"Обрыв соединения", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
+	            _cheackComError = true;
+	        }
+	        else if(!SerialPort.portError &&  _cheackComError)
+	        {
+                _cheackComError = false;
+            }
+        }
+
 		private void UpdateStatusComPort()
 		{
-			if (com_toolStripStatusLabel != null)
+		    CheackCom();
+            if (com_toolStripStatusLabel != null)
 			{
-				Invoke(new SetStringDelegate(SetComLabel), SerialPort.IsOpen ? @"COM: Открыт" : @"COM: Закрыт");
-			}
-		}
+				Invoke(new SetStringDelegate(SetComLabel), SerialPort.IsOpen && !SerialPort.portError ? @"COM: Открыт" : @"COM: Закрыт");
+            }
+        }
 
 	    private bool _connectToSystem;
 
@@ -456,7 +473,6 @@ namespace ScopeSetupApp.MainForm
 	    public void CheackConnect()
 	    {
 	        SerialPort.GetDataRTU((ushort) (ScopeSysType.OscilCmndAddr + 379), 1, CheackConnect, "CheackConnect");
-
 	    }
 
 	    private void CheackConnect(bool dataOk, ushort[] paramRtu, object param)
@@ -469,9 +485,9 @@ namespace ScopeSetupApp.MainForm
 	        else
 	        {
 	            MessageBox.Show("Соединение с системой не установлено", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
-	            SerialPort.Close();
 	            _connectToSystem = false;
-	        }
+	            SerialPort.Close();
+            }
         }
 
         private void LoadConfig()
