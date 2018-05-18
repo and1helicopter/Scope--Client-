@@ -100,7 +100,7 @@ namespace ScopeSetupApp
 		{
 			MainForm.MainForm.SerialPort.Close();
 			_mainForm.StopUpdate();
-			Close();
+            Close();
 		}
 
 		private void button1_Click_1(object sender, EventArgs e)

@@ -548,8 +548,8 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 				for (int j = 1; j < 32; j += 2)
 				{
-					_oscillConfig[71 + 16 * i + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChNameStr[j]) << 8);
-					_oscillConfig[71 + 16 * i + (j / 2)] += Convert.ToUInt16(tempChNameStr[j - 1]);
+					_oscillConfig[72 + 16 * i + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChNameStr[j]) << 8);
+					_oscillConfig[72 + 16 * i + (j / 2)] += Convert.ToUInt16(tempChNameStr[j - 1]);
 				}
 			}
 
@@ -570,8 +570,8 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 				for (int j = 1; j < 2; j += 2)
 				{
-					_oscillConfig[583 + i + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChPhaseStr[j]) << 8);
-					_oscillConfig[583 + i + (j / 2)] += Convert.ToUInt16(tempChPhaseStr[j - 1]);
+					_oscillConfig[584 + i + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChPhaseStr[j]) << 8);
+					_oscillConfig[584 + i + (j / 2)] += Convert.ToUInt16(tempChPhaseStr[j - 1]);
 
 				}
 			}
@@ -591,8 +591,8 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 				for (int j = 1; j < 16; j += 2)
 				{
-					_oscillConfig[615 + i * 8 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChCcbmStr[j]) << 8);
-					_oscillConfig[615 + i * 8 + (j / 2)] += Convert.ToUInt16(tempChCcbmStr[j - 1]);
+					_oscillConfig[616 + i * 8 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChCcbmStr[j]) << 8);
+					_oscillConfig[616 + i * 8 + (j / 2)] += Convert.ToUInt16(tempChCcbmStr[j - 1]);
 
 				}
 			}
@@ -611,8 +611,8 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 				for (int j = 1; j < 8; j += 2)
 				{
-					_oscillConfig[871 + i * 4 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChDemensionStr[j]) << 8);
-					_oscillConfig[871 + i * 4 + (j / 2)] += Convert.ToUInt16(tempChDemensionStr[j - 1]);
+					_oscillConfig[872 + i * 4 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChDemensionStr[j]) << 8);
+					_oscillConfig[872 + i * 4 + (j / 2)] += Convert.ToUInt16(tempChDemensionStr[j - 1]);
 				}
 			}
 
@@ -621,7 +621,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			for (int i = 0; i < chaTypeAd.Count; i++)
 			{
 				if (i < chaTypeAd.Count) { _oscillConfig[999 + i] = chaTypeAd[i]; }
-				else { _oscillConfig[999 + i] = 0; }
+				else { _oscillConfig[1000 + i] = 0; }
 			}
 
 			String stationName = ScopeSysType.StationName;                //
@@ -636,8 +636,8 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			for (int j = 1; j < 32; j += 2)
 			{
-				_oscillConfig[1031 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempStationNameStr[j]) << 8);
-				_oscillConfig[1031 + (j / 2)] += Convert.ToUInt16(tempStationNameStr[j - 1]);
+				_oscillConfig[1032 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempStationNameStr[j]) << 8);
+				_oscillConfig[1032 + (j / 2)] += Convert.ToUInt16(tempStationNameStr[j - 1]);
 			}
 
 			String recordingId = ScopeSysType.RecordingDevice;            //
@@ -652,8 +652,8 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			for (int j = 1; j < 16; j += 2)
 			{
-				_oscillConfig[1047 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempRecordingIdStr[j]) << 8);
-				_oscillConfig[1047 + (j / 2)] += Convert.ToUInt16(tempRecordingIdStr[j - 1]);
+				_oscillConfig[1048 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempRecordingIdStr[j]) << 8);
+				_oscillConfig[1048 + (j / 2)] += Convert.ToUInt16(tempRecordingIdStr[j - 1]);
 			}
 
 			String timeCode = ScopeSysType.TimeCode;     //
@@ -668,8 +668,8 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			for (int j = 1; j < 8; j += 2)
 			{
-				_oscillConfig[1055 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempTimeCodeStr[j]) << 8);
-				_oscillConfig[1055 + (j / 2)] += Convert.ToUInt16(tempTimeCodeStr[j - 1]);
+				_oscillConfig[1056 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempTimeCodeStr[j]) << 8);
+				_oscillConfig[1056 + (j / 2)] += Convert.ToUInt16(tempTimeCodeStr[j - 1]);
 			}
 
 			String localCode = ScopeSysType.TimeCode;     //
@@ -684,8 +684,8 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			for (int j = 1; j < 8; j += 2)
 			{
-				_oscillConfig[1059 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempLocalCodeStr[j]) << 8);
-				_oscillConfig[1059 + (j / 2)] += Convert.ToUInt16(tempLocalCodeStr[j - 1]);
+				_oscillConfig[1060 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempLocalCodeStr[j]) << 8);
+				_oscillConfig[1060 + (j / 2)] += Convert.ToUInt16(tempLocalCodeStr[j - 1]);
 			}
 
 			String tmqCode = ScopeSysType.TmqCode;     //
@@ -701,8 +701,8 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			for (int j = 1; j < 8; j += 2)
 			{
-				_oscillConfig[1063 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(temptmqCodeStr[j]) << 8);
-				_oscillConfig[1063 + (j / 2)] += Convert.ToUInt16(temptmqCodeStr[j - 1]);
+				_oscillConfig[1064 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(temptmqCodeStr[j]) << 8);
+				_oscillConfig[1064 + (j / 2)] += Convert.ToUInt16(temptmqCodeStr[j - 1]);
 			}
 
 			String leapsec = ScopeSysType.Leapsec;     //
@@ -717,8 +717,8 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			for (int j = 1; j < 8; j += 2)
 			{
-				_oscillConfig[1067 + (j / 2)] += Convert.ToUInt16(Convert.ToUInt32(templeapsecStr[j]) << 8);
-				_oscillConfig[1067 + (j / 2)] += Convert.ToUInt16(templeapsecStr[j - 1]);
+				_oscillConfig[1068 + (j / 2)] += Convert.ToUInt16(Convert.ToUInt32(templeapsecStr[j]) << 8);
+				_oscillConfig[1068 + (j / 2)] += Convert.ToUInt16(templeapsecStr[j - 1]);
 			}
 			#endregion
 		}

@@ -25,5 +25,6 @@ bld/
 /Scope (Client)/TestResults/
 /Scope (Client)/.vs/
 
-TestResults
-/Scope (Client)/ScopeSetupApp.plog
+
+*.pdb
+*.dll

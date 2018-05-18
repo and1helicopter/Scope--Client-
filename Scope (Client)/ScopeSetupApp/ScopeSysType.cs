@@ -12,8 +12,8 @@ namespace ScopeSetupApp
 		public static string XmlFileName = "ScopeSysType.xml";
 		public static string XmlFileNameOscil = "ScopeSysType.xml";
 
-		public static ushort ConfigurationAddr;
-		public static ushort OscilCmndAddr; 
+		public static ushort ConfigurationAddr = 512;
+		public static ushort OscilCmndAddr = 4096; 
 
 		public static ushort OscilAllSize;
 		  

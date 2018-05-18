@@ -43,8 +43,8 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.connectBtn = new System.Windows.Forms.ToolStripButton();
             this.ConfigMCUButton = new System.Windows.Forms.ToolStripButton();
-            this.ConfigScopeButton = new System.Windows.Forms.ToolStripButton();
             this.OpenScope_Button = new System.Windows.Forms.ToolStripButton();
+            this.ConfigScopeButton = new System.Windows.Forms.ToolStripButton();
             this.Setting_Button = new System.Windows.Forms.ToolStripButton();
             this.loadScopeToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.loadDataProgressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -154,7 +154,7 @@
             this.new_config.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.new_config.Margin = new System.Windows.Forms.Padding(3);
             this.new_config.Name = "new_config";
-            this.new_config.Size = new System.Drawing.Size(45, 19);
+            this.new_config.Size = new System.Drawing.Size(231, 19);
             this.new_config.Text = "Новая";
             this.new_config.ToolTipText = "Соединение не установлено";
             // 
@@ -266,6 +266,24 @@
             this.ConfigMCUButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.ConfigMCUButton.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
+            // OpenScope_Button
+            // 
+            this.OpenScope_Button.AutoSize = false;
+            this.OpenScope_Button.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.OpenScope_Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.OpenScope_Button.Image = ((System.Drawing.Image)(resources.GetObject("OpenScope_Button.Image")));
+            this.OpenScope_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.OpenScope_Button.Margin = new System.Windows.Forms.Padding(2);
+            this.OpenScope_Button.MergeIndex = 3;
+            this.OpenScope_Button.Name = "OpenScope_Button";
+            this.OpenScope_Button.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.OpenScope_Button.Size = new System.Drawing.Size(230, 60);
+            this.OpenScope_Button.Tag = "";
+            this.OpenScope_Button.Text = "Открыть файл с осциллограммой";
+            this.OpenScope_Button.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.OpenScope_Button.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.OpenScope_Button.Click += new System.EventHandler(this.toolStripButton2_Click_1);
+            // 
             // ConfigScopeButton
             // 
             this.ConfigScopeButton.AutoSize = false;
@@ -284,24 +302,6 @@
             this.ConfigScopeButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.ConfigScopeButton.Visible = false;
             this.ConfigScopeButton.Click += new System.EventHandler(this.toolStripButton3_Click);
-            // 
-            // OpenScope_Button
-            // 
-            this.OpenScope_Button.AutoSize = false;
-            this.OpenScope_Button.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.OpenScope_Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.OpenScope_Button.Image = ((System.Drawing.Image)(resources.GetObject("OpenScope_Button.Image")));
-            this.OpenScope_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.OpenScope_Button.Margin = new System.Windows.Forms.Padding(2);
-            this.OpenScope_Button.MergeIndex = 3;
-            this.OpenScope_Button.Name = "OpenScope_Button";
-            this.OpenScope_Button.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.OpenScope_Button.Size = new System.Drawing.Size(230, 60);
-            this.OpenScope_Button.Tag = "";
-            this.OpenScope_Button.Text = "Открыть файл с осциллограммой";
-            this.OpenScope_Button.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.OpenScope_Button.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.OpenScope_Button.Click += new System.EventHandler(this.toolStripButton2_Click_1);
             // 
             // Setting_Button
             // 

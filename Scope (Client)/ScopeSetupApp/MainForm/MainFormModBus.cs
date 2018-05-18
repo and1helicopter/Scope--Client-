@@ -246,46 +246,51 @@ namespace ScopeSetupApp.MainForm
 
         private void SetScopeStatus(int index)
 		{
-			var statusGet = _oscilsStatus[index];
-			if ((byte)statusGet == 0x04)
-			{
-				if ((byte)((statusGet >> 8) & (ushort)(1 << ScopeConfig.CodeDevice)) != (1 << ScopeConfig.CodeDevice))
-				{
-					ushort [] statusSet =
-					{
-						Convert.ToUInt16(statusGet | (1 << 8 + ScopeConfig.CodeDevice))
-					};
+            switch (_oscilsStatus[index])
+            {
+                case 0x04:
+                    {
+                        if (_loadOscData)
+                        {
+                            MessageBox.Show("Уже производится загрузка осциллограммы.", @"Warring", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
 
-					ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + 8 + index);
+                        ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + 8 + index);
+                        SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, 0x05);
+                        //Инициализируем скачивание осцллограммы
+                        SerialPort.GetDataRTU(addr, 1, StartScopeLoad, index);
+                        break;
+                    }
+                case 0x05:
+                    {
+                        MessageBoxResult dialogResult = MessageBox.Show("Осциллограмма может загружаться на другом устростве.\nСбросить статус загрузки?", @"Warring", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                        if (dialogResult == MessageBoxResult.Yes)
+                        {
+                            UnsetScopeStatus(index);
+                        }
+                        break;
+                    }
 
-					SerialPort.SetDataRTU(addr, null, RequestPriority.Normal,  null, statusSet);
-					//Инициализируем скачивание осцллограммы
-				 	SerialPort.GetDataRTU(addr, 1, StartScopeLoad, index);
-				}
-			}
-		}
+            }
+        }
 
 		private void StartScopeLoad(bool dataOk, ushort[] paramRtu, object param)
 		{
 			if (dataOk)
 			{
 				var index = Convert.ToInt32(param);
-
-				var statusGet = paramRtu[0];
-				if ((byte) ((statusGet >> 8) & (ushort) (1 << ScopeConfig.CodeDevice)) == (1 << ScopeConfig.CodeDevice))
-				{
-					//Начинаем загрузку
-					loadScopeToolStripLabel.Text = _oscilTitls[_loadOscNum];
-					loadDataProgressBar.Value = 0;
-
-					UpdateLoadDataProgressBarInvoke();
-
-					_downloadedData = new List<ushort[]>();
-
-					LoadOscDataRequest();
-				}
+			    if (paramRtu[0] == 0x05)
+			    {
+			        //Начинаем загрузку
+			        loadScopeToolStripLabel.Text = _oscilTitls[_loadOscNum];
+			        loadDataProgressBar.Value = 0;
+			        UpdateLoadDataProgressBarInvoke();
+			        _downloadedData = new List<ushort[]>();
+			        LoadOscDataRequest();
+                }
 				else
-				{
+                {
 					SetScopeStatus(index);
 				}
 			}
@@ -293,50 +298,34 @@ namespace ScopeSetupApp.MainForm
 
 		private void UnsetScopeStatus(int index)
 		{
-			var statusGet = _oscilsStatus[index];
-			ushort addr = (ushort) (ScopeSysType.OscilCmndAddr + 8 + index);
-
-			if ((byte) statusGet == 0x04)
-			{
-				if ((byte)((statusGet >> 8) & (ushort)(1 << ScopeConfig.CodeDevice)) == (1 << ScopeConfig.CodeDevice))
-				{
-					ushort[] statusSet =
-					{
-						Convert.ToUInt16(statusGet ^ (1 << 8 + ScopeConfig.CodeDevice))
-					};
-
-					SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, statusSet);
-				}
-				else
-				{
-					MessageBoxResult dialogResult = MessageBox.Show("Осциллограмма может загружаться на другом устростве.\n Удалить осциллограмму?", @"Warring", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-					if (dialogResult == MessageBoxResult.Yes)
-					{
-						ClearScopeStatus(index);
-					}
-				}
-			}
-			else
-			{
-				//Если осциллограмма не записанна, то очищаем осциллограмму
-				ClearScopeStatus(index);
-			}
-		}
+		    _loadOscilIndex = 0;
+            _loadOscilTemp = 0;
+            _loadOscData = false;
+		    _loadOscDataStep = 0;
+		    _countTemp = 0;
+		    ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + 8 + index);
+		    SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, 0x04);
+        }
 
 		private void ClearScopeStatus(int index)
 		{
-			ushort addr = (ushort) (ScopeSysType.OscilCmndAddr + 8 + index);
-			ushort[] statusSet = { 0 };
-
-			SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, statusSet);
-		}
+		    if (_oscilsStatus[index] != 0x05)
+		    {
+		        ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + 8 + index);
+		        SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, 0x00);
+            }
+		    else
+		    {
+		        MessageBox.Show("Осциллограмма может загружаться на другом устростве.\nДля удаления осциилограммы сбросьте статус загрузки.", @"Warring", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
 
 		//Ручной запуск
 		private void ManStartRequest()
 		{
-			ushort[] uv = { 1, 1, 1, 1 };
+			ushort[] uv = { 1 };
 
-			SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 4), null, RequestPriority.High, null, uv);
+			SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 4), null, RequestPriority.Normal, null, uv);
 		}
 
 
@@ -418,24 +407,16 @@ namespace ScopeSetupApp.MainForm
 
 								if (_countTemp >= (ScopeConfig.OscilSize >> 1))
 								{
-
-									_loadOscilIndex = 0;
+                                    _loadOscilIndex = 0;
 									_createFileNum = _loadOscNum;
 									_createFileFlag = true;
-									_loadOscData = false;
-									_loadOscDataStep = 0;
 									UpdateLoadDataProgressBarInvoke();
-									_loadOscilTemp = 0;
-									_countTemp = 0;
 									UnsetScopeStatus(_loadOscNum);
-									}
 								}
+							}
 						}
 						else
 						{
-							_loadOscData = false;
-							_loadOscDataStep = 0;
-							_countTemp = 0;
 							UnsetScopeStatus(_loadOscNum);
 						}
 
@@ -445,7 +426,6 @@ namespace ScopeSetupApp.MainForm
 				if (!_loadOscData)
 				{
 					HideProgressBarInvoke();
-
 					return;
 				}
 				if (!SerialPort.portError)

@@ -441,13 +441,19 @@ namespace ScopeSetupApp.MainForm
 
 		public void StopUpdate()
 		{
-			_updateTimer = false;
+		    _loadOscilIndex = 0;
+		    _loadOscilTemp = 0;
+		    _loadOscData = false;
+		    _loadOscDataStep = 0;
+		    _countTemp = 0;
+
+            _updateTimer = false;
 			_updateStatus = false;
 		    _connectToSystem = false;
 			SerialPort.requests.Clear();
 			RemoveStatusButtons();
 
-			ScopeConfig.ChangeScopeConfig = true;
+            ScopeConfig.ChangeScopeConfig = true;
 			ScopeConfig.ScopeCount = 0;
 			ScopeConfig.StatusOscil = 0x0000;
 		}
@@ -732,8 +738,9 @@ namespace ScopeSetupApp.MainForm
 		{
 			ScopeConfig.InitOscilParams(ScopeConfig.OscilAddr, ScopeConfig.OscilFormat);
 			bool b = _oscilsStatus[(int)((Button) sender).Tag] >= 4;
+		    string textButton = _oscilsStatus[(int)((Button)sender).Tag] <= 4 ? @"Скачать" : @"Сброс";
 
-			LoadOscQueryForm loadOscQueruForm = new LoadOscQueryForm(_oscilTitls[(int)((Button) sender).Tag], b);
+			LoadOscQueryForm loadOscQueruForm = new LoadOscQueryForm(_oscilTitls[(int)((Button) sender).Tag], b, textButton);
 			DialogResult dlgr = loadOscQueruForm.ShowDialog();
 
 			//СКАЧИВАНИЕ ОСЦИЛЛОГРАММ
@@ -749,7 +756,7 @@ namespace ScopeSetupApp.MainForm
 			else if (dlgr == DialogResult.Abort)
 			{
 				_clearOscNum = (int)((Button) sender).Tag;
-				UnsetScopeStatus(_clearOscNum);
+				ClearScopeStatus(_clearOscNum);
 			}
 		}
 		
