@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 using System.Windows;
 using UniSerialPort;
 using MessageBox = System.Windows.MessageBox;
@@ -158,28 +157,13 @@ namespace ScopeSetupApp.MainForm
 	    {
 	        if (_connectToSystem)
 	        {
-	            //OscilStatusLoad 378
-	            SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 378), 1, UpdateStatusСonfig, "OscilStatusLoad");
 	            //OscilEnable 70
 	            SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 70), 1, UpdateStatusСonfig, "OscilEnable");
             }
 	        else
 	        {
-	            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Соединение не установлено", System.Drawing.SystemColors.ButtonFace);
 	            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Соединение не установлено",  System.Drawing.SystemColors.ButtonFace);
             }
-        }
-
-        private delegate void SetOscilStatusLoad(string text, Color color);
-
-	    private void SetOscilStatusLoadFunc(string text, Color color)
-	    {
-	        if (new_config.ToolTipText == text || new_config.BackColor == color)
-            {
-                return;
-	        }
-	        new_config.ToolTipText = text;
-	        new_config.BackColor = color;
         }
 
 	    private delegate void SetOscilEnable(string text, Color color);
@@ -203,23 +187,6 @@ namespace ScopeSetupApp.MainForm
         {
             switch (param.ToString())
             {
-                case "OscilStatusLoad":
-                    switch (paramRtu[0])
-                    {
-                        case 0:
-                            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Конфигурация в системе остсутствует", System.Drawing.SystemColors.ButtonFace);
-                            break;
-                        case 1:
-                            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Конфигурация успешно установлена", Color.LightGreen);
-                            break;
-                        case 2:
-                            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Конфигурация незагружена", Color.LightCoral);
-                            break;
-                        case 3:
-                            Invoke(new SetOscilStatusLoad(SetOscilStatusLoadFunc), @"Конфигурация загружается", Color.LightBlue);
-                            break;
-                    }
-                    break;
                 case "OscilEnable":
                     switch (paramRtu[0])
                     {
@@ -236,7 +203,7 @@ namespace ScopeSetupApp.MainForm
                             Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, без перезаписи (без сохранения)", Color.LightGreen);
                             break;
                         case 4:
-                            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, без перезаписи (без сохранения)", Color.LightGreen);
+                            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, без перезаписи (c сохранением)", Color.LightGreen);
                             break;
                     }
                     break;

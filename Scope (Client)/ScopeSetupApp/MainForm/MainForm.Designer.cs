@@ -35,7 +35,6 @@
             this.Infopanel = new System.Windows.Forms.Panel();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
             this.current_config = new System.Windows.Forms.ToolStripButton();
-            this.new_config = new System.Windows.Forms.ToolStripButton();
             this.MainPanel = new System.Windows.Forms.Panel();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.nowStatusFlowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
@@ -122,8 +121,7 @@
             this.toolStrip3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStrip3.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.current_config,
-            this.new_config});
+            this.current_config});
             this.toolStrip3.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.toolStrip3.Location = new System.Drawing.Point(0, 0);
             this.toolStrip3.Margin = new System.Windows.Forms.Padding(3);
@@ -145,18 +143,6 @@
             this.current_config.Size = new System.Drawing.Size(231, 19);
             this.current_config.Text = "Текущая";
             this.current_config.ToolTipText = "Соединение не установлено";
-            // 
-            // new_config
-            // 
-            this.new_config.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.new_config.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.new_config.Image = ((System.Drawing.Image)(resources.GetObject("new_config.Image")));
-            this.new_config.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.new_config.Margin = new System.Windows.Forms.Padding(3);
-            this.new_config.Name = "new_config";
-            this.new_config.Size = new System.Drawing.Size(231, 19);
-            this.new_config.Text = "Новая";
-            this.new_config.ToolTipText = "Соединение не установлено";
             // 
             // MainPanel
             // 
@@ -554,7 +540,6 @@
         private System.Windows.Forms.Panel Infopanel;
         private System.Windows.Forms.ToolStrip toolStrip3;
         private System.Windows.Forms.ToolStripButton current_config;
-        private System.Windows.Forms.ToolStripButton new_config;
     }
 }
 
