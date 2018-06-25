@@ -23,7 +23,8 @@ namespace ScopeSetupApp
 								new XAttribute("Name", portComboBox.Text),
 								new XAttribute("Speed", speedComboBox.Text),
 								new XAttribute("Parity", parityComboBox.Text),
-								new XAttribute("StopBits", stopBitstComboBox.Text)),
+								new XAttribute("StopBits", stopBitstComboBox.Text),
+                                new XAttribute("Address", addrComboBox.Text)),
 							new XElement("MainWindow",
 								new XAttribute("Height", MainForm.MainForm.SizeMainWindow.Height.ToString()),
 								new XAttribute("Width", MainForm.MainForm.SizeMainWindow.Width.ToString()),
@@ -40,11 +41,16 @@ namespace ScopeSetupApp
 
 		private readonly MainForm.MainForm _mainForm;
 
-		public ConnectForm(bool connected, string currentParity, string currentStopBits, string currentSpeed,  string currentCom, MainForm.MainForm form)
+		public ConnectForm(bool connected, string currentParity, string currentStopBits, string currentSpeed,  string currentCom, string currentAddress, MainForm.MainForm form)
 		{
 			_mainForm = form;
 
 			InitializeComponent();
+            addrComboBox.Items.Clear();
+		    for (int i = 1; i < 256; i++)
+		    {
+		        addrComboBox.Items.Add(i.ToString());
+		    }
 
 			foreach (string st in SerialPort.GetPortNames())
 			{
@@ -56,6 +62,7 @@ namespace ScopeSetupApp
 			speedComboBox.Text = GetBaudRate(currentSpeed).ToString();
 			stopBitstComboBox.Text = GetSerialPortStopBits(currentStopBits).ToString();
 			parityComboBox.Text = GetSerialPortParity(currentParity).ToString();
+		    addrComboBox.Text = GetSerialPortAddress(currentAddress).ToString();
 
 			if (connected)
 			{
@@ -80,8 +87,9 @@ namespace ScopeSetupApp
 				MainForm.MainForm.SerialPort.Parity = GetSerialPortParity(stopBitstComboBox.Text);
 				MainForm.MainForm.SerialPort.StopBits = GetSerialPortStopBits(stopBitstComboBox.Text);
 				MainForm.MainForm.SerialPort.PortName = GetComPortName(portComboBox.Text);
+			    MainForm.MainForm.SerialPort.SlaveAddr = GetSerialPortAddress(addrComboBox.Text);
 
-				_mainForm.SerialPortOpen();
+                _mainForm.SerialPortOpen();
 			}
 			catch
 			{
@@ -124,7 +132,9 @@ namespace ScopeSetupApp
 					return 115200;
 				case @"230400":
 					return 230400;
-				default:
+                case @"460800":
+                    return 460800;
+                default:
 					speedComboBox.SelectedIndex = 0;
 					return 9600;
 			}
@@ -158,10 +168,15 @@ namespace ScopeSetupApp
 					stopBitstComboBox.SelectedIndex = 0;
 					return StopBits.One;
 			}
-
 		}
 
-		private string GetComPortName(object comPort)
+	    private byte GetSerialPortAddress(object serialPortAddress)
+	    {
+	        return Convert.ToByte(serialPortAddress);
+	    }
+
+
+        private string GetComPortName(object comPort)
 		{
 			if (portComboBox.Items.Count != 0)
 			{

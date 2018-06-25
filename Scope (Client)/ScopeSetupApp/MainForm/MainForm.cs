@@ -377,7 +377,7 @@ namespace ScopeSetupApp.MainForm
 			OpenPort();
 		}
 
-		private void LoadComPortSettings(string comPortXmlName, out string newParity, out string newSpeed, out string newPort, out string newStopBits)
+		private void LoadComPortSettings(string comPortXmlName, out string newParity, out string newSpeed, out string newPort, out string newStopBits, out string newAddress)
 		{
 			var doc = new XmlDocument();
 			try
@@ -398,14 +398,16 @@ namespace ScopeSetupApp.MainForm
 				newSpeed = xmlNode.Attributes?["Speed"].Value;
 				newParity = xmlNode.Attributes?["Parity"].Value;
 				newStopBits = xmlNode.Attributes?["StopBits"].Value;
-			}
+                newAddress = xmlNode.Attributes?["Address"].Value;
+            }
 			catch
 			{
 				newPort = "";
 				newSpeed = "9600";
 				newParity = "Odd";
 				newStopBits = "One";
-				MessageBox.Show(@"Ошибки в файле с настройками!", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			    newAddress = "1";
+                MessageBox.Show(@"Ошибки в файле с настройками!", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 
@@ -417,10 +419,9 @@ namespace ScopeSetupApp.MainForm
 				return;
 			}
 
-			string parity; string port; string speed; string stopBits;
-			LoadComPortSettings(@"PrgSettings.xml", out parity, out speed, out port, out stopBits);
+		    LoadComPortSettings(@"PrgSettings.xml", out var parity, out var speed, out var port, out var stopBits, out var addr);
 
-			ConnectForm connectForm = new ConnectForm(SerialPort.IsOpen, parity, stopBits, speed, port, this);
+			ConnectForm connectForm = new ConnectForm(SerialPort.IsOpen, parity, stopBits, speed, port, addr,this);
 			connectForm.ShowDialog();
 		}
 

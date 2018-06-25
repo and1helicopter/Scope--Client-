@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\and1h\.Rider2017.3\system\resharper-host\local\Transient\ReSharperHost\v11\SolutionCaches\_ScopeSetupApp.307820199.00" t="ExcludeRecursive" />
+    <e p="F:\project\Scope (Client)\Scope (Client)" t="IncludeFlat">
+      <e p="packages" t="ExcludeRecursive">
+        <e p="MSTest.TestAdapter.1.1.18\build\_common\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll" t="Include" />
+        <e p="MSTest.TestAdapter.1.1.18\build\_common\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll" t="Include" />
+        <e p="MSTest.TestAdapter.1.1.18\build\_common\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll" t="Include" />
+        <e p="MSTest.TestAdapter.1.1.18\build\_common\ru\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.resources.dll" t="Include" />
+        <e p="MSTest.TestAdapter.1.1.18\build\_common\ru\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.resources.dll" t="Include" />
+        <e p="MSTest.TestAdapter.1.1.18\build\_common\ru\Microsoft.VisualStudio.TestPlatform.TestFramework.resources.dll" t="Include" />
+      </e>
+      <e p="ScopeSetupApp" t="IncludeRecursive">
+        <e p="app.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ConnectForm.cs" t="Include" />
+        <e p="ConnectForm.Designer.cs" t="Include" />
+        <e p="ConnectForm.resx" t="Include" />
+        <e p="Electrical_Threshold-50.ico" t="Include" />
+        <e p="Format" t="Include">
+          <e p="FormatConverter.cs" t="Include" />
+          <e p="FormatList.cs" t="Include" />
+        </e>
+        <e p="LoadOscQueryForm.cs" t="Include" />
+        <e p="LoadOscQueryForm.Designer.cs" t="Include" />
+        <e p="LoadOscQueryForm.resx" t="Include" />
+        <e p="MainForm" t="Include">
+          <e p="MainForm.cs" t="Include" />
+          <e p="MainForm.Designer.cs" t="Include" />
+          <e p="MainForm.resx" t="Include" />
+          <e p="MainFormModBus.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="DataSources" t="Include">
+            <e p="ScopeSysType.datasource" t="Include" />
+          </e>
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
+          <e p="Settings.Designer.cs" t="Include" />
+          <e p="Settings.settings" t="Include" />
+        </e>
+        <e p="Resources" t="Include">
+          <e p="Add Database-50.png" t="Include" />
+          <e p="Cancel-50.png" t="Include" />
+          <e p="Checked.png" t="Include" />
+          <e p="Checklist-50.png" t="Include" />
+          <e p="Checkmark-50.png" t="Include" />
+          <e p="Chromatography-50.png" t="Include" />
+          <e p="Circle Thin-64(1).png" t="Include" />
+          <e p="Circle Thin-64(2).png" t="Include" />
+          <e p="Circle Thin-64.png" t="Include" />
+          <e p="Connected-50.png" t="Include" />
+          <e p="Copy-50.png" t="Include" />
+          <e p="Download-50.png" t="Include" />
+          <e p="Electrical Threshold-50.png" t="Include" />
+          <e p="Fine Print-50.png" t="Include" />
+          <e p="icons8-Checked Checkbox-48.png" t="Include" />
+          <e p="icons8-Unchecked Checkbox-48.png" t="Include" />
+          <e p="icons8-Unchecked Checkbox-50.png" t="Include" />
+          <e p="Minus-32.png" t="Include" />
+          <e p="Minus-50.png" t="Include" />
+          <e p="Minus.bmp" t="Include" />
+          <e p="Open Folder-50.png" t="Include" />
+          <e p="Paste-50.png" t="Include" />
+          <e p="Plus-50.png" t="Include" />
+          <e p="Print-50.png" t="Include" />
+          <e p="Record-48.png" t="Include" />
+          <e p="Refresh-50.png" t="Include" />
+          <e p="Save as-50.png" t="Include" />
+          <e p="Save-50.png" t="Include" />
+          <e p="Stocks-50.png" t="Include" />
+          <e p="Support-50.png" t="Include" />
+          <e p="Upload-50.png" t="Include" />
+        </e>
+        <e p="ScopeChannelConfig.cs" t="Include" />
+        <e p="ScopeConfig.cs" t="Include" />
+        <e p="ScopeSetupApp.csproj" t="IncludeRecursive" />
+        <e p="ScopeSysType.cs" t="Include" />
+        <e p="SelectChannel.cs" t="Include" />
+        <e p="SelectChannel.Designer.cs" t="Include" />
+        <e p="SelectChannel.resx" t="Include" />
+        <e p="ucScopeConfig" t="Include">
+          <e p="UcScopeConfig.cs" t="Include" />
+          <e p="UcScopeConfig.Designer.cs" t="Include" />
+          <e p="UcScopeConfig.resx" t="Include" />
+        </e>
+        <e p="ucScopeSetup" t="Include">
+          <e p="UcScopeSetup.cs" t="Include" />
+          <e p="UcScopeSetup.Designer.cs" t="Include" />
+          <e p="UcScopeSetup.resx" t="Include" />
+        </e>
+        <e p="ucSettings" t="Include">
+          <e p="UcSettings.cs" t="Include" />
+          <e p="UcSettings.Designer.cs" t="Include" />
+          <e p="UcSettings.resx" t="Include" />
+          <e p="UcSettings.ru.resx" t="Include" />
+        </e>
+      </e>
+      <e p="ScopeSetupApp.sln" t="IncludeFlat" />
+      <e p="UniSerialPort" t="IncludeRecursive">
+        <e p="AsynchSerialPort.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ModBusCRC.cs" t="Include" />
+        <e p="ModbusTCPExceptions.cs" t="Include" />
+        <e p="ModbusTCPMaster.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="PortAnswerType.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="RequestPriority.cs" t="Include" />
+        <e p="RequestUnit.cs" t="Include" />
+        <e p="SerialPortModes.cs" t="Include" />
+        <e p="TCPFunctions.cs" t="Include" />
+        <e p="UniSerialPort.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="UnitTestProject" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="ru" t="Include" />
+        <e p="UnitTest1.cs" t="Include" />
+        <e p="UnitTestProject.csproj" t="IncludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>
