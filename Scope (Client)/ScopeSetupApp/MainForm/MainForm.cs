@@ -686,7 +686,8 @@ namespace ScopeSetupApp.MainForm
 		{
 			if (!loadDataProgressBar.Visible)
 			{
-				loadDataProgressBar.Visible = true;
+			    stopDownloadStripButton.Visible = true;
+                loadDataProgressBar.Visible = true;
 				loadScopeToolStripLabel.Visible = true;
 			}
 			UpdateStatusLoad();
@@ -699,7 +700,8 @@ namespace ScopeSetupApp.MainForm
 
 		private void HideProgressBar()
 		{
-			loadDataProgressBar.Visible = false;
+		    stopDownloadStripButton.Visible = false;
+            loadDataProgressBar.Visible = false;
 			loadScopeToolStripLabel.Visible = false;
 		}
 
@@ -714,18 +716,23 @@ namespace ScopeSetupApp.MainForm
 			{
 				if (_buttonsStatus != 0x00)
 				{
-					loadScopeToolStripLabel.Visible = false;
+				    stopDownloadStripButton.Visible = true;
+				    stopDownloadStripButton.Margin = new Padding(10, 0, 10, 0);
+                    loadScopeToolStripLabel.Visible = false;
 					loadDataProgressBar.Size = new Size(50, 24);
 				}
 				else
 				{
-					loadScopeToolStripLabel.Visible = true;
+				    stopDownloadStripButton.Visible = true;
+				    stopDownloadStripButton.Margin = new Padding(45, 0, 45, 0);
+                    loadScopeToolStripLabel.Visible = true;
 					loadDataProgressBar.Size = new Size(150, 24);
 				}
 			}
 			else
 			{
-				loadDataProgressBar.Visible = false;
+			    stopDownloadStripButton.Visible = false;
+                loadDataProgressBar.Visible = false;
 				loadScopeToolStripLabel.Visible = false;
 			}
 		}
@@ -1253,6 +1260,11 @@ namespace ScopeSetupApp.MainForm
 		}
 
 		private int _createFileNum;
+
+        private void stopDownloadStripButton_Click(object sender, EventArgs e)
+        {
+            SetScopeStatus(_loadOscNum);
+        }
 
         //Ручной запуск осциллографа
         private void manStartBtn_Click(object sender, EventArgs e)

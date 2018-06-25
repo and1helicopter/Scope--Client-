@@ -57,6 +57,7 @@
             this.config_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripContainer3 = new System.Windows.Forms.ToolStripContainer();
             this.toolStripContainer4 = new System.Windows.Forms.ToolStripContainer();
+            this.stopDownloadStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.Infopanel.SuspendLayout();
@@ -206,7 +207,8 @@
             this.ConfigScopeButton,
             this.Setting_Button,
             this.loadScopeToolStripLabel,
-            this.loadDataProgressBar});
+            this.loadDataProgressBar,
+            this.stopDownloadStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -464,6 +466,19 @@
             this.toolStripContainer4.Text = "toolStripContainer4";
             this.toolStripContainer4.TopToolStripPanelVisible = false;
             // 
+            // stopDownloadStripButton
+            // 
+            this.stopDownloadStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.stopDownloadStripButton.Image = ((System.Drawing.Image)(resources.GetObject("stopDownloadStripButton.Image")));
+            this.stopDownloadStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.stopDownloadStripButton.Margin = new System.Windows.Forms.Padding(45, 0, 45, 0);
+            this.stopDownloadStripButton.Name = "stopDownloadStripButton";
+            this.stopDownloadStripButton.Size = new System.Drawing.Size(152, 36);
+            this.stopDownloadStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.stopDownloadStripButton.ToolTipText = "Отмена";
+            this.stopDownloadStripButton.Visible = false;
+            this.stopDownloadStripButton.Click += new System.EventHandler(this.stopDownloadStripButton_Click);
+            // 
             // MainForm
             // 
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
@@ -540,6 +555,7 @@
         private System.Windows.Forms.Panel Infopanel;
         private System.Windows.Forms.ToolStrip toolStrip3;
         private System.Windows.Forms.ToolStripButton current_config;
+        private System.Windows.Forms.ToolStripButton stopDownloadStripButton;
     }
 }
 
