@@ -27,8 +27,8 @@ namespace ScopeSetupApp.MainForm
 			if (!_updateStatus && SerialPort.IsOpen && !ScopeConfig.ChangeScopeConfig)
 			{
 				_updateStatus = true;
-				SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 8), 16, UpdateStatus, RequestPriority.Normal, "part1");
-				SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 24), 16, UpdateStatus, RequestPriority.Normal, "part2");
+				SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilStatus), 16, UpdateStatus, RequestPriority.Normal, "part1");
+				SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilStatus + 16), 16, UpdateStatus, RequestPriority.Normal, "part2");
 			}
 		}
 
@@ -120,7 +120,7 @@ namespace ScopeSetupApp.MainForm
 				{
 					if (_oscilsStatus[j] >= 4)
 					{
-						SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 136 + j * 4), 4, UpdateTimeStamp, j);
+						SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilDateTime + j * 4), 4, UpdateTimeStamp, j);
 					}
 				}
 			}
@@ -158,7 +158,7 @@ namespace ScopeSetupApp.MainForm
 	        if (_connectToSystem)
 	        {
 	            //OscilEnable 70
-	            SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 70), 1, UpdateStatusСonfig, "OscilEnable");
+	            SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilEnable), 1, UpdateStatusСonfig, "OscilEnable");
             }
 	        else
 	        {
@@ -223,7 +223,7 @@ namespace ScopeSetupApp.MainForm
                             return;
                         }
 
-                        ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + 8 + index);
+                        ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilStatus + index);
                         SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, 0x05);
                         //Инициализируем скачивание осцллограммы
                         SerialPort.GetDataRTU(addr, 1, StartScopeLoad, index);
@@ -270,7 +270,7 @@ namespace ScopeSetupApp.MainForm
             _loadOscData = false;
 		    _loadOscDataStep = 0;
 		    _countTemp = 0;
-		    ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + 8 + index);
+		    ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilStatus + index);
 		    SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, 0x04);
         }
 
@@ -278,7 +278,7 @@ namespace ScopeSetupApp.MainForm
 		{
 		    if (_oscilsStatus[index] != 0x05)
 		    {
-		        ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + 8 + index);
+		        ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilStatus + index);
 		        SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, 0x00);
             }
 		    else
@@ -292,7 +292,7 @@ namespace ScopeSetupApp.MainForm
 		{
 			ushort[] uv = { 1 };
 
-			SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 4), null, RequestPriority.Normal, null, uv);
+			SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilNeed), null, RequestPriority.Normal, null, uv);
 		}
 
 
@@ -310,7 +310,7 @@ namespace ScopeSetupApp.MainForm
 				//Загрузка номера выборки на котором заканчивается осциллограмма 
 				case 0:
 				{
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 72 + _loadOscNum * 2),2, LoadOscDataResponce, 0);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilEnd + _loadOscNum * 2),2, LoadOscDataResponce, 0);
 				}
 					break;
 
@@ -419,7 +419,7 @@ namespace ScopeSetupApp.MainForm
 
 	    public void CheackConnect()
 	    {
-	        SerialPort.GetDataRTU((ushort) (ScopeSysType.OscilCmndAddr + 379), 1, CheackConnect, "CheackConnect");
+	        SerialPort.GetDataRTU((ushort) (ScopeSysType.OscilCmndAddr + StructAddr.Padding), 1, CheackConnect, "CheackConnect");
 	    }
 
 	    private void CheackConnect(bool dataOk, ushort[] paramRtu, object param)
@@ -442,76 +442,76 @@ namespace ScopeSetupApp.MainForm
 			switch (_loadConfigStep)
 			{
 				case 0:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 67), 1, LoadConfig, RequestPriority.Normal, 0);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilChNum), 1, LoadConfig, RequestPriority.Normal, 0);
 					break;
 				case 1:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 66), 1, LoadConfig, RequestPriority.Normal, 1);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilQuantity), 1, LoadConfig, RequestPriority.Normal, 1);
 					break;
 				case 2:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 68), 1, LoadConfig, RequestPriority.Normal, 2);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilHistoryPercent), 1, LoadConfig, RequestPriority.Normal, 2);
 					break;
 				case 3:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 69), 1, LoadConfig, RequestPriority.Normal, 3);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilFreqDiv), 1, LoadConfig, RequestPriority.Normal, 3);
 					break;
 				case 4:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 70), 1, LoadConfig, RequestPriority.Normal, 4);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilEnable), 1, LoadConfig, RequestPriority.Normal, 4);
 					break;
 				case 5:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 64), 2, LoadConfig, RequestPriority.Normal, 5);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilSize), 2, LoadConfig, RequestPriority.Normal, 5);
 					break;
 				case 6:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 2), 1, LoadConfig, RequestPriority.Normal, 6);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilSampleRate), 1, LoadConfig, RequestPriority.Normal, 6);
 					break;
 				case 7:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 376), 2, LoadConfig, RequestPriority.Normal, 7);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilMemorySize), 2, LoadConfig, RequestPriority.Normal, 7);
 					break;
 				case 8:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 3), 1, LoadConfig, RequestPriority.Normal, 8);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilSampleSize), 1, LoadConfig, RequestPriority.Normal, 8);
 					break;
 				case 9:
-					SerialPort.GetDataRTU(ScopeSysType.OscilCmndAddr, 2, LoadConfig, RequestPriority.Normal, 9);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilHistoryCount), 2, LoadConfig, RequestPriority.Normal, 9);
 					break;
 				case 10:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 378), 2, LoadConfig, RequestPriority.Normal, 10);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilStatusLoad), 2, LoadConfig, RequestPriority.Normal, 10);
 					break;
 				case 11:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 32), 32, LoadConfig, RequestPriority.Normal, 11);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilAddr), 32, LoadConfig, RequestPriority.Normal, 11);
 					break;
 				case 12:
-					SerialPort.GetDataRTU(ScopeSysType.ConfigurationAddr, 32, LoadConfig, RequestPriority.Normal, 12);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilTypeData), 32, LoadConfig, RequestPriority.Normal, 12);
 					break;
 				case 13:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 72 + 16 * _indexChannel), 16, LoadConfig, RequestPriority.Normal, 13);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilChNumName + 16 * _indexChannel), 16, LoadConfig, RequestPriority.Normal, 13);
 					break;
 				case 14:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 584 + _indexChannel), 1, LoadConfig, RequestPriority.Normal, 14);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilComtradeConfig + StructAddr.Phase + _indexChannel), 1, LoadConfig, RequestPriority.Normal, 14);
 					break;
 				case 15:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 616 + 8 * _indexChannel), 8, LoadConfig, RequestPriority.Normal, 15);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilComtradeConfig + StructAddr.Ccbm + 8 * _indexChannel), 8, LoadConfig, RequestPriority.Normal, 15);
 					break;
 				case 16:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 872 + 4 * _indexChannel), 4, LoadConfig, RequestPriority.Normal, 16);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilComtradeConfig + StructAddr.Demension + 4 * _indexChannel), 4, LoadConfig, RequestPriority.Normal, 16);
 					break;
 				case 17:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1000 + _indexChannel), 1, LoadConfig, RequestPriority.Normal, 17);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilComtradeConfig + StructAddr.Type + _indexChannel), 1, LoadConfig, RequestPriority.Normal, 17);
 					break;
 				case 18:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1032), 16, LoadConfig, RequestPriority.Normal, 18);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilComtradeConfig + StructAddr.StationName), 16, LoadConfig, RequestPriority.Normal, 18);
 					break;
 				case 19:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1048), 8, LoadConfig, RequestPriority.Normal, 19);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilComtradeConfig + StructAddr.RecordingId), 8, LoadConfig, RequestPriority.Normal, 19);
 					break;
 				case 20:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1056), 4, LoadConfig, RequestPriority.Normal, 20);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilComtradeConfig + StructAddr.TimeCode), 4, LoadConfig, RequestPriority.Normal, 20);
 					break;
 				case 21:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1060), 4, LoadConfig, RequestPriority.Normal, 21);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilComtradeConfig + StructAddr.LocalCode), 4, LoadConfig, RequestPriority.Normal, 21);
 					break;
 				case 22:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1064), 4, LoadConfig, RequestPriority.Normal, 22);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilComtradeConfig + StructAddr.TmqCode), 4, LoadConfig, RequestPriority.Normal, 22);
 					break;
 				case 23:
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + 1068), 4, LoadConfig, RequestPriority.Normal, 23);
+					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilComtradeConfig + StructAddr.Leapsec), 4, LoadConfig, RequestPriority.Normal, 23);
 					break;
 			}
 		}

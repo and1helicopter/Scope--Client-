@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using ScopeSetupApp.Format;
@@ -799,12 +800,23 @@ namespace ScopeSetupApp.MainForm
 			string str = " " + "\t";
 			for (int i = 0; i < ScopeConfig.ChannelCount; i++)
 			{
-				str = str + ScopeConfig.ChannelName[i] + "\t";
+				str = str + ScopeConfig.ChannelName[i].Substring(0,29).Replace("\0", String.Empty) + "\t";
 			}
 			return str;
 		}
 
-		private int _count64, _count32 , _count16;
+	    private string FileHeaderLineColor()
+	    {
+	        string str = " " + "\t";
+	        for (int i = 0; i < ScopeConfig.ChannelCount; i++)
+	        {
+	            var name = Encoding.Default.GetBytes(ScopeConfig.ChannelName[i].Substring(29, 3));
+                str = str + BitConverter.ToString(name).Replace("-", string.Empty).ToLower() + "\t";
+	        }
+	        return str;
+	    }
+
+        private int _count64, _count32 , _count16;
 
 		/*
 		 ushort Format 
@@ -1108,8 +1120,9 @@ namespace ScopeSetupApp.MainForm
 					sw.WriteLine(Convert.ToString(ScopeConfig.SampleRate / ScopeConfig.FreqCount));     //Частота выборки (частота запуска осциллогрофа/ делитель)
 					sw.WriteLine(ScopeConfig.OscilHistCount);                                           //Предыстория 
 					sw.WriteLine(FileHeaderLine());                                                     //Формирование заголовка (подписи названия каналов)
+                    sw.WriteLine(FileHeaderLineColor());          
 
-					List<ushort[]> lu = InitParamsLines();                                              //Формирование строк всех загруженных данных (отсортированых с предысторией)
+                    List<ushort[]> lu = InitParamsLines();                                              //Формирование строк всех загруженных данных (отсортированых с предысторией)
 					for (int i = 0; i < lu.Count; i++)
 					{
 						sw.WriteLine(FileParamLine(lu[i], i));

@@ -30,6 +30,8 @@
 		{
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConnectForm));
             this.comsetPanel = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.addrComboBox = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.parityComboBox = new System.Windows.Forms.ComboBox();
@@ -42,8 +44,6 @@
             this.disconnectBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.addrComboBox = new System.Windows.Forms.ComboBox();
             this.comsetPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,6 +65,32 @@
             this.comsetPanel.Name = "comsetPanel";
             this.comsetPanel.Size = new System.Drawing.Size(187, 130);
             this.comsetPanel.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(3, 27);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(67, 24);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Адрес:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // addrComboBox
+            // 
+            this.addrComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.addrComboBox.FormattingEnabled = true;
+            this.addrComboBox.Items.AddRange(new object[] {
+            "9600",
+            "19200",
+            "38400",
+            "57600",
+            "115200",
+            "230400"});
+            this.addrComboBox.Location = new System.Drawing.Point(76, 28);
+            this.addrComboBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.addrComboBox.Name = "addrComboBox";
+            this.addrComboBox.Size = new System.Drawing.Size(106, 23);
+            this.addrComboBox.TabIndex = 10;
             // 
             // label5
             // 
@@ -181,7 +207,7 @@
             // 
             // cancelBtn
             // 
-            this.cancelBtn.Location = new System.Drawing.Point(195, 79);
+            this.cancelBtn.Location = new System.Drawing.Point(195, 105);
             this.cancelBtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(133, 24);
@@ -192,7 +218,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(195, 55);
+            this.button1.Location = new System.Drawing.Point(195, 81);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(133, 24);
@@ -200,32 +226,6 @@
             this.button1.Text = "Сохранить настройки";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(3, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 24);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Адрес:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // addrComboBox
-            // 
-            this.addrComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.addrComboBox.FormattingEnabled = true;
-            this.addrComboBox.Items.AddRange(new object[] {
-            "9600",
-            "19200",
-            "38400",
-            "57600",
-            "115200",
-            "230400"});
-            this.addrComboBox.Location = new System.Drawing.Point(76, 28);
-            this.addrComboBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.addrComboBox.Name = "addrComboBox";
-            this.addrComboBox.Size = new System.Drawing.Size(106, 23);
-            this.addrComboBox.TabIndex = 10;
             // 
             // ConnectForm
             // 

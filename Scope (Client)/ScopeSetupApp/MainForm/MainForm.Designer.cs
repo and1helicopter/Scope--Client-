@@ -47,6 +47,7 @@
             this.Setting_Button = new System.Windows.Forms.ToolStripButton();
             this.loadScopeToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.loadDataProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.stopDownloadStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
@@ -57,7 +58,6 @@
             this.config_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripContainer3 = new System.Windows.Forms.ToolStripContainer();
             this.toolStripContainer4 = new System.Windows.Forms.ToolStripContainer();
-            this.stopDownloadStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.Infopanel.SuspendLayout();
@@ -109,10 +109,10 @@
             // 
             this.Infopanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Infopanel.Controls.Add(this.toolStrip3);
-            this.Infopanel.Location = new System.Drawing.Point(0, 418);
+            this.Infopanel.Location = new System.Drawing.Point(0, 449);
             this.Infopanel.Margin = new System.Windows.Forms.Padding(0);
             this.Infopanel.Name = "Infopanel";
-            this.Infopanel.Size = new System.Drawing.Size(244, 71);
+            this.Infopanel.Size = new System.Drawing.Size(244, 40);
             this.Infopanel.TabIndex = 5;
             // 
             // toolStrip3
@@ -129,7 +129,7 @@
             this.toolStrip3.Name = "toolStrip3";
             this.toolStrip3.Padding = new System.Windows.Forms.Padding(3);
             this.toolStrip3.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip3.Size = new System.Drawing.Size(244, 71);
+            this.toolStrip3.Size = new System.Drawing.Size(244, 40);
             this.toolStrip3.TabIndex = 0;
             this.toolStrip3.Text = "toolStrip3";
             // 
@@ -328,6 +328,19 @@
             this.loadDataProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.loadDataProgressBar.Visible = false;
             // 
+            // stopDownloadStripButton
+            // 
+            this.stopDownloadStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.stopDownloadStripButton.Image = ((System.Drawing.Image)(resources.GetObject("stopDownloadStripButton.Image")));
+            this.stopDownloadStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.stopDownloadStripButton.Margin = new System.Windows.Forms.Padding(45, 0, 45, 0);
+            this.stopDownloadStripButton.Name = "stopDownloadStripButton";
+            this.stopDownloadStripButton.Size = new System.Drawing.Size(152, 36);
+            this.stopDownloadStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.stopDownloadStripButton.ToolTipText = "Отмена";
+            this.stopDownloadStripButton.Visible = false;
+            this.stopDownloadStripButton.Click += new System.EventHandler(this.stopDownloadStripButton_Click);
+            // 
             // toolStrip2
             // 
             this.toolStrip2.AutoSize = false;
@@ -465,19 +478,6 @@
             this.toolStripContainer4.TabIndex = 17;
             this.toolStripContainer4.Text = "toolStripContainer4";
             this.toolStripContainer4.TopToolStripPanelVisible = false;
-            // 
-            // stopDownloadStripButton
-            // 
-            this.stopDownloadStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.stopDownloadStripButton.Image = ((System.Drawing.Image)(resources.GetObject("stopDownloadStripButton.Image")));
-            this.stopDownloadStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.stopDownloadStripButton.Margin = new System.Windows.Forms.Padding(45, 0, 45, 0);
-            this.stopDownloadStripButton.Name = "stopDownloadStripButton";
-            this.stopDownloadStripButton.Size = new System.Drawing.Size(152, 36);
-            this.stopDownloadStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.stopDownloadStripButton.ToolTipText = "Отмена";
-            this.stopDownloadStripButton.Visible = false;
-            this.stopDownloadStripButton.Click += new System.EventHandler(this.stopDownloadStripButton_Click);
             // 
             // MainForm
             // 

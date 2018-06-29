@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.IO;
-using System.Linq;
-using System.Reflection;
+using BrightIdeasSoftware;
 using ScopeSetupApp.Format;
 using UniSerialPort;
+using Color = System.Drawing.Color;
+using UserControl = System.Windows.Forms.UserControl;
 
 namespace ScopeSetupApp.ucScopeSetup
 {
 	public partial class UcScopeSetup : UserControl
 	{
-
 		private ushort _nowHystory = 1;             //Предыстория 
 		private ushort _nowScopeCount = 1;          //Количество осциллограмм
-		private ushort _nowMaxChannelCount;    //Количество каналов
+		private ushort _nowMaxChannelCount;         //Количество каналов
 		private ushort _nowOscFreq = 1;             //Делитель     
 		private readonly uint _oscilAllSize = ScopeSysType.OscilAllSize;             //
 
-		private readonly object[] _format = FormatConverter.ActualFormat;
+		private static readonly object[] Format = FormatConverter.ActualFormat;
 
-		private readonly object[] _sizeFormat =
+		private static readonly object[] SizeFormat =
 		{
 			"16",
 			"32",
@@ -32,163 +33,217 @@ namespace ScopeSetupApp.ucScopeSetup
 
 		#region
 
-		private readonly List<ListViewItem> _channelnameListViewItems = new List<ListViewItem>();
-		private readonly List<ListViewGroup> _groupListViewGroup = new List<ListViewGroup>();
-		private readonly List<String> _groupString = new List<String>();
+	    private readonly List<Item> _channelItems = new List<Item>();
 
 		private void InitTable(string[] agrs)
 		{
-			if (agrs.Length > 0)
+		    OLVColumn groupChanel = new OLVColumn
+		    {
+		        AspectName = "Group",
+		        IsVisible = false,
+		        MaximumWidth = 20,
+		        MinimumWidth = 20,
+		        ShowTextInHeader = false,
+		        Text = @"Группа",
+		        Width = 20
+		    };
+
+		    OLVColumn nameChanel = new OLVColumn
+		    {
+		        AspectName = "Name",
+		        Groupable = false,
+		        HeaderCheckBoxUpdatesRowCheckBoxes = false,
+		        IsEditable = false,
+		        MinimumWidth = 200,
+		        Text = @"Название канала",
+		        Width = 200
+		    };
+
+		    OLVColumn colorChanel = new OLVColumn
+		    {
+		        AspectName = "Color",
+		        ButtonSizing = OLVColumn.ButtonSizingMode.CellBounds,
+		        Groupable = false,
+		        HeaderCheckBoxUpdatesRowCheckBoxes = false,
+		        MinimumWidth = 100,
+		        Text = @"Цвет",
+		        Width = 100,
+		        WordWrap = true
+		    };
+
+		    OLVColumn colorsChanel = new OLVColumn
+		    {
+		        AspectName = "Colors",
+		        MinimumWidth = 100,
+		        ShowTextInHeader = false,
+		        Text = @"Color",
+		        Width = 100
+		    };
+            if (agrs.Length > 0)
 			{
-				if (agrs[0] == "a" || agrs[0] == "A")
+
+
+                if (agrs[0] == "a" || agrs[0] == "A")
 				{
-					ColumnHeader nameColumnHeader = new ColumnHeader
-					{
-						Name = "name_columnHeader",
-						Text = @"Название канала",
-						Width = 270,
-						TextAlign = HorizontalAlignment.Left,
-						DisplayIndex = 0,
-						Tag = 1
-					};
+				    OLVColumn addrChanel = new OLVColumn
+				    {
+				        AspectName = "Addr",
+				        Groupable = false,
+				        HeaderCheckBoxUpdatesRowCheckBoxes = false,
+				        MinimumWidth = 160,
+				        Text = @"Адрес",
+				        Width = 160
+				    };
 
-					ColumnHeader addrColumnHeader = new ColumnHeader
-					{
-						Name = "name_columnHeader",
-						Text = @"Адрес",
-						Width = 270,
-						TextAlign = HorizontalAlignment.Left,
-						DisplayIndex = 0,
-						Tag = 2
-					};
+				    OLVColumn formatChanel = new OLVColumn
+				    {
+				        AspectName = "Format",
+				        Groupable = false,
+				        HeaderCheckBoxUpdatesRowCheckBoxes = false,
+				        MinimumWidth = 160,
+				        Text = @"Формат",
+				        Width = 160
+				    };
 
-					ColumnHeader formatColumnHeader = new ColumnHeader
-					{
-						Name = "name_columnHeader",
-						Text = @"Формат канала",
-						Width = 270,
-						TextAlign = HorizontalAlignment.Left,
-						DisplayIndex = 0,
-						Tag = 3
-					};
+				    dataListView.AllColumns.Add(groupChanel);
+				    dataListView.AllColumns.Add(nameChanel);
+				    dataListView.AllColumns.Add(addrChanel);
+				    dataListView.AllColumns.Add(formatChanel);
+				    dataListView.AllColumns.Add(colorChanel);
+				    dataListView.AllColumns.Add(colorsChanel);
 
-					listView1.Columns.Add(nameColumnHeader);
-					listView1.Columns.Add(addrColumnHeader);
-					listView1.Columns.Add(formatColumnHeader);
-				}
-			}
+				    dataListView.Columns.AddRange(new ColumnHeader[]
+				    {
+				        groupChanel,
+				        nameChanel,
+				        addrChanel,
+				        formatChanel,
+                        colorChanel,
+				        colorsChanel
+				    });
+                }
+            }
 			else
-			{
-				ColumnHeader nameColumnHeader = new ColumnHeader
-				{
-					Name = "name_columnHeader",
-					Text = @"Название канала",
-					Width = 270,
-					TextAlign = HorizontalAlignment.Left,
-					DisplayIndex = 0,
-					Tag = 1
-				};
+            {
+                colorChanel.MinimumWidth = 200;
+                colorsChanel.MinimumWidth = 200;
 
-				listView1.Columns.Add(nameColumnHeader);
+                dataListView.AllColumns.Add(groupChanel);
+			    dataListView.AllColumns.Add(nameChanel);
+			    dataListView.AllColumns.Add(colorChanel);
+			    dataListView.AllColumns.Add(colorsChanel);
+
+			    dataListView.Columns.AddRange(new ColumnHeader[]
+			    {
+			        groupChanel,
+			        nameChanel,
+			        colorChanel,
+			        colorsChanel
+                });
 			}
 
-			CommentRichTextBox.Text = ScopeSysType.OscilComment;
-			foreach (var item in ScopeSysType.ScopeItem)
-			{
-				if (!_groupString.Contains(item.ChannelGroupNames))
-				{
-					_groupString.Add(item.ChannelGroupNames);
-					_groupListViewGroup.Add(new ListViewGroup(item.ChannelGroupNames, HorizontalAlignment.Center));
-					listView1.Groups.Add(_groupListViewGroup[_groupListViewGroup.Count - 1]);
-				}
-			}
+            CommentRichTextBox.Text = ScopeSysType.OscilComment;
 
-			// ReSharper disable once UnusedVariable
-			foreach (var item in ScopeSysType.ScopeItem)
-			{
-				_channelnameListViewItems.Add(new ListViewItem());
-				int i = _channelnameListViewItems.Count - 1;
-				_channelnameListViewItems[i].Text = item.ChannelNames;
-				_channelnameListViewItems[i].SubItems.Add("0x" + item.ChannelAddrs.ToString("X4"));
-				_channelnameListViewItems[i].SubItems.Add(
-					Convert.ToString(_sizeFormat[item.ChannelformatNumeric]) + "b   " +
-					Convert.ToString(_format[item.ChannelFormats]));
-				_channelnameListViewItems[i].Checked = false;
-				foreach (var itemGroup in _groupListViewGroup)
-				{
-					if (item.ChannelGroupNames == itemGroup.Header)
-					{
-						_channelnameListViewItems[i].Group = itemGroup;
-						break;
-					}
-				}
+            colorChanel.ButtonSizing = OLVColumn.ButtonSizingMode.CellBounds;
+		    colorChanel.ButtonSize = new Size(48, 16);
+            colorChanel.IsButton = true;
+		    colorChanel.TextAlign = HorizontalAlignment.Center;
+		    
+            foreach (var item in ScopeSysType.ScopeItem)
+            {
+                var value = new Item(item);
+                _channelItems.Add(value);
+            }
 
-				listView1.Items.Add(_channelnameListViewItems[i]);
-			}
+		    dataListView.SetObjects(_channelItems);
+            dataListView.UseCellFormatEvents = true;
+            dataListView.FormatCell += DataListViewOnFormatCell;
+            dataListView.FormatRow += DataListViewOnFormatRow;
 
-			foreach (var item in _groupListViewGroup)
-			{
-				if (item.Header == "")
-				{
-					item.Header = @"Несгруппированные параметры";
-					break;
-				}
-			}
+
+            dataListView.ButtonClick += delegate(object sender, CellClickEventArgs e)
+		    {
+		        ColorDialog cd = new ColorDialog();
+		        if (cd.ShowDialog() == DialogResult.OK)
+		        {
+                    e.SubItem.BackColor = cd.Color;
+		            e.SubItem.Text = cd.Color.R.ToString("x2") + cd.Color.G.ToString("x2") + cd.Color.B.ToString("x2");
+
+                    ((Item)e.Model).Color = cd.Color.R.ToString("x2") + cd.Color.G.ToString("x2") + cd.Color.B.ToString("x2");
+                    dataListView.RefreshObject(e.Model);
+                }
+            };
 		}
 
-		void SetDoubleBuffered(Control c, bool value)
-		{
-			PropertyInfo pi = typeof(Control).GetProperty("DoubleBuffered", BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic);
-			if (pi != null)
-			{
-				pi.SetValue(c, value, null);
-			}
-		}
+	    private class Item
+	    {
+	        public string Name { get; set; }
+	        public string Addr { get; set; }
+	        public string Format { get; set; }
+	        public string Group { get; set; }
+	        public string Color { get; set; }
+            public ScopeChannelConfig Value { get; set; }
 
-		private bool _resizing;
+            public Item(ScopeChannelConfig item)
+            {
+                Value = item;
+                Name = item.ChannelNames;
+                Addr = "0x" + item.ChannelAddrs.ToString("x4");
+                Format = Convert.ToString(SizeFormat[item.ChannelformatNumeric]) + "b   " + Convert.ToString(UcScopeSetup.Format[item.ChannelFormats]);
+                Color = "ffffff";
+                Group = item.ChannelGroupNames != "" ? item.ChannelGroupNames : @"Несгруппированные параметры";
+	        }
+	    }
 
-		private void ListView_SizeChanged(object sender, EventArgs e)
-		{
-			// Don't allow overlapping of SizeChanged calls
-			if (!_resizing)
-			{
-				// Set the resizing flag
-				_resizing = true;
+        private void DataListViewOnFormatRow(object o, FormatRowEventArgs formatRowEventArgs)
+	    {
+	        formatRowEventArgs.Item.BackColor = formatRowEventArgs.Item.Checked ? Color.LightSteelBlue : SystemColors.ButtonHighlight;
+	    }
 
-				ListView listView = sender as ListView;
-				if (listView != null)
-				{
-					// Calculate the percentage of space each column should 
-					// occupy in reference to the other columns and then set the 
-					// width of the column to that percentage of the visible space.
-					for (int i = 0; i < listView.Columns.Count; i++)
-					{
-						listView.Columns[i].Width = (int)((double)1 / listView.Columns.Count * listView.ClientRectangle.Width);
-					}
-				}
-			}
+        private void DataListViewOnFormatCell(object o, FormatCellEventArgs formatCellEventArgs)
+	    {
+	        for (int i = 0; i < dataListView.Items.Count; i++)
+	        {
+	            var colorIndex = dataListView.Columns.Count == 4 ? 2 : 4;
+	            var colorsIndex = dataListView.Columns.Count == 4 ? 3 : 5;
 
-			// Clear the resizing flag
-			_resizing = false;
+                var str = dataListView.Items[i].SubItems[colorIndex].Text;
+	            var red = int.Parse(str.Substring(0, 2), NumberStyles.AllowHexSpecifier);
+	            var green = int.Parse(str.Substring(2, 2), NumberStyles.AllowHexSpecifier);
+	            var blue = int.Parse(str.Substring(4, 2), NumberStyles.AllowHexSpecifier);
 
-			SetDoubleBuffered(listView1, true);
-		}
+                dataListView.Items[i].SubItems[colorsIndex].BackColor = Color.FromArgb(red, green, blue);
+	        }
+        }
 
-		private void listView1_ItemChecked(object sender, ItemCheckedEventArgs e)
-		{
-			e.Item.BackColor = e.Item.Checked ? Color.LightSteelBlue : SystemColors.ButtonHighlight;
+	    private void dataListView_ItemChecked(object sender, ItemCheckedEventArgs e)
+	    {
+            e.Item.BackColor = e.Item.Checked ? Color.LightSteelBlue : SystemColors.ButtonHighlight;
 
-			_nowMaxChannelCount = (ushort)_channelnameListViewItems.Count(item => item.BackColor == Color.LightSteelBlue);
-			radioButton.Text = _nowMaxChannelCount.ToString();
-		}
+	        if (e.Item.Checked)
+	        {
+	            var item = (Item)dataListView.GetModelObject(e.Item.Index);
+	            if (item.Color == "ffffff")
+	            {
+	                var random = new Random();
+	                var color = $"{random.Next(0xffffff):X6}";
+	                item.Color = color;
+	                dataListView.RefreshObject(color);
+                }
+	        }
 
-		#endregion
+	        _nowMaxChannelCount = (ushort) dataListView.CheckedItems.Count;
+	        radioButton.Text = _nowMaxChannelCount.ToString();
+        }
 
-		public UcScopeSetup(string[] agrs)
+        #endregion
+
+        public UcScopeSetup(string[] agrs)
 		{
 			InitializeComponent();
 
 			InitTable(agrs);
+		    reloadButton_Click(null, null);
 		}
 
 		//****************************************************************************//
@@ -319,7 +374,7 @@ namespace ScopeSetupApp.ucScopeSetup
 		//***********************************************************************************************//
 		private ushort[] _newOscillConfig = new ushort[40];
 		private ushort[] _oscillConfig = new ushort[1280];
-		private readonly int[] _channelSeries = new int[32];
+		private readonly int[] _channelSeries = new int[32];        //Где какой элемент лежит
 
 		private int _writeConfigStep;
 		private ushort _writeStep;
@@ -331,30 +386,32 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<ushort> l = new List<ushort>();
 			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-				if (_channelnameListViewItems[i].Checked && ScopeSysType.ScopeItem[i].ChannelformatNumeric == 2)
+			    var item = (Item)dataListView.GetModelObject(i);
+                if (dataListView.Items[i].Checked && item.Value.ChannelformatNumeric == 2)
+                {
+                    _channelSeries[j++] = i;
+                    l.Add(Convert.ToUInt16((Convert.ToInt32(item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats));
+                }
+			}
+			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
+			{
+			    var item = (Item)dataListView.GetModelObject(i);
+                if (dataListView.Items[i].Checked && item.Value.ChannelformatNumeric == 1)
 				{
 					_channelSeries[j++] = i;
-					l.Add(Convert.ToUInt16((Convert.ToInt32(ScopeSysType.ScopeItem[i].ChannelformatNumeric + 1) << 8) + ScopeSysType.ScopeItem[i].ChannelFormats));
+					l.Add(Convert.ToUInt16((Convert.ToInt32(item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats));
 				}
 			}
 			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-				if (_channelnameListViewItems[i].Checked && ScopeSysType.ScopeItem[i].ChannelformatNumeric == 1)
+			    var item = (Item)dataListView.GetModelObject(i);
+                if (dataListView.Items[i].Checked && item.Value.ChannelformatNumeric == 0)
 				{
 					_channelSeries[j++] = i;
-					l.Add(Convert.ToUInt16(Convert.ToInt32((ScopeSysType.ScopeItem[i].ChannelformatNumeric + 1) << 8) + ScopeSysType.ScopeItem[i].ChannelFormats));
-				}
-			}
-			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
-			{
-				if (_channelnameListViewItems[i].Checked && ScopeSysType.ScopeItem[i].ChannelformatNumeric == 0)
-				{
-					_channelSeries[j++] = i;
-					l.Add(Convert.ToUInt16(Convert.ToInt32((ScopeSysType.ScopeItem[i].ChannelformatNumeric + 1) << 8) + ScopeSysType.ScopeItem[i].ChannelFormats));
+					l.Add(Convert.ToUInt16((Convert.ToInt32(item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats));
 				}
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
-
 			return l;
 		}
 
@@ -364,7 +421,11 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<ushort> l = new List<ushort>();
 			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-				if (_channelnameListViewItems[i].Checked) { l.Add(ScopeSysType.ScopeItem[_channelSeries[j++]].ChannelAddrs); }
+			    if (dataListView.Items[i].Checked)
+			    {
+			        var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
+                    l.Add(item.Value.ChannelAddrs);
+			    }
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -375,17 +436,31 @@ namespace ScopeSetupApp.ucScopeSetup
 		private uint OscilSize(uint allSize, bool wr)
 		{
 			uint count64 = 0, count32 = 0, count16 = 0;
-			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
+		    Item item;
+            for (int i = 0; i < dataListView.Items.Count; i++)
 			{
-				if (_channelnameListViewItems[i].BackColor == Color.LightSteelBlue && ScopeSysType.ScopeItem[i].ChannelformatNumeric == 2) { count64++; }
+			    if (dataListView.Items[i].Checked)
+			    {
+			        item = (Item)dataListView.GetModelObject(i);
+                    if(item.Value.ChannelformatNumeric == 2) { count64++; }
+                }
 			}
 			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-				if (_channelnameListViewItems[i].BackColor == Color.LightSteelBlue && ScopeSysType.ScopeItem[i].ChannelformatNumeric == 1) { count32++; }
+			    if (dataListView.Items[i].Checked)
+			    {
+			        item = (Item)dataListView.GetModelObject(i);
+			        if (item.Value.ChannelformatNumeric == 1) { count32++; }
+			    }
 			}
+
 			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-				if (_channelnameListViewItems[i].BackColor == Color.LightSteelBlue && ScopeSysType.ScopeItem[i].ChannelformatNumeric == 0) { count16++; }
+			    if (dataListView.Items[i].Checked)
+			    {
+			        item = (Item)dataListView.GetModelObject(i);
+			        if (item.Value.ChannelformatNumeric == 0) { count16++; }
+			    }
 			}
 
 			uint sampleSize = count64 * 8 + count32 * 4 + count16 * 2;
@@ -430,11 +505,24 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<string> chName = new List<string>();
 			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-				if (_channelnameListViewItems[i].Checked) { chName.Add(ScopeSysType.ScopeItem[_channelSeries[j++]].ChannelNames); }
+			    if (dataListView.Items[i].Checked)
+			    {
+			        var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
+			        var str = new char[32];
+                    var color = item.Color;
+
+                    for (int index = 0; index < item.Value.ChannelNames.Length; index++)
+			            str[index] = item.Value.ChannelNames[index];
+
+			        str[29] = (char) byte.Parse(color.Substring(0, 2), NumberStyles.AllowHexSpecifier);
+			        str[30] = (char) byte.Parse(color.Substring(2, 2), NumberStyles.AllowHexSpecifier);
+			        str[31] = (char) byte.Parse(color.Substring(4, 2), NumberStyles.AllowHexSpecifier);
+
+                    var valName = new string(str);
+                    chName.Add(valName);
+			    }
 			}
-
 			if (chName.Count > _nowMaxChannelCount) { chName.Clear(); }
-
 			return chName;
 		}
 		//////////////////////////////////////////
@@ -444,7 +532,11 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<string> l = new List<string>();
 			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-				if (_channelnameListViewItems[i].Checked) { l.Add(ScopeSysType.ScopeItem[_channelSeries[j++]].ChannelPhase); }
+			    if (dataListView.Items[i].Checked)
+			    {
+			        var item = (Item) dataListView.GetModelObject(_channelSeries[j++]);
+			        l.Add(item.Value.ChannelPhase);
+			    }
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -456,7 +548,11 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<string> l = new List<string>();
 			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-				if (_channelnameListViewItems[i].Checked) { l.Add(ScopeSysType.ScopeItem[_channelSeries[j++]].ChannelCcbm); }
+			    if (dataListView.Items[i].Checked)
+			    {
+			        var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
+			        l.Add(item.Value.ChannelCcbm);
+			    }
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -468,7 +564,11 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<string> l = new List<string>();
 			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-				if (_channelnameListViewItems[i].Checked) { l.Add(ScopeSysType.ScopeItem[_channelSeries[j++]].ChannelDimension); }
+			    if (dataListView.Items[i].Checked)
+			    {
+			        var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
+			        l.Add(item.Value.ChannelDimension);
+			    }
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -480,7 +580,11 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<ushort> l = new List<ushort>();
 			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-				if (_channelnameListViewItems[i].Checked) { l.Add(ScopeSysType.ScopeItem[_channelSeries[j++]].ChannelTypeAd); }
+			    if (dataListView.Items[i].Checked)
+			    {
+			        var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
+			        l.Add(item.Value.ChannelTypeAd);
+			    }
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -510,26 +614,26 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			for (int i = 0; i < 32; i++)
 			{
-				if (i < chFormats.Count) { _oscillConfig[i] = chFormats[i]; }
-				else { _oscillConfig[i] = 0; }
+				if (i < chFormats.Count) { _oscillConfig[i + StructAddr.OscilTypeData] = chFormats[i]; }
+				else { _oscillConfig[i + StructAddr.OscilTypeData] = 0; }
 			}
 
 			List<ushort> chAddrs = ChannelAddrs();          //Адреса
 
 			for (int i = 0; i < 32; i++)
 			{
-				if (i < chAddrs.Count) { _oscillConfig[i + 32] = chAddrs[i]; }
-				else { _oscillConfig[i] = 0; }
+				if (i < chAddrs.Count) { _oscillConfig[i + StructAddr.OscilAddr] = chAddrs[i]; }
+				else { _oscillConfig[i + StructAddr.OscilAddr] = 0; }
 			}
 
-			_oscillConfig[64] = Convert.ToUInt16((OscilSize(ScopeSysType.OscilAllSize, false) << 16) >> 16);  //размер под осциллограмму 
-			_oscillConfig[65] = Convert.ToUInt16(OscilSize(ScopeSysType.OscilAllSize, false) >> 16);
+			_oscillConfig[StructAddr.OscilSize] = Convert.ToUInt16((OscilSize(ScopeSysType.OscilAllSize, false) << 16) >> 16);  //размер под осциллограмму 
+			_oscillConfig[StructAddr.OscilSize + 1] = Convert.ToUInt16(OscilSize(ScopeSysType.OscilAllSize, false) >> 16);
 
-			_oscillConfig[66] = _nowScopeCount;            //Колличество формируемых осциллограмм
-			_oscillConfig[67] = _nowMaxChannelCount;       //Колличество каналов
-			_oscillConfig[68] = _nowHystory;               //Предыстория
-			_oscillConfig[69] = _nowOscFreq;               //Как часто нужно записывать данные 
-			_oscillConfig[70] = OscilEnable();            //Включен или выключен осциллограф и нужно ли выполнять запись в память 
+			_oscillConfig[StructAddr.OscilQuantity] = _nowScopeCount;            //Колличество формируемых осциллограмм
+			_oscillConfig[StructAddr.OscilChNum] = _nowMaxChannelCount;       //Колличество каналов
+			_oscillConfig[StructAddr.OscilHistoryPercent] = _nowHystory;               //Предыстория
+			_oscillConfig[StructAddr.OscilFreqDiv] = _nowOscFreq;               //Как часто нужно записывать данные 
+			_oscillConfig[StructAddr.OscilEnable] = OscilEnable();            //Включен или выключен осциллограф и нужно ли выполнять запись в память 
 
 			//Дополнительные параметры 
 			//Запись названия канала
@@ -538,18 +642,23 @@ namespace ScopeSetupApp.ucScopeSetup
 			for (int i = 0; i < chName.Count; i++)
 			{
 				string chNameString = chName[i];
-				byte[] tempChNameStr = new Byte[32];
+			    char[] chNameChar = chNameString.ToCharArray();
+                byte[] tempChNameStr = new Byte[32];
 				byte[] chNameStr = Encoding.Default.GetBytes(chNameString);
 
-				for (int j = 0; j < 32; j++)
+			    chNameStr[29] = BitConverter.GetBytes(chNameChar[29])[0];
+			    chNameStr[30] = BitConverter.GetBytes(chNameChar[30])[0];
+			    chNameStr[31] = BitConverter.GetBytes(chNameChar[31])[0];
+
+                for (int j = 0; j < 32; j++)
 				{
 					if (j < chNameString.Length) tempChNameStr[j] = chNameStr[j];
 					else tempChNameStr[j] = 32;
 				}
 				for (int j = 1; j < 32; j += 2)
 				{
-					_oscillConfig[72 + 16 * i + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChNameStr[j]) << 8);
-					_oscillConfig[72 + 16 * i + (j / 2)] += Convert.ToUInt16(tempChNameStr[j - 1]);
+					_oscillConfig[StructAddr.OscilChNumName + 16 * i + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChNameStr[j]) << 8);
+					_oscillConfig[StructAddr.OscilChNumName + 16 * i + (j / 2)] += Convert.ToUInt16(tempChNameStr[j - 1]);
 				}
 			}
 
@@ -570,8 +679,8 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 				for (int j = 1; j < 2; j += 2)
 				{
-					_oscillConfig[584 + i + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChPhaseStr[j]) << 8);
-					_oscillConfig[584 + i + (j / 2)] += Convert.ToUInt16(tempChPhaseStr[j - 1]);
+					_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.Phase + i + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChPhaseStr[j]) << 8);
+					_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.Phase + i + (j / 2)] += Convert.ToUInt16(tempChPhaseStr[j - 1]);
 
 				}
 			}
@@ -591,8 +700,8 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 				for (int j = 1; j < 16; j += 2)
 				{
-					_oscillConfig[616 + i * 8 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChCcbmStr[j]) << 8);
-					_oscillConfig[616 + i * 8 + (j / 2)] += Convert.ToUInt16(tempChCcbmStr[j - 1]);
+					_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.Ccbm + i * 8 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChCcbmStr[j]) << 8);
+					_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.Ccbm + i * 8 + (j / 2)] += Convert.ToUInt16(tempChCcbmStr[j - 1]);
 
 				}
 			}
@@ -611,8 +720,8 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 				for (int j = 1; j < 8; j += 2)
 				{
-					_oscillConfig[872 + i * 4 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChDemensionStr[j]) << 8);
-					_oscillConfig[872 + i * 4 + (j / 2)] += Convert.ToUInt16(tempChDemensionStr[j - 1]);
+					_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.Demension + i * 4 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempChDemensionStr[j]) << 8);
+					_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.Demension + i * 4 + (j / 2)] += Convert.ToUInt16(tempChDemensionStr[j - 1]);
 				}
 			}
 
@@ -620,8 +729,8 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			for (int i = 0; i < chaTypeAd.Count; i++)
 			{
-				if (i < chaTypeAd.Count) { _oscillConfig[999 + i] = chaTypeAd[i]; }
-				else { _oscillConfig[1000 + i] = 0; }
+				if (i < chaTypeAd.Count) { _oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.Type + i] = chaTypeAd[i]; }
+				else { _oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.Type + i] = 0; }
 			}
 
 			String stationName = ScopeSysType.StationName;                //
@@ -636,8 +745,8 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			for (int j = 1; j < 32; j += 2)
 			{
-				_oscillConfig[1032 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempStationNameStr[j]) << 8);
-				_oscillConfig[1032 + (j / 2)] += Convert.ToUInt16(tempStationNameStr[j - 1]);
+				_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.StationName + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempStationNameStr[j]) << 8);
+				_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.StationName + (j / 2)] += Convert.ToUInt16(tempStationNameStr[j - 1]);
 			}
 
 			String recordingId = ScopeSysType.RecordingDevice;            //
@@ -652,8 +761,8 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			for (int j = 1; j < 16; j += 2)
 			{
-				_oscillConfig[1048 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempRecordingIdStr[j]) << 8);
-				_oscillConfig[1048 + (j / 2)] += Convert.ToUInt16(tempRecordingIdStr[j - 1]);
+				_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.RecordingId + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempRecordingIdStr[j]) << 8);
+				_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.RecordingId + (j / 2)] += Convert.ToUInt16(tempRecordingIdStr[j - 1]);
 			}
 
 			String timeCode = ScopeSysType.TimeCode;     //
@@ -668,11 +777,11 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			for (int j = 1; j < 8; j += 2)
 			{
-				_oscillConfig[1056 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempTimeCodeStr[j]) << 8);
-				_oscillConfig[1056 + (j / 2)] += Convert.ToUInt16(tempTimeCodeStr[j - 1]);
+				_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.TimeCode + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempTimeCodeStr[j]) << 8);
+				_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.TimeCode + (j / 2)] += Convert.ToUInt16(tempTimeCodeStr[j - 1]);
 			}
 
-			String localCode = ScopeSysType.TimeCode;     //
+			String localCode = ScopeSysType.LocalCode;     //
 
 			byte[] tempLocalCodeStr = new Byte[8];
 			byte[] localCodeStr = Encoding.Default.GetBytes(localCode);
@@ -684,8 +793,8 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			for (int j = 1; j < 8; j += 2)
 			{
-				_oscillConfig[1060 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempLocalCodeStr[j]) << 8);
-				_oscillConfig[1060 + (j / 2)] += Convert.ToUInt16(tempLocalCodeStr[j - 1]);
+				_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.LocalCode + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(tempLocalCodeStr[j]) << 8);
+				_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.LocalCode + (j / 2)] += Convert.ToUInt16(tempLocalCodeStr[j - 1]);
 			}
 
 			String tmqCode = ScopeSysType.TmqCode;     //
@@ -701,8 +810,8 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			for (int j = 1; j < 8; j += 2)
 			{
-				_oscillConfig[1064 + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(temptmqCodeStr[j]) << 8);
-				_oscillConfig[1064 + (j / 2)] += Convert.ToUInt16(temptmqCodeStr[j - 1]);
+				_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.TmqCode + (j / 2)] = Convert.ToUInt16(Convert.ToUInt32(temptmqCodeStr[j]) << 8);
+				_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.TmqCode + (j / 2)] += Convert.ToUInt16(temptmqCodeStr[j - 1]);
 			}
 
 			String leapsec = ScopeSysType.Leapsec;     //
@@ -717,8 +826,8 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			for (int j = 1; j < 8; j += 2)
 			{
-				_oscillConfig[1068 + (j / 2)] += Convert.ToUInt16(Convert.ToUInt32(templeapsecStr[j]) << 8);
-				_oscillConfig[1068 + (j / 2)] += Convert.ToUInt16(templeapsecStr[j - 1]);
+				_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.Leapsec + (j / 2)] += Convert.ToUInt16(Convert.ToUInt32(templeapsecStr[j]) << 8);
+				_oscillConfig[StructAddr.OscilComtradeConfig + StructAddr.Leapsec + (j / 2)] += Convert.ToUInt16(templeapsecStr[j - 1]);
 			}
 			#endregion
 		}
@@ -742,7 +851,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				partParam[i] = _newOscillConfig[i + _writeConfigStep * 8];
 			}
 
-			MainForm.MainForm.SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + 328 + _writeConfigStep * 8), EndRequest, RequestPriority.Normal, null, partParam);
+			MainForm.MainForm.SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilNewConfig + _writeConfigStep * 8), EndRequest, RequestPriority.Normal, null, partParam);
 		}
 		
 		private void EndRequest(bool dataOk, ushort[] paramRtu, object param)
@@ -781,23 +890,64 @@ namespace ScopeSetupApp.ucScopeSetup
 
 		public void  StatusConfigToSystemStrLabel()
 		{
-			if ((ScopeConfig.StatusOscil & 0x0001) == 0x0001)
+		    // ReSharper disable LocalizableElement
+            if ((ScopeConfig.StatusOscil & 0x0000) == 0x0000)
+		    {
+                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена и принята!" + 
+                                "\n" + @"CODE: 0x0000", @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if ((ScopeConfig.StatusOscil & 0x0001) == 0x0001)
 			{
-				// ReSharper disable once LocalizableElement
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена и принята", @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена не полностью!" + 
+				                "\n" + @"CODE: 0x0001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0002) == 0x0002)
 			{
-				// ReSharper disable once LocalizableElement
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена, но не принята", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			    MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое количество осциллограмм!" +
+			                    "\n" + @"CODE: 0x0002", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			else if ((ScopeConfig.StatusOscil & 0x0004) == 0x0004)
+		    else if ((ScopeConfig.StatusOscil & 0x0003) == 0x0003)
+		    {
+		        MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое количество каналов!" +
+		                        "\n" + @"CODE: 0x0003", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		    }
+            else if ((ScopeConfig.StatusOscil & 0x0004) == 0x0004)
 			{
-				// ReSharper disable once LocalizableElement
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Нарушена целостность данных", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
+			    MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое значение предыстории!" +
+			                    "\n" + @"CODE: 0x0004", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if ((ScopeConfig.StatusOscil & 0x0005) == 0x0005)
+            {
+                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не выровняны 32b и 64b данные!" +
+                                "\n" + @"CODE: 0x0005", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if ((ScopeConfig.StatusOscil & 0x0006) == 0x0006)
+            {
+                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимые 8b данные!" +
+                                "\n" + @"CODE: 0x0006", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if ((ScopeConfig.StatusOscil & 0x0007) == 0x0007)
+            {
+                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации нарушен порядок каналов!" +
+                                "\n" + @"CODE: 0x0007", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if ((ScopeConfig.StatusOscil & 0x0008) == 0x0008)
+            {
+                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации размер памяти не кратен 64b!" +
+                                "\n" + @"CODE: 0x0008", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if ((ScopeConfig.StatusOscil & 0x0009) == 0x0009)
+            {
+                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Недостаточно памяти для конфигурации!" +
+                                "\n" + @"CODE: 0x0009", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if ((ScopeConfig.StatusOscil & 0x000A) == 0x000A)
+            {
+                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Память под осциллограммы содержит не расчитано на целое число записей!" +
+                                "\n" + @"CODE: 0x000A", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
-			ScopeConfig.SendNewConfig = false;
+            ScopeConfig.SendNewConfig = false;
 		}
 
 		private void writeToSystemBtn_Click(object sender, EventArgs e)
@@ -837,10 +987,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			string str = "Канала нет в списке: \n";
 			for (int i = 0; i < 32; i++) { channelInList[i] = false; }
 
-			foreach (var item in _channelnameListViewItems)
-			{
-				item.Checked = false;
-			}
+		    dataListView.UncheckAll();
 
 			OpenFileDialog ofd = new OpenFileDialog
 			{
@@ -880,22 +1027,25 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++)
 			{
-				for (int j = 0; j < ScopeSysType.ScopeItem.Count; j++)
-				{
-					if (ScopeSysType.OscilChannelFormats[i] == ((ScopeSysType.ScopeItem[j].ChannelformatNumeric + 1) << 8) + ScopeSysType.ScopeItem[j].ChannelFormats && ScopeSysType.OscilChannelAddrs[i] == ScopeSysType.ScopeItem[j].ChannelAddrs)
-					{
-						channelInList[i] = true;
-						_channelnameListViewItems[j].Checked = true;
-						break;
-					}
-				}
+			    for (int j = 0; j < dataListView.Items.Count; j++)
+			    {
+			        var item = (Item)dataListView.GetModelObject(j);
+			        if (ScopeSysType.OscilChannelFormats[i] == item.Format && ScopeSysType.OscilChannelAddrs[i] == item.Addr)  //&& ScopeSysType.OscilChannelNames[i] == item.Name
+                    {
+			            channelInList[i] = true;
+                        dataListView.CheckObject(item);
+                        item.Color = ScopeSysType.OscilChannelColors[i];
+                        dataListView.RefreshObject(item);
+                        break;
+                    }
+                }
 			}
 
-			for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++)
+            for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++)
 			{
 				if (channelInList[i] == false)
 				{
-					str += ScopeSysType.OscilChannelNames[i] + @" Адрес: 0x" + ScopeSysType.OscilChannelAddrs[i].ToString("X4") + @" Формат: " + ScopeSysType.OscilChannelFormats[i] + "\n";
+					str += ScopeSysType.OscilChannelNames[i] + @" Адрес: 0x" + ScopeSysType.OscilChannelAddrs[i] + @" Формат: " + ScopeSysType.OscilChannelFormats[i] + "\n";
 					channelInLists = true;
 				}
 			}
@@ -955,19 +1105,20 @@ namespace ScopeSetupApp.ucScopeSetup
 				xmlOut.WriteAttributeString("Count", Convert.ToString(OscilEnable()));
 				xmlOut.WriteEndElement();
 
-				foreach (var item in _channelnameListViewItems)
-				{
-					if (item.Checked)
-					{
-						xmlOut.WriteStartElement("MeasureParam" + (++j));
+			    for (int i = 0; i < dataListView.Items.Count; i++)
+			    {
+			        if (dataListView.Items[i].Checked)
+			        {
+			            xmlOut.WriteStartElement("MeasureParam" + (++j));
 
-						xmlOut.WriteAttributeString("Name", ScopeSysType.ScopeItem[item.Index].ChannelNames);
-						xmlOut.WriteAttributeString("Addr", ScopeSysType.ScopeItem[item.Index].ChannelAddrs.ToString());
-						xmlOut.WriteAttributeString("Format", ((((ScopeSysType.ScopeItem[item.Index].ChannelformatNumeric) + 1) << 8) + ScopeSysType.ScopeItem[item.Index].ChannelFormats).ToString());
+			            xmlOut.WriteAttributeString("Name", dataListView.Items[i].SubItems[1].Text);
+			            xmlOut.WriteAttributeString("Addr", dataListView.Items[i].SubItems[2].Text);
+			            xmlOut.WriteAttributeString("Format", dataListView.Items[i].SubItems[3].Text);      //((((ScopeSysType.ScopeItem[item.Index].ChannelformatNumeric) + 1) << 8) + ScopeSysType.ScopeItem[item.Index].ChannelFormats).ToString()
+                        xmlOut.WriteAttributeString("Color", dataListView.Items[i].SubItems[4].Text);
 
-						xmlOut.WriteEndElement();
-					}
-				}
+                        xmlOut.WriteEndElement();
+                    }
+                }
 
 				/////////////////////////////////////////////////////////////
 				xmlOut.WriteEndElement();
@@ -991,10 +1142,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			bool[] channelInList = new bool[32];
 			for (int i = 0; i < 32; i++) { channelInList[i] = false; }
 
-			foreach (var item in _channelnameListViewItems)
-			{
-				item.Checked = false;
-			}
+		    dataListView.UncheckAll();
 
 			if (ScopeConfig.ScopeCount != 0) chCountRadioButton.Text = Convert.ToString(ScopeConfig.ScopeCount);
 			else chCountRadioButton.Clear();
@@ -1013,24 +1161,30 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			for (int i = 0; i < ScopeConfig.OscilFormat.Count; i++)
 			{
-				for (int j = 0; j < ScopeSysType.ScopeItem.Count; j++)
-				{
+			    for (int j = 0; j < dataListView.Items.Count; j++)
+			    {
+			        var item = (Item)dataListView.GetModelObject(j);
 
-					if (ScopeConfig.OscilFormat[i] == ((ScopeSysType.ScopeItem[j].ChannelformatNumeric + 1) << 8) + ScopeSysType.ScopeItem[j].ChannelFormats && ScopeConfig.OscilAddr[i] == ScopeSysType.ScopeItem[j].ChannelAddrs)
-					{
-						channelInList[i] = true;
-						_channelnameListViewItems[j].Checked = true;
-
-						break;
-					}
-				}
+			        if (ScopeConfig.OscilFormat[i] == ((item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats &&
+			            ScopeConfig.OscilAddr[i] == item.Value.ChannelAddrs)
+			        {
+			            channelInList[i] = true;
+			            //Изменяю цвет
+                        var name = Encoding.Default.GetBytes(ScopeConfig.ChannelName[i].Substring(29, 3));
+			            item.Color = BitConverter.ToString(name).Replace("-", string.Empty).ToLower();
+                        dataListView.CheckObject(item);
+                        dataListView.RefreshObject(item);
+                        break;
+                    }
+			    }
 			}
 
-			for (int i = 0; i < ScopeConfig.OscilAddr.Count; i++)
+
+            for (int i = 0; i < ScopeConfig.OscilAddr.Count; i++)
 			{
 				if (channelInList[i] == false)
 				{
-					str += @"Адрес: 0x" + ScopeConfig.OscilAddr[i].ToString("X4") + @" Формат: " + ScopeConfig.OscilFormat[i].ToString() + "\n";
+					str += @"Адрес: 0x" + ScopeConfig.OscilAddr[i].ToString("X4") + @" Формат: " + ScopeConfig.OscilFormat[i] + "\n";
 					channelInLists = true;
 				}
 			}
@@ -1074,6 +1228,5 @@ namespace ScopeSetupApp.ucScopeSetup
 		{
 			DelayOscil();
 		}
-
-	}
+    }
 }

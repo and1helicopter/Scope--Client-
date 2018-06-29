@@ -39,10 +39,11 @@ namespace ScopeSetupApp
 		//For OscilConfigurator
 		public static ushort SizeValue;
 		public static List<string> OscilChannelNames = new List<string>();
-		public static List<ushort> OscilChannelAddrs = new List<ushort>();
-		public static List<ushort> OscilChannelFormats = new List<ushort>();
+		public static List<string> OscilChannelAddrs = new List<string>();
+		public static List<string> OscilChannelFormats = new List<string>();
+	    public static List<string> OscilChannelColors = new List<string>();
 
-		static void LoadFromXml(string paramName, string wrName, XmlDocument doc, out ushort addr)
+        static void LoadFromXml(string paramName, string wrName, XmlDocument doc, out ushort addr)
 		{
 			var xmls = doc.GetElementsByTagName(paramName);
 			var xmlline = xmls[0];
@@ -172,10 +173,12 @@ namespace ScopeSetupApp
 			LoadFromXml("OscilEnable", "Count", doc, out OscilEnable);
 
 			OscilChannelNames = new List<string>();
-			OscilChannelAddrs = new List<ushort>();
-			OscilChannelFormats = new List<ushort>();
+			OscilChannelAddrs = new List<string>();
+			OscilChannelFormats = new List<string>();
+		    OscilChannelColors = new List<string>();
 
-			for (int i = 1; i < ChannelCount + 1; i++)
+
+            for (int i = 1; i < ChannelCount + 1; i++)
 			{
 				var xmls = doc.GetElementsByTagName("MeasureParam" + i.ToString());
 				var xmlline = xmls[0];
@@ -185,9 +188,10 @@ namespace ScopeSetupApp
 					if (xmlline.Attributes != null)
 					{
 						OscilChannelNames.Add(Convert.ToString(xmlline.Attributes["Name"].Value));
-						OscilChannelAddrs.Add(Convert.ToUInt16(xmlline.Attributes["Addr"].Value));
-						OscilChannelFormats.Add(Convert.ToUInt16(xmlline.Attributes["Format"].Value));
-					}
+						OscilChannelAddrs.Add(Convert.ToString(xmlline.Attributes["Addr"].Value));
+						OscilChannelFormats.Add(Convert.ToString(xmlline.Attributes["Format"].Value));
+					    OscilChannelColors.Add(Convert.ToString(xmlline.Attributes["Color"].Value));
+                    }
 				}
 				catch
 				{
