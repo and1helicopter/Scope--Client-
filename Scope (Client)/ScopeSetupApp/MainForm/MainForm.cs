@@ -971,7 +971,7 @@ namespace ScopeSetupApp.MainForm
 
 		private string Line3(int num ,int nA)
 		{
-			string chId = ScopeConfig.ChannelName[num];
+			string chId = ScopeConfig.ChannelName[num].Substring(0, 29).Replace("\0", String.Empty);
 			string ph = ScopeConfig.ChannelPhase[num];
 			string ccbm = ScopeConfig.ChannelCcbm[num];
 			string uu = ScopeConfig.ChannelDemension[num];
@@ -1022,7 +1022,7 @@ namespace ScopeSetupApp.MainForm
 			}
 			catch
 			{
-				str = "60";
+				str = "50";
 			}
 
 			return str;
