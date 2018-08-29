@@ -6,6 +6,7 @@ using System.Xml;
 using System.IO;
 using System.Reflection;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using ScopeSetupApp.Format;
 
 namespace ScopeSetupApp.ucScopeConfig
@@ -36,6 +37,47 @@ namespace ScopeSetupApp.ucScopeConfig
 			Column_channelFormats.Items.AddRange(_format);
 
 			InitTable();
+
+			ChanneldataGridView.CellEndEdit += ChanneldataGridViewOnCellEndEdit;
+			ChanneldataGridView.CellBeginEdit += ChanneldataGridViewOnCellBeginEdit;
+		}
+		
+		private string oldvalue = "0xFFFF";
+
+		private void ChanneldataGridViewOnCellBeginEdit(object sender, DataGridViewCellCancelEventArgs dataGridViewCellCancelEventArgs)
+		{
+			if (ChanneldataGridView.Columns[dataGridViewCellCancelEventArgs.ColumnIndex].Name == "Column_channelAddrs")
+			{
+				var indexColumn = dataGridViewCellCancelEventArgs.ColumnIndex;
+				var indexRow = dataGridViewCellCancelEventArgs.RowIndex;
+
+				oldvalue = ChanneldataGridView[indexColumn, indexRow].Value.ToString();
+			}
+		}
+
+		private void ChanneldataGridViewOnCellEndEdit(object sender, DataGridViewCellEventArgs dataGridViewCellEventArgs)
+		{
+			if (ChanneldataGridView.Columns[dataGridViewCellEventArgs.ColumnIndex].Name == "Column_channelAddrs")
+			{
+				var indexColumn = dataGridViewCellEventArgs.ColumnIndex;
+				var indexRow = dataGridViewCellEventArgs.RowIndex;
+
+				var val = ChanneldataGridView[indexColumn, indexRow].Value.ToString();
+
+				if (new Regex(@"^[^0x][0-9]+$").IsMatch(val))
+				{
+					ChanneldataGridView[indexColumn, indexRow].Value = "0x" + (Convert.ToInt32(val)).ToString("X4");
+				}
+				else if (new Regex(@"^[0][x][0-9a-fA-F]+$").IsMatch(val))
+				{
+					ChanneldataGridView[indexColumn, indexRow].Value = val;
+				}
+				else
+				{
+					ChanneldataGridView[indexColumn, indexRow].Value = oldvalue;
+					MessageBox.Show(@"Ошибка ввода данных в поле адреса", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
 		}
 
 		void SetDoubleBuffered(Control c, bool value)
