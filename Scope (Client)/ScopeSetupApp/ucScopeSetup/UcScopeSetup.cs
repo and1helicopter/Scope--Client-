@@ -292,7 +292,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			if (hystoryRadioButton.Text != "" && hystoryRadioButton.Text != @"-")
 			{
 				_nowHystory = Convert.ToUInt16(hystoryRadioButton.Text);
-				if (_nowHystory < 1 || _nowHystory > 99)
+				if (_nowHystory > 100)
 				{
 					MessageBox.Show(@"Ошибка в поле Предыстория", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					hystoryRadioButton.Clear();
