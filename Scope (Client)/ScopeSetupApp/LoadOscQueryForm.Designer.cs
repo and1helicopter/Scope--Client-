@@ -28,83 +28,83 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoadOscQueryForm));
-            this.titlLabel = new System.Windows.Forms.Label();
-            this.SaveOscil = new System.Windows.Forms.Button();
-            this.ClearOscil = new System.Windows.Forms.Button();
-            this.CancelLoadOscQueryForm = new System.Windows.Forms.Button();
-            this.SuspendLayout();
-            // 
-            // titlLabel
-            // 
-            this.titlLabel.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.titlLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.titlLabel.Location = new System.Drawing.Point(0, 0);
-            this.titlLabel.Name = "titlLabel";
-            this.titlLabel.Size = new System.Drawing.Size(358, 34);
-            this.titlLabel.TabIndex = 0;
-            this.titlLabel.Text = "label1";
-            this.titlLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // SaveOscil
-            // 
-            this.SaveOscil.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.SaveOscil.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.SaveOscil.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.SaveOscil.Location = new System.Drawing.Point(3, 38);
-            this.SaveOscil.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.SaveOscil.Name = "SaveOscil";
-            this.SaveOscil.Size = new System.Drawing.Size(115, 50);
-            this.SaveOscil.TabIndex = 1;
-            this.SaveOscil.Text = "Скачать";
-            this.SaveOscil.UseVisualStyleBackColor = false;
-            // 
-            // ClearOscil
-            // 
-            this.ClearOscil.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.ClearOscil.DialogResult = System.Windows.Forms.DialogResult.Abort;
-            this.ClearOscil.Location = new System.Drawing.Point(121, 38);
-            this.ClearOscil.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ClearOscil.Name = "ClearOscil";
-            this.ClearOscil.Size = new System.Drawing.Size(115, 50);
-            this.ClearOscil.TabIndex = 2;
-            this.ClearOscil.Text = "Очистить";
-            this.ClearOscil.UseVisualStyleBackColor = false;
-            // 
-            // CancelLoadOscQueryForm
-            // 
-            this.CancelLoadOscQueryForm.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.CancelLoadOscQueryForm.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelLoadOscQueryForm.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.CancelLoadOscQueryForm.Location = new System.Drawing.Point(239, 38);
-            this.CancelLoadOscQueryForm.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.CancelLoadOscQueryForm.Name = "CancelLoadOscQueryForm";
-            this.CancelLoadOscQueryForm.Size = new System.Drawing.Size(115, 50);
-            this.CancelLoadOscQueryForm.TabIndex = 3;
-            this.CancelLoadOscQueryForm.Text = "Отмена";
-            this.CancelLoadOscQueryForm.UseVisualStyleBackColor = false;
-            // 
-            // LoadOscQueryForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(358, 91);
-            this.ControlBox = false;
-            this.Controls.Add(this.CancelLoadOscQueryForm);
-            this.Controls.Add(this.ClearOscil);
-            this.Controls.Add(this.SaveOscil);
-            this.Controls.Add(this.titlLabel);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "LoadOscQueryForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Выбор действия";
-            this.ResumeLayout(false);
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoadOscQueryForm));
+			this.titlLabel = new System.Windows.Forms.Label();
+			this.SaveOscil = new System.Windows.Forms.Button();
+			this.ClearOscil = new System.Windows.Forms.Button();
+			this.CancelLoadOscQueryForm = new System.Windows.Forms.Button();
+			this.SuspendLayout();
+			// 
+			// titlLabel
+			// 
+			this.titlLabel.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.titlLabel.Dock = System.Windows.Forms.DockStyle.Top;
+			this.titlLabel.Location = new System.Drawing.Point(0, 0);
+			this.titlLabel.Name = "titlLabel";
+			this.titlLabel.Size = new System.Drawing.Size(358, 54);
+			this.titlLabel.TabIndex = 0;
+			this.titlLabel.Text = "label1";
+			this.titlLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// SaveOscil
+			// 
+			this.SaveOscil.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.SaveOscil.DialogResult = System.Windows.Forms.DialogResult.OK;
+			this.SaveOscil.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			this.SaveOscil.Location = new System.Drawing.Point(4, 58);
+			this.SaveOscil.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.SaveOscil.Name = "SaveOscil";
+			this.SaveOscil.Size = new System.Drawing.Size(115, 50);
+			this.SaveOscil.TabIndex = 1;
+			this.SaveOscil.Text = "Скачать";
+			this.SaveOscil.UseVisualStyleBackColor = false;
+			// 
+			// ClearOscil
+			// 
+			this.ClearOscil.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.ClearOscil.DialogResult = System.Windows.Forms.DialogResult.Abort;
+			this.ClearOscil.Location = new System.Drawing.Point(122, 58);
+			this.ClearOscil.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.ClearOscil.Name = "ClearOscil";
+			this.ClearOscil.Size = new System.Drawing.Size(115, 50);
+			this.ClearOscil.TabIndex = 2;
+			this.ClearOscil.Text = "Очистить";
+			this.ClearOscil.UseVisualStyleBackColor = false;
+			// 
+			// CancelLoadOscQueryForm
+			// 
+			this.CancelLoadOscQueryForm.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.CancelLoadOscQueryForm.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.CancelLoadOscQueryForm.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.CancelLoadOscQueryForm.Location = new System.Drawing.Point(240, 58);
+			this.CancelLoadOscQueryForm.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.CancelLoadOscQueryForm.Name = "CancelLoadOscQueryForm";
+			this.CancelLoadOscQueryForm.Size = new System.Drawing.Size(115, 50);
+			this.CancelLoadOscQueryForm.TabIndex = 3;
+			this.CancelLoadOscQueryForm.Text = "Отмена";
+			this.CancelLoadOscQueryForm.UseVisualStyleBackColor = false;
+			// 
+			// LoadOscQueryForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.ClientSize = new System.Drawing.Size(358, 112);
+			this.ControlBox = false;
+			this.Controls.Add(this.CancelLoadOscQueryForm);
+			this.Controls.Add(this.ClearOscil);
+			this.Controls.Add(this.SaveOscil);
+			this.Controls.Add(this.titlLabel);
+			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.Name = "LoadOscQueryForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.Text = "Выбор действия";
+			this.ResumeLayout(false);
 
         }
 

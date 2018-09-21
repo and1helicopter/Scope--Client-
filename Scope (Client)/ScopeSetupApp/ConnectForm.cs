@@ -184,5 +184,18 @@ namespace ScopeSetupApp
 			}
 			return "";
 		}
+
+		private void portComboBox_Click(object sender, EventArgs e)
+		{
+			foreach (string st in SerialPort.GetPortNames())
+			{
+				if (!portComboBox.Items.Contains(st))
+				{
+					portComboBox.Items.Add(st);
+				}
+
+				if (portComboBox.Items.Count != 0) portComboBox.SelectedIndex = 0;
+			}
+		}
 	}
 }

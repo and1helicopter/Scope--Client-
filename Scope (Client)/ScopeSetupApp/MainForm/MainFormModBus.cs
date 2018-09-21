@@ -95,7 +95,35 @@ namespace ScopeSetupApp.MainForm
             }
         }
 
-	    private bool _connectToSystem;
+		private void SetSizeLabel(string status)
+		{
+			size_toolStripStatusLabel.Text = status;
+		}
+
+		private void UpdateSize()
+		{
+			CheackCom();
+			if (size_toolStripStatusLabel != null)
+			{
+				Invoke(new SetStringDelegate(SetSizeLabel), SerialPort.IsOpen && !SerialPort.portError ? $"Память под осциллограмы: {ScopeConfig.OscilAllSize / 1024:D} Кб" : $"Память под осциллограмы: {ScopeSysType.OscilAllSize:D} Кб");
+			}
+		}
+
+		private void SetFreqLabel(string status)
+		{
+			freq_toolStripStatusLabel.Text = status;
+		}
+
+		private void UpdateFreq()
+		{
+			CheackCom();
+			if (freq_toolStripStatusLabel!= null)
+			{
+				Invoke(new SetStringDelegate(SetFreqLabel), SerialPort.IsOpen && !SerialPort.portError ? $"Частота осциллографа: {ScopeConfig.SampleRate} Гц" : $"Частота осциллографа: {ScopeSysType.OscilSampleRate:D} Гц");
+			}
+		}
+
+		private bool _connectToSystem;
 
 	    private void SetConnectLabel(string status)
 	    {
@@ -135,9 +163,9 @@ namespace ScopeSetupApp.MainForm
 				string str1 = (paramRtu[0] & 0x3F).ToString("X2") + "/" + ((paramRtu[0] >> 8) & 0x1F).ToString("X2") + @"/20" + (paramRtu[1] & 0xFF).ToString("X2");
 				string str2 = (paramRtu[3] & 0x3F).ToString("X2") + ":" + ((paramRtu[2] >> 8) & 0x7F).ToString("X2") + @":" + (paramRtu[2] & 0x7F).ToString("X2");
 			    string str3 = ((paramRtu[3]  >> 6) & 0x3E7).ToString("D3"); 
-				string strTextButton = @"№" + (index + 1) + "\n" + str2 + "\n" + str1;
-				string strTitle = @"Осциллограмма №" + (index + 1) + "\n" + str1 + "\n" + str2;
-			    string str = str1 + "," + str2  + @"."+ str3;
+				string strTextButton = $"№{index + 1}\n{str2}.{str3}\n{str1}";
+				string strTitle = $"Осциллограмма №{index + 1}\n{str1}\n{str2}.{str3}";
+				string str = $"{str1},{str2}.{str3}";
                 try
 				{
 					var date = DateTime.Parse(str);
@@ -437,6 +465,28 @@ namespace ScopeSetupApp.MainForm
             }
         }
 
+		delegate void WaitLoadConfigDelegate(bool wait, int step);
+
+		private void UpdateWaitLoadConfig(bool wait, int step)
+		{
+			Invoke(new WaitLoadConfigDelegate(WaitLoadConfig), wait, step);
+		}
+
+		private void WaitLoadConfig(bool wait, int step)
+		{
+			if(ConfigMCUButton.Enabled == wait)
+				ConfigMCUButton.Enabled = !wait;
+
+			WaitLoadConfig_toolStripProgressBar.BackColor = Color.CornflowerBlue;
+			WaitLoadConfig_toolStripProgressBar.ForeColor = Color.CornflowerBlue;
+			WaitLoadConfig_toolStripProgressBar.Value = step;
+
+			if (step == 23)
+			{
+				ConfigMCUButton.Enabled = true;
+			}
+		}
+
         private void LoadConfig()
 		{
 			switch (_loadConfigStep)
@@ -514,6 +564,8 @@ namespace ScopeSetupApp.MainForm
 					SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilComtradeConfig + StructAddr.Leapsec), 4, LoadConfig, RequestPriority.Normal, 23);
 					break;
 			}
+
+			UpdateWaitLoadConfig(true, _loadConfigStep);
 		}
 
 		private void LoadConfig(bool dataOk, ushort[] paramRtu, object param)
@@ -767,6 +819,7 @@ namespace ScopeSetupApp.MainForm
 
 						case 23: //Названия каналов 
 						{
+
 							ScopeConfig.InitLeapsec(paramRtu);
 
 							EndLoadConfig(true);
@@ -780,11 +833,12 @@ namespace ScopeSetupApp.MainForm
 					_loadConfigStep = 0;
 				}
 			}
+
+
 		}
 
 		private void EndLoadConfig(bool foolStatus)
 		{
-
 			_loadConfigStep = 0;
 
 			ScopeConfig.ChangeScopeConfig = false;

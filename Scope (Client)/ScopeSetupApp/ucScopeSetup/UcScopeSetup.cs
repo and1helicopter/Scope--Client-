@@ -244,6 +244,8 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			InitTable(agrs);
 		    reloadButton_Click(null, null);
+			labelAllSize.Text = $@"Размер доступной памяти: {ScopeConfig.OscilAllSize/1024} Кб";
+			labelFreq.Text = $@"Частота выборки: {(ScopeConfig.SampleRate / _nowOscFreq):D} Гц";
 		}
 
 		//****************************************************************************//
@@ -252,77 +254,27 @@ namespace ScopeSetupApp.ucScopeSetup
 		//Обработка полей формы
 		#region  
 		//Количество осциллограмм
-		private void chCountRadioButton_KeyPress(object sender, KeyPressEventArgs e)
+		private void chCount_TextChanged(object sender, EventArgs e)
 		{
-			char number = e.KeyChar;
-			if (!Char.IsDigit(number) && number != 8)  // цифры и клавиша BackSpace
-			{
-				e.Handled = true;
-			}
-		}
-
-		private void chCountRadioButton_TextChanged(object sender, EventArgs e)
-		{
-			if (chCountRadioButton.Text != "" && chCountRadioButton.Text != @"-")
-			{
-				_nowScopeCount = Convert.ToUInt16(chCountRadioButton.Text);
-				if (_nowScopeCount < 1 || _nowScopeCount > 32)
-				{
-					MessageBox.Show(@"Ошибка в поле Количество осциллограмм", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					chCountRadioButton.Clear();
-				}
-			}
+			_nowScopeCount = (ushort) chCountNumericUpDown.Value;
 
 			DelayOscil();
 		}
 
 		//Предыстория 
-
-		private void hystoryRadioButton_KeyPress(object sender, KeyPressEventArgs e)
+		private void hystory_TextChanged(object sender, EventArgs e)
 		{
-			char number = e.KeyChar;
-			if (!Char.IsDigit(number) && number != 8)  // цифры и клавиша BackSpace
-			{
-				e.Handled = true;
-			}
-		}
-
-		private void hystoryRadioButton_TextChanged(object sender, EventArgs e)
-		{
-			if (hystoryRadioButton.Text != "" && hystoryRadioButton.Text != @"-")
-			{
-				_nowHystory = Convert.ToUInt16(hystoryRadioButton.Text);
-				if (_nowHystory > 100)
-				{
-					MessageBox.Show(@"Ошибка в поле Предыстория", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					hystoryRadioButton.Clear();
-				}
-			}
+			_nowHystory = (ushort) hystoryNumericUpDown.Value;
 		}
 
 		//Делитель
-		private void oscFreqRadioButton_KeyPress(object sender, KeyPressEventArgs e)
+		private void oscFreq_TextChanged(object sender, EventArgs e)
 		{
-			char number = e.KeyChar;
-			if (!Char.IsDigit(number) && number != 8)  // цифры и клавиша BackSpace
-			{
-				e.Handled = true;
-			}
-		}
-
-		private void oscFreqRadioButton_TextChanged(object sender, EventArgs e)
-		{
-			if (oscFreqRadioButton.Text != "" && oscFreqRadioButton.Text != @"-")
-			{
-				_nowOscFreq = Convert.ToUInt16(oscFreqRadioButton.Text);
-				if (_nowOscFreq < 1 || _nowOscFreq > 1000)
-				{
-					MessageBox.Show(@"Ошибка в поле Делитель", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					oscFreqRadioButton.Clear();
-				}
-			}
+			_nowOscFreq = (ushort) oscFreqNumericUpDown.Value;
 
 			DelayOscil();
+
+			labelFreq.Text = $@"Частота выборки: {ScopeConfig.SampleRate / _nowOscFreq:D} Гц";
 		}
 
 		//Длительность осциллограммы:
@@ -1009,12 +961,9 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 			}
 
-			if (ScopeSysType.OscilCount != 0) chCountRadioButton.Text = Convert.ToString(ScopeSysType.OscilCount);
-			else chCountRadioButton.Clear();
-			if (ScopeSysType.HistoryCount != 0) hystoryRadioButton.Text = Convert.ToString(ScopeSysType.HistoryCount);
-			else hystoryRadioButton.Clear();
-			if (ScopeSysType.FrequncyCount != 0) oscFreqRadioButton.Text = Convert.ToString(ScopeSysType.FrequncyCount);
-			else oscFreqRadioButton.Clear();
+			chCountNumericUpDown.Value = ScopeSysType.OscilCount != 0 ? ScopeSysType.OscilCount : 1;
+			hystoryNumericUpDown.Value = ScopeSysType.HistoryCount != 0 ? ScopeSysType.HistoryCount : 0;
+			oscFreqNumericUpDown.Value = ScopeSysType.FrequncyCount != 0 ? ScopeSysType.FrequncyCount : 1;
 			if (ScopeSysType.SizeValue > 0 && ScopeSysType.SizeValue <= 100) sizeOcsil_trackBar.Value = ScopeSysType.SizeValue;
 			else sizeOcsil_trackBar.Value = 100;
 			radioButton.Clear();
@@ -1144,14 +1093,10 @@ namespace ScopeSetupApp.ucScopeSetup
 
 		    dataListView.UncheckAll();
 
-			if (ScopeConfig.ScopeCount != 0) chCountRadioButton.Text = Convert.ToString(ScopeConfig.ScopeCount);
-			else chCountRadioButton.Clear();
-			if (ScopeConfig.HistoryCount != 0) hystoryRadioButton.Text = Convert.ToString(ScopeConfig.HistoryCount);
-			else hystoryRadioButton.Clear();
-			if (ScopeConfig.ChannelCount != 0) radioButton.Text = Convert.ToString(ScopeConfig.ChannelCount);
-			else oscFreqRadioButton.Clear();
-			if (ScopeConfig.FreqCount != 0) oscFreqRadioButton.Text = Convert.ToString(ScopeConfig.FreqCount);
-			else hystoryRadioButton.Clear();
+			chCountNumericUpDown.Value = ScopeConfig.ScopeCount != 0 ? ScopeConfig.ScopeCount : 1;
+			hystoryNumericUpDown.Value = ScopeConfig.HistoryCount != 0 ? ScopeConfig.HistoryCount : 0;
+			radioButton.Text = ScopeConfig.ChannelCount != 0 ? Convert.ToString(ScopeConfig.ChannelCount) : "0";
+			oscFreqNumericUpDown.Value = ScopeConfig.FreqCount != 0 ? ScopeConfig.FreqCount : 1;
 
 			if (ScopeConfig.OscilEnable == 0) { enaScopeCheckBox.Checked = false; checkBox1.Checked = false; checkBox3.Checked = false; }
 			if (ScopeConfig.OscilEnable == 1) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
@@ -1228,5 +1173,5 @@ namespace ScopeSetupApp.ucScopeSetup
 		{
 			DelayOscil();
 		}
-    }
+	}
 }

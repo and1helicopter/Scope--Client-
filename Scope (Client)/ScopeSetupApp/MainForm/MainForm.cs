@@ -476,6 +476,8 @@ namespace ScopeSetupApp.MainForm
 			    UpdateStatusConnection();
 			    UpdateStatusСonfig();                       //Update statusСonfig in system
                 UpdateGrid();
+				UpdateSize();
+				UpdateFreq();
 
 				if (_createFileFlag)
 				{
@@ -672,6 +674,7 @@ namespace ScopeSetupApp.MainForm
 		{
 			Invoke(new UpdateTimeDelegate(UpdateTimeStatus), index, strStatusButton, strTitle, date);
 		}
+
 		private void UpdateTimeStatus(int index, string strStatusButton,  string strTitle, DateTime date )
 		{
 			if (_statusButtons?.Count != 0)
