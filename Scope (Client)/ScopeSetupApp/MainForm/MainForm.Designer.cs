@@ -50,6 +50,7 @@
 			this.stopDownloadStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip2 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+			this.WaitLoadConfig_toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.toolStripContainer2 = new System.Windows.Forms.ToolStripContainer();
 			this.com_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -60,7 +61,6 @@
 			this.size_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripContainer3 = new System.Windows.Forms.ToolStripContainer();
 			this.toolStripContainer4 = new System.Windows.Forms.ToolStripContainer();
-			this.WaitLoadConfig_toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
 			this.Infopanel.SuspendLayout();
@@ -383,6 +383,16 @@
 			this.toolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.Overlay;
 			this.toolStripButton2.Click += new System.EventHandler(this.manStartBtn_Click);
 			// 
+			// WaitLoadConfig_toolStripProgressBar
+			// 
+			this.WaitLoadConfig_toolStripProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.WaitLoadConfig_toolStripProgressBar.MarqueeAnimationSpeed = 1;
+			this.WaitLoadConfig_toolStripProgressBar.Maximum = 23;
+			this.WaitLoadConfig_toolStripProgressBar.Name = "WaitLoadConfig_toolStripProgressBar";
+			this.WaitLoadConfig_toolStripProgressBar.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.WaitLoadConfig_toolStripProgressBar.Size = new System.Drawing.Size(40, 20);
+			this.WaitLoadConfig_toolStripProgressBar.Step = 1;
+			// 
 			// toolStripContainer2
 			// 
 			this.toolStripContainer2.BottomToolStripPanelVisible = false;
@@ -496,16 +506,6 @@
 			this.toolStripContainer4.TabIndex = 17;
 			this.toolStripContainer4.Text = "toolStripContainer4";
 			this.toolStripContainer4.TopToolStripPanelVisible = false;
-			// 
-			// WaitLoadConfig_toolStripProgressBar
-			// 
-			this.WaitLoadConfig_toolStripProgressBar.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-			this.WaitLoadConfig_toolStripProgressBar.MarqueeAnimationSpeed = 1;
-			this.WaitLoadConfig_toolStripProgressBar.Maximum = 23;
-			this.WaitLoadConfig_toolStripProgressBar.Name = "WaitLoadConfig_toolStripProgressBar";
-			this.WaitLoadConfig_toolStripProgressBar.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.WaitLoadConfig_toolStripProgressBar.Size = new System.Drawing.Size(40, 20);
-			this.WaitLoadConfig_toolStripProgressBar.Step = 1;
 			// 
 			// MainForm
 			// 

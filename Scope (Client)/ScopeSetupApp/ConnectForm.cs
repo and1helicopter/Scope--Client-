@@ -35,7 +35,8 @@ namespace ScopeSetupApp
 			}
 			catch
 			{
-				MessageBox.Show(@"Ошибка при создании файла!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show("Ошибка при создании файла!\nCODE 0x1102", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -93,7 +94,8 @@ namespace ScopeSetupApp
 			}
 			catch
 			{
-				MessageBox.Show(@"Ошибка при открытии COM - порта!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show("Ошибка при открытии COM - порта!\nCODE 0x1101", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 			Close();
@@ -106,9 +108,19 @@ namespace ScopeSetupApp
 
 		private void disconnectBtn_Click(object sender, EventArgs e)
 		{
-			MainForm.MainForm.SerialPort.Close();
-			_mainForm.StopUpdate();
-            Close();
+			Invoke(new CloseCom(CloseComPort));
+		}
+
+		delegate void CloseCom();
+
+		private void CloseComPort()
+		{
+			if (MainForm.MainForm.SerialPort.IsOpen && !MainForm.MainForm.SerialPort.portError)
+			{
+				MainForm.MainForm.SerialPort.Close();
+				_mainForm.StopUpdate();
+				Close();
+			}
 		}
 
 		private void button1_Click_1(object sender, EventArgs e)

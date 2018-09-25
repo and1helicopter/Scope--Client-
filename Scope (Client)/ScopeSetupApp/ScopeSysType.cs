@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using System.Xml;
 
 
@@ -81,7 +82,8 @@ namespace ScopeSetupApp
 			}
 			catch
 			{
-				throw new Exception("Не удалось открыть файл: " + XmlFileName + "!");
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show($"Не удалось открыть файл: {XmlFileName}!\nCODE 0x1220", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 			LoadFromXml("Configuration", "Addr", doc, out ConfigurationAddr);
@@ -125,6 +127,7 @@ namespace ScopeSetupApp
 						ScopeChannelConfig item = new ScopeChannelConfig()
 						{
 							ChannelNames = str1,
+							ChannelColor = xmlline.Attributes["Color"].Value,
 							ChannelGroupNames = str2,
 							ChannelTypeAd = Convert.ToUInt16(xmlline.Attributes["TypeAD"].Value),
 							ChannelAddrs = Convert.ToUInt16(xmlline.Attributes["Addr"].Value),
@@ -142,7 +145,8 @@ namespace ScopeSetupApp
 				}
 				catch
 				{
-				   throw new Exception("Ошибки в файле: " + XmlFileName + "!");
+					// ReSharper disable once LocalizableElement
+					MessageBox.Show($"Ошибки в файле: {XmlFileName}!\nCODE 0x1221", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			} 
 		}
@@ -162,7 +166,8 @@ namespace ScopeSetupApp
 			}
 			catch
 			{
-				throw new Exception("Не удалось открыть файл: " + XmlFileNameOscil + "!");
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show($"Не удалось открыть файл: {XmlFileNameOscil}!\nCODE 0x1230", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 			LoadFromXml("Oscil", "Count", doc, out OscilCount);
@@ -175,7 +180,6 @@ namespace ScopeSetupApp
 			OscilChannelNames = new List<string>();
 			OscilChannelAddrs = new List<string>();
 			OscilChannelFormats = new List<string>();
-		    OscilChannelColors = new List<string>();
 
 
             for (int i = 1; i < ChannelCount + 1; i++)
@@ -190,12 +194,12 @@ namespace ScopeSetupApp
 						OscilChannelNames.Add(Convert.ToString(xmlline.Attributes["Name"].Value));
 						OscilChannelAddrs.Add(Convert.ToString(xmlline.Attributes["Addr"].Value));
 						OscilChannelFormats.Add(Convert.ToString(xmlline.Attributes["Format"].Value));
-					    OscilChannelColors.Add(Convert.ToString(xmlline.Attributes["Color"].Value));
                     }
 				}
 				catch
 				{
-					throw new Exception("Ошибки в файле: " + XmlFileNameOscil + "!");
+					// ReSharper disable once LocalizableElement
+					MessageBox.Show($"Ошибки в файле: {XmlFileNameOscil}!\nCODE 0x1231", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}

@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.IO;
+using System.Linq;
 using BrightIdeasSoftware;
 using ScopeSetupApp.Format;
 using UniSerialPort;
@@ -21,6 +22,7 @@ namespace ScopeSetupApp.ucScopeSetup
 		private ushort _nowMaxChannelCount;         //Количество каналов
 		private ushort _nowOscFreq = 1;             //Делитель     
 		private readonly uint _oscilAllSize = ScopeSysType.OscilAllSize;             //
+		private readonly bool _admin;
 
 		private static readonly object[] Format = FormatConverter.ActualFormat;
 
@@ -33,218 +35,212 @@ namespace ScopeSetupApp.ucScopeSetup
 
 		#region
 
-	    private readonly List<Item> _channelItems = new List<Item>();
+		//private readonly List<Item> _channelItems = new List<Item>();
+		private static readonly List<ItemGroup> _itemGroups = new List<ItemGroup>();
 
 		private void InitTable(string[] agrs)
 		{
-		    OLVColumn groupChanel = new OLVColumn
-		    {
-		        AspectName = "Group",
-		        IsVisible = false,
-		        MaximumWidth = 20,
-		        MinimumWidth = 20,
-		        ShowTextInHeader = false,
-		        Text = @"Группа",
-		        Width = 20
-		    };
+			//OLVColumn groupChanel = new OLVColumn
+			//{
+			//	AspectName = "Group",
+			//	IsVisible = false,
+			//	MaximumWidth = 200,
+			//	MinimumWidth = 20,
+			//	ShowTextInHeader = false,
+			//	Text = @"Группа",
+			//	Width = 200,
+			//};
 
-		    OLVColumn nameChanel = new OLVColumn
-		    {
-		        AspectName = "Name",
-		        Groupable = false,
-		        HeaderCheckBoxUpdatesRowCheckBoxes = false,
-		        IsEditable = false,
-		        MinimumWidth = 200,
-		        Text = @"Название канала",
-		        Width = 200
-		    };
-
-		    OLVColumn colorChanel = new OLVColumn
-		    {
-		        AspectName = "Color",
-		        ButtonSizing = OLVColumn.ButtonSizingMode.CellBounds,
-		        Groupable = false,
-		        HeaderCheckBoxUpdatesRowCheckBoxes = false,
-		        MinimumWidth = 100,
-		        Text = @"Цвет",
-		        Width = 100,
-		        WordWrap = true
-		    };
-
-		    OLVColumn colorsChanel = new OLVColumn
-		    {
-		        AspectName = "Colors",
-		        MinimumWidth = 100,
-		        ShowTextInHeader = false,
-		        Text = @"Color",
-		        Width = 100
-		    };
-            if (agrs.Length > 0)
+			OLVColumn nameChanel = new OLVColumn
 			{
+				AspectName = "Name",
+				Groupable = false,
+				HeaderCheckBoxUpdatesRowCheckBoxes = false,
+				IsEditable = false,
+				MinimumWidth = 250,
+				Text = @"Название канала",
+				Width = 250
+			};
 
-
-                if (agrs[0] == "a" || agrs[0] == "A")
+			if (agrs.Length > 0)
+			{
+				if (agrs[0] == "a" || agrs[0] == "A")
 				{
-				    OLVColumn addrChanel = new OLVColumn
-				    {
-				        AspectName = "Addr",
-				        Groupable = false,
-				        HeaderCheckBoxUpdatesRowCheckBoxes = false,
-				        MinimumWidth = 160,
-				        Text = @"Адрес",
-				        Width = 160
-				    };
+					OLVColumn addrChanel = new OLVColumn
+					{
+						AspectName = "Addr",
+						Groupable = false,
+						HeaderCheckBoxUpdatesRowCheckBoxes = false,
+						MinimumWidth = 200,
+						Text = @"Адрес",
+						Width = 200
+					};
 
-				    OLVColumn formatChanel = new OLVColumn
-				    {
-				        AspectName = "Format",
-				        Groupable = false,
-				        HeaderCheckBoxUpdatesRowCheckBoxes = false,
-				        MinimumWidth = 160,
-				        Text = @"Формат",
-				        Width = 160
-				    };
+					OLVColumn formatChanel = new OLVColumn
+					{
+						AspectName = "Format",
+						Groupable = false,
+						HeaderCheckBoxUpdatesRowCheckBoxes = false,
+						MinimumWidth = 200,
+						Text = @"Формат",
+						Width = 200
+					};
 
-				    dataListView.AllColumns.Add(groupChanel);
-				    dataListView.AllColumns.Add(nameChanel);
-				    dataListView.AllColumns.Add(addrChanel);
-				    dataListView.AllColumns.Add(formatChanel);
-				    dataListView.AllColumns.Add(colorChanel);
-				    dataListView.AllColumns.Add(colorsChanel);
+					//dataListView.AllColumns.Add(groupChanel);
+					dataListView.AllColumns.Add(nameChanel);
+					dataListView.AllColumns.Add(addrChanel);
+					dataListView.AllColumns.Add(formatChanel);
 
-				    dataListView.Columns.AddRange(new ColumnHeader[]
-				    {
-				        groupChanel,
-				        nameChanel,
-				        addrChanel,
-				        formatChanel,
-                        colorChanel,
-				        colorsChanel
-				    });
-                }
-            }
+
+					//treeListView.AllColumns.Add(groupChanel);
+					treeListView.AllColumns.Add(nameChanel);
+					treeListView.AllColumns.Add(addrChanel);
+					treeListView.AllColumns.Add(formatChanel);
+
+					//dataListView.Columns.AddRange(new ColumnHeader[]
+					//{
+					//	groupChanel,
+					//	nameChanel,
+					//	addrChanel,
+					//	formatChanel,
+					//});
+
+					treeListView.Columns.AddRange(new ColumnHeader[]
+					{
+						//groupChanel,
+						nameChanel,
+						addrChanel,
+						formatChanel,
+					});
+				}
+			}
 			else
-            {
-                colorChanel.MinimumWidth = 200;
-                colorsChanel.MinimumWidth = 200;
+			{
+				//dataListView.AllColumns.Add(groupChanel);
+				dataListView.AllColumns.Add(nameChanel);
 
-                dataListView.AllColumns.Add(groupChanel);
-			    dataListView.AllColumns.Add(nameChanel);
-			    dataListView.AllColumns.Add(colorChanel);
-			    dataListView.AllColumns.Add(colorsChanel);
+				//treeListView.AllColumns.Add(groupChanel);
+				treeListView.CanExpandGetter = model => (model as Item)?.Group != null;
+				//treeListView.AllColumns.Add(nameChanel);
 
-			    dataListView.Columns.AddRange(new ColumnHeader[]
-			    {
-			        groupChanel,
-			        nameChanel,
-			        colorChanel,
-			        colorsChanel
-                });
+				//dataListView.Columns.AddRange(new ColumnHeader[]
+				//{
+				//	groupChanel,
+				//	nameChanel,
+				//});
+
+				treeListView.Columns.AddRange(new ColumnHeader[]
+				{
+					//groupChanel,
+					nameChanel,
+				});
 			}
 
-            CommentRichTextBox.Text = ScopeSysType.OscilComment;
+			CommentRichTextBox.Text = ScopeSysType.OscilComment;
 
-            colorChanel.ButtonSizing = OLVColumn.ButtonSizingMode.CellBounds;
-		    colorChanel.ButtonSize = new Size(48, 16);
-            colorChanel.IsButton = true;
-		    colorChanel.TextAlign = HorizontalAlignment.Center;
-		    
-            foreach (var item in ScopeSysType.ScopeItem)
-            {
-                var value = new Item(item);
-                _channelItems.Add(value);
-            }
+			foreach (var item in ScopeSysType.ScopeItem)
+			{
+				var item1 = new Item(item);
+			}
 
-		    dataListView.SetObjects(_channelItems);
-            dataListView.UseCellFormatEvents = true;
-            dataListView.FormatCell += DataListViewOnFormatCell;
-            dataListView.FormatRow += DataListViewOnFormatRow;
+			treeListView.CanExpandGetter = model =>
+			{
+				if (model.GetType() == typeof(ItemGroup))
+					return ((ItemGroup)model).Children.Count > 0;
+				else
+					return false;
+			};
+;
+			treeListView.ChildrenGetter = x => ((ItemGroup) x).Children;
+			treeListView.SetObjects(_itemGroups);
+			treeListView.UseCellFormatEvents = true;
+			treeListView.FormatRow += DataListViewOnFormatRow;
 
+			//treeListView.Roots = _itemGroups;
+			//dataListView.ShowItemCountOnGroups = true;
+			//treeListView.SetObjects(_channelItems);
+			//dataListView.SetObjects(_channelItems);
+			dataListView.UseCellFormatEvents = true;
 
-            dataListView.ButtonClick += delegate(object sender, CellClickEventArgs e)
-		    {
-		        ColorDialog cd = new ColorDialog();
-		        if (cd.ShowDialog() == DialogResult.OK)
-		        {
-                    e.SubItem.BackColor = cd.Color;
-		            e.SubItem.Text = cd.Color.R.ToString("x2") + cd.Color.G.ToString("x2") + cd.Color.B.ToString("x2");
-
-                    ((Item)e.Model).Color = cd.Color.R.ToString("x2") + cd.Color.G.ToString("x2") + cd.Color.B.ToString("x2");
-                    dataListView.RefreshObject(e.Model);
-                }
-            };
+			dataListView.FormatRow += DataListViewOnFormatRow;
 		}
 
-	    private class Item
-	    {
-	        public string Name { get; set; }
-	        public string Addr { get; set; }
-	        public string Format { get; set; }
-	        public string Group { get; set; }
-	        public string Color { get; set; }
-            public ScopeChannelConfig Value { get; set; }
+		private class ItemGroup
+		{
+			public string Name { get; set; }
+			public string Addr { get; set; } = "";
+			public string Format { get; set; } = "";
+			public List<Item> Children { get; set; } = new List<Item>();
+		}
 
-            public Item(ScopeChannelConfig item)
-            {
-                Value = item;
-                Name = item.ChannelNames;
-                Addr = "0x" + item.ChannelAddrs.ToString("x4");
-                Format = Convert.ToString(SizeFormat[item.ChannelformatNumeric]) + "b   " + Convert.ToString(UcScopeSetup.Format[item.ChannelFormats]);
-                Color = "ffffff";
-                Group = item.ChannelGroupNames != "" ? item.ChannelGroupNames : @"Несгруппированные параметры";
-	        }
-	    }
+		private class Item
+		{
+			
+			public string Name { get; set; }
+			public string Addr { get; set; }
+			public string Format { get; set; }
+			public string Group { get; set; }
+			public ScopeChannelConfig Value { get; set; }
 
-        private void DataListViewOnFormatRow(object o, FormatRowEventArgs formatRowEventArgs)
-	    {
-	        formatRowEventArgs.Item.BackColor = formatRowEventArgs.Item.Checked ? Color.LightSteelBlue : SystemColors.ButtonHighlight;
-	    }
+			public Item(ScopeChannelConfig item)
+			{
+				Value = item;
+				Name = item.ChannelNames;
+				Addr = "0x" + item.ChannelAddrs.ToString("x4");
+				Format = Convert.ToString(SizeFormat[item.ChannelformatNumeric]) + "b   " + Convert.ToString(UcScopeSetup.Format[item.ChannelFormats]);
 
-        private void DataListViewOnFormatCell(object o, FormatCellEventArgs formatCellEventArgs)
-	    {
-	        for (int i = 0; i < dataListView.Items.Count; i++)
-	        {
-	            var colorIndex = dataListView.Columns.Count == 4 ? 2 : 4;
-	            var colorsIndex = dataListView.Columns.Count == 4 ? 3 : 5;
+				Group = item.ChannelGroupNames != "" ? item.ChannelGroupNames : @"Несгруппированные параметры";
 
-                var str = dataListView.Items[i].SubItems[colorIndex].Text;
-	            var red = int.Parse(str.Substring(0, 2), NumberStyles.AllowHexSpecifier);
-	            var green = int.Parse(str.Substring(2, 2), NumberStyles.AllowHexSpecifier);
-	            var blue = int.Parse(str.Substring(4, 2), NumberStyles.AllowHexSpecifier);
+				if (_itemGroups.Any(x => x.Name == Group))
+				{
+					_itemGroups.First(x=>x.Name == Group).Children.Add(this);
+				}
+				else
+				{
+					_itemGroups.Add(new ItemGroup{Name = Group, Children = new List<Item>{this}});
+				}
+			}
+		}
 
-                dataListView.Items[i].SubItems[colorsIndex].BackColor = Color.FromArgb(red, green, blue);
-	        }
-        }
+		private void DataListViewOnFormatRow(object o, FormatRowEventArgs formatRowEventArgs)
+		{
+			if (dataListView.CheckedItems.Count <= 32)
+			{
+				formatRowEventArgs.Item.BackColor = formatRowEventArgs.Item.Checked ? Color.LightSteelBlue : SystemColors.ButtonHighlight;
+			}
+			else
+			{
+				formatRowEventArgs.Item.Checked = false;
+			}
+		}
 
-	    private void dataListView_ItemChecked(object sender, ItemCheckedEventArgs e)
-	    {
-            e.Item.BackColor = e.Item.Checked ? Color.LightSteelBlue : SystemColors.ButtonHighlight;
+		private void dataListView_ItemChecked(object sender, ItemCheckedEventArgs e)
+		{
+			if (dataListView.CheckedItems.Count > 32)
+			{
+				e.Item.Checked = false;
+			}
+			else
+			{
+				e.Item.BackColor = e.Item.Checked ? Color.LightSteelBlue : SystemColors.ButtonHighlight;
 
-	        if (e.Item.Checked)
-	        {
-	            var item = (Item)dataListView.GetModelObject(e.Item.Index);
-	            if (item.Color == "ffffff")
-	            {
-	                var random = new Random();
-	                var color = $"{random.Next(0xffffff):X6}";
-	                item.Color = color;
-	                dataListView.RefreshObject(color);
-                }
-	        }
+				_nowMaxChannelCount = (ushort)dataListView.CheckedItems.Count;
+				radioButton.Text = _nowMaxChannelCount.ToString();
+			}
+		}
+		#endregion
 
-	        _nowMaxChannelCount = (ushort) dataListView.CheckedItems.Count;
-	        radioButton.Text = _nowMaxChannelCount.ToString();
-        }
-
-        #endregion
-
-        public UcScopeSetup(string[] agrs)
+		public UcScopeSetup(string[] agrs)
 		{
 			InitializeComponent();
 
+			if (agrs.Length > 0)
+			{
+				_admin = agrs[0] == "a" || agrs[0] == "A";
+			}
 			InitTable(agrs);
-		    reloadButton_Click(null, null);
-			labelAllSize.Text = $@"Размер доступной памяти: {ScopeConfig.OscilAllSize/1024} Кб";
+			//reloadButton_Click(null, null);
+			labelAllSize.Text = $@"Размер доступной памяти: {ScopeConfig.OscilAllSize / 1024} Кб";
 			labelFreq.Text = $@"Частота выборки: {(ScopeConfig.SampleRate / _nowOscFreq):D} Гц";
 		}
 
@@ -256,7 +252,7 @@ namespace ScopeSetupApp.ucScopeSetup
 		//Количество осциллограмм
 		private void chCount_TextChanged(object sender, EventArgs e)
 		{
-			_nowScopeCount = (ushort) chCountNumericUpDown.Value;
+			_nowScopeCount = (ushort)chCountNumericUpDown.Value;
 
 			DelayOscil();
 		}
@@ -264,13 +260,13 @@ namespace ScopeSetupApp.ucScopeSetup
 		//Предыстория 
 		private void hystory_TextChanged(object sender, EventArgs e)
 		{
-			_nowHystory = (ushort) hystoryNumericUpDown.Value;
+			_nowHystory = (ushort)hystoryNumericUpDown.Value;
 		}
 
 		//Делитель
 		private void oscFreq_TextChanged(object sender, EventArgs e)
 		{
-			_nowOscFreq = (ushort) oscFreqNumericUpDown.Value;
+			_nowOscFreq = (ushort)oscFreqNumericUpDown.Value;
 
 			DelayOscil();
 
@@ -338,17 +334,8 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<ushort> l = new List<ushort>();
 			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-			    var item = (Item)dataListView.GetModelObject(i);
-                if (dataListView.Items[i].Checked && item.Value.ChannelformatNumeric == 2)
-                {
-                    _channelSeries[j++] = i;
-                    l.Add(Convert.ToUInt16((Convert.ToInt32(item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats));
-                }
-			}
-			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
-			{
-			    var item = (Item)dataListView.GetModelObject(i);
-                if (dataListView.Items[i].Checked && item.Value.ChannelformatNumeric == 1)
+				var item = (Item)dataListView.GetModelObject(i);
+				if (dataListView.Items[i].Checked && item.Value.ChannelformatNumeric == 2)
 				{
 					_channelSeries[j++] = i;
 					l.Add(Convert.ToUInt16((Convert.ToInt32(item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats));
@@ -356,8 +343,17 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-			    var item = (Item)dataListView.GetModelObject(i);
-                if (dataListView.Items[i].Checked && item.Value.ChannelformatNumeric == 0)
+				var item = (Item)dataListView.GetModelObject(i);
+				if (dataListView.Items[i].Checked && item.Value.ChannelformatNumeric == 1)
+				{
+					_channelSeries[j++] = i;
+					l.Add(Convert.ToUInt16((Convert.ToInt32(item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats));
+				}
+			}
+			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
+			{
+				var item = (Item)dataListView.GetModelObject(i);
+				if (dataListView.Items[i].Checked && item.Value.ChannelformatNumeric == 0)
 				{
 					_channelSeries[j++] = i;
 					l.Add(Convert.ToUInt16((Convert.ToInt32(item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats));
@@ -373,11 +369,11 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<ushort> l = new List<ushort>();
 			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-			    if (dataListView.Items[i].Checked)
-			    {
-			        var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
-                    l.Add(item.Value.ChannelAddrs);
-			    }
+				if (dataListView.Items[i].Checked)
+				{
+					var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
+					l.Add(item.Value.ChannelAddrs);
+				}
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -388,31 +384,31 @@ namespace ScopeSetupApp.ucScopeSetup
 		private uint OscilSize(uint allSize, bool wr)
 		{
 			uint count64 = 0, count32 = 0, count16 = 0;
-		    Item item;
-            for (int i = 0; i < dataListView.Items.Count; i++)
+			Item item;
+			for (int i = 0; i < dataListView.Items.Count; i++)
 			{
-			    if (dataListView.Items[i].Checked)
-			    {
-			        item = (Item)dataListView.GetModelObject(i);
-                    if(item.Value.ChannelformatNumeric == 2) { count64++; }
-                }
+				if (dataListView.Items[i].Checked)
+				{
+					item = (Item)dataListView.GetModelObject(i);
+					if (item.Value.ChannelformatNumeric == 2) { count64++; }
+				}
 			}
 			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-			    if (dataListView.Items[i].Checked)
-			    {
-			        item = (Item)dataListView.GetModelObject(i);
-			        if (item.Value.ChannelformatNumeric == 1) { count32++; }
-			    }
+				if (dataListView.Items[i].Checked)
+				{
+					item = (Item)dataListView.GetModelObject(i);
+					if (item.Value.ChannelformatNumeric == 1) { count32++; }
+				}
 			}
 
 			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-			    if (dataListView.Items[i].Checked)
-			    {
-			        item = (Item)dataListView.GetModelObject(i);
-			        if (item.Value.ChannelformatNumeric == 0) { count16++; }
-			    }
+				if (dataListView.Items[i].Checked)
+				{
+					item = (Item)dataListView.GetModelObject(i);
+					if (item.Value.ChannelformatNumeric == 0) { count16++; }
+				}
 			}
 
 			uint sampleSize = count64 * 8 + count32 * 4 + count16 * 2;
@@ -457,22 +453,22 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<string> chName = new List<string>();
 			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-			    if (dataListView.Items[i].Checked)
-			    {
-			        var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
-			        var str = new char[32];
-                    var color = item.Color;
+				if (dataListView.Items[i].Checked)
+				{
+					var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
+					var str = new char[32];
+					var color = ScopeSysType.ScopeItem[i].ChannelColor;
 
-                    for (int index = 0; index < item.Value.ChannelNames.Length; index++)
-			            str[index] = item.Value.ChannelNames[index];
+					for (int index = 0; index < item.Value.ChannelNames.Length; index++)
+						str[index] = item.Value.ChannelNames[index];
 
-			        str[29] = (char) byte.Parse(color.Substring(0, 2), NumberStyles.AllowHexSpecifier);
-			        str[30] = (char) byte.Parse(color.Substring(2, 2), NumberStyles.AllowHexSpecifier);
-			        str[31] = (char) byte.Parse(color.Substring(4, 2), NumberStyles.AllowHexSpecifier);
+					str[29] = (char)byte.Parse(color.Substring(0, 2), NumberStyles.AllowHexSpecifier);
+					str[30] = (char)byte.Parse(color.Substring(2, 2), NumberStyles.AllowHexSpecifier);
+					str[31] = (char)byte.Parse(color.Substring(4, 2), NumberStyles.AllowHexSpecifier);
 
-                    var valName = new string(str);
-                    chName.Add(valName);
-			    }
+					var valName = new string(str);
+					chName.Add(valName);
+				}
 			}
 			if (chName.Count > _nowMaxChannelCount) { chName.Clear(); }
 			return chName;
@@ -484,11 +480,11 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<string> l = new List<string>();
 			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-			    if (dataListView.Items[i].Checked)
-			    {
-			        var item = (Item) dataListView.GetModelObject(_channelSeries[j++]);
-			        l.Add(item.Value.ChannelPhase);
-			    }
+				if (dataListView.Items[i].Checked)
+				{
+					var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
+					l.Add(item.Value.ChannelPhase);
+				}
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -500,11 +496,11 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<string> l = new List<string>();
 			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-			    if (dataListView.Items[i].Checked)
-			    {
-			        var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
-			        l.Add(item.Value.ChannelCcbm);
-			    }
+				if (dataListView.Items[i].Checked)
+				{
+					var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
+					l.Add(item.Value.ChannelCcbm);
+				}
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -516,11 +512,11 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<string> l = new List<string>();
 			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-			    if (dataListView.Items[i].Checked)
-			    {
-			        var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
-			        l.Add(item.Value.ChannelDimension);
-			    }
+				if (dataListView.Items[i].Checked)
+				{
+					var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
+					l.Add(item.Value.ChannelDimension);
+				}
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -532,11 +528,11 @@ namespace ScopeSetupApp.ucScopeSetup
 			List<ushort> l = new List<ushort>();
 			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
 			{
-			    if (dataListView.Items[i].Checked)
-			    {
-			        var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
-			        l.Add(item.Value.ChannelTypeAd);
-			    }
+				if (dataListView.Items[i].Checked)
+				{
+					var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
+					l.Add(item.Value.ChannelTypeAd);
+				}
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
@@ -594,15 +590,15 @@ namespace ScopeSetupApp.ucScopeSetup
 			for (int i = 0; i < chName.Count; i++)
 			{
 				string chNameString = chName[i];
-			    char[] chNameChar = chNameString.ToCharArray();
-                byte[] tempChNameStr = new Byte[32];
+				char[] chNameChar = chNameString.ToCharArray();
+				byte[] tempChNameStr = new Byte[32];
 				byte[] chNameStr = Encoding.Default.GetBytes(chNameString);
 
-			    chNameStr[29] = BitConverter.GetBytes(chNameChar[29])[0];
-			    chNameStr[30] = BitConverter.GetBytes(chNameChar[30])[0];
-			    chNameStr[31] = BitConverter.GetBytes(chNameChar[31])[0];
+				chNameStr[29] = BitConverter.GetBytes(chNameChar[29])[0];
+				chNameStr[30] = BitConverter.GetBytes(chNameChar[30])[0];
+				chNameStr[31] = BitConverter.GetBytes(chNameChar[31])[0];
 
-                for (int j = 0; j < 32; j++)
+				for (int j = 0; j < 32; j++)
 				{
 					if (j < chNameString.Length) tempChNameStr[j] = chNameStr[j];
 					else tempChNameStr[j] = 32;
@@ -805,14 +801,15 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			MainForm.MainForm.SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilNewConfig + _writeConfigStep * 8), EndRequest, RequestPriority.Normal, null, partParam);
 		}
-		
+
 		private void EndRequest(bool dataOk, ushort[] paramRtu, object param)
 		{
 			if (MainForm.MainForm.SerialPort.portError)
 			{
 				if (Visible)
 				{
-					MessageBox.Show(@"Ошибка связи!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					// ReSharper disable once LocalizableElement
+					MessageBox.Show(@"Ошибка связи!" + "\nCODE 0x1103", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 			else
@@ -840,78 +837,78 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 		}
 
-		public void  StatusConfigToSystemStrLabel()
+		public void StatusConfigToSystemStrLabel()
 		{
-		    // ReSharper disable LocalizableElement
-            if ((ScopeConfig.StatusOscil & 0x0000) == 0x0000)
-		    {
-                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена и принята!" + 
-                                "\n" + @"CODE: 0x0000", @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else if ((ScopeConfig.StatusOscil & 0x0001) == 0x0001)
+			// ReSharper disable LocalizableElement
+			if ((ScopeConfig.StatusOscil & 0x0000) == 0x0000)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена не полностью!" + 
-				                "\n" + @"CODE: 0x0001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена и принята!" +
+								"\n" + @"CODE: 0x0000", @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			else if ((ScopeConfig.StatusOscil & 0x0001) == 0x0001)
+			{
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена не полностью!" +
+								"\n" + @"CODE: 0x0001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0002) == 0x0002)
 			{
-			    MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое количество осциллограмм!" +
-			                    "\n" + @"CODE: 0x0002", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое количество осциллограмм!" +
+								"\n" + @"CODE: 0x0002", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-		    else if ((ScopeConfig.StatusOscil & 0x0003) == 0x0003)
-		    {
-		        MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое количество каналов!" +
-		                        "\n" + @"CODE: 0x0003", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-		    }
-            else if ((ScopeConfig.StatusOscil & 0x0004) == 0x0004)
+			else if ((ScopeConfig.StatusOscil & 0x0003) == 0x0003)
 			{
-			    MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое значение предыстории!" +
-			                    "\n" + @"CODE: 0x0004", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if ((ScopeConfig.StatusOscil & 0x0005) == 0x0005)
-            {
-                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не выровняны 32b и 64b данные!" +
-                                "\n" + @"CODE: 0x0005", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if ((ScopeConfig.StatusOscil & 0x0006) == 0x0006)
-            {
-                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимые 8b данные!" +
-                                "\n" + @"CODE: 0x0006", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if ((ScopeConfig.StatusOscil & 0x0007) == 0x0007)
-            {
-                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации нарушен порядок каналов!" +
-                                "\n" + @"CODE: 0x0007", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if ((ScopeConfig.StatusOscil & 0x0008) == 0x0008)
-            {
-                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации размер памяти не кратен 64b!" +
-                                "\n" + @"CODE: 0x0008", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if ((ScopeConfig.StatusOscil & 0x0009) == 0x0009)
-            {
-                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Недостаточно памяти для конфигурации!" +
-                                "\n" + @"CODE: 0x0009", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else if ((ScopeConfig.StatusOscil & 0x000A) == 0x000A)
-            {
-                MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Память под осциллограммы содержит не расчитано на целое число записей!" +
-                                "\n" + @"CODE: 0x000A", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое количество каналов!" +
+								"\n" + @"CODE: 0x0003", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			else if ((ScopeConfig.StatusOscil & 0x0004) == 0x0004)
+			{
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое значение предыстории!" +
+								"\n" + @"CODE: 0x0004", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			else if ((ScopeConfig.StatusOscil & 0x0005) == 0x0005)
+			{
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не выровняны 32b и 64b данные!" +
+								"\n" + @"CODE: 0x0005", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			else if ((ScopeConfig.StatusOscil & 0x0006) == 0x0006)
+			{
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимые 8b данные!" +
+								"\n" + @"CODE: 0x0006", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			else if ((ScopeConfig.StatusOscil & 0x0007) == 0x0007)
+			{
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации нарушен порядок каналов!" +
+								"\n" + @"CODE: 0x0007", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			else if ((ScopeConfig.StatusOscil & 0x0008) == 0x0008)
+			{
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации размер памяти не кратен 64b!" +
+								"\n" + @"CODE: 0x0008", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			else if ((ScopeConfig.StatusOscil & 0x0009) == 0x0009)
+			{
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Недостаточно памяти для конфигурации!" +
+								"\n" + @"CODE: 0x0009", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			else if ((ScopeConfig.StatusOscil & 0x000A) == 0x000A)
+			{
+				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Память под осциллограммы содержит не расчитано на целое число записей!" +
+								"\n" + @"CODE: 0x000A", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 
-            ScopeConfig.SendNewConfig = false;
+			ScopeConfig.SendNewConfig = false;
 		}
 
 		private void writeToSystemBtn_Click(object sender, EventArgs e)
 		{
 			if (_nowMaxChannelCount < 1 || _nowMaxChannelCount > 32)
 			{
-				MessageBox.Show(@"Выбрано неверное число каналов", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Выбрано неверное число каналов" + "\nCODE 0x1001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 			if (!MainForm.MainForm.SerialPort.IsOpen)
 			{
-				MessageBox.Show(@"Соединение с системой не установлено!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Соединение с системой не установлено!" + "\nCODE 0x1001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 
@@ -928,7 +925,7 @@ namespace ScopeSetupApp.ucScopeSetup
 		//****************************************************************************************************//
 		//****************************************************************************************************//
 
-	    //***************************Invok и****************************************************//
+		//***************************Invok и****************************************************//
 
 		//Загрузка из файла
 		#region
@@ -939,7 +936,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			string str = "Канала нет в списке: \n";
 			for (int i = 0; i < 32; i++) { channelInList[i] = false; }
 
-		    dataListView.UncheckAll();
+			dataListView.UncheckAll();
 
 			OpenFileDialog ofd = new OpenFileDialog
 			{
@@ -956,7 +953,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка загрузки данных", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(@"Ошибка загрузки данных" + "\nCODE 0x1232", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 			}
@@ -976,21 +973,21 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++)
 			{
-			    for (int j = 0; j < dataListView.Items.Count; j++)
-			    {
-			        var item = (Item)dataListView.GetModelObject(j);
-			        if (ScopeSysType.OscilChannelFormats[i] == item.Format && ScopeSysType.OscilChannelAddrs[i] == item.Addr)  //&& ScopeSysType.OscilChannelNames[i] == item.Name
-                    {
-			            channelInList[i] = true;
-                        dataListView.CheckObject(item);
-                        item.Color = ScopeSysType.OscilChannelColors[i];
-                        dataListView.RefreshObject(item);
-                        break;
-                    }
-                }
+				for (int j = 0; j < dataListView.Items.Count; j++)
+				{
+					var item = (Item)dataListView.GetModelObject(j);
+					if (ScopeSysType.OscilChannelFormats[i] == item.Format && ScopeSysType.OscilChannelAddrs[i] == item.Addr)  //&& ScopeSysType.OscilChannelNames[i] == item.Name
+					{
+						channelInList[i] = true;
+						dataListView.CheckObject(item);
+						//  item.Color = ScopeSysType.OscilChannelColors[i];
+						dataListView.RefreshObject(item);
+						break;
+					}
+				}
 			}
 
-            for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++)
+			for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++)
 			{
 				if (channelInList[i] == false)
 				{
@@ -1006,7 +1003,7 @@ namespace ScopeSetupApp.ucScopeSetup
 		{
 			if (_nowMaxChannelCount != ChNames().Count)
 			{
-				MessageBox.Show(@"Количество осциллографируемых и выбранных каналов не совпадает", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(@"Количество осциллографируемых и выбранных каналов не совпадает" + "\nCODE 0x1233", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
@@ -1054,20 +1051,20 @@ namespace ScopeSetupApp.ucScopeSetup
 				xmlOut.WriteAttributeString("Count", Convert.ToString(OscilEnable()));
 				xmlOut.WriteEndElement();
 
-			    for (int i = 0; i < dataListView.Items.Count; i++)
-			    {
-			        if (dataListView.Items[i].Checked)
-			        {
-			            xmlOut.WriteStartElement("MeasureParam" + (++j));
+				for (int i = 0; i < dataListView.Items.Count; i++)
+				{
+					if (dataListView.Items[i].Checked)
+					{
+						xmlOut.WriteStartElement("MeasureParam" + (++j));
 
-			            xmlOut.WriteAttributeString("Name", dataListView.Items[i].SubItems[1].Text);
-			            xmlOut.WriteAttributeString("Addr", dataListView.Items[i].SubItems[2].Text);
-			            xmlOut.WriteAttributeString("Format", dataListView.Items[i].SubItems[3].Text);      //((((ScopeSysType.ScopeItem[item.Index].ChannelformatNumeric) + 1) << 8) + ScopeSysType.ScopeItem[item.Index].ChannelFormats).ToString()
-                        xmlOut.WriteAttributeString("Color", dataListView.Items[i].SubItems[4].Text);
+						xmlOut.WriteAttributeString("Name", dataListView.Items[i].SubItems[1].Text);
+						xmlOut.WriteAttributeString("Addr", dataListView.Items[i].SubItems[2].Text);
+						xmlOut.WriteAttributeString("Format", dataListView.Items[i].SubItems[3].Text);      //((((ScopeSysType.ScopeItem[item.Index].ChannelformatNumeric) + 1) << 8) + ScopeSysType.ScopeItem[item.Index].ChannelFormats).ToString()
+																											//xmlOut.WriteAttributeString("Color", dataListView.Items[i].SubItems[4].Text);
 
-                        xmlOut.WriteEndElement();
-                    }
-                }
+						xmlOut.WriteEndElement();
+					}
+				}
 
 				/////////////////////////////////////////////////////////////
 				xmlOut.WriteEndElement();
@@ -1080,9 +1077,9 @@ namespace ScopeSetupApp.ucScopeSetup
 
 		private void reloadButton_Click(object sender, EventArgs e)
 		{
-			if (ScopeConfig.ChannelCount == 0)
+			if (ScopeConfig.ChannelCount == 0  && MainForm.MainForm.SerialPort.IsOpen && !MainForm.MainForm.SerialPort.portError)
 			{
-				MessageBox.Show(@"В системе отсутствует конфигурация", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(@"В системе отсутствует конфигурация" + "\nCODE 0x1002", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
@@ -1091,7 +1088,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			bool[] channelInList = new bool[32];
 			for (int i = 0; i < 32; i++) { channelInList[i] = false; }
 
-		    dataListView.UncheckAll();
+			dataListView.UncheckAll();
 
 			chCountNumericUpDown.Value = ScopeConfig.ScopeCount != 0 ? ScopeConfig.ScopeCount : 1;
 			hystoryNumericUpDown.Value = ScopeConfig.HistoryCount != 0 ? ScopeConfig.HistoryCount : 0;
@@ -1106,26 +1103,24 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			for (int i = 0; i < ScopeConfig.OscilFormat.Count; i++)
 			{
-			    for (int j = 0; j < dataListView.Items.Count; j++)
-			    {
-			        var item = (Item)dataListView.GetModelObject(j);
+				for (int j = 0; j < dataListView.Items.Count; j++)
+				{
+					var item = (Item)dataListView.GetModelObject(j);
 
-			        if (ScopeConfig.OscilFormat[i] == ((item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats &&
-			            ScopeConfig.OscilAddr[i] == item.Value.ChannelAddrs)
-			        {
-			            channelInList[i] = true;
-			            //Изменяю цвет
-                        var name = Encoding.Default.GetBytes(ScopeConfig.ChannelName[i].Substring(29, 3));
-			            item.Color = BitConverter.ToString(name).Replace("-", string.Empty).ToLower();
-                        dataListView.CheckObject(item);
-                        dataListView.RefreshObject(item);
-                        break;
-                    }
-			    }
+					if (ScopeConfig.OscilFormat[i] == ((item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats &&
+						ScopeConfig.OscilAddr[i] == item.Value.ChannelAddrs)
+					{
+						channelInList[i] = true;
+						//Изменяю цвет
+						dataListView.CheckObject(item);
+						dataListView.RefreshObject(item);
+						break;
+					}
+				}
 			}
 
 
-            for (int i = 0; i < ScopeConfig.OscilAddr.Count; i++)
+			for (int i = 0; i < ScopeConfig.OscilAddr.Count; i++)
 			{
 				if (channelInList[i] == false)
 				{
@@ -1150,7 +1145,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка при чтении конфигурации с платы", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(@"Ошибка при чтении конфигурации с платы" + "\nCODE 0x1003", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}
@@ -1173,5 +1168,90 @@ namespace ScopeSetupApp.ucScopeSetup
 		{
 			DelayOscil();
 		}
+
+		#region PrintAndShow
+		private void View_toolStripButton_Click(object sender, EventArgs e)
+		{
+			SCPrintPreviewDialog.Document = SCPrintDocument;
+			SCPrintPreviewDialog.ShowDialog();
+		}
+
+		private void Print_toolStripButton_Click(object sender, EventArgs e)
+		{
+			SCPrintDialog.Document = SCPrintDocument;
+			if (SCPrintDialog.ShowDialog() == DialogResult.OK)
+			{
+				SCPrintDocument.Print();
+			}
+		}
+
+		bool _firstPage = true;
+
+		private void SCPrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+		{
+			int yPos = 200;
+			int xPos1 = 25;
+			int number = 0;
+
+			if (_firstPage)
+			{
+				e.Graphics.DrawString($"Date: {DateTime.Now.ToShortDateString()}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 40));
+				e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 55));
+				e.Graphics.DrawString($"Описание: {CommentRichTextBox.Text}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 70));
+				e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 85));
+				e.Graphics.DrawString($"Количество каналов: {radioButton.Text}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 100));
+				e.Graphics.DrawString($"Перезапись осциллограмм: {checkBox3.Checked}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 450, 100));
+				e.Graphics.DrawString($"Количество осциллограмм: {chCountNumericUpDown.Value}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 120));
+				e.Graphics.DrawString($"Сохранение на SD карту: {checkBox1.Checked}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 450, 120));
+				e.Graphics.DrawString($"Предыстория: {hystoryNumericUpDown.Value}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 140));
+				e.Graphics.DrawString($"Осциллографирование включено: {enaScopeCheckBox.Checked}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 450, 140));
+				e.Graphics.DrawString($"Делитель: {oscFreqNumericUpDown.Value}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 160));
+				e.Graphics.DrawString($"{labelFreq.Text}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 250, 160));
+				e.Graphics.DrawString($"{labelAllSize.Text}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, 180));
+				e.Graphics.DrawString($"{DelayOsc.Text}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 250, 180));
+				e.Graphics.DrawString($"Использование пмяти: {sizeOcsil_trackBar.Value}%", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 450, 180));
+				e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, 205));
+				if (_admin)
+				{
+					e.Graphics.DrawString("№", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+					e.Graphics.DrawString("Канал", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 100, yPos));
+					e.Graphics.DrawString("Адрес", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 350, yPos));
+					e.Graphics.DrawString("Формат", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 600, yPos));
+				}
+				else
+				{
+					e.Graphics.DrawString("№", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+					e.Graphics.DrawString("Канал", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 100, yPos));
+				}
+				e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos + 10));
+				foreach (var group in dataListView.OLVGroups)
+				{
+					if (group.Items.Any(x => x.Checked))
+					{
+						e.Graphics.DrawString($"{group.Header}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 20, yPos += 20));
+
+						foreach (var item in group.Items)
+						{
+							if (item.Checked)
+							{
+								if (_admin)
+								{
+									e.Graphics.DrawString($"№{number += 1}.", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+									e.Graphics.DrawString($"{((Item)item.RowObject).Name}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 100, yPos));
+									e.Graphics.DrawString($"{((Item)item.RowObject).Addr}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 350, yPos));
+									e.Graphics.DrawString($"{((Item)item.RowObject).Format}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 600, yPos));
+								}
+								else
+								{
+									e.Graphics.DrawString($"№{number += 1}.", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
+									e.Graphics.DrawString($"{((Item)item.RowObject).Name}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 100, yPos));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		#endregion
 	}
 }

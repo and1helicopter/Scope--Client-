@@ -56,7 +56,8 @@ namespace ScopeSetupApp.ucSettings
 			}
 			catch
 			{
-				MessageBox.Show(@"Неверно введены данные", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show(@"Неверно введены данные" + "\nCODE 0x1001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				FormatsdataGridView.Rows[i.RowIndex].Cells[i.ColumnIndex].Value = i.RowIndex < FormatConverter.FormatList.Count ? FormatConverter.FormatList[i.RowIndex].Smaller : 0;
 			}
 		}
@@ -70,7 +71,8 @@ namespace ScopeSetupApp.ucSettings
 			}
 			else
 			{
-				MessageBox.Show(@"Неверно введены данные", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show(@"Неверно введены данные" + "\nCODE 0x1001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				FormatsdataGridView.Rows[i.RowIndex].Cells[i.ColumnIndex].Value = FormatConverter.FormatList[i.RowIndex].BStr;
 			}
 		}
@@ -84,7 +86,8 @@ namespace ScopeSetupApp.ucSettings
 			}
 			else
 			{
-				MessageBox.Show(@"Неверно введены данные", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show(@"Неверно введены данные" + "\nCODE 0x1001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				FormatsdataGridView.Rows[i.RowIndex].Cells[i.ColumnIndex].Value = FormatConverter.FormatList[i.RowIndex].AStr;
 			}
 		}
@@ -146,7 +149,8 @@ namespace ScopeSetupApp.ucSettings
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка загрузки данных", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					// ReSharper disable once LocalizableElement
+					MessageBox.Show(@"Ошибка загрузки данных" + "\nCODE 0x1222", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 			}
@@ -283,7 +287,8 @@ namespace ScopeSetupApp.ucSettings
 			}
 			catch
 			{
-				MessageBox.Show(@"Неправильно введены данные", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show(@"Неправильно введены данные" + "\nCODE 0x1001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			str = Convert.ToString(i);
 			//if (del != "") str = str.Replace(del, "");
@@ -298,23 +303,23 @@ namespace ScopeSetupApp.ucSettings
 			Program.MainFormWin.CheackConnect();
 		}
 
-		private void UpdateLabelScopeConfig (bool status)
+		private void UpdateLabelScopeConfig ()
 		{
-			label2.Text = status ? ScopeConfig.ScopeCount.ToString() : @"UNKNOWN";
-			label3.Text = status ? ScopeConfig.ChannelCount.ToString() : @"UNKNOWN";
-			label4.Text = status ? GetAddrFormateName() : @"UNKNOWN";
-			label5.Text = status ? ScopeConfig.HistoryCount.ToString() : @"UNKNOWN";
+			label2.Text = ScopeConfig.ScopeCount.ToString();
+			label3.Text = ScopeConfig.ChannelCount.ToString();
+			label4.Text = GetAddrFormateName();
+			label5.Text = ScopeConfig.HistoryCount.ToString();
 		}
 
-		private delegate void UpdateLabelConfig(bool status);
-
+		private delegate void UpdateLabelConfig();
 
 		private string GetAddrFormateName()
 		{
 			string str = "";
 			for (int i = 0; i < ScopeConfig.ChannelCount; i++)
 			{
-				str += "0x" + ScopeConfig.OscilAddr[i].ToString("X4") + "  " + ScopeConfig.OscilFormat[i] + "  " + ScopeConfig.ChannelName[i] + "\n";
+				string text = ScopeConfig.ChannelName[i].Substring(0, 29).Replace("\0", String.Empty);
+				str += $"0x{ScopeConfig.OscilAddr[i]:X4} {ScopeConfig.OscilFormat[i]} {text}\n";
 			}
 			return str;
 		}
@@ -326,7 +331,7 @@ namespace ScopeSetupApp.ucSettings
 			OscilCmndAddr_textBox.Text = @"0x" + ScopeSysType.OscilCmndAddr.ToString("X4");
 
 			//Если конфиграция успешно получена, то выводим конфигурацию
-			UpdateLabelScopeConfig(ScopeConfig.StatusOscil == 0x0000);
+			UpdateLabelScopeConfig();
 			//Invoke(new UpdateLabelConfig(UpdateLabelScopeConfig), ScopeConfig.StatusOscil == 0x0001);
 		}
 
@@ -336,7 +341,7 @@ namespace ScopeSetupApp.ucSettings
 			OscilCmndAddr_textBox.Text = @"0x" + ScopeSysType.OscilCmndAddr.ToString("X4");
 
 			//Если конфиграция успешно получена, то выводим конфигурацию
-			Invoke(new UpdateLabelConfig(UpdateLabelScopeConfig), ScopeConfig.StatusOscil == 0x0000);
+			Invoke(new UpdateLabelConfig(UpdateLabelScopeConfig));
 		}
 	}
 }

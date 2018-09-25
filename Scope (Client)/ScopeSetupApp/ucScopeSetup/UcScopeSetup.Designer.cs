@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UcScopeSetup));
 			this.label3 = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
@@ -40,6 +41,9 @@
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.openButton2 = new System.Windows.Forms.ToolStripButton();
 			this.saveButton2 = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripView = new System.Windows.Forms.ToolStripButton();
+			this.toolStripPrint = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.writeToSystemBtn = new System.Windows.Forms.ToolStripButton();
 			this.reloadButton = new System.Windows.Forms.ToolStripButton();
@@ -57,8 +61,12 @@
 			this.labelAllSize = new System.Windows.Forms.Label();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.possibleParamPanel = new System.Windows.Forms.Panel();
+			this.treeListView = new BrightIdeasSoftware.TreeListView();
 			this.dataListView = new BrightIdeasSoftware.DataListView();
 			this.label2 = new System.Windows.Forms.Label();
+			this.SCPrintDialog = new System.Windows.Forms.PrintDialog();
+			this.SCPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+			this.SCPrintDocument = new System.Drawing.Printing.PrintDocument();
 			((System.ComponentModel.ISupportInitialize)(this.sizeOcsil_trackBar)).BeginInit();
 			this.toolStrip1.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -66,6 +74,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.hystoryNumericUpDown)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.chCountNumericUpDown)).BeginInit();
 			this.possibleParamPanel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.treeListView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataListView)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -145,9 +154,9 @@
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.label6.Location = new System.Drawing.Point(287, 54);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(76, 13);
+			this.label6.Size = new System.Drawing.Size(73, 13);
 			this.label6.TabIndex = 2;
-			this.label6.Text = "От 0 до 100 %";
+			this.label6.Text = "От 0 до 100%";
 			// 
 			// toolStrip1
 			// 
@@ -159,6 +168,9 @@
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openButton2,
             this.saveButton2,
+            this.toolStripSeparator2,
+            this.toolStripView,
+            this.toolStripPrint,
             this.toolStripSeparator1,
             this.writeToSystemBtn,
             this.reloadButton});
@@ -167,7 +179,7 @@
 			this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this.toolStrip1.Size = new System.Drawing.Size(790, 38);
 			this.toolStrip1.TabIndex = 38;
-			this.toolStrip1.Text = "toolStrip1";
+			this.toolStrip1.Text = "Просмотр";
 			// 
 			// openButton2
 			// 
@@ -194,6 +206,38 @@
 			this.saveButton2.Size = new System.Drawing.Size(32, 32);
 			this.saveButton2.Text = "Сохранить файл";
 			this.saveButton2.Click += new System.EventHandler(this.saveButton2_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 38);
+			// 
+			// toolStripView
+			// 
+			this.toolStripView.AutoSize = false;
+			this.toolStripView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripView.Image = global::ScopeSetupApp.Properties.Resources.Fine_Print_50;
+			this.toolStripView.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripView.Margin = new System.Windows.Forms.Padding(3);
+			this.toolStripView.Name = "toolStripView";
+			this.toolStripView.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.toolStripView.Size = new System.Drawing.Size(32, 32);
+			this.toolStripView.Text = "Просмотр";
+			this.toolStripView.Click += new System.EventHandler(this.View_toolStripButton_Click);
+			// 
+			// toolStripPrint
+			// 
+			this.toolStripPrint.AutoSize = false;
+			this.toolStripPrint.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripPrint.Image = global::ScopeSetupApp.Properties.Resources.Print_50;
+			this.toolStripPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripPrint.Margin = new System.Windows.Forms.Padding(3);
+			this.toolStripPrint.Name = "toolStripPrint";
+			this.toolStripPrint.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.toolStripPrint.Size = new System.Drawing.Size(32, 32);
+			this.toolStripPrint.Text = "Печать";
+			this.toolStripPrint.ToolTipText = "Печать";
+			this.toolStripPrint.Click += new System.EventHandler(this.Print_toolStripButton_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -410,6 +454,7 @@
 			// 
 			this.possibleParamPanel.AutoScroll = true;
 			this.possibleParamPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.possibleParamPanel.Controls.Add(this.treeListView);
 			this.possibleParamPanel.Controls.Add(this.dataListView);
 			this.possibleParamPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.possibleParamPanel.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -418,6 +463,22 @@
 			this.possibleParamPanel.Name = "possibleParamPanel";
 			this.possibleParamPanel.Size = new System.Drawing.Size(790, 382);
 			this.possibleParamPanel.TabIndex = 17;
+			// 
+			// treeListView
+			// 
+			this.treeListView.CellEditUseWholeCell = false;
+			this.treeListView.CheckBoxes = true;
+			this.treeListView.FullRowSelect = true;
+			this.treeListView.GridLines = true;
+			this.treeListView.HierarchicalCheckboxes = true;
+			this.treeListView.Location = new System.Drawing.Point(495, 13);
+			this.treeListView.Name = "treeListView";
+			this.treeListView.ShowGroups = false;
+			this.treeListView.Size = new System.Drawing.Size(292, 286);
+			this.treeListView.TabIndex = 10;
+			this.treeListView.UseCompatibleStateImageBehavior = false;
+			this.treeListView.View = System.Windows.Forms.View.Details;
+			this.treeListView.VirtualMode = true;
 			// 
 			// dataListView
 			// 
@@ -454,6 +515,24 @@
 			this.label2.Text = "Возможные для осциллографирования параметры";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// SCPrintDialog
+			// 
+			this.SCPrintDialog.UseEXDialog = true;
+			// 
+			// SCPrintPreviewDialog
+			// 
+			this.SCPrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
+			this.SCPrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+			this.SCPrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
+			this.SCPrintPreviewDialog.Enabled = true;
+			this.SCPrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("SCPrintPreviewDialog.Icon")));
+			this.SCPrintPreviewDialog.Name = "SCPrintPreviewDialog";
+			this.SCPrintPreviewDialog.Visible = false;
+			// 
+			// SCPrintDocument
+			// 
+			this.SCPrintDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.SCPrintDocument_PrintPage);
+			// 
 			// UcScopeSetup
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -477,6 +556,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.hystoryNumericUpDown)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.chCountNumericUpDown)).EndInit();
 			this.possibleParamPanel.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.treeListView)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataListView)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -508,11 +588,18 @@
 		private System.Windows.Forms.CheckBox checkBox1;
 		private System.Windows.Forms.Panel possibleParamPanel;
 		private System.Windows.Forms.Label label2;
-        private BrightIdeasSoftware.DataListView dataListView;
 		private System.Windows.Forms.Label labelFreq;
 		private System.Windows.Forms.Label labelAllSize;
 		private System.Windows.Forms.NumericUpDown chCountNumericUpDown;
 		private System.Windows.Forms.NumericUpDown oscFreqNumericUpDown;
 		private System.Windows.Forms.NumericUpDown hystoryNumericUpDown;
+		private System.Windows.Forms.PrintDialog SCPrintDialog;
+		private System.Windows.Forms.PrintPreviewDialog SCPrintPreviewDialog;
+		private System.Drawing.Printing.PrintDocument SCPrintDocument;
+		private System.Windows.Forms.ToolStripButton toolStripView;
+		private System.Windows.Forms.ToolStripButton toolStripPrint;
+		private BrightIdeasSoftware.DataListView dataListView;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private BrightIdeasSoftware.TreeListView treeListView;
 	}
 }

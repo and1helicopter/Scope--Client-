@@ -13,7 +13,7 @@ namespace ScopeSetupApp.MainForm
 		{
 			SerialPort.Open();
             //Установлено соединение с COM портом
-		    if (SerialPort.IsOpen)
+		    if (SerialPort.IsOpen && !SerialPort.portError)
 		        CheackConnect();
 		    else
 		    {
@@ -77,7 +77,7 @@ namespace ScopeSetupApp.MainForm
 	        if (SerialPort.portError && !_cheackComError)
 	        {
                 StopUpdate();
-	            MessageBox.Show(@"Обрыв соединения", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
+	            MessageBox.Show(@"Обрыв соединения" + "\nCODE 0x1103", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 	            _cheackComError = true;
 	        }
 	        else if(!SerialPort.portError &&  _cheackComError)
@@ -247,7 +247,7 @@ namespace ScopeSetupApp.MainForm
                     {
                         if (_loadOscData)
                         {
-                            MessageBox.Show("Уже производится загрузка осциллограммы.", @"Warring", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            MessageBox.Show("Уже производится загрузка осциллограммы." + "\nCODE 0x1004", @"Warring", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
                         }
 
@@ -259,7 +259,7 @@ namespace ScopeSetupApp.MainForm
                     }
                 case 0x05:
                     {
-                        MessageBoxResult dialogResult = MessageBox.Show("Осциллограмма может загружаться на другом устростве.\nСбросить статус загрузки?", @"Warring", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                        MessageBoxResult dialogResult = MessageBox.Show("Осциллограмма может загружаться на другом устростве.\nСбросить статус загрузки?\nCODE 0x1005", @"Warring", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                         if (dialogResult == MessageBoxResult.Yes)
                         {
                             UnsetScopeStatus(index);
@@ -311,7 +311,7 @@ namespace ScopeSetupApp.MainForm
             }
 		    else
 		    {
-		        MessageBox.Show("Осциллограмма может загружаться на другом устростве.\nДля удаления осциилограммы сбросьте статус загрузки.", @"Warring", MessageBoxButton.OK, MessageBoxImage.Warning);
+		        MessageBox.Show("Осциллограмма может загружаться на другом устростве.\nДля удаления осциилограммы сбросьте статус загрузки.\nCODE 0x1005", @"Warring", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -459,7 +459,7 @@ namespace ScopeSetupApp.MainForm
 	        }
 	        else
 	        {
-	            MessageBox.Show("Соединение с системой не установлено", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
+	            MessageBox.Show("Соединение с системой не установлено" + "\nCODE 0x1103", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 	            _connectToSystem = false;
 	            SerialPort.Close();
             }

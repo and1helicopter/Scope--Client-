@@ -6,8 +6,11 @@ using System.Xml;
 using System.IO;
 using System.Reflection;
 using System.Drawing;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using ScopeSetupApp.Format;
+using Brushes = System.Drawing.Brushes;
+using Color = System.Drawing.Color;
 
 namespace ScopeSetupApp.ucScopeConfig
 {
@@ -42,7 +45,7 @@ namespace ScopeSetupApp.ucScopeConfig
 			ChanneldataGridView.CellBeginEdit += ChanneldataGridViewOnCellBeginEdit;
 		}
 		
-		private string oldvalue = "0xFFFF";
+		private string _oldvalue = "0xFFFF";
 
 		private void ChanneldataGridViewOnCellBeginEdit(object sender, DataGridViewCellCancelEventArgs dataGridViewCellCancelEventArgs)
 		{
@@ -51,7 +54,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				var indexColumn = dataGridViewCellCancelEventArgs.ColumnIndex;
 				var indexRow = dataGridViewCellCancelEventArgs.RowIndex;
 
-				oldvalue = ChanneldataGridView[indexColumn, indexRow].Value.ToString();
+				_oldvalue = ChanneldataGridView[indexColumn, indexRow].Value.ToString();
 			}
 		}
 
@@ -74,8 +77,9 @@ namespace ScopeSetupApp.ucScopeConfig
 				}
 				else
 				{
-					ChanneldataGridView[indexColumn, indexRow].Value = oldvalue;
-					MessageBox.Show(@"Ошибка ввода данных в поле адреса", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					ChanneldataGridView[indexColumn, indexRow].Value = _oldvalue;
+					// ReSharper disable once LocalizableElement
+					MessageBox.Show(@"Ошибка ввода данных в поле адреса" + "\nCODE 0x1001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 		}
@@ -91,7 +95,7 @@ namespace ScopeSetupApp.ucScopeConfig
 
 		private void addLineButton_Click(object sender, EventArgs e)
 		{
-			ChanneldataGridView.Rows.Add("Параметр", "", _typeChannel[0], "0x" + (ChanneldataGridView.Rows.Count).ToString("X4"), _sizeFormat[0], _format[0], "", "", "NONE", -1, 1);
+			ChanneldataGridView.Rows.Add("Параметр", "Auto", "", _typeChannel[0], "0x" + (ChanneldataGridView.Rows.Count).ToString("X4"), _sizeFormat[0], _format[0], "", "", "NONE", -1, 1);
 
 			var index = ChanneldataGridView.RowCount - 1;
 			ChanneldataGridView.Rows[index].HeaderCell.Value = (index + 1).ToString();
@@ -110,16 +114,17 @@ namespace ScopeSetupApp.ucScopeConfig
 				ScopeChannelConfig itemCopy = new ScopeChannelConfig()
 				{
 					ChannelNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[0].Value),
-					ChannelGroupNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value),
-					ChannelTypeAd = Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[2].Value)),
-					ChannelAddrs = Convert.ToUInt16(convert_text(ChanneldataGridView.Rows[item.Index].Cells[3].Value, "0x")),
-					ChannelformatNumeric = Convert.ToInt32(Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[item.Index].Cells[4].Value)),
-					ChannelFormats = Convert.ToInt32(Array.IndexOf(_format, ChanneldataGridView.Rows[item.Index].Cells[5].Value)),
-					ChannelPhase = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[6].Value),
-					ChannelCcbm = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value),
-					ChannelDimension = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value),
-					ChannelMin = Convert.ToDouble(ChanneldataGridView.Rows[item.Index].Cells[9].Value),
-					ChannelMax = Convert.ToDouble(ChanneldataGridView.Rows[item.Index].Cells[10].Value)
+					ChannelColor = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value),
+					ChannelGroupNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[2].Value),
+					ChannelTypeAd = Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[3].Value)),
+					ChannelAddrs = Convert.ToUInt16(convert_text(ChanneldataGridView.Rows[item.Index].Cells[4].Value, "0x")),
+					ChannelformatNumeric = Convert.ToInt32(Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[item.Index].Cells[5].Value)),
+					ChannelFormats = Convert.ToInt32(Array.IndexOf(_format, ChanneldataGridView.Rows[item.Index].Cells[6].Value)),
+					ChannelPhase = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value),
+					ChannelCcbm = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value),
+					ChannelDimension = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[9].Value),
+					ChannelMin = Convert.ToDouble(ChanneldataGridView.Rows[item.Index].Cells[10].Value),
+					ChannelMax = Convert.ToDouble(ChanneldataGridView.Rows[item.Index].Cells[11].Value)
 				};
 
 				ScopeItemCopy.Add(itemCopy);
@@ -132,6 +137,7 @@ namespace ScopeSetupApp.ucScopeConfig
 			{
 				ChanneldataGridView.Rows.Add(
 					t.ChannelNames,
+					t.ChannelColor.ToLowerInvariant() != "ffffff".ToLowerInvariant() ? t.ChannelColor : "Auto",
 					t.ChannelGroupNames,
 					_typeChannel[(t.ChannelTypeAd)],
 					"0x" + t.ChannelAddrs.ToString("X4"),
@@ -144,6 +150,17 @@ namespace ScopeSetupApp.ucScopeConfig
 					t.ChannelMax
 				);
 
+				var str = t.ChannelColor.ToLowerInvariant() == "Auto".ToLowerInvariant() ? "ffffff" : t.ChannelColor;
+				var red = int.Parse(str.Substring(0, 2), NumberStyles.AllowHexSpecifier);
+				var green = int.Parse(str.Substring(2, 2), NumberStyles.AllowHexSpecifier);
+				var blue = int.Parse(str.Substring(4, 2), NumberStyles.AllowHexSpecifier);
+
+				var color = Color.FromArgb(red, green, blue);
+
+				//ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].Cells[1].Style.ForeColor = Color.DarkGray;
+				//ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].Cells[1].Style.SelectionForeColor = Color.DarkGray;
+				ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].Cells[1].Style.BackColor = color;
+				ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].Cells[1].Style.SelectionBackColor = color;
 				ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].HeaderCell.Value = ChanneldataGridView.RowCount.ToString();
 				UpdateRange(ChanneldataGridView.RowCount - 1);
 			}
@@ -187,7 +204,8 @@ namespace ScopeSetupApp.ucScopeConfig
 			}
 			catch
 			{
-				MessageBox.Show(@"Неправильно введены данные", @"Error",  MessageBoxButtons.OK, MessageBoxIcon.Error);
+				// ReSharper disable once LocalizableElement
+				MessageBox.Show(@"Неправильно введены данные" + "\nCODE 0x1001", @"Error",  MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			str = Convert.ToString(i);
 			//if (del != "") str = str.Replace(del, "");
@@ -212,6 +230,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				{
 					ChanneldataGridView.Rows.Add(
 						t.ChannelNames,
+						t.ChannelColor.ToLowerInvariant() != "ffffff".ToLowerInvariant()? t.ChannelColor : "Auto",
 						t.ChannelGroupNames,
 						_typeChannel[(t.ChannelTypeAd)],
 						"0x" + t.ChannelAddrs.ToString("X4"),
@@ -224,13 +243,26 @@ namespace ScopeSetupApp.ucScopeConfig
 						t.ChannelMax
 					);
 
+					var str = t.ChannelColor.ToLowerInvariant() == "Auto".ToLowerInvariant() ? "ffffff" : t.ChannelColor;
+					var red = int.Parse(str.Substring(0, 2), NumberStyles.AllowHexSpecifier);
+					var green = int.Parse(str.Substring(2, 2), NumberStyles.AllowHexSpecifier);
+					var blue = int.Parse(str.Substring(4, 2), NumberStyles.AllowHexSpecifier);
+
+					var color = Color.FromArgb(red, green, blue);
+
+					//ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].Cells[1].Style.ForeColor = Color.DarkGray;
+					//ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].Cells[1].Style.SelectionForeColor = Color.DarkGray;
+					ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].Cells[1].Style.BackColor = color;
+					ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].Cells[1].Style.SelectionBackColor = color;
+
 					ChanneldataGridView.Rows[ChanneldataGridView.RowCount - 1].HeaderCell.Value = ChanneldataGridView.RowCount.ToString();
 					UpdateRange(ChanneldataGridView.RowCount - 1);
 					SetDoubleBuffered(ChanneldataGridView, true);
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка загрузки данных", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					// ReSharper disable once LocalizableElement
+					MessageBox.Show(@"Ошибка загрузки данных" + "\nCODE 0x1222", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 			}
@@ -261,7 +293,8 @@ namespace ScopeSetupApp.ucScopeConfig
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка загрузки данных", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					// ReSharper disable once LocalizableElement
+					MessageBox.Show(@"Ошибка загрузки данных" + "\nCODE 0x1232", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				InitTable();
@@ -299,7 +332,7 @@ namespace ScopeSetupApp.ucScopeConfig
 
 			for (int i = 0; i < ChanneldataGridView.Rows.Count; i++)
 			{
-				paramAddrStrs.Add(convert_text(Convert.ToString(ChanneldataGridView.Rows[i].Cells[3].Value), "0x"));
+				paramAddrStrs.Add(convert_text(Convert.ToString(ChanneldataGridView.Rows[i].Cells[4].Value), "0x"));
 			}
 
 			ScopeSysType.XmlFileName = sfd.FileName;
@@ -338,15 +371,16 @@ namespace ScopeSetupApp.ucScopeConfig
 			for (int i = 0; i < ChanneldataGridView.Rows.Count; i++)
 			{
 				xmlOut.WriteStartElement("MeasureParam" + (i + 1));
-				xmlOut.WriteAttributeString("Name", Convert.ToString(ChanneldataGridView.Rows[i].Cells[1].Value) + "/" + Convert.ToString(ChanneldataGridView.Rows[i].Cells[0].Value));
-				xmlOut.WriteAttributeString("Phase", Convert.ToString(ChanneldataGridView.Rows[i].Cells[6].Value));
-				xmlOut.WriteAttributeString("CCBM", Convert.ToString(ChanneldataGridView.Rows[i].Cells[7].Value));
-				xmlOut.WriteAttributeString("Dimension", Convert.ToString(ChanneldataGridView.Rows[i].Cells[8].Value));
+				xmlOut.WriteAttributeString("Name", Convert.ToString(ChanneldataGridView.Rows[i].Cells[2].Value) + "/" + Convert.ToString(ChanneldataGridView.Rows[i].Cells[0].Value));
+				xmlOut.WriteAttributeString("Color", Convert.ToString(ChanneldataGridView.Rows[i].Cells[1].Value.ToString().ToLowerInvariant() == "Auto".ToLowerInvariant()?"ffffff": ChanneldataGridView.Rows[i].Cells[1].Value));
+				xmlOut.WriteAttributeString("Phase", Convert.ToString(ChanneldataGridView.Rows[i].Cells[7].Value));
+				xmlOut.WriteAttributeString("CCBM", Convert.ToString(ChanneldataGridView.Rows[i].Cells[8].Value));
+				xmlOut.WriteAttributeString("Dimension", Convert.ToString(ChanneldataGridView.Rows[i].Cells[9].Value));
 				xmlOut.WriteAttributeString("Addr", paramAddrStrs[i]);
-				xmlOut.WriteAttributeString("Format", Convert.ToString(((Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[i].Cells[4].Value) + 1) << 8) + Array.IndexOf(_format, ChanneldataGridView.Rows[i].Cells[5].Value)));
-				xmlOut.WriteAttributeString("TypeAD", Convert.ToString(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[i].Cells[2].Value)));
-				xmlOut.WriteAttributeString("Min", Convert.ToString(ChanneldataGridView.Rows[i].Cells[9].Value));
-				xmlOut.WriteAttributeString("Max", Convert.ToString(ChanneldataGridView.Rows[i].Cells[10].Value));
+				xmlOut.WriteAttributeString("Format", Convert.ToString(((Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[i].Cells[5].Value) + 1) << 8) + Array.IndexOf(_format, ChanneldataGridView.Rows[i].Cells[6].Value)));
+				xmlOut.WriteAttributeString("TypeAD", Convert.ToString(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[i].Cells[3].Value)));
+				xmlOut.WriteAttributeString("Min", Convert.ToString(ChanneldataGridView.Rows[i].Cells[10].Value));
+				xmlOut.WriteAttributeString("Max", Convert.ToString(ChanneldataGridView.Rows[i].Cells[11].Value));
 
 				xmlOut.WriteEndElement();
 			}
@@ -410,13 +444,13 @@ namespace ScopeSetupApp.ucScopeConfig
 				for (int j = 0; j < ChanneldataGridView.RowCount; j++)
 				{
 					//Адреса, разрядность, формат
-					if (Convert.ToString(ChanneldataGridView.Rows[i].Cells[3].Value) == Convert.ToString(ChanneldataGridView.Rows[j].Cells[3].Value) &&
-						ChanneldataGridView.Rows[i].Cells[4].Value == ChanneldataGridView.Rows[j].Cells[4].Value &&
-						ChanneldataGridView.Rows[i].Cells[5].Value == ChanneldataGridView.Rows[j].Cells[5].Value)
+					if (Convert.ToString(ChanneldataGridView.Rows[i].Cells[4].Value) == Convert.ToString(ChanneldataGridView.Rows[j].Cells[4].Value) &&
+						ChanneldataGridView.Rows[i].Cells[5].Value == ChanneldataGridView.Rows[j].Cells[5].Value &&
+						ChanneldataGridView.Rows[i].Cells[6].Value == ChanneldataGridView.Rows[j].Cells[6].Value)
 					{
-						str = "Адрес: " + ChanneldataGridView.Rows[i].Cells[3].Value +
-							  " Разряднсоть: " + ChanneldataGridView.Rows[i].Cells[4].Value +
-							  " Формат: " + ChanneldataGridView.Rows[i].Cells[5].Value;
+						str = "Адрес: " + ChanneldataGridView.Rows[i].Cells[4].Value +
+							  " Разряднсоть: " + ChanneldataGridView.Rows[i].Cells[5].Value +
+							  " Формат: " + ChanneldataGridView.Rows[i].Cells[6].Value;
 						nameChannelRepeat.Add(Convert.ToString(ChanneldataGridView.Rows[j].Cells[0].Value));
 						numChannelRepeat.Add(j);
 					}
@@ -463,6 +497,8 @@ namespace ScopeSetupApp.ucScopeConfig
 			Save_To_file(sfd);
 
 			Update_Oscil();
+			//Перегрузить конфигурацию из платы
+			Program.MainFormWin.CheackConnect();
 		}
 
 		private void Update_Oscil()
@@ -490,23 +526,25 @@ namespace ScopeSetupApp.ucScopeConfig
 					ScopeChannelConfig Item = new ScopeChannelConfig
 					{
 						ChannelNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[0].Value),
-						ChannelGroupNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value),
-						ChannelTypeAd = Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[2].Value)),
-						ChannelAddrs = Convert.ToUInt16(convert_text(ChanneldataGridView.Rows[item.Index].Cells[3].Value, "0x")),
-						ChannelformatNumeric = Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[item.Index].Cells[4].Value),
-						ChannelFormats = Array.IndexOf(_format, ChanneldataGridView.Rows[item.Index].Cells[5].Value),
-						ChannelPhase = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[6].Value),
-						ChannelCcbm = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value),
-						ChannelDimension = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value),
-						ChannelMin = Convert.ToDouble(ChanneldataGridView.Rows[item.Index].Cells[9].Value),
-						ChannelMax = Convert.ToDouble(ChanneldataGridView.Rows[item.Index].Cells[10].Value)
+						ChannelColor = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[1].Value),
+						ChannelGroupNames = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[2].Value),
+						ChannelTypeAd = Convert.ToUInt16(Array.IndexOf(_typeChannel, ChanneldataGridView.Rows[item.Index].Cells[3].Value)),
+						ChannelAddrs = Convert.ToUInt16(convert_text(ChanneldataGridView.Rows[item.Index].Cells[4].Value, "0x")),
+						ChannelformatNumeric = Array.IndexOf(_sizeFormat, ChanneldataGridView.Rows[item.Index].Cells[5].Value),
+						ChannelFormats = Array.IndexOf(_format, ChanneldataGridView.Rows[item.Index].Cells[6].Value),
+						ChannelPhase = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[7].Value),
+						ChannelCcbm = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[8].Value),
+						ChannelDimension = Convert.ToString(ChanneldataGridView.Rows[item.Index].Cells[9].Value),
+						ChannelMin = Convert.ToDouble(ChanneldataGridView.Rows[item.Index].Cells[10].Value),
+						ChannelMax = Convert.ToDouble(ChanneldataGridView.Rows[item.Index].Cells[11].Value)
 					};
 
 					ScopeSysType.ScopeItem.Add(Item);
 				}
 				catch 
 				{
-					MessageBox.Show(@"Неправильно заполнены поля каналов", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					// ReSharper disable once LocalizableElement
+					MessageBox.Show(@"Неправильно заполнены поля каналов" + "\nCODE 0x1001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 			}
@@ -597,15 +635,15 @@ namespace ScopeSetupApp.ucScopeConfig
 			{
 				e.Graphics.DrawString((i + 1) + ".", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
 				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[0].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 35, yPos));
-				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[3].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 200, yPos));
-				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[4].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 260, yPos));
-				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[5].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 290, yPos));
-				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[8].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 395, yPos));
-				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[6].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 470, yPos));
-				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[7].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 520, yPos));
-				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[2].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 570, yPos));
-				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[9].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 630, yPos));
-				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[10].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 690, yPos));
+				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[4].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 200, yPos));
+				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[5].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 260, yPos));
+				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[6].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 290, yPos));
+				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[9].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 395, yPos));
+				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[7].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 470, yPos));
+				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[8].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 520, yPos));
+				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[3].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 570, yPos));
+				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[10].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 630, yPos));
+				e.Graphics.DrawString(ChanneldataGridView.Rows[i].Cells[11].Value.ToString(), new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 690, yPos));
 				if (_firstPage && j == 40) { _paramNum += (j + 1); e.HasMorePages = true; _firstPage = false; break; }
 				if (_firstPage == false && j == 52) { _paramNum += (j + 1); e.HasMorePages = true; break; }
 				if (i == ChanneldataGridView.Rows.Count - 1) { _firstPage = true; _paramNum = 0; e.HasMorePages = false; }
@@ -710,6 +748,28 @@ namespace ScopeSetupApp.ucScopeConfig
 			if (!FormatConverter.OldFormat)
 			{
 				code_label.Text = @"Код: " + FormatConverter.GetCodeFormat(ChanneldataGridView.Rows[e.RowIndex].Cells["Column_channelFormats"].Value as string);
+			}
+		}
+
+		private void ChanneldataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+			var senderGrid = (DataGridView)sender;
+
+			if (e.ColumnIndex >= 0 && e.RowIndex >= 0)
+			{
+				if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+				{
+					ColorDialog cd = new ColorDialog();
+					if (cd.ShowDialog() == DialogResult.OK)
+					{
+						((DataGridViewButtonCell)ChanneldataGridView.CurrentCell).Style.BackColor = cd.Color;
+						((DataGridViewButtonCell)ChanneldataGridView.CurrentCell).Style.SelectionBackColor = cd.Color;
+
+						((DataGridViewButtonCell)ChanneldataGridView.CurrentCell).Value = cd.Color.R.ToString("x2") + cd.Color.G.ToString("x2") + cd.Color.B.ToString("x2");
+
+						ChanneldataGridView.Refresh();
+					}
+				}
 			}
 		}
 	}

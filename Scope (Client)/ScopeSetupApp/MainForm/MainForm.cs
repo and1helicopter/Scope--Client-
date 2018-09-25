@@ -55,7 +55,7 @@ namespace ScopeSetupApp.MainForm
 			}
 			catch
 			{
-				MessageBox.Show(@"Файл с настройками не найден!", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show(@"Файл с настройками не найден!" + "\nCODE 0x1210", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 
 			var xmls = doc.GetElementsByTagName(@"MainWindow");
@@ -138,8 +138,7 @@ namespace ScopeSetupApp.MainForm
 
 			UpdateGrid();
 
-			int height, width, winState;
-			LoadWindowSize("prgSettings.xml", out height, out width, out winState);
+			LoadWindowSize("prgSettings.xml", out var height, out var width, out var winState);
 			
 			Size size = new Size(width, height);
 			Size = size;
@@ -161,9 +160,9 @@ namespace ScopeSetupApp.MainForm
 				ScopeSysType.InitScopeSysType();
 				config_toolStripStatusLabel.Text = "Конфигурация: " + ScopeSysType.XmlFileName;
 			}
-			catch (Exception e)
+			catch
 			{
-				MessageBox.Show(e.Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				// ignored
 			}
 		}
 
@@ -356,17 +355,7 @@ namespace ScopeSetupApp.MainForm
 			button.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
 		}
 
-	    private void UpdateButtonBig(Button button)
-	    {
-	        button.Size = new Size(230, 30);
-	    }
-
-	    private void UpdateButtonSmall(Button button)
-	    {
-	        button.Size = new Size(60, 30);
-	    }
-
-        //***************************************************************************//
+		//***************************************************************************//
         //***************************************************************************//
         //***************************************************************************//
 
@@ -408,7 +397,7 @@ namespace ScopeSetupApp.MainForm
 				newParity = "Odd";
 				newStopBits = "One";
 			    newAddress = "1";
-                MessageBox.Show(@"Ошибки в файле с настройками!", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(@"Ошибки в файле с настройками!" + "\nCODE 0x1211", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 
@@ -416,7 +405,7 @@ namespace ScopeSetupApp.MainForm
 		{
 			if (SerialPort.PortName.Length == 0)
 			{
-				MessageBox.Show(@"Нет ни одного доступного COM-порта!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Нет ни одного доступного COM-порта!" + "\nCODE 0x1100", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 
@@ -1112,7 +1101,7 @@ namespace ScopeSetupApp.MainForm
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка при создании файла!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(@"Ошибка при создании файла!" + "\nCODE 0x1240", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 
@@ -1133,7 +1122,7 @@ namespace ScopeSetupApp.MainForm
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка при записи в файл!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(@"Ошибка при записи в файл!" + "\nCODE 0x1241", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				sw.Close();
@@ -1155,7 +1144,7 @@ namespace ScopeSetupApp.MainForm
 				 }
 				 catch
 				 {
-					 MessageBox.Show(@"Ошибка при создании файла!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					 MessageBox.Show(@"Ошибка при создании файла!" + "\nCODE 0x1240", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					 return;
 				 }
 
@@ -1188,7 +1177,7 @@ namespace ScopeSetupApp.MainForm
 				 }
 				 catch
 				 {
-					 MessageBox.Show(@"Ошибка при записи в файл!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					 MessageBox.Show(@"Ошибка при записи в файл!" + "\nCODE 0x1241", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					 return;
 				 }
 				 sw.Close();
@@ -1200,7 +1189,7 @@ namespace ScopeSetupApp.MainForm
 				 }
 				 catch
 				 {
-					 MessageBox.Show(@"Ошибка при создании файла!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					 MessageBox.Show(@"Ошибка при создании файла!" + "\nCODE 0x1240", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					 return;
 				 }
 				 try
@@ -1213,7 +1202,7 @@ namespace ScopeSetupApp.MainForm
 				 }
 				 catch
 				 {
-					 MessageBox.Show(@"Ошибка при записи в файл!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					 MessageBox.Show(@"Ошибка при записи в файл!" + "\nCODE 0x1241", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					 return;
 				 }
 				 sw.Close();
@@ -1237,8 +1226,8 @@ namespace ScopeSetupApp.MainForm
 		private void DelateThread()
 		{
 			//_updateThread.Abort();
-			SerialPort.Close();
-
+			if(SerialPort.IsOpen && !SerialPort.portError)
+				SerialPort.Close();
 		}
 
 		//Запуск приложения для просмотра осциллограмм
@@ -1258,7 +1247,7 @@ namespace ScopeSetupApp.MainForm
 			}
 			catch
 			{
-				MessageBox.Show(@"Программа для просмотра осциллограмм не найдена!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Программа для просмотра осциллограмм не найдена!" + "\nCODE 0x1300", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 

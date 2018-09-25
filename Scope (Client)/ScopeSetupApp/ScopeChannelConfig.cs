@@ -4,6 +4,7 @@ namespace ScopeSetupApp
     public class ScopeChannelConfig
     {
         public string ChannelNames { get; set; }
+		public string ChannelColor { get; set; }
         public string ChannelGroupNames { get; set; }
         public ushort ChannelTypeAd { get; set; }   
         public ushort ChannelAddrs { get; set; }

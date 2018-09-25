@@ -84,7 +84,6 @@
 			this.formats_tabControl.Size = new System.Drawing.Size(661, 484);
 			this.formats_tabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
 			this.formats_tabControl.TabIndex = 3;
-			this.formats_tabControl.Visible = false;
 			// 
 			// formats_tab
 			// 
