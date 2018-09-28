@@ -204,7 +204,7 @@
 			this.disconnectBtn.TabIndex = 3;
 			this.disconnectBtn.Text = "Разорвать";
 			this.disconnectBtn.UseVisualStyleBackColor = true;
-			this.disconnectBtn.Click += new System.EventHandler(this.disconnectBtn_Click);
+			this.disconnectBtn.Click += new System.EventHandler(this.DisconnectBtn_Click);
 			// 
 			// cancelBtn
 			// 
@@ -215,7 +215,7 @@
 			this.cancelBtn.TabIndex = 4;
 			this.cancelBtn.Text = "Отмена";
 			this.cancelBtn.UseVisualStyleBackColor = true;
-			this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
+			this.cancelBtn.Click += new System.EventHandler(this.CancelBtn_Click);
 			// 
 			// button1
 			// 

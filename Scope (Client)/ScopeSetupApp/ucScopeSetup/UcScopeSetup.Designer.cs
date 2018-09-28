@@ -62,7 +62,6 @@
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.possibleParamPanel = new System.Windows.Forms.Panel();
 			this.treeListView = new BrightIdeasSoftware.TreeListView();
-			this.dataListView = new BrightIdeasSoftware.DataListView();
 			this.label2 = new System.Windows.Forms.Label();
 			this.SCPrintDialog = new System.Windows.Forms.PrintDialog();
 			this.SCPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
@@ -75,7 +74,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.chCountNumericUpDown)).BeginInit();
 			this.possibleParamPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.treeListView)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataListView)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label3
@@ -455,7 +453,6 @@
 			this.possibleParamPanel.AutoScroll = true;
 			this.possibleParamPanel.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.possibleParamPanel.Controls.Add(this.treeListView);
-			this.possibleParamPanel.Controls.Add(this.dataListView);
 			this.possibleParamPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.possibleParamPanel.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.possibleParamPanel.Location = new System.Drawing.Point(1, 225);
@@ -466,41 +463,26 @@
 			// 
 			// treeListView
 			// 
+			this.treeListView.AllowColumnReorder = true;
+			this.treeListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.treeListView.CellEditUseWholeCell = false;
 			this.treeListView.CheckBoxes = true;
+			this.treeListView.CopySelectionOnControlC = false;
+			this.treeListView.CopySelectionOnControlCUsesDragSource = false;
+			this.treeListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.treeListView.FullRowSelect = true;
 			this.treeListView.GridLines = true;
 			this.treeListView.HierarchicalCheckboxes = true;
-			this.treeListView.Location = new System.Drawing.Point(495, 13);
+			this.treeListView.Location = new System.Drawing.Point(0, 0);
 			this.treeListView.Name = "treeListView";
 			this.treeListView.ShowGroups = false;
-			this.treeListView.Size = new System.Drawing.Size(292, 286);
+			this.treeListView.ShowImagesOnSubItems = true;
+			this.treeListView.Size = new System.Drawing.Size(790, 382);
 			this.treeListView.TabIndex = 10;
 			this.treeListView.UseCompatibleStateImageBehavior = false;
 			this.treeListView.View = System.Windows.Forms.View.Details;
 			this.treeListView.VirtualMode = true;
-			// 
-			// dataListView
-			// 
-			this.dataListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.dataListView.CellEditUseWholeCell = false;
-			this.dataListView.CheckBoxes = true;
-			this.dataListView.Cursor = System.Windows.Forms.Cursors.Default;
-			this.dataListView.DataSource = null;
-			this.dataListView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.dataListView.FullRowSelect = true;
-			this.dataListView.GridLines = true;
-			this.dataListView.Location = new System.Drawing.Point(0, 0);
-			this.dataListView.Name = "dataListView";
-			this.dataListView.SelectedBackColor = System.Drawing.Color.CornflowerBlue;
-			this.dataListView.Size = new System.Drawing.Size(790, 382);
-			this.dataListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
-			this.dataListView.TabIndex = 9;
-			this.dataListView.UseCellFormatEvents = true;
-			this.dataListView.UseCompatibleStateImageBehavior = false;
-			this.dataListView.UseNotifyPropertyChanged = true;
-			this.dataListView.View = System.Windows.Forms.View.Details;
-			this.dataListView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.dataListView_ItemChecked);
+			this.treeListView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.treeListView_ItemChecked);
 			// 
 			// label2
 			// 
@@ -557,7 +539,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.chCountNumericUpDown)).EndInit();
 			this.possibleParamPanel.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.treeListView)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataListView)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -598,7 +579,6 @@
 		private System.Drawing.Printing.PrintDocument SCPrintDocument;
 		private System.Windows.Forms.ToolStripButton toolStripView;
 		private System.Windows.Forms.ToolStripButton toolStripPrint;
-		private BrightIdeasSoftware.DataListView dataListView;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private BrightIdeasSoftware.TreeListView treeListView;
 	}

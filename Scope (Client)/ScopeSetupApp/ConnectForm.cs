@@ -101,12 +101,12 @@ namespace ScopeSetupApp
 			Close();
 		}
 
-		private void cancelBtn_Click(object sender, EventArgs e)
+		private void CancelBtn_Click(object sender, EventArgs e)
 		{
 			Close();
 		}
 
-		private void disconnectBtn_Click(object sender, EventArgs e)
+		private void DisconnectBtn_Click(object sender, EventArgs e)
 		{
 			Invoke(new CloseCom(CloseComPort));
 		}

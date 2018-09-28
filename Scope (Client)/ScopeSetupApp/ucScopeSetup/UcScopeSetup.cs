@@ -17,7 +17,7 @@ namespace ScopeSetupApp.ucScopeSetup
 {
 	public partial class UcScopeSetup : UserControl
 	{
-		private ushort _nowHystory = 1;             //Предыстория 
+		private ushort _nowHystory;             //Предыстория 
 		private ushort _nowScopeCount = 1;          //Количество осциллограмм
 		private ushort _nowMaxChannelCount;         //Количество каналов
 		private ushort _nowOscFreq = 1;             //Делитель     
@@ -35,21 +35,11 @@ namespace ScopeSetupApp.ucScopeSetup
 
 		#region
 
-		//private readonly List<Item> _channelItems = new List<Item>();
-		private static readonly List<ItemGroup> _itemGroups = new List<ItemGroup>();
+		private static readonly List<ItemGroup> ItemGroups = new List<ItemGroup>();
 
 		private void InitTable(string[] agrs)
 		{
-			//OLVColumn groupChanel = new OLVColumn
-			//{
-			//	AspectName = "Group",
-			//	IsVisible = false,
-			//	MaximumWidth = 200,
-			//	MinimumWidth = 20,
-			//	ShowTextInHeader = false,
-			//	Text = @"Группа",
-			//	Width = 200,
-			//};
+			ItemGroups.Clear();
 
 			OLVColumn nameChanel = new OLVColumn
 			{
@@ -86,28 +76,12 @@ namespace ScopeSetupApp.ucScopeSetup
 						Width = 200
 					};
 
-					//dataListView.AllColumns.Add(groupChanel);
-					dataListView.AllColumns.Add(nameChanel);
-					dataListView.AllColumns.Add(addrChanel);
-					dataListView.AllColumns.Add(formatChanel);
-
-
-					//treeListView.AllColumns.Add(groupChanel);
 					treeListView.AllColumns.Add(nameChanel);
 					treeListView.AllColumns.Add(addrChanel);
 					treeListView.AllColumns.Add(formatChanel);
 
-					//dataListView.Columns.AddRange(new ColumnHeader[]
-					//{
-					//	groupChanel,
-					//	nameChanel,
-					//	addrChanel,
-					//	formatChanel,
-					//});
-
 					treeListView.Columns.AddRange(new ColumnHeader[]
 					{
-						//groupChanel,
 						nameChanel,
 						addrChanel,
 						formatChanel,
@@ -116,22 +90,10 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			else
 			{
-				//dataListView.AllColumns.Add(groupChanel);
-				dataListView.AllColumns.Add(nameChanel);
-
-				//treeListView.AllColumns.Add(groupChanel);
 				treeListView.CanExpandGetter = model => (model as Item)?.Group != null;
-				//treeListView.AllColumns.Add(nameChanel);
-
-				//dataListView.Columns.AddRange(new ColumnHeader[]
-				//{
-				//	groupChanel,
-				//	nameChanel,
-				//});
 
 				treeListView.Columns.AddRange(new ColumnHeader[]
 				{
-					//groupChanel,
 					nameChanel,
 				});
 			}
@@ -152,30 +114,26 @@ namespace ScopeSetupApp.ucScopeSetup
 			};
 ;
 			treeListView.ChildrenGetter = x => ((ItemGroup) x).Children;
-			treeListView.SetObjects(_itemGroups);
+
+			treeListView.SetObjects(ItemGroups);
 			treeListView.UseCellFormatEvents = true;
-			treeListView.FormatRow += DataListViewOnFormatRow;
-
-			//treeListView.Roots = _itemGroups;
-			//dataListView.ShowItemCountOnGroups = true;
-			//treeListView.SetObjects(_channelItems);
-			//dataListView.SetObjects(_channelItems);
-			dataListView.UseCellFormatEvents = true;
-
-			dataListView.FormatRow += DataListViewOnFormatRow;
+			treeListView.FormatRow += TreeListViewOnFormatRow;
 		}
 
 		private class ItemGroup
 		{
 			public string Name { get; set; }
+			public string NameShort { get; set; }
 			public string Addr { get; set; } = "";
 			public string Format { get; set; } = "";
+			public int countSelect { get; set; } = 0;
+			public CheckState State { get; set; }
+
 			public List<Item> Children { get; set; } = new List<Item>();
 		}
 
 		private class Item
 		{
-			
 			public string Name { get; set; }
 			public string Addr { get; set; }
 			public string Format { get; set; }
@@ -187,47 +145,70 @@ namespace ScopeSetupApp.ucScopeSetup
 				Value = item;
 				Name = item.ChannelNames;
 				Addr = "0x" + item.ChannelAddrs.ToString("x4");
-				Format = Convert.ToString(SizeFormat[item.ChannelformatNumeric]) + "b   " + Convert.ToString(UcScopeSetup.Format[item.ChannelFormats]);
+				Format = Convert.ToString(SizeFormat[item.ChannelformatNumeric]) + "b   " + Convert.ToString(FormatConverter.ActualFormat[item.ChannelFormats]);
 
 				Group = item.ChannelGroupNames != "" ? item.ChannelGroupNames : @"Несгруппированные параметры";
 
-				if (_itemGroups.Any(x => x.Name == Group))
+				if (ItemGroups.Any(x => x.Name == Group))
 				{
-					_itemGroups.First(x=>x.Name == Group).Children.Add(this);
+					ItemGroups.First(x=>x.Name == Group).Children.Add(this);
 				}
 				else
 				{
-					_itemGroups.Add(new ItemGroup{Name = Group, Children = new List<Item>{this}});
+					ItemGroups.Add(new ItemGroup{Name = Group, NameShort = Group, Children = new List<Item>{this}});
 				}
 			}
 		}
 
-		private void DataListViewOnFormatRow(object o, FormatRowEventArgs formatRowEventArgs)
+		private void TreeListViewOnFormatRow(object o, FormatRowEventArgs formatRowEventArgs)
 		{
-			if (dataListView.CheckedItems.Count <= 32)
+			if (treeListView.CheckedObjects.OfType<Item>().Count() <= 32)
 			{
 				formatRowEventArgs.Item.BackColor = formatRowEventArgs.Item.Checked ? Color.LightSteelBlue : SystemColors.ButtonHighlight;
 			}
 			else
 			{
-				formatRowEventArgs.Item.Checked = false;
+				treeListView.UncheckObject(formatRowEventArgs.Item.RowObject);
 			}
 		}
 
-		private void dataListView_ItemChecked(object sender, ItemCheckedEventArgs e)
+		private void treeListView_ItemChecked(object sender, ItemCheckedEventArgs e)
 		{
-			if (dataListView.CheckedItems.Count > 32)
+			var xxx = e.Item.Index;
+			var obj = treeListView.GetModelObject(xxx);
+
+			if (obj.GetType() == typeof(ItemGroup))
+			{
+				var itemGroup = (ItemGroup)obj;
+
+				if (!treeListView.IsExpanded(itemGroup))
+				{
+					var countAll = treeListView.CheckedObjects.OfType<Item>().Count();
+					var countCurrent = itemGroup.Children.Count(x => treeListView.IsChecked(x));
+					var countNew = countAll - countCurrent + itemGroup.Children.Count;
+
+					if (countNew > 32)
+					{
+						treeListView.Expand(itemGroup);
+					}
+				}
+			}
+
+			foreach (var itemGroup in ItemGroups)
+			{
+				itemGroup.countSelect = itemGroup.Children.Count(x => treeListView.IsChecked(x));
+				itemGroup.Name = itemGroup.NameShort + $" (Выбрано {itemGroup.countSelect} из {itemGroup.Children.Count})";
+			}
+
+			if (treeListView.CheckedObjects.OfType<Item>().Count() > 32)
 			{
 				e.Item.Checked = false;
 			}
-			else
-			{
-				e.Item.BackColor = e.Item.Checked ? Color.LightSteelBlue : SystemColors.ButtonHighlight;
 
-				_nowMaxChannelCount = (ushort)dataListView.CheckedItems.Count;
-				radioButton.Text = _nowMaxChannelCount.ToString();
-			}
+			_nowMaxChannelCount = (ushort)treeListView.CheckedObjects.OfType<Item>().Count();
+			radioButton.Text = _nowMaxChannelCount.ToString();
 		}
+
 		#endregion
 
 		public UcScopeSetup(string[] agrs)
@@ -239,7 +220,8 @@ namespace ScopeSetupApp.ucScopeSetup
 				_admin = agrs[0] == "a" || agrs[0] == "A";
 			}
 			InitTable(agrs);
-			//reloadButton_Click(null, null);
+			reloadButton_Click(null, null);
+			DelayOscil();
 			labelAllSize.Text = $@"Размер доступной памяти: {ScopeConfig.OscilAllSize / 1024} Кб";
 			labelFreq.Text = $@"Частота выборки: {(ScopeConfig.SampleRate / _nowOscFreq):D} Гц";
 		}
@@ -322,7 +304,8 @@ namespace ScopeSetupApp.ucScopeSetup
 		//***********************************************************************************************//
 		private ushort[] _newOscillConfig = new ushort[40];
 		private ushort[] _oscillConfig = new ushort[1280];
-		private readonly int[] _channelSeries = new int[32];        //Где какой элемент лежит
+		private readonly List<ScopeChannelConfig> _channelSeries = new List<ScopeChannelConfig>();        //Где какой элемент лежит
+
 
 		private int _writeConfigStep;
 		private ushort _writeStep;
@@ -330,34 +313,64 @@ namespace ScopeSetupApp.ucScopeSetup
 		//Конфигурирование осциллограммы 
 		private List<ushort> ChannelFormats()
 		{
-			int j = 0;
 			List<ushort> l = new List<ushort>();
-			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
+
+			foreach (Item item in treeListView.CheckedObjects.OfType<Item>().ToList())
 			{
-				var item = (Item)dataListView.GetModelObject(i);
-				if (dataListView.Items[i].Checked && item.Value.ChannelformatNumeric == 2)
+				if (treeListView.IsChecked(item) && item.Value.ChannelformatNumeric == 2)
 				{
-					_channelSeries[j++] = i;
+					if (item.Value.ChannelAddrs % 2 != 0)
+					{
+						_nowMaxChannelCount = 0;
+						MessageBox.Show(
+							// ReSharper disable once LocalizableElement
+							@"Ошибка при формирование осциллограмы" + "\nCODE 0x1007",
+							@"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						l.Clear();
+						return l;
+					}
+					
+					_channelSeries.Add(item.Value);
 					l.Add(Convert.ToUInt16((Convert.ToInt32(item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats));
 				}
 			}
-			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
+
+			foreach (Item item in treeListView.CheckedObjects.OfType<Item>().ToList())
 			{
-				var item = (Item)dataListView.GetModelObject(i);
-				if (dataListView.Items[i].Checked && item.Value.ChannelformatNumeric == 1)
+				if (treeListView.IsChecked(item) && item.Value.ChannelformatNumeric == 1)
 				{
-					_channelSeries[j++] = i;
+					if (item.Value.ChannelAddrs % 2 != 0)
+					{
+						_nowMaxChannelCount = 0;
+						MessageBox.Show(
+							// ReSharper disable once LocalizableElement
+							@"Ошибка при формирование осциллограмы" + "\nCODE 0x1007",
+							@"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						l.Clear();
+						return l;
+					}
+
+					_channelSeries.Add(item.Value);
 					l.Add(Convert.ToUInt16((Convert.ToInt32(item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats));
 				}
 			}
-			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
+
+			foreach (Item item in treeListView.CheckedObjects.OfType<Item>().ToList())
 			{
-				var item = (Item)dataListView.GetModelObject(i);
-				if (dataListView.Items[i].Checked && item.Value.ChannelformatNumeric == 0)
+				if (treeListView.IsChecked(item) && item.Value.ChannelformatNumeric == 0)
 				{
-					_channelSeries[j++] = i;
+					_channelSeries.Add(item.Value);
 					l.Add(Convert.ToUInt16((Convert.ToInt32(item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats));
 				}
+			}
+
+			if (l.Count != _nowMaxChannelCount)
+			{
+				_nowMaxChannelCount = 0;
+				MessageBox.Show(
+					// ReSharper disable once LocalizableElement
+					@"Ошибка при формирование осциллограмы" + "\nCODE 0x1006",
+					@"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 			return l;
@@ -367,16 +380,13 @@ namespace ScopeSetupApp.ucScopeSetup
 		private List<ushort> ChannelAddrs()
 		{
 			List<ushort> l = new List<ushort>();
-			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
-			{
-				if (dataListView.Items[i].Checked)
-				{
-					var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
-					l.Add(item.Value.ChannelAddrs);
-				}
-			}
-			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
+			foreach (var item in _channelSeries)
+			{
+				l.Add(item.ChannelAddrs);
+			}
+
+			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 			return l;
 		}
 
@@ -384,30 +394,14 @@ namespace ScopeSetupApp.ucScopeSetup
 		private uint OscilSize(uint allSize, bool wr)
 		{
 			uint count64 = 0, count32 = 0, count16 = 0;
-			Item item;
-			for (int i = 0; i < dataListView.Items.Count; i++)
-			{
-				if (dataListView.Items[i].Checked)
-				{
-					item = (Item)dataListView.GetModelObject(i);
-					if (item.Value.ChannelformatNumeric == 2) { count64++; }
-				}
-			}
-			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
-			{
-				if (dataListView.Items[i].Checked)
-				{
-					item = (Item)dataListView.GetModelObject(i);
-					if (item.Value.ChannelformatNumeric == 1) { count32++; }
-				}
-			}
 
-			for (int i = 0; i < ScopeSysType.ScopeItem.Count; i++)
+			foreach (var checkedObject in treeListView.CheckedObjects)
 			{
-				if (dataListView.Items[i].Checked)
+				if (checkedObject.GetType() == typeof(Item))
 				{
-					item = (Item)dataListView.GetModelObject(i);
-					if (item.Value.ChannelformatNumeric == 0) { count16++; }
+					if (((Item)checkedObject).Value.ChannelformatNumeric == 2) { count64++; }
+					if (((Item)checkedObject).Value.ChannelformatNumeric == 1) { count32++; }
+					if (((Item)checkedObject).Value.ChannelformatNumeric == 0) { count16++; }
 				}
 			}
 
@@ -451,25 +445,23 @@ namespace ScopeSetupApp.ucScopeSetup
 		private List<string> ChNames()
 		{
 			List<string> chName = new List<string>();
-			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
+
+			foreach (var item in _channelSeries)
 			{
-				if (dataListView.Items[i].Checked)
-				{
-					var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
-					var str = new char[32];
-					var color = ScopeSysType.ScopeItem[i].ChannelColor;
+				var str = new char[32];
+				var color = item.ChannelColor.ToLowerInvariant() == "Auto".ToLowerInvariant() ? "ffffff" : item.ChannelColor;
 
-					for (int index = 0; index < item.Value.ChannelNames.Length; index++)
-						str[index] = item.Value.ChannelNames[index];
+				for (int index = 0; index < item.ChannelNames.Length; index++)
+					str[index] = item.ChannelNames[index];
 
-					str[29] = (char)byte.Parse(color.Substring(0, 2), NumberStyles.AllowHexSpecifier);
-					str[30] = (char)byte.Parse(color.Substring(2, 2), NumberStyles.AllowHexSpecifier);
-					str[31] = (char)byte.Parse(color.Substring(4, 2), NumberStyles.AllowHexSpecifier);
+				str[29] = (char)byte.Parse(color.Substring(0, 2), NumberStyles.AllowHexSpecifier);
+				str[30] = (char)byte.Parse(color.Substring(2, 2), NumberStyles.AllowHexSpecifier);
+				str[31] = (char)byte.Parse(color.Substring(4, 2), NumberStyles.AllowHexSpecifier);
 
-					var valName = new string(str);
-					chName.Add(valName);
-				}
+				var valName = new string(str);
+				chName.Add(valName);
 			}
+
 			if (chName.Count > _nowMaxChannelCount) { chName.Clear(); }
 			return chName;
 		}
@@ -478,30 +470,25 @@ namespace ScopeSetupApp.ucScopeSetup
 		private List<string> ChPhase()
 		{
 			List<string> l = new List<string>();
-			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
-			{
-				if (dataListView.Items[i].Checked)
-				{
-					var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
-					l.Add(item.Value.ChannelPhase);
-				}
-			}
-			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
+			foreach (var item in _channelSeries)
+			{
+				l.Add(item.ChannelPhase);
+			}
+
+			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 			return l;
 		}
 
 		private List<string> ChCcbm()
 		{
 			List<string> l = new List<string>();
-			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
+
+			foreach (var item in _channelSeries)
 			{
-				if (dataListView.Items[i].Checked)
-				{
-					var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
-					l.Add(item.Value.ChannelCcbm);
-				}
+				l.Add(item.ChannelCcbm);
 			}
+
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
 			return l;
@@ -510,14 +497,12 @@ namespace ScopeSetupApp.ucScopeSetup
 		private List<string> ChDemension()
 		{
 			List<string> l = new List<string>();
-			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
+			foreach (var item in _channelSeries)
 			{
-				if (dataListView.Items[i].Checked)
-				{
-					var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
-					l.Add(item.Value.ChannelDimension);
-				}
+				l.Add(item.ChannelDimension);
+
 			}
+
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
 			return l;
@@ -526,14 +511,11 @@ namespace ScopeSetupApp.ucScopeSetup
 		private List<ushort> ChTypeAd()
 		{
 			List<ushort> l = new List<ushort>();
-			for (int i = 0, j = 0; i < ScopeSysType.ScopeItem.Count; i++)
+			foreach (var item in _channelSeries)
 			{
-				if (dataListView.Items[i].Checked)
-				{
-					var item = (Item)dataListView.GetModelObject(_channelSeries[j++]);
-					l.Add(item.Value.ChannelTypeAd);
-				}
+				l.Add(item.ChannelTypeAd);
 			}
+
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 
 			return l;
@@ -908,7 +890,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 			if (!MainForm.MainForm.SerialPort.IsOpen)
 			{
-				MessageBox.Show(@"Соединение с системой не установлено!" + "\nCODE 0x1001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(@"Соединение с системой не установлено!" + "\nCODE 0x1103", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 
@@ -936,7 +918,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			string str = "Канала нет в списке: \n";
 			for (int i = 0; i < 32; i++) { channelInList[i] = false; }
 
-			dataListView.UncheckAll();
+			treeListView.UncheckAll();
 
 			OpenFileDialog ofd = new OpenFileDialog
 			{
@@ -971,18 +953,42 @@ namespace ScopeSetupApp.ucScopeSetup
 			if (ScopeSysType.OscilEnable == 3) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = true; }
 			if (ScopeSysType.OscilEnable == 4) { enaScopeCheckBox.Checked = true; checkBox1.Checked = true; checkBox3.Checked = true; }
 
-			for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++)
+			var listItemGroupe = treeListView.Objects.OfType<ItemGroup>().ToList();
+
+			foreach (var itemGroup in listItemGroupe)
 			{
-				for (int j = 0; j < dataListView.Items.Count; j++)
+				var count = 0;
+				if (itemGroup.GetType() == typeof(ItemGroup))
 				{
-					var item = (Item)dataListView.GetModelObject(j);
-					if (ScopeSysType.OscilChannelFormats[i] == item.Format && ScopeSysType.OscilChannelAddrs[i] == item.Addr)  //&& ScopeSysType.OscilChannelNames[i] == item.Name
+					foreach (var item in itemGroup.Children)
 					{
-						channelInList[i] = true;
-						dataListView.CheckObject(item);
-						//  item.Color = ScopeSysType.OscilChannelColors[i];
-						dataListView.RefreshObject(item);
-						break;
+						for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++)
+						{
+							if (ScopeSysType.OscilChannelFormats[i] == item.Format && ScopeSysType.OscilChannelAddrs[i] == item.Addr)
+							{
+								channelInList[i] = true;
+								treeListView.CheckObject(item);
+								treeListView.RefreshObject(item);
+								count++;
+								break;
+							}
+						}
+					}
+
+					itemGroup.countSelect = count;
+					itemGroup.Name = itemGroup.NameShort + $" (Выбрано {itemGroup.countSelect} из {itemGroup.Children.Count})";
+
+					if (count == itemGroup.Children.Count)
+					{
+						treeListView.CheckObject(itemGroup);
+					}
+					else if (count > 0 && count < itemGroup.Children.Count)
+					{
+						treeListView.CheckIndeterminateObject(itemGroup);
+					}
+					else if (count == 0)
+					{
+						treeListView.UncheckObject(itemGroup);
 					}
 				}
 			}
@@ -1051,16 +1057,15 @@ namespace ScopeSetupApp.ucScopeSetup
 				xmlOut.WriteAttributeString("Count", Convert.ToString(OscilEnable()));
 				xmlOut.WriteEndElement();
 
-				for (int i = 0; i < dataListView.Items.Count; i++)
+				foreach (var checkedObject in treeListView.CheckedObjects)
 				{
-					if (dataListView.Items[i].Checked)
+					if (checkedObject.GetType() == typeof(Item))
 					{
 						xmlOut.WriteStartElement("MeasureParam" + (++j));
 
-						xmlOut.WriteAttributeString("Name", dataListView.Items[i].SubItems[1].Text);
-						xmlOut.WriteAttributeString("Addr", dataListView.Items[i].SubItems[2].Text);
-						xmlOut.WriteAttributeString("Format", dataListView.Items[i].SubItems[3].Text);      //((((ScopeSysType.ScopeItem[item.Index].ChannelformatNumeric) + 1) << 8) + ScopeSysType.ScopeItem[item.Index].ChannelFormats).ToString()
-																											//xmlOut.WriteAttributeString("Color", dataListView.Items[i].SubItems[4].Text);
+						xmlOut.WriteAttributeString("Name", ((Item)checkedObject).Name);
+						xmlOut.WriteAttributeString("Addr", ((Item)checkedObject).Addr);
+						xmlOut.WriteAttributeString("Format", ((Item)checkedObject).Format);
 
 						xmlOut.WriteEndElement();
 					}
@@ -1088,7 +1093,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			bool[] channelInList = new bool[32];
 			for (int i = 0; i < 32; i++) { channelInList[i] = false; }
 
-			dataListView.UncheckAll();
+			treeListView.UncheckAll();
 
 			chCountNumericUpDown.Value = ScopeConfig.ScopeCount != 0 ? ScopeConfig.ScopeCount : 1;
 			hystoryNumericUpDown.Value = ScopeConfig.HistoryCount != 0 ? ScopeConfig.HistoryCount : 0;
@@ -1101,24 +1106,46 @@ namespace ScopeSetupApp.ucScopeSetup
 			if (ScopeConfig.OscilEnable == 3) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = true; }
 			if (ScopeConfig.OscilEnable == 4) { enaScopeCheckBox.Checked = true; checkBox1.Checked = true; checkBox3.Checked = true; }
 
-			for (int i = 0; i < ScopeConfig.OscilFormat.Count; i++)
-			{
-				for (int j = 0; j < dataListView.Items.Count; j++)
-				{
-					var item = (Item)dataListView.GetModelObject(j);
+			var listItemGroupe = treeListView.Objects.OfType<ItemGroup>().ToList();
 
-					if (ScopeConfig.OscilFormat[i] == ((item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats &&
-						ScopeConfig.OscilAddr[i] == item.Value.ChannelAddrs)
+			foreach (var itemGroup in listItemGroupe)
+			{
+				var count = 0;
+				if (itemGroup.GetType() == typeof(ItemGroup))
+				{
+					foreach (var item in itemGroup.Children)
 					{
-						channelInList[i] = true;
-						//Изменяю цвет
-						dataListView.CheckObject(item);
-						dataListView.RefreshObject(item);
-						break;
+						for (int i = 0; i < ScopeConfig.OscilFormat.Count; i++)
+						{
+							if (ScopeConfig.OscilFormat[i] == ((item.Value.ChannelformatNumeric + 1) << 8) + item.Value.ChannelFormats &&
+							    ScopeConfig.OscilAddr[i] == item.Value.ChannelAddrs)
+							{
+								channelInList[i] = true;
+								treeListView.CheckObject(item);
+								treeListView.RefreshObject(item);
+								count++;
+								break;
+							}
+						}
+					}
+
+					itemGroup.countSelect = count;
+					itemGroup.Name = itemGroup.NameShort + $" (Выбрано {itemGroup.countSelect} из {itemGroup.Children.Count})";
+
+					if (count == itemGroup.Children.Count)
+					{
+						treeListView.CheckObject(itemGroup);
+					}
+					else if (count > 0 && count < itemGroup.Children.Count)
+					{
+						treeListView.CheckIndeterminateObject(itemGroup);
+					}
+					else if (count == 0)
+					{
+						treeListView.UncheckObject(itemGroup);
 					}
 				}
 			}
-
 
 			for (int i = 0; i < ScopeConfig.OscilAddr.Count; i++)
 			{
@@ -1224,34 +1251,36 @@ namespace ScopeSetupApp.ucScopeSetup
 					e.Graphics.DrawString("Канал", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 100, yPos));
 				}
 				e.Graphics.DrawString("--------------------------------------------------------------------------------------------------------------------------------------", new Font("Arial", 12, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos + 10));
-				foreach (var group in dataListView.OLVGroups)
+				foreach (var itemGroup in treeListView.Objects.OfType<ItemGroup>().ToList())
 				{
-					if (group.Items.Any(x => x.Checked))
+					if (treeListView.IsChecked(itemGroup) || treeListView.IsCheckedIndeterminate(itemGroup))
 					{
-						e.Graphics.DrawString($"{group.Header}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 20, yPos += 20));
-
-						foreach (var item in group.Items)
+						e.Graphics.DrawString($"{itemGroup.Name}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 20, yPos += 25));
+						foreach (var item in treeListView.CheckedObjects.OfType<Item>().ToList())
 						{
-							if (item.Checked)
+							if (itemGroup.Children.Contains(item))
 							{
 								if (_admin)
 								{
 									e.Graphics.DrawString($"№{number += 1}.", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-									e.Graphics.DrawString($"{((Item)item.RowObject).Name}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 100, yPos));
-									e.Graphics.DrawString($"{((Item)item.RowObject).Addr}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 350, yPos));
-									e.Graphics.DrawString($"{((Item)item.RowObject).Format}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 600, yPos));
+									e.Graphics.DrawString($"{item.Name}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 100, yPos));
+									e.Graphics.DrawString($"{item.Addr}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 350, yPos));
+									e.Graphics.DrawString($"{item.Format}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 600, yPos));
 								}
 								else
 								{
 									e.Graphics.DrawString($"№{number += 1}.", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1, yPos += 20));
-									e.Graphics.DrawString($"{((Item)item.RowObject).Name}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 100, yPos));
+									e.Graphics.DrawString($"{item.Name}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 100, yPos));
 								}
 							}
 						}
 					}
+
+
 				}
 			}
 		}
+
 		#endregion
 	}
 }

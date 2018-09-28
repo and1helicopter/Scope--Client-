@@ -67,13 +67,31 @@ namespace ScopeSetupApp.ucScopeConfig
 
 				var val = ChanneldataGridView[indexColumn, indexRow].Value.ToString();
 
-				if (new Regex(@"^[^0x][0-9]+$").IsMatch(val))
+				if (new Regex(@"^[0-9]+$").IsMatch(val))
 				{
-					ChanneldataGridView[indexColumn, indexRow].Value = "0x" + (Convert.ToInt32(val)).ToString("X4");
+					if (ChanneldataGridView["Column_channelformatNumeric", indexRow].Value.ToString() == "32" ||
+					    ChanneldataGridView["Column_channelformatNumeric", indexRow].Value.ToString() == "64")
+					{
+						var intVal = Convert.ToInt32(val);
+						ChanneldataGridView[indexColumn, indexRow].Value = "0x" + (intVal % 2 == 0 ? intVal : intVal - 1).ToString("X4");
+					}
+					else
+					{
+						ChanneldataGridView[indexColumn, indexRow].Value = "0x" + Convert.ToInt32(val).ToString("X4");
+					}
 				}
 				else if (new Regex(@"^[0][x][0-9a-fA-F]+$").IsMatch(val))
 				{
-					ChanneldataGridView[indexColumn, indexRow].Value = val;
+					if (ChanneldataGridView["Column_channelformatNumeric", indexRow].Value.ToString() == "32" ||
+					    ChanneldataGridView["Column_channelformatNumeric", indexRow].Value.ToString() == "64")
+					{
+						var intVal = Convert.ToInt32(convert_text(val, "0x"));
+						ChanneldataGridView[indexColumn, indexRow].Value = "0x" + (intVal % 2 == 0 ? intVal : intVal - 1).ToString("X4");
+					}
+					else
+					{
+						ChanneldataGridView[indexColumn, indexRow].Value = val;
+					}
 				}
 				else
 				{

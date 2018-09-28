@@ -89,9 +89,8 @@ namespace ScopeSetupApp
 			LoadFromXml("Configuration", "Addr", doc, out ConfigurationAddr);
 			LoadFromXml("OscilCmnd", "Addr", doc, out OscilCmndAddr);
 
-			ushort count;
 			LoadFromXml("OscilAllSize", "Count", doc, out OscilAllSize);
-			LoadFromXml("MeasureParams", "Count", doc, out count);
+			LoadFromXml("MeasureParams", "Count", doc, out ushort count);
 
 			LoadFromXml("Oscil", "Count", doc, out OscilCount);
 			LoadFromXml("Channel", "Count", doc, out ChannelCount);

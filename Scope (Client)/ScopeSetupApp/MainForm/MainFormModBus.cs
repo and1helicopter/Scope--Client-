@@ -459,7 +459,7 @@ namespace ScopeSetupApp.MainForm
 	        }
 	        else
 	        {
-	            MessageBox.Show("Соединение с системой не установлено" + "\nCODE 0x1103", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
+	            MessageBox.Show(@"Соединение с системой не установлено" + "\nCODE 0x1103", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 	            _connectToSystem = false;
 	            SerialPort.Close();
             }
@@ -474,11 +474,14 @@ namespace ScopeSetupApp.MainForm
 
 		private void WaitLoadConfig(bool wait, int step)
 		{
-			if(ConfigMCUButton.Enabled == wait)
+			if (step == 13 && ScopeConfig.ChannelCount == 0)
+			{
+				step = 23;
+			}
+
+			if (ConfigMCUButton.Enabled == wait)
 				ConfigMCUButton.Enabled = !wait;
 
-			WaitLoadConfig_toolStripProgressBar.BackColor = Color.CornflowerBlue;
-			WaitLoadConfig_toolStripProgressBar.ForeColor = Color.CornflowerBlue;
 			WaitLoadConfig_toolStripProgressBar.Value = step;
 
 			if (step == 23)
@@ -685,9 +688,6 @@ namespace ScopeSetupApp.MainForm
 						{
 							if (ScopeConfig.ChannelCount == 0) //Если в системе нет конфигурации
 							{
-								//_loadConfigStep = 0;
-								//_buttonsAlreadyCreated = false;
-
 								EndLoadConfig(false);
 
 								break;
@@ -819,11 +819,8 @@ namespace ScopeSetupApp.MainForm
 
 						case 23: //Названия каналов 
 						{
-
 							ScopeConfig.InitLeapsec(paramRtu);
-
 							EndLoadConfig(true);
-
 						}
 							break;
 					}

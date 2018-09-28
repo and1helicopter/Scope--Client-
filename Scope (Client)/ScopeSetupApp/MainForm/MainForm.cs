@@ -219,7 +219,7 @@ namespace ScopeSetupApp.MainForm
 
 			panel1.Controls.Add(_ucScopeSetup);
 			_ucScopeSetup?.Show();
-			Refresh();
+			//Refresh();
 		}
 
 		private UcScopeConfig _ucScopeConfig;
