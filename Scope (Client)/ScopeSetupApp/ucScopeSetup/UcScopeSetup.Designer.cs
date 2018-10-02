@@ -1,6 +1,6 @@
 ﻿namespace ScopeSetupApp.ucScopeSetup
 {
-	partial class UcScopeSetup
+	sealed partial class UcScopeSetup
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -54,6 +54,7 @@
 			this.DelayOsc = new System.Windows.Forms.Label();
 			this.enaScopeCheckBox = new System.Windows.Forms.CheckBox();
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.label1 = new System.Windows.Forms.Label();
 			this.oscFreqNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.hystoryNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.chCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -108,12 +109,11 @@
 			// 
 			// sizeOcsil_trackBar
 			// 
-			this.sizeOcsil_trackBar.Location = new System.Drawing.Point(742, 6);
+			this.sizeOcsil_trackBar.Location = new System.Drawing.Point(151, 99);
 			this.sizeOcsil_trackBar.Maximum = 100;
 			this.sizeOcsil_trackBar.Minimum = 1;
 			this.sizeOcsil_trackBar.Name = "sizeOcsil_trackBar";
-			this.sizeOcsil_trackBar.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.sizeOcsil_trackBar.Size = new System.Drawing.Size(45, 108);
+			this.sizeOcsil_trackBar.Size = new System.Drawing.Size(116, 45);
 			this.sizeOcsil_trackBar.TabIndex = 13;
 			this.sizeOcsil_trackBar.TickStyle = System.Windows.Forms.TickStyle.None;
 			this.sizeOcsil_trackBar.Value = 100;
@@ -313,9 +313,9 @@
 			this.DelayOsc.AutoSize = true;
 			this.DelayOsc.Location = new System.Drawing.Point(6, 100);
 			this.DelayOsc.Name = "DelayOsc";
-			this.DelayOsc.Size = new System.Drawing.Size(172, 13);
+			this.DelayOsc.Size = new System.Drawing.Size(86, 13);
 			this.DelayOsc.TabIndex = 8;
-			this.DelayOsc.Text = "Длительность осциллограммы: ";
+			this.DelayOsc.Text = "Длительность: ";
 			this.DelayOsc.Visible = false;
 			// 
 			// enaScopeCheckBox
@@ -332,6 +332,7 @@
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.panel1.Controls.Add(this.label1);
 			this.panel1.Controls.Add(this.oscFreqNumericUpDown);
 			this.panel1.Controls.Add(this.hystoryNumericUpDown);
 			this.panel1.Controls.Add(this.chCountNumericUpDown);
@@ -356,8 +357,17 @@
 			this.panel1.Location = new System.Drawing.Point(1, 39);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(790, 143);
+			this.panel1.Size = new System.Drawing.Size(790, 144);
 			this.panel1.TabIndex = 36;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(266, 100);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(15, 13);
+			this.label1.TabIndex = 25;
+			this.label1.Text = "%";
 			// 
 			// oscFreqNumericUpDown
 			// 
@@ -431,7 +441,7 @@
 			// labelAllSize
 			// 
 			this.labelAllSize.AutoSize = true;
-			this.labelAllSize.Location = new System.Drawing.Point(287, 119);
+			this.labelAllSize.Location = new System.Drawing.Point(287, 122);
 			this.labelAllSize.Name = "labelAllSize";
 			this.labelAllSize.Size = new System.Drawing.Size(144, 13);
 			this.labelAllSize.TabIndex = 20;
@@ -455,16 +465,16 @@
 			this.possibleParamPanel.Controls.Add(this.treeListView);
 			this.possibleParamPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.possibleParamPanel.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.possibleParamPanel.Location = new System.Drawing.Point(1, 225);
+			this.possibleParamPanel.Location = new System.Drawing.Point(1, 226);
 			this.possibleParamPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.possibleParamPanel.Name = "possibleParamPanel";
-			this.possibleParamPanel.Size = new System.Drawing.Size(790, 382);
+			this.possibleParamPanel.Size = new System.Drawing.Size(790, 381);
 			this.possibleParamPanel.TabIndex = 17;
 			// 
 			// treeListView
 			// 
-			this.treeListView.AllowColumnReorder = true;
 			this.treeListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.treeListView.CausesValidation = false;
 			this.treeListView.CellEditUseWholeCell = false;
 			this.treeListView.CheckBoxes = true;
 			this.treeListView.CopySelectionOnControlC = false;
@@ -472,16 +482,29 @@
 			this.treeListView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.treeListView.FullRowSelect = true;
 			this.treeListView.GridLines = true;
+			this.treeListView.HideSelection = false;
 			this.treeListView.HierarchicalCheckboxes = true;
+			this.treeListView.IsSearchOnSortColumn = false;
+			this.treeListView.LabelWrap = false;
 			this.treeListView.Location = new System.Drawing.Point(0, 0);
 			this.treeListView.Name = "treeListView";
+			this.treeListView.RenderNonEditableCheckboxesAsDisabled = true;
+			this.treeListView.SelectAllOnControlA = false;
+			this.treeListView.SelectColumnsMenuStaysOpen = false;
+			this.treeListView.SelectColumnsOnRightClick = false;
+			this.treeListView.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.None;
+			this.treeListView.ShowFilterMenuOnRightClick = false;
 			this.treeListView.ShowGroups = false;
-			this.treeListView.ShowImagesOnSubItems = true;
-			this.treeListView.Size = new System.Drawing.Size(790, 382);
+			this.treeListView.ShowHeaderInAllViews = false;
+			this.treeListView.Size = new System.Drawing.Size(790, 381);
 			this.treeListView.TabIndex = 10;
+			this.treeListView.TriggerCellOverEventsWhenOverHeader = false;
+			this.treeListView.UpdateSpaceFillingColumnsWhenDraggingColumnDivider = false;
 			this.treeListView.UseCompatibleStateImageBehavior = false;
+			this.treeListView.UseHotControls = false;
 			this.treeListView.View = System.Windows.Forms.View.Details;
 			this.treeListView.VirtualMode = true;
+			this.treeListView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.TreeListViewOnFormatRow);
 			this.treeListView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.treeListView_ItemChecked);
 			// 
 			// label2
@@ -489,7 +512,7 @@
 			this.label2.BackColor = System.Drawing.SystemColors.Control;
 			this.label2.Dock = System.Windows.Forms.DockStyle.Top;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-			this.label2.Location = new System.Drawing.Point(1, 182);
+			this.label2.Location = new System.Drawing.Point(1, 183);
 			this.label2.Margin = new System.Windows.Forms.Padding(0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(790, 43);
@@ -529,6 +552,7 @@
 			this.Name = "UcScopeSetup";
 			this.Padding = new System.Windows.Forms.Padding(1);
 			this.Size = new System.Drawing.Size(792, 608);
+			this.Load += new System.EventHandler(this.UcScopeSetup_Load);
 			((System.ComponentModel.ISupportInitialize)(this.sizeOcsil_trackBar)).EndInit();
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
@@ -560,7 +584,7 @@
 		private System.Windows.Forms.ToolStripButton openButton2;
 		private System.Windows.Forms.ToolStripButton saveButton2;
 		private System.Windows.Forms.CheckBox checkBox3;
-		protected internal System.Windows.Forms.RichTextBox CommentRichTextBox;
+		internal System.Windows.Forms.RichTextBox CommentRichTextBox;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.Label DelayOsc;
@@ -581,5 +605,6 @@
 		private System.Windows.Forms.ToolStripButton toolStripPrint;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private BrightIdeasSoftware.TreeListView treeListView;
+		private System.Windows.Forms.Label label1;
 	}
 }

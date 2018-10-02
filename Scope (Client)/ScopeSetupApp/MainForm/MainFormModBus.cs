@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Threading;
 using System.Windows;
+using System.Windows.Forms;
 using UniSerialPort;
 using MessageBox = System.Windows.MessageBox;
 
@@ -12,12 +15,12 @@ namespace ScopeSetupApp.MainForm
 		public void SerialPortOpen()
 		{
 			SerialPort.Open();
-            //Установлено соединение с COM портом
-		    if (SerialPort.IsOpen && !SerialPort.portError)
-		        CheackConnect();
-		    else
-		    {
-		    }
+			//Установлено соединение с COM портом
+			if (SerialPort.IsOpen && !SerialPort.portError)
+				CheackConnect();
+			else
+			{
+			}
 		}
 
 		private bool _updateStatus;
@@ -57,43 +60,67 @@ namespace ScopeSetupApp.MainForm
 			UpdateOscilsStatusInvoke();
 		}
 
-	    private delegate void SetBoolDelegate(bool parameter);
+		private delegate void SetBoolDelegate(bool parameter);
 
-        private void SetEnableOrDisableLoadConfigToSystem(bool connect)
-	    {
-	        _ucScopeSetup?.ButtonsVisibale(connect);
-	    }
+		private void SetEnableOrDisableLoadConfigToSystem(bool connect)
+		{
+			_ucScopeSetup?.ButtonsVisibale(connect);
+		}
 
-        private delegate void SetStringDelegate(string parameter);
+		private delegate void SetStringDelegate(string parameter);
 		private void SetComLabel(string status)
 		{
 			com_toolStripStatusLabel.Text = status;
 		}
 
-	    private bool _cheackComError;
+		internal Thread ThreadCloseComPort; 
 
-	    private void CheackCom()
-	    {
-	        if (SerialPort.portError && !_cheackComError)
-	        {
-                StopUpdate();
-	            MessageBox.Show(@"Обрыв соединения" + "\nCODE 0x1103", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
-	            _cheackComError = true;
-	        }
-	        else if(!SerialPort.portError &&  _cheackComError)
-	        {
-                _cheackComError = false;
-            }
-        }
+		private bool _cheackComError;
+
+		private void CheackCom()
+		{
+			if (SerialPort.portError && !_cheackComError)
+			{
+				MessageBox.Show(@"Обрыв соединения" + "\nCODE 0x1103", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				ThreadCloseComPort = new Thread(CloseComPortThread)
+				{
+					Priority = ThreadPriority.AboveNormal
+				};
+				ThreadCloseComPort.Start();
+				_cheackComError = true;
+			}
+			else if (!SerialPort.portError && _cheackComError)
+			{
+				_cheackComError = false;
+			}
+		}
+
+		private void CloseComPortThread()
+		{
+			StopUpdate();
+			SerialPort.Close();
+		}
+
+		private delegate void MessagesBoxDelegate(string text, string title, MessageBoxButton boxButton, MessageBoxImage boxImage);
+
+		private void MessagesBoxShow(string text, string title, MessageBoxButton boxButton, MessageBoxImage boxImage)
+		{
+			MessageBox.Show(text, title, boxButton, boxImage);
+		}
+
+		public void MessagesBox(string text, string title, MessageBoxButton boxButton, MessageBoxImage boxImage)
+		{
+			Invoke(new MessagesBoxDelegate(MessagesBoxShow), text, title, boxButton, boxImage);
+		}
 
 		private void UpdateStatusComPort()
 		{
-		    CheackCom();
-            if (com_toolStripStatusLabel != null)
+			CheackCom();
+			if (com_toolStripStatusLabel != null)
 			{
 				Invoke(new SetStringDelegate(SetComLabel), SerialPort.IsOpen && !SerialPort.portError ? @"COM: Открыт" : @"COM: Закрыт");
-            }
-        }
+			}
+		}
 
 		private void SetSizeLabel(string status)
 		{
@@ -105,7 +132,8 @@ namespace ScopeSetupApp.MainForm
 			CheackCom();
 			if (size_toolStripStatusLabel != null)
 			{
-				Invoke(new SetStringDelegate(SetSizeLabel), SerialPort.IsOpen && !SerialPort.portError ? $"Память под осциллограмы: {ScopeConfig.OscilAllSize / 1024:D} Кб" : $"Память под осциллограмы: {ScopeSysType.OscilAllSize:D} Кб");
+				Invoke(new SetStringDelegate(SetSizeLabel), SerialPort.IsOpen && !SerialPort.portError && _connectToSystem
+					? $"Память под осциллограмы: {ScopeConfig.OscilAllSize / 1024:D} Кб" : $"Память под осциллограмы: {ScopeSysType.OscilAllSize:D} Кб");
 			}
 		}
 
@@ -117,29 +145,30 @@ namespace ScopeSetupApp.MainForm
 		private void UpdateFreq()
 		{
 			CheackCom();
-			if (freq_toolStripStatusLabel!= null)
+			if (freq_toolStripStatusLabel != null)
 			{
-				Invoke(new SetStringDelegate(SetFreqLabel), SerialPort.IsOpen && !SerialPort.portError ? $"Частота осциллографа: {ScopeConfig.SampleRate} Гц" : $"Частота осциллографа: {ScopeSysType.OscilSampleRate:D} Гц");
+				Invoke(new SetStringDelegate(SetFreqLabel), SerialPort.IsOpen && !SerialPort.portError && _connectToSystem 
+					? $"Частота осциллографа: {ScopeConfig.SampleRate} Гц" : $"Частота осциллографа: {ScopeSysType.OscilSampleRate:D} Гц");
 			}
 		}
 
 		private bool _connectToSystem;
 
-	    private void SetConnectLabel(string status)
-	    {
-	        connect_toolStripStatusLabel.Text = status;
-	    }
+		private void SetConnectLabel(string status)
+		{
+			connect_toolStripStatusLabel.Text = status;
+		}
 
-	    private void UpdateStatusConnection()
-	    {
-	        if (connect_toolStripStatusLabel != null)
-	        {
-	            Invoke(new SetStringDelegate(SetConnectLabel), _connectToSystem ? @"CONNECT" : @"NO CONNECT");
-	            Invoke(new SetBoolDelegate(SetEnableOrDisableLoadConfigToSystem), _connectToSystem);
-            }
-	    }
+		private void UpdateStatusConnection()
+		{
+			if (connect_toolStripStatusLabel != null)
+			{
+				Invoke(new SetStringDelegate(SetConnectLabel), _connectToSystem ? @"CONNECT" : @"NO CONNECT");
+				Invoke(new SetBoolDelegate(SetEnableOrDisableLoadConfigToSystem), _connectToSystem);
+			}
+		}
 
-        private void UpdateTimeStamp()
+		private void UpdateTimeStamp()
 		{
 			if (SerialPort.IsOpen && _statusButtons?.Count != 0 && !ScopeConfig.ChangeScopeConfig)
 			{
@@ -162,11 +191,11 @@ namespace ScopeSetupApp.MainForm
 
 				string str1 = (paramRtu[0] & 0x3F).ToString("X2") + "/" + ((paramRtu[0] >> 8) & 0x1F).ToString("X2") + @"/20" + (paramRtu[1] & 0xFF).ToString("X2");
 				string str2 = (paramRtu[3] & 0x3F).ToString("X2") + ":" + ((paramRtu[2] >> 8) & 0x7F).ToString("X2") + @":" + (paramRtu[2] & 0x7F).ToString("X2");
-			    string str3 = ((paramRtu[3]  >> 6) & 0x3E7).ToString("D3"); 
+				string str3 = ((paramRtu[3] >> 6) & 0x3E7).ToString("D3");
 				string strTextButton = $"№{index + 1}\n{str2}.{str3}\n{str1}";
 				string strTitle = $"Осциллограмма №{index + 1}\n{str1}\n{str2}.{str3}";
 				string str = $"{str1},{str2}.{str3}";
-                try
+				try
 				{
 					var date = DateTime.Parse(str);
 					if (_oscilsStatus[index] >= 4)
@@ -181,111 +210,111 @@ namespace ScopeSetupApp.MainForm
 			}
 		}
 
-	    private void UpdateStatusСonfig()
-	    {
-	        if (_connectToSystem)
-	        {
-	            //OscilEnable 70
-	            SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilEnable), 1, UpdateStatusСonfig, "OscilEnable");
-            }
-	        else
-	        {
-	            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Соединение не установлено",  System.Drawing.SystemColors.ButtonFace);
-            }
-        }
-
-	    private delegate void SetOscilEnable(string text, Color color);
-
-	    private void SetOscilEnableFunc(string text, Color color)
-	    {
-	        if (ScopeConfig.ChannelCount == 0)
-	        {
-	            text = @"В системе отсутствует конфигурация";
-	        }
-
-            if (current_config.ToolTipText == text || current_config.BackColor == color)
-	        {
-	            return;
-	        }
-	        current_config.ToolTipText = text;
-	        current_config.BackColor = color;
-	    }
-
-        private void UpdateStatusСonfig(bool dataOk, ushort[] paramRtu, object param)
-        {
-            switch (param.ToString())
-            {
-                case "OscilEnable":
-                    switch (paramRtu[0])
-                    {
-                        case 0:
-                            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование отключено", Color.LightCoral);
-                            break;
-                        case 1:
-                            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, с перезаписью (без сохранения)", Color.LightGreen);
-                            break;
-                        case 2:
-                            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, с перезаписью  (с сохранением)", Color.LightGreen);
-                            break;
-                        case 3:
-                            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, без перезаписи (без сохранения)", Color.LightGreen);
-                            break;
-                        case 4:
-                            Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, без перезаписи (c сохранением)", Color.LightGreen);
-                            break;
-                    }
-                    break;
-            }
-        }
-
-
-        private void SetScopeStatus(int index)
+		private void UpdateStatusСonfig()
 		{
-            switch (_oscilsStatus[index])
-            {
-                case 0x04:
-                    {
-                        if (_loadOscData)
-                        {
-                            MessageBox.Show("Уже производится загрузка осциллограммы." + "\nCODE 0x1004", @"Warring", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            return;
-                        }
+			if (_connectToSystem)
+			{
+				//OscilEnable 70
+				SerialPort.GetDataRTU((ushort)(ScopeSysType.ConfigurationAddr + StructAddr.OscilEnable), 1, UpdateStatusСonfig, "OscilEnable");
+			}
+			else
+			{
+				Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Соединение не установлено", System.Drawing.SystemColors.ButtonFace);
+			}
+		}
 
-                        ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilStatus + index);
-                        SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, 0x05);
-                        //Инициализируем скачивание осцллограммы
-                        SerialPort.GetDataRTU(addr, 1, StartScopeLoad, index);
-                        break;
-                    }
-                case 0x05:
-                    {
-                        MessageBoxResult dialogResult = MessageBox.Show("Осциллограмма может загружаться на другом устростве.\nСбросить статус загрузки?\nCODE 0x1005", @"Warring", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                        if (dialogResult == MessageBoxResult.Yes)
-                        {
-                            UnsetScopeStatus(index);
-                        }
-                        break;
-                    }
+		private delegate void SetOscilEnable(string text, Color color);
 
-            }
-        }
+		private void SetOscilEnableFunc(string text, Color color)
+		{
+			if (ScopeConfig.ChannelCount == 0)
+			{
+				text = @"В системе отсутствует конфигурация";
+			}
+
+			if (current_config.ToolTipText == text || current_config.BackColor == color)
+			{
+				return;
+			}
+			current_config.ToolTipText = text;
+			current_config.BackColor = color;
+		}
+
+		private void UpdateStatusСonfig(bool dataOk, ushort[] paramRtu, object param)
+		{
+			switch (param.ToString())
+			{
+				case "OscilEnable":
+					switch (paramRtu[0])
+					{
+						case 0:
+							Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование отключено", Color.LightCoral);
+							break;
+						case 1:
+							Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, с перезаписью (без сохранения)", Color.LightGreen);
+							break;
+						case 2:
+							Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, с перезаписью  (с сохранением)", Color.LightGreen);
+							break;
+						case 3:
+							Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, без перезаписи (без сохранения)", Color.LightGreen);
+							break;
+						case 4:
+							Invoke(new SetOscilEnable(SetOscilEnableFunc), @"Осциллограффирование включено, без перезаписи (c сохранением)", Color.LightGreen);
+							break;
+					}
+					break;
+			}
+		}
+
+
+		private void SetScopeStatus(int index)
+		{
+			switch (_oscilsStatus[index])
+			{
+				case 0x04:
+					{
+						if (_loadOscData)
+						{
+							MessageBox.Show("Уже производится загрузка осциллограммы." + "\nCODE 0x1004", @"Warring", MessageBoxButton.OK, MessageBoxImage.Warning);
+							return;
+						}
+
+						ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilStatus + index);
+						SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, 0x05);
+						//Инициализируем скачивание осцллограммы
+						SerialPort.GetDataRTU(addr, 1, StartScopeLoad, index);
+						break;
+					}
+				case 0x05:
+					{
+						MessageBoxResult dialogResult = MessageBox.Show("Осциллограмма может загружаться на другом устростве.\nСбросить статус загрузки?\nCODE 0x1005", @"Warring", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+						if (dialogResult == MessageBoxResult.Yes)
+						{
+							UnsetScopeStatus(index);
+						}
+						break;
+					}
+
+			}
+		}
 
 		private void StartScopeLoad(bool dataOk, ushort[] paramRtu, object param)
 		{
 			if (dataOk)
 			{
 				var index = Convert.ToInt32(param);
-			    if (paramRtu[0] == 0x05)
-			    {
-			        //Начинаем загрузку
-			        loadScopeToolStripLabel.Text = _oscilTitls[_loadOscNum];
-			        loadDataProgressBar.Value = 0;
-			        UpdateLoadDataProgressBarInvoke();
-			        _downloadedData = new List<ushort[]>();
-			        LoadOscDataRequest();
-                }
+				if (paramRtu[0] == 0x05)
+				{
+					//Начинаем загрузку
+					loadScopeToolStripLabel.Text = _oscilTitls[_loadOscNum];
+					loadDataProgressBar.Value = 0;
+					UpdateLoadDataProgressBarInvoke();
+					_downloadedData = new List<ushort[]>();
+					LoadOscDataRequest();
+				}
 				else
-                {
+				{
 					SetScopeStatus(index);
 				}
 			}
@@ -293,27 +322,27 @@ namespace ScopeSetupApp.MainForm
 
 		private void UnsetScopeStatus(int index)
 		{
-		    _loadOscilIndex = 0;
-            _loadOscilTemp = 0;
-            _loadOscData = false;
-		    _loadOscDataStep = 0;
-		    _countTemp = 0;
-		    ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilStatus + index);
-		    SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, 0x04);
-        }
+			_loadOscilIndex = 0;
+			_loadOscilTemp = 0;
+			_loadOscData = false;
+			_loadOscDataStep = 0;
+			_countTemp = 0;
+			ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilStatus + index);
+			SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, 0x04);
+		}
 
 		private void ClearScopeStatus(int index)
 		{
-		    if (_oscilsStatus[index] != 0x05)
-		    {
-		        ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilStatus + index);
-		        SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, 0x00);
-            }
-		    else
-		    {
-		        MessageBox.Show("Осциллограмма может загружаться на другом устростве.\nДля удаления осциилограммы сбросьте статус загрузки.\nCODE 0x1005", @"Warring", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
+			if (_oscilsStatus[index] != 0x05)
+			{
+				ushort addr = (ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilStatus + index);
+				SerialPort.SetDataRTU(addr, null, RequestPriority.Normal, null, 0x00);
+			}
+			else
+			{
+				MessageBox.Show("Осциллограмма может загружаться на другом устростве.\nДля удаления осциилограммы сбросьте статус загрузки.\nCODE 0x1005", @"Warring", MessageBoxButton.OK, MessageBoxImage.Warning);
+			}
+		}
 
 		//Ручной запуск
 		private void ManStartRequest()
@@ -324,9 +353,9 @@ namespace ScopeSetupApp.MainForm
 		}
 
 
-		private bool    _loadOscData;        //Флаг, что идет скачивание осцилограммы, все остальные запросы приостановлены
-		private int     _loadOscDataStep;            //0 - загрузка loadOscilTemp
-																			//1 - загрузка непосредственно тела
+		private bool _loadOscData;        //Флаг, что идет скачивание осцилограммы, все остальные запросы приостановлены
+		private int _loadOscDataStep;            //0 - загрузка loadOscilTemp
+												 //1 - загрузка непосредственно тела
 
 		//Загрузка осциллограмм
 		private List<ushort[]> _downloadedData = new List<ushort[]>();
@@ -337,19 +366,19 @@ namespace ScopeSetupApp.MainForm
 			{
 				//Загрузка номера выборки на котором заканчивается осциллограмма 
 				case 0:
-				{
-					SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilEnd + _loadOscNum * 2),2, LoadOscDataResponce, 0);
-				}
+					{
+						SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilEnd + _loadOscNum * 2), 2, LoadOscDataResponce, 0);
+					}
 					break;
 
 				//Загрузка данных
 				case 1:
-				{
 					{
-						uint oscilLoadTemp = (CalcOscilLoadTemp()) >> 5;
-						SerialPort.GetDataRTU04((ushort)(oscilLoadTemp), 32, LoadOscDataResponce, 1);
+						{
+							uint oscilLoadTemp = (CalcOscilLoadTemp()) >> 5;
+							SerialPort.GetDataRTU04((ushort)(oscilLoadTemp), 32, LoadOscDataResponce, 1);
+						}
 					}
-				}
 					break;
 			}
 		}
@@ -362,60 +391,60 @@ namespace ScopeSetupApp.MainForm
 				{
 					//Загрузка стартового адреса
 					case 0:
-					{
-						if (!SerialPort.portError)
 						{
-							_startLoadSample = (uint) (paramRtu[1] << 16);
-							_startLoadSample += paramRtu[0];
-							_loadOscData = true;
-							_loadOscilIndex = 0;
-							_loadOscDataStep = 1;
+							if (!SerialPort.portError)
+							{
+								_startLoadSample = (uint)(paramRtu[1] << 16);
+								_startLoadSample += paramRtu[0];
+								_loadOscData = true;
+								_loadOscilIndex = 0;
+								_loadOscDataStep = 1;
+							}
+							else
+							{
+								_loadOscData = false;
+								_loadOscDataStep = 0;
+								_loadOscNum = 0;
+								_countTemp = 0;
+							}
 						}
-						else
-						{
-							_loadOscData = false;
-							_loadOscDataStep = 0;
-							_loadOscNum = 0;
-							_countTemp = 0;
-						}
-					}
 						break;
 
 					case 1:
-					{
-						if (!SerialPort.portError)
 						{
-							for (int i = 0; i < 32; i++)
+							if (!SerialPort.portError)
 							{
-								_loadParamPart[i] = paramRtu[i];
-							}
-							{
-								_downloadedData.Add(new ushort[32]);
 								for (int i = 0; i < 32; i++)
 								{
-									_downloadedData[_downloadedData.Count - 1][i] = _loadParamPart[i];
+									_loadParamPart[i] = paramRtu[i];
 								}
-
-								_loadOscilIndex = (2 * _countTemp * 1000) / ScopeConfig.OscilSize;
-
-								UpdateLoadDataProgressBarInvoke();
-
-								if (_countTemp >= (ScopeConfig.OscilSize >> 1))
 								{
-                                    _loadOscilIndex = 0;
-									_createFileNum = _loadOscNum;
-									_createFileFlag = true;
+									_downloadedData.Add(new ushort[32]);
+									for (int i = 0; i < 32; i++)
+									{
+										_downloadedData[_downloadedData.Count - 1][i] = _loadParamPart[i];
+									}
+
+									_loadOscilIndex = (2 * _countTemp * 1000) / ScopeConfig.OscilSize;
+
 									UpdateLoadDataProgressBarInvoke();
-									UnsetScopeStatus(_loadOscNum);
+
+									if (_countTemp >= (ScopeConfig.OscilSize >> 1))
+									{
+										_loadOscilIndex = 0;
+										_createFileNum = _loadOscNum;
+										_createFileFlag = true;
+										UpdateLoadDataProgressBarInvoke();
+										UnsetScopeStatus(_loadOscNum);
+									}
 								}
 							}
-						}
-						else
-						{
-							UnsetScopeStatus(_loadOscNum);
-						}
+							else
+							{
+								UnsetScopeStatus(_loadOscNum);
+							}
 
-					}
+						}
 						break;
 				}
 				if (!_loadOscData)
@@ -436,7 +465,7 @@ namespace ScopeSetupApp.MainForm
 
 		private int _indexChannel;
 
-	    private void ConfigCheack()
+		private void ConfigCheack()
 		{
 			//Отключить обновление информации об осциллограммах
 			StopUpdate();
@@ -445,25 +474,70 @@ namespace ScopeSetupApp.MainForm
 			LoadConfig();
 		}
 
-	    public void CheackConnect()
-	    {
-	        SerialPort.GetDataRTU((ushort) (ScopeSysType.OscilCmndAddr + StructAddr.Padding), 1, CheackConnect, "CheackConnect");
-	    }
+		public void CheackConnect()
+		{
+			SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.Padding), 1, CheackConnect, "CheackConnect");
+		}
 
-	    private void CheackConnect(bool dataOk, ushort[] paramRtu, object param)
-	    {
-	        if (dataOk)
-	        { 
-	            ConfigCheack();
-	            _connectToSystem = true;
-	        }
-	        else
-	        {
-	            MessageBox.Show(@"Соединение с системой не установлено" + "\nCODE 0x1103", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
-	            _connectToSystem = false;
-	            SerialPort.Close();
-            }
-        }
+		private void CheackConnect(bool dataOk, ushort[] paramRtu, object param)
+		{
+			if (dataOk)
+			{
+				ConfigCheack();
+				_connectToSystem = true;
+			}
+			else
+			{
+				MessageBox.Show(@"Соединение с системой не установлено" + "\nCODE 0x1103", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				_connectToSystem = false;
+
+
+				Thread threadCloseComPort = new Thread(CloseComPortThread);
+				threadCloseComPort.Start();
+			}
+		}
+
+		private void ValidetionConnect()
+		{
+			try
+			{
+				if (_connectToSystem)
+				{
+					if (SerialPort.requests.Count(x => x.DataRecievedRTU == ValidetionConnect) > 6)
+					{
+						_connectToSystem = false;
+
+						ThreadCloseComPort = new Thread(CloseComPortThread)
+						{
+							Priority = ThreadPriority.AboveNormal
+						};
+						ThreadCloseComPort.Start();
+					}
+					else
+					{
+						SerialPort.GetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.Padding), 1, ValidetionConnect, "ValidetionConnect");
+					}
+				}
+			}
+			catch 
+			{
+				//ignore
+			}
+		}
+
+		private void ValidetionConnect(bool dataOk, ushort[] paramRtu, object param)
+		{
+			if (dataOk)
+			{
+				if(!_connectToSystem)
+					_connectToSystem = true;
+			}
+			else
+			{
+				if(_connectToSystem)
+					_connectToSystem = false;
+			}
+		}
 
 		delegate void WaitLoadConfigDelegate(bool wait, int step);
 
@@ -480,17 +554,23 @@ namespace ScopeSetupApp.MainForm
 			}
 
 			if (ConfigMCUButton.Enabled == wait)
+			{
 				ConfigMCUButton.Enabled = !wait;
+				ConfigScopeButton.Enabled = !wait;
+				Setting_Button.Enabled = !wait;
+			}
 
 			WaitLoadConfig_toolStripProgressBar.Value = step;
 
 			if (step == 23)
 			{
 				ConfigMCUButton.Enabled = true;
+				ConfigScopeButton.Enabled = true;
+				Setting_Button.Enabled = true;
 			}
 		}
 
-        private void LoadConfig()
+		private void LoadConfig()
 		{
 			switch (_loadConfigStep)
 			{
@@ -580,248 +660,248 @@ namespace ScopeSetupApp.MainForm
 					switch (_loadConfigStep)
 					{
 						case 0: //Количество каналов 
-						{
-							ScopeConfig.ChannelCount = paramRtu[0];
-							_loadConfigStep = 1;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.ChannelCount = paramRtu[0];
+								_loadConfigStep = 1;
+								LoadConfig();
+							}
 							break;
 
 						case 1: //Количество осциллограмм
-						{
-							ScopeConfig.ScopeCount = paramRtu[0];
-							_loadConfigStep = 2;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.ScopeCount = paramRtu[0];
+								_loadConfigStep = 2;
+								LoadConfig();
+							}
 							break;
 
 						case 2: //Предыстория 
-						{
-							ScopeConfig.HistoryCount = paramRtu[0];
-							_loadConfigStep = 3;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.HistoryCount = paramRtu[0];
+								_loadConfigStep = 3;
+								LoadConfig();
+							}
 							break;
 
 						case 3: //Делитель
-						{
-							ScopeConfig.FreqCount = paramRtu[0];
-							_loadConfigStep = 4;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.FreqCount = paramRtu[0];
+								_loadConfigStep = 4;
+								LoadConfig();
+							}
 							break;
 
 						case 4: //Режим работы
-						{
-							ScopeConfig.OscilEnable = paramRtu[0];
-							_loadConfigStep = 5;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.OscilEnable = paramRtu[0];
+								_loadConfigStep = 5;
+								LoadConfig();
+							}
 							break;
 
 						case 5: //Размер осциллограммы 
-						{
-							ScopeConfig.OscilSize = (uint) (paramRtu[1] << 16);
-							ScopeConfig.OscilSize += paramRtu[0];
-							_loadConfigStep = 6;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.OscilSize = (uint)(paramRtu[1] << 16);
+								ScopeConfig.OscilSize += paramRtu[0];
+								_loadConfigStep = 6;
+								LoadConfig();
+							}
 							break;
 
 						case 6: //Частота выборки
-						{
-							ScopeConfig.SampleRate = paramRtu[0];
-							ScopeConfig.ScopeEnabled = true;
-							_loadConfigStep = 7;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.SampleRate = paramRtu[0];
+								ScopeConfig.ScopeEnabled = true;
+								_loadConfigStep = 7;
+								LoadConfig();
+							}
 							break;
 
 						case 7: //Размер осциллограммы 
-						{
-							ScopeConfig.OscilAllSize = (uint) (paramRtu[1] << 16);
-							ScopeConfig.OscilAllSize += (paramRtu[0]);
-							_loadConfigStep = 8;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.OscilAllSize = (uint)(paramRtu[1] << 16);
+								ScopeConfig.OscilAllSize += (paramRtu[0]);
+								_loadConfigStep = 8;
+								LoadConfig();
+							}
 							break;
 
 						case 8: //Размер одной выборки
-						{
-							ScopeConfig.SampleSize = paramRtu[0];
-							_loadConfigStep = 9;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.SampleSize = paramRtu[0];
+								_loadConfigStep = 9;
+								LoadConfig();
+							}
 							break;
 						case 9: //Размер всей памяти 
-						{
-							ScopeConfig.OscilHistCount = (uint) (paramRtu[1] << 16);
-							ScopeConfig.OscilHistCount += paramRtu[0];
-							_loadConfigStep = 10;
-							LoadConfig();
+							{
+								ScopeConfig.OscilHistCount = (uint)(paramRtu[1] << 16);
+								ScopeConfig.OscilHistCount += paramRtu[0];
+								_loadConfigStep = 10;
+								LoadConfig();
 
-						}
+							}
 							break;
 						case 10: //Статус осциллогрофа
-						{
-							ScopeConfig.StatusOscil = paramRtu[0];
-							_loadConfigStep = 11;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.StatusOscil = paramRtu[0];
+								_loadConfigStep = 11;
+								LoadConfig();
+							}
 							break;
 						case 11: //Адреса каналов 
-						{
-							ScopeConfig.InitOscilAddr(paramRtu);
-							_loadConfigStep = 12;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.InitOscilAddr(paramRtu);
+								_loadConfigStep = 12;
+								LoadConfig();
+							}
 							break;
 						case 12: //Формат каналов 
-						{
-							ScopeConfig.InitOscilFormat(paramRtu);
-							ScopeConfig.InitOscilParams(ScopeConfig.OscilAddr, ScopeConfig.OscilFormat);
-							_loadConfigStep = 13;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.InitOscilFormat(paramRtu);
+								ScopeConfig.InitOscilParams(ScopeConfig.OscilAddr, ScopeConfig.OscilFormat);
+								_loadConfigStep = 13;
+								LoadConfig();
+							}
 							break;
 						case 13: //Названия каналов 
-						{
-							if (ScopeConfig.ChannelCount == 0) //Если в системе нет конфигурации
 							{
-								EndLoadConfig(false);
+								if (ScopeConfig.ChannelCount == 0) //Если в системе нет конфигурации
+								{
+									EndLoadConfig(false);
 
-								break;
+									break;
+								}
+								if (_indexChannel == 0) ScopeConfig.ChannelName.Clear();
+								ScopeConfig.InitChannelName(paramRtu);
+								if (_indexChannel == ScopeConfig.ChannelCount - 1)
+								{
+									_indexChannel = 0;
+									_loadConfigStep = 14;
+								}
+								else
+								{
+									_indexChannel++;
+								}
+								LoadConfig();
 							}
-							if (_indexChannel == 0) ScopeConfig.ChannelName.Clear();
-							ScopeConfig.InitChannelName(paramRtu);
-							if (_indexChannel == ScopeConfig.ChannelCount - 1)
-							{
-								_indexChannel = 0;
-								_loadConfigStep = 14;
-							}
-							else
-							{
-								_indexChannel++;
-							}
-							LoadConfig();
-						}
 							break;
 						case 14: //Названия каналов 
-						{
-							if (_indexChannel == 0) ScopeConfig.ChannelPhase.Clear();
-							ScopeConfig.InitChannelPhase(paramRtu);
-							if (_indexChannel == ScopeConfig.ChannelCount - 1)
 							{
-								_indexChannel = 0;
-								_loadConfigStep = 15;
+								if (_indexChannel == 0) ScopeConfig.ChannelPhase.Clear();
+								ScopeConfig.InitChannelPhase(paramRtu);
+								if (_indexChannel == ScopeConfig.ChannelCount - 1)
+								{
+									_indexChannel = 0;
+									_loadConfigStep = 15;
+								}
+								else
+								{
+									_indexChannel++;
+								}
+								LoadConfig();
 							}
-							else
-							{
-								_indexChannel++;
-							}
-							LoadConfig();
-						}
 							break;
 
 						case 15: //Названия каналов 
-						{
-							if (_indexChannel == 0) ScopeConfig.ChannelCcbm.Clear();
-							ScopeConfig.InitChannelCcbm(paramRtu);
-							if (_indexChannel == ScopeConfig.ChannelCount - 1)
 							{
-								_indexChannel = 0;
-								_loadConfigStep = 16;
+								if (_indexChannel == 0) ScopeConfig.ChannelCcbm.Clear();
+								ScopeConfig.InitChannelCcbm(paramRtu);
+								if (_indexChannel == ScopeConfig.ChannelCount - 1)
+								{
+									_indexChannel = 0;
+									_loadConfigStep = 16;
+								}
+								else
+								{
+									_indexChannel++;
+								}
+								LoadConfig();
 							}
-							else
-							{
-								_indexChannel++;
-							}
-							LoadConfig();
-						}
 							break;
 
 						case 16: //Названия каналов 
-						{
-							if (_indexChannel == 0) ScopeConfig.ChannelDemension.Clear();
-							ScopeConfig.InitChannelDemension(paramRtu);
-							if (_indexChannel == ScopeConfig.ChannelCount - 1)
 							{
-								_indexChannel = 0;
-								_loadConfigStep = 17;
+								if (_indexChannel == 0) ScopeConfig.ChannelDemension.Clear();
+								ScopeConfig.InitChannelDemension(paramRtu);
+								if (_indexChannel == ScopeConfig.ChannelCount - 1)
+								{
+									_indexChannel = 0;
+									_loadConfigStep = 17;
+								}
+								else
+								{
+									_indexChannel++;
+								}
+								LoadConfig();
 							}
-							else
-							{
-								_indexChannel++;
-							}
-							LoadConfig();
-						}
 							break;
 
 						case 17: //Названия каналов 
-						{
-							if (_indexChannel == 0) ScopeConfig.ChannelType.Clear();
-							ScopeConfig.InitChannelType(paramRtu);
-							if (_indexChannel == ScopeConfig.ChannelCount - 1)
 							{
-								_indexChannel = 0;
-								_loadConfigStep = 18;
+								if (_indexChannel == 0) ScopeConfig.ChannelType.Clear();
+								ScopeConfig.InitChannelType(paramRtu);
+								if (_indexChannel == ScopeConfig.ChannelCount - 1)
+								{
+									_indexChannel = 0;
+									_loadConfigStep = 18;
+								}
+								else
+								{
+									_indexChannel++;
+								}
+								LoadConfig();
 							}
-							else
-							{
-								_indexChannel++;
-							}
-							LoadConfig();
-						}
 							break;
 
 						case 18: //
-						{
-							ScopeConfig.InitStationName(paramRtu);
-							_loadConfigStep = 19;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.InitStationName(paramRtu);
+								_loadConfigStep = 19;
+								LoadConfig();
+							}
 							break;
 
 						case 19: //Названия каналов 
-						{
-							ScopeConfig.InitRecordingId(paramRtu);
-							_loadConfigStep = 20;
-							LoadConfig();
+							{
+								ScopeConfig.InitRecordingId(paramRtu);
+								_loadConfigStep = 20;
+								LoadConfig();
 
-						}
+							}
 							break;
 
 						case 20: //Названия каналов 
-						{
-							ScopeConfig.InitTimeCode(paramRtu);
-							_loadConfigStep = 21;
-							LoadConfig();
-						}
+							{
+								ScopeConfig.InitTimeCode(paramRtu);
+								_loadConfigStep = 21;
+								LoadConfig();
+							}
 							break;
 
 						case 21: //Названия каналов 
-						{
-							ScopeConfig.InitLocalCode(paramRtu);
+							{
+								ScopeConfig.InitLocalCode(paramRtu);
 
-							_loadConfigStep = 22;
-							LoadConfig();
-						}
+								_loadConfigStep = 22;
+								LoadConfig();
+							}
 							break;
 
 						case 22: //Названия каналов 
-						{
-							ScopeConfig.InitTmqCode(paramRtu);
+							{
+								ScopeConfig.InitTmqCode(paramRtu);
 
-							_loadConfigStep = 23;
-							LoadConfig();
-						}
+								_loadConfigStep = 23;
+								LoadConfig();
+							}
 							break;
 
 						case 23: //Названия каналов 
-						{
-							ScopeConfig.InitLeapsec(paramRtu);
-							EndLoadConfig(true);
-						}
+							{
+								ScopeConfig.InitLeapsec(paramRtu);
+								EndLoadConfig(true);
+							}
 							break;
 					}
 				}

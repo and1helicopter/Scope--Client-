@@ -1,6 +1,6 @@
 ﻿namespace ScopeSetupApp.ucScopeConfig
 {
-	partial class UcScopeConfig
+	sealed partial class UcScopeConfig
 	{
 		/// <summary> 
 		/// Required designer variable.
@@ -54,6 +54,18 @@
 			this.label13 = new System.Windows.Forms.Label();
 			this.configPanel = new System.Windows.Forms.Panel();
 			this.ChanneldataGridView = new System.Windows.Forms.DataGridView();
+			this.Column_channelNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column_channelcColor = new System.Windows.Forms.DataGridViewButtonColumn();
+			this.Column_channelGroupNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column_channelTypeAd = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.Column_channelAddrs = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column_channelformatNumeric = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.Column_channelFormats = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.Column_channelPhase = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column_channelCcbm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column_channelDimension = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column_channelMin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Column_channelMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.panel5 = new System.Windows.Forms.Panel();
@@ -82,18 +94,6 @@
 			this.recordingDevice_label = new System.Windows.Forms.Label();
 			this.stationName_label = new System.Windows.Forms.Label();
 			this.nominalFrequency_label = new System.Windows.Forms.Label();
-			this.Column_channelNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Column_channelcColor = new System.Windows.Forms.DataGridViewButtonColumn();
-			this.Column_channelGroupNames = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Column_channelTypeAd = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.Column_channelAddrs = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Column_channelformatNumeric = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.Column_channelFormats = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.Column_channelPhase = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Column_channelCcbm = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Column_channelDimension = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Column_channelMin = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Column_channelMax = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.mailToolStrip.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
@@ -411,6 +411,123 @@
 			this.ChanneldataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChanneldataGridView_CellEndEdit);
 			this.ChanneldataGridView.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChanneldataGridView_RowEnter);
 			// 
+			// Column_channelNames
+			// 
+			this.Column_channelNames.HeaderText = "Название";
+			this.Column_channelNames.Name = "Column_channelNames";
+			this.Column_channelNames.ToolTipText = "Имя канала";
+			// 
+			// Column_channelcColor
+			// 
+			this.Column_channelcColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.Column_channelcColor.HeaderText = "Цвет";
+			this.Column_channelcColor.Name = "Column_channelcColor";
+			this.Column_channelcColor.ToolTipText = "Цвет канала";
+			// 
+			// Column_channelGroupNames
+			// 
+			this.Column_channelGroupNames.HeaderText = "Группа";
+			this.Column_channelGroupNames.Name = "Column_channelGroupNames";
+			this.Column_channelGroupNames.ToolTipText = "Группа в которую входит канал";
+			// 
+			// Column_channelTypeAd
+			// 
+			this.Column_channelTypeAd.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+			this.Column_channelTypeAd.HeaderText = "Тип";
+			this.Column_channelTypeAd.Items.AddRange(new object[] {
+            "Analog",
+            "Digital"});
+			this.Column_channelTypeAd.Name = "Column_channelTypeAd";
+			this.Column_channelTypeAd.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.Column_channelTypeAd.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.Column_channelTypeAd.ToolTipText = "Цифровой или Аналоговый";
+			// 
+			// Column_channelAddrs
+			// 
+			this.Column_channelAddrs.HeaderText = "Адрес";
+			this.Column_channelAddrs.Name = "Column_channelAddrs";
+			this.Column_channelAddrs.ToolTipText = "Адрес канала";
+			// 
+			// Column_channelformatNumeric
+			// 
+			this.Column_channelformatNumeric.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+			this.Column_channelformatNumeric.HeaderText = "Разрядность";
+			this.Column_channelformatNumeric.Items.AddRange(new object[] {
+            "16",
+            "32",
+            "64"});
+			this.Column_channelformatNumeric.Name = "Column_channelformatNumeric";
+			this.Column_channelformatNumeric.ReadOnly = true;
+			this.Column_channelformatNumeric.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.Column_channelformatNumeric.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.Column_channelformatNumeric.ToolTipText = "Разрядность формата";
+			// 
+			// Column_channelFormats
+			// 
+			this.Column_channelFormats.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+			this.Column_channelFormats.HeaderText = "Формат";
+			this.Column_channelFormats.Items.AddRange(new object[] {
+            "0 - Percent",
+            "1 - uint16",
+            "2 - int16",
+            "3 - Freq standart",
+            "4 - 8.8",
+            "5 - 0.16",
+            "6 - Slide",
+            "7 - Digits",
+            "8 - RegulMode",
+            "9 - AVR type",
+            "10 - Int/10",
+            "11 - Hex",
+            "12 - *0.135 (Uf)",
+            "13 - FreqNew",
+            "14 - Current trans",
+            "15 - trans alarm",
+            "16 - int/8",
+            "17 - uint/1000",
+            "18 - percent/4",
+            "19 - FreqNew2",
+            "20 - Percent upp",
+            "21 - Freq UPTF",
+            "22 - 16.16",
+            "23 - 32.32"});
+			this.Column_channelFormats.Name = "Column_channelFormats";
+			this.Column_channelFormats.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+			this.Column_channelFormats.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.Column_channelFormats.ToolTipText = "Фориат данных канала";
+			// 
+			// Column_channelPhase
+			// 
+			this.Column_channelPhase.HeaderText = "Фаза";
+			this.Column_channelPhase.Name = "Column_channelPhase";
+			this.Column_channelPhase.ToolTipText = "Идентификатор фазы канала ";
+			// 
+			// Column_channelCcbm
+			// 
+			this.Column_channelCcbm.HeaderText = "Линия";
+			this.Column_channelCcbm.Name = "Column_channelCcbm";
+			this.Column_channelCcbm.ToolTipText = "Цепь / компонент, который контролируется ";
+			// 
+			// Column_channelDimension
+			// 
+			this.Column_channelDimension.HeaderText = "Физ. величина";
+			this.Column_channelDimension.Name = "Column_channelDimension";
+			this.Column_channelDimension.ToolTipText = "Единица измерения в канале (kV, kA, и т.д.) ";
+			// 
+			// Column_channelMin
+			// 
+			this.Column_channelMin.HeaderText = "Min.";
+			this.Column_channelMin.Name = "Column_channelMin";
+			this.Column_channelMin.ToolTipText = "Целое, равное минимальной величине (нижняя граница диапазона) для выборок этого к" +
+    "анала";
+			// 
+			// Column_channelMax
+			// 
+			this.Column_channelMax.HeaderText = "Max.";
+			this.Column_channelMax.Name = "Column_channelMax";
+			this.Column_channelMax.ToolTipText = "Целое, равное максимальной величине (верхняя граница диапазона) для выборок этого" +
+    " канала";
+			// 
 			// tabControl1
 			// 
 			this.tabControl1.Controls.Add(this.tabPage1);
@@ -711,123 +828,6 @@
 			this.nominalFrequency_label.TabIndex = 23;
 			this.nominalFrequency_label.Text = "Nominal frequency (Hz)";
 			// 
-			// Column_channelNames
-			// 
-			this.Column_channelNames.HeaderText = "Название";
-			this.Column_channelNames.Name = "Column_channelNames";
-			this.Column_channelNames.ToolTipText = "Имя канала";
-			// 
-			// Column_channelcColor
-			// 
-			this.Column_channelcColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Column_channelcColor.HeaderText = "Цвет";
-			this.Column_channelcColor.Name = "Column_channelcColor";
-			this.Column_channelcColor.ToolTipText = "Цвет канала";
-			// 
-			// Column_channelGroupNames
-			// 
-			this.Column_channelGroupNames.HeaderText = "Группа";
-			this.Column_channelGroupNames.Name = "Column_channelGroupNames";
-			this.Column_channelGroupNames.ToolTipText = "Группа в которую входит канал";
-			// 
-			// Column_channelTypeAd
-			// 
-			this.Column_channelTypeAd.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-			this.Column_channelTypeAd.HeaderText = "Тип";
-			this.Column_channelTypeAd.Items.AddRange(new object[] {
-            "Analog",
-            "Digital"});
-			this.Column_channelTypeAd.Name = "Column_channelTypeAd";
-			this.Column_channelTypeAd.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.Column_channelTypeAd.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.Column_channelTypeAd.ToolTipText = "Цифровой или Аналоговый";
-			// 
-			// Column_channelAddrs
-			// 
-			this.Column_channelAddrs.HeaderText = "Адрес";
-			this.Column_channelAddrs.Name = "Column_channelAddrs";
-			this.Column_channelAddrs.ToolTipText = "Адрес канала";
-			// 
-			// Column_channelformatNumeric
-			// 
-			this.Column_channelformatNumeric.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-			this.Column_channelformatNumeric.HeaderText = "Разрядность";
-			this.Column_channelformatNumeric.Items.AddRange(new object[] {
-            "16",
-            "32",
-            "64"});
-			this.Column_channelformatNumeric.Name = "Column_channelformatNumeric";
-			this.Column_channelformatNumeric.ReadOnly = true;
-			this.Column_channelformatNumeric.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.Column_channelformatNumeric.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.Column_channelformatNumeric.ToolTipText = "Разрядность формата";
-			// 
-			// Column_channelFormats
-			// 
-			this.Column_channelFormats.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-			this.Column_channelFormats.HeaderText = "Формат";
-			this.Column_channelFormats.Items.AddRange(new object[] {
-            "0 - Percent",
-            "1 - uint16",
-            "2 - int16",
-            "3 - Freq standart",
-            "4 - 8.8",
-            "5 - 0.16",
-            "6 - Slide",
-            "7 - Digits",
-            "8 - RegulMode",
-            "9 - AVR type",
-            "10 - Int/10",
-            "11 - Hex",
-            "12 - *0.135 (Uf)",
-            "13 - FreqNew",
-            "14 - Current trans",
-            "15 - trans alarm",
-            "16 - int/8",
-            "17 - uint/1000",
-            "18 - percent/4",
-            "19 - FreqNew2",
-            "20 - Percent upp",
-            "21 - Freq UPTF",
-            "22 - 16.16",
-            "23 - 32.32"});
-			this.Column_channelFormats.Name = "Column_channelFormats";
-			this.Column_channelFormats.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.Column_channelFormats.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.Column_channelFormats.ToolTipText = "Фориат данных канала";
-			// 
-			// Column_channelPhase
-			// 
-			this.Column_channelPhase.HeaderText = "Фаза";
-			this.Column_channelPhase.Name = "Column_channelPhase";
-			this.Column_channelPhase.ToolTipText = "Идентификатор фазы канала ";
-			// 
-			// Column_channelCcbm
-			// 
-			this.Column_channelCcbm.HeaderText = "Линия";
-			this.Column_channelCcbm.Name = "Column_channelCcbm";
-			this.Column_channelCcbm.ToolTipText = "Цепь / компонент, который контролируется ";
-			// 
-			// Column_channelDimension
-			// 
-			this.Column_channelDimension.HeaderText = "Физ. величина";
-			this.Column_channelDimension.Name = "Column_channelDimension";
-			this.Column_channelDimension.ToolTipText = "Единица измерения в канале (kV, kA, и т.д.) ";
-			// 
-			// Column_channelMin
-			// 
-			this.Column_channelMin.HeaderText = "Min.";
-			this.Column_channelMin.Name = "Column_channelMin";
-			this.Column_channelMin.ToolTipText = "Целое, равное минимальной величине (нижняя граница диапазона) для выборок этого к" +
-    "анала";
-			// 
-			// Column_channelMax
-			// 
-			this.Column_channelMax.HeaderText = "Max.";
-			this.Column_channelMax.Name = "Column_channelMax";
-			this.Column_channelMax.ToolTipText = "Целое, равное максимальной величине (верхняя граница диапазона) для выборок этого" +
-    " канала";
-			// 
 			// UcScopeConfig
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -837,6 +837,7 @@
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.mailToolStrip);
+			this.DoubleBuffered = true;
 			this.Margin = new System.Windows.Forms.Padding(0);
 			this.Name = "UcScopeConfig";
 			this.Padding = new System.Windows.Forms.Padding(1);

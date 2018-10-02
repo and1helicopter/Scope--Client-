@@ -124,6 +124,10 @@ namespace ScopeSetupApp.MainForm
 
 			DoubleBuffered = true;
 
+			if (!ScopeSysType.HasViewer)
+			{
+				OpenScope_Button.Visible = false;
+			}
 
 			if (agrs.Length > 0)
 			{
@@ -204,47 +208,103 @@ namespace ScopeSetupApp.MainForm
 		//***************************************************************************************//
 		//***************************************************************************************//
 
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams cp = base.CreateParams;
+				cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
+				return cp;
+			}
+		}
+
 		private UcScopeSetup _ucScopeSetup;
 
 		private void toolStripButton1_Click(object sender, EventArgs e)
 		{
-			VarificationUc();
-			_ucScopeSetup = new UcScopeSetup(_argsG)
-			{
-				Dock = DockStyle.Fill
-			};
-
+			var oldStatus = _buttonsStatus;
 			_buttonsStatus = (byte)(_buttonsStatus == 0x02 ? 0x00 : 0x02);
+
+			var draw = _buttonsStatus == 0x00 || (oldStatus == 0x00 && _buttonsStatus == 0x02);
+
+			if (draw)
+			{
+				nowStatusFlowLayoutPanel.Visible = false;
+			}
+
+			VarificationUc();
 			UpdateButtons();
 
+			if (_ucScopeSetup == null)
+			{
+				_ucScopeSetup = new UcScopeSetup(_argsG)
+				{
+					Dock = DockStyle.Fill
+				};
+			}
+
+			panel1.SuspendLayout();
 			panel1.Controls.Add(_ucScopeSetup);
-			_ucScopeSetup?.Show();
-			//Refresh();
+			panel1.ResumeLayout();
+
+			if (draw)
+			{
+				nowStatusFlowLayoutPanel.Visible = true;
+			}
 		}
 
 		private UcScopeConfig _ucScopeConfig;
 
 		private void toolStripButton3_Click(object sender, EventArgs e)
 		{
-			VarificationUc();
-			_ucScopeConfig = new UcScopeConfig()
-			{
-				Dock = DockStyle.Fill
-			};
+			var oldStatus = _buttonsStatus;
+			_buttonsStatus = (byte)(_buttonsStatus == 0x01 ? 0x00 : 0x01);
 
-			_buttonsStatus = (byte) (_buttonsStatus == 0x01 ? 0x00 : 0x01);
+			var draw = _buttonsStatus == 0x00 || (oldStatus == 0x00 && _buttonsStatus == 0x01);
+
+			if (draw)
+			{
+				nowStatusFlowLayoutPanel.Visible = false;
+			}
+
+			VarificationUc();
 			UpdateButtons();
 
+			if (_ucScopeConfig == null)
+			{
+				_ucScopeConfig = new UcScopeConfig()
+				{
+					Dock = DockStyle.Fill
+				};
+			}
+
+			panel1.SuspendLayout();
 			panel1.Controls.Add(_ucScopeConfig);
-			_ucScopeConfig?.Show();
-			Refresh();
+			panel1.ResumeLayout();
+
+			if (draw)
+			{
+				nowStatusFlowLayoutPanel.Visible = true;
+			}
 		}
 
 		private UcSettings _ucSettings;
 
 		private void Setting_Button_Click(object sender, EventArgs e)
 		{
+			var oldStatus = _buttonsStatus;
+			_buttonsStatus = (byte)(_buttonsStatus == 0x03 ? 0x00 : 0x03);
+
+			var draw = _buttonsStatus == 0x00 || (oldStatus == 0x00 && _buttonsStatus == 0x03);
+
+			if (draw)
+			{
+				nowStatusFlowLayoutPanel.Visible = false;
+			}
+
 			VarificationUc();
+			UpdateButtons();
+
 			if (_ucSettings == null)
 			{
 				_ucSettings = new UcSettings()
@@ -253,12 +313,14 @@ namespace ScopeSetupApp.MainForm
 				};
 			}
 
-			_buttonsStatus = (byte)(_buttonsStatus == 0x03 ? 0x00 : 0x03);
-			UpdateButtons();
-
+			panel1.SuspendLayout();
 			panel1.Controls.Add(_ucSettings);
-			_ucSettings?.Show();
-			Refresh();
+			panel1.ResumeLayout();
+
+			if (draw)
+			{
+				nowStatusFlowLayoutPanel.Visible = true;
+			}
 		}
 
 		delegate void Varification();
@@ -304,9 +366,9 @@ namespace ScopeSetupApp.MainForm
 
 				UpdateButtonsSets(connectBtn);
 				UpdateButtonsSets(OpenScope_Button);
-			    Infopanel.Size = new Size(74, 68);
+				Infopanel.Size = new Size(74, 68);
 
-                switch (_buttonsStatus)
+				switch (_buttonsStatus)
 				{
 					case 0x01:
 						UpdateButtonsSet(ConfigScopeButton);
@@ -454,6 +516,7 @@ namespace ScopeSetupApp.MainForm
 
 		private bool _updateTimer;
 		private bool _createFileFlag;
+		private SaveFileDialog _saveFileDialog;
 
 		private void ButtonsTimer_Tick(object sender, EventArgs e)
 		{
@@ -471,7 +534,8 @@ namespace ScopeSetupApp.MainForm
 				if (_createFileFlag)
 				{
 					_createFileFlag = false;
-					CreateFile();
+					if(_saveFileDialog != null)
+						CreateFile(_saveFileDialog);
 				}
 
 				if (_updateTimer)
@@ -482,6 +546,12 @@ namespace ScopeSetupApp.MainForm
 
                     ScopeConfig.ConnectMcu = true;
 				}
+
+				ValidetionConnect();
+			}
+			else
+			{
+
 			}
 
 			ButtonsTimer.Enabled = true;
@@ -512,6 +582,12 @@ namespace ScopeSetupApp.MainForm
 			Font font = new Font(@"Open Sans", 9);
 			Size size = new Size(120, 60);
 
+			if (_buttonsStatus != 0x00)
+			{
+				font = new Font(@"Open Sans", 8);
+				size = new Size(75, 45);
+			}
+
 			for (int i = 0; i < ScopeConfig.ScopeCount; i++)
 			{
 				_statusButtons.Add(new Button());
@@ -539,15 +615,22 @@ namespace ScopeSetupApp.MainForm
 
 		private void RemoveStatusButtons()
 		{
-			if (_statusButtons != null)
+			try
 			{
-				if (_statusButtons?.Count != 0)
+				if (_statusButtons != null)
 				{
-					Invoke(new RemoveButtonDelegate(RemoveButton));
-					_statusButtons.Clear();
+					if (_statusButtons?.Count != 0)
+					{
+						Invoke(new RemoveButtonDelegate(RemoveButton));
+						_statusButtons.Clear();
+					}
 				}
+				_buttonsAlreadyCreated = false;
 			}
-			_buttonsAlreadyCreated = false;
+			catch 
+			{
+				//ignore
+			}
 		}
 
 		private void RemoveButton()
@@ -562,7 +645,14 @@ namespace ScopeSetupApp.MainForm
 
 		private void UpdateStatusButtonsInvoke()
 		{
-			Invoke(new NoParamDelegate(UpdateStatusButtons));
+			try
+			{
+				Invoke(new NoParamDelegate(UpdateStatusButtons));
+			}
+			catch 
+			{
+				//ignore
+			}
 		}
 
 		private void UpdateStatusButtons()
@@ -602,7 +692,14 @@ namespace ScopeSetupApp.MainForm
 
 		private void UpdateOscilsStatusInvoke()
 		{
-			Invoke(new NoParamDelegate(UpdateOscilsStatus));
+			try
+			{
+				Invoke(new NoParamDelegate(UpdateOscilsStatus));
+			}
+			catch
+			{
+				//ignore
+			}
 		}
 
 		private void UpdateOscilsStatus()
@@ -747,6 +844,16 @@ namespace ScopeSetupApp.MainForm
 			//СКАЧИВАНИЕ ОСЦИЛЛОГРАММ
 			if (dlgr == DialogResult.OK)
 			{
+				_saveFileDialog = new SaveFileDialog
+				{
+					DefaultExt = @".txt",
+					Filter = @"Text Files (*.txt)|*.txt|COMTRADE rev. 1999 (*.cfg)|*.cfg|COMTRADE rev. 2013 (*.cfg)|*.cfg"
+				};
+				if (_saveFileDialog.ShowDialog() != DialogResult.OK)
+				{
+					return;
+				}
+
 				_loadOscNum = (int)((Button)sender).Tag;
 				_oscilStartTemp = ((uint)_loadOscNum * (ScopeConfig.OscilSize >> 1)); //Начало осциллограммы 
 				_oscilEndTemp = (((uint)_loadOscNum + 1) * (ScopeConfig.OscilSize >> 1)); //Конец осциллограммы 
@@ -1078,16 +1185,8 @@ namespace ScopeSetupApp.MainForm
 		}
 		#endregion//Save to cometrade
 
-		private void CreateFile()
+		private void CreateFile(SaveFileDialog sfd)
 		{
-			SaveFileDialog sfd = new SaveFileDialog
-			{
-				DefaultExt = @".txt",
-				Filter = @"Text Files (*.txt)|*.txt|COMTRADE rev. 1999 (*.cfg)|*.cfg|COMTRADE rev. 2013 (*.cfg)|*.cfg"
-			};
-
-			if (sfd.ShowDialog() != DialogResult.OK) { return; }
-
 			// Save to .txt
 			#region 
 			
@@ -1210,11 +1309,14 @@ namespace ScopeSetupApp.MainForm
 			#endregion
 
 			_loadOscNum = 0;
-			DialogResult dialogResult = MessageBox.Show(@"Открыть осциллограмму?", @"Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-			if (dialogResult == DialogResult.Yes)
+			if (ScopeSysType.HasViewer)
 			{
-				ExecuteScopeView(sfd.FileName);
-			}           
+				DialogResult dialogResult = MessageBox.Show(@"Открыть осциллограмму?", @"Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+				if (dialogResult == DialogResult.Yes)
+				{
+					ExecuteScopeView(sfd.FileName);
+				}
+			}
 		}
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Windows;
 using System.Windows.Forms;
 using System.Xml;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 
 namespace ScopeSetupApp
@@ -12,6 +15,8 @@ namespace ScopeSetupApp
 
 		public static string XmlFileName = "ScopeSysType.xml";
 		public static string XmlFileNameOscil = "ScopeSysType.xml";
+		public static string XmlPathName;
+		public static bool HasViewer;
 
 		public static ushort ConfigurationAddr = 512;
 		public static ushort OscilCmndAddr = 4096; 
@@ -75,15 +80,21 @@ namespace ScopeSetupApp
 	   
 		public static void InitScopeSysType()
 		{
+			var pathDirectory = Path.GetDirectoryName(Path.GetFullPath("ScopeSetup.exe"));
+			HasViewer = File.Exists($"{pathDirectory}\\ScopeViewer.exe");
+
+
+
 			var doc = new XmlDocument();
 			try
 			{
 				doc.Load(XmlFileName);
+				XmlPathName = Path.GetDirectoryName(Path.GetFullPath(XmlFileName));
 			}
 			catch
 			{
 				// ReSharper disable once LocalizableElement
-				MessageBox.Show($"Не удалось открыть файл: {XmlFileName}!\nCODE 0x1220", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox($"Не удалось открыть файл: {XmlFileName}!\nCODE 0x1220", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
 			LoadFromXml("Configuration", "Addr", doc, out ConfigurationAddr);
@@ -123,20 +134,20 @@ namespace ScopeSetupApp
 						if (str.Length > 1) { str1 = str[1]; str2 = str[0]; }
 						else str1 = str[0];
 
-						ScopeChannelConfig item = new ScopeChannelConfig()
+						ScopeChannelConfig item = new ScopeChannelConfig
 						{
 							ChannelNames = str1,
-							ChannelColor = xmlline.Attributes["Color"].Value,
+							ChannelColor = xmlline.Attributes["Color"] != null ? xmlline.Attributes["Color"].Value : "ffffff",
 							ChannelGroupNames = str2,
-							ChannelTypeAd = Convert.ToUInt16(xmlline.Attributes["TypeAD"].Value),
-							ChannelAddrs = Convert.ToUInt16(xmlline.Attributes["Addr"].Value),
-							ChannelformatNumeric = (Convert.ToUInt16(xmlline.Attributes["Format"].Value) >> 8) - 1,
-							ChannelFormats = Convert.ToUInt16(xmlline.Attributes["Format"].Value) & 0x00FF,
-							ChannelPhase = Convert.ToString(xmlline.Attributes["Phase"].Value),
-							ChannelCcbm = Convert.ToString(xmlline.Attributes["CCBM"].Value),
-							ChannelDimension = Convert.ToString(xmlline.Attributes["Dimension"].Value),
-							ChannelMin = Convert.ToDouble(ReturnDoubleString(xmlline.Attributes["Min"].Value)),
-							ChannelMax = Convert.ToDouble(ReturnDoubleString(xmlline.Attributes["Max"].Value))
+							ChannelTypeAd = Convert.ToUInt16(xmlline.Attributes["TypeAD"] != null ? xmlline.Attributes["TypeAD"].Value : "0"),
+							ChannelAddrs = Convert.ToUInt16(xmlline.Attributes["Addr"] != null ? xmlline.Attributes["Addr"].Value:$"0x{i:X4}"),
+							ChannelformatNumeric = (Convert.ToUInt16(xmlline.Attributes["Format"] != null ? xmlline.Attributes["Format"].Value : "256") >> 8) - 1,
+							ChannelFormats = Convert.ToUInt16(xmlline.Attributes["Format"] != null ? xmlline.Attributes["Format"].Value : "256") & 0x00FF,
+							ChannelPhase = Convert.ToString(xmlline.Attributes["Phase"] != null ? xmlline.Attributes["Phase"].Value : ""),
+							ChannelCcbm = Convert.ToString(xmlline.Attributes["CCBM"] != null ? xmlline.Attributes["CCBM"].Value : ""),
+							ChannelDimension = Convert.ToString(xmlline.Attributes["Dimension"] != null ? xmlline.Attributes["Dimension"].Value : "NONE"),
+							ChannelMin = Convert.ToDouble(ReturnDoubleString(xmlline.Attributes["Min"] != null ? xmlline.Attributes["Min"].Value : "0")),
+							ChannelMax = Convert.ToDouble(ReturnDoubleString(xmlline.Attributes["Max"] != null ? xmlline.Attributes["Max"].Value : "1"))
 						};
 
 						ScopeItem.Add(item);
@@ -145,7 +156,7 @@ namespace ScopeSetupApp
 				catch
 				{
 					// ReSharper disable once LocalizableElement
-					MessageBox.Show($"Ошибки в файле: {XmlFileName}!\nCODE 0x1221", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					Program.MainFormWin.MessagesBox($"Ошибки в файле: {XmlFileName}!\nCODE 0x1221", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			} 
 		}
@@ -166,7 +177,7 @@ namespace ScopeSetupApp
 			catch
 			{
 				// ReSharper disable once LocalizableElement
-				MessageBox.Show($"Не удалось открыть файл: {XmlFileNameOscil}!\nCODE 0x1230", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox($"Не удалось открыть файл: {XmlFileNameOscil}!\nCODE 0x1230", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
 			LoadFromXml("Oscil", "Count", doc, out OscilCount);
@@ -198,7 +209,7 @@ namespace ScopeSetupApp
 				catch
 				{
 					// ReSharper disable once LocalizableElement
-					MessageBox.Show($"Ошибки в файле: {XmlFileNameOscil}!\nCODE 0x1231", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					Program.MainFormWin.MessagesBox($"Ошибки в файле: {XmlFileNameOscil}!\nCODE 0x1231", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 		}

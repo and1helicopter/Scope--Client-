@@ -7,15 +7,20 @@ using System.Windows.Forms;
 using System.Xml;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using BrightIdeasSoftware;
 using ScopeSetupApp.Format;
 using UniSerialPort;
 using Color = System.Drawing.Color;
+using FontStyle = System.Drawing.FontStyle;
+using MessageBox = System.Windows.Forms.MessageBox;
+using Point = System.Drawing.Point;
+using SystemColors = System.Drawing.SystemColors;
 using UserControl = System.Windows.Forms.UserControl;
 
 namespace ScopeSetupApp.ucScopeSetup
 {
-	public partial class UcScopeSetup : UserControl
+	public sealed partial class UcScopeSetup : UserControl
 	{
 		private ushort _nowHystory;             //Предыстория 
 		private ushort _nowScopeCount = 1;          //Количество осциллограмм
@@ -37,7 +42,7 @@ namespace ScopeSetupApp.ucScopeSetup
 
 		private static readonly List<ItemGroup> ItemGroups = new List<ItemGroup>();
 
-		private void InitTable(string[] agrs)
+		private void InitTable(bool _admin)
 		{
 			ItemGroups.Clear();
 
@@ -49,44 +54,41 @@ namespace ScopeSetupApp.ucScopeSetup
 				IsEditable = false,
 				MinimumWidth = 250,
 				Text = @"Название канала",
-				Width = 250
+				Width = 350
 			};
 
-			if (agrs.Length > 0)
+			if (_admin)
 			{
-				if (agrs[0] == "a" || agrs[0] == "A")
+				OLVColumn addrChanel = new OLVColumn
 				{
-					OLVColumn addrChanel = new OLVColumn
-					{
-						AspectName = "Addr",
-						Groupable = false,
-						HeaderCheckBoxUpdatesRowCheckBoxes = false,
-						MinimumWidth = 200,
-						Text = @"Адрес",
-						Width = 200
-					};
+					AspectName = "Addr",
+					Groupable = false,
+					HeaderCheckBoxUpdatesRowCheckBoxes = false,
+					MinimumWidth = 200,
+					Text = @"Адрес",
+					Width = 300
+				};
 
-					OLVColumn formatChanel = new OLVColumn
-					{
-						AspectName = "Format",
-						Groupable = false,
-						HeaderCheckBoxUpdatesRowCheckBoxes = false,
-						MinimumWidth = 200,
-						Text = @"Формат",
-						Width = 200
-					};
+				OLVColumn formatChanel = new OLVColumn
+				{
+					AspectName = "Format",
+					Groupable = false,
+					HeaderCheckBoxUpdatesRowCheckBoxes = false,
+					MinimumWidth = 200,
+					Text = @"Формат",
+					Width = 300
+				};
 
-					treeListView.AllColumns.Add(nameChanel);
-					treeListView.AllColumns.Add(addrChanel);
-					treeListView.AllColumns.Add(formatChanel);
+				treeListView.AllColumns.Add(nameChanel);
+				treeListView.AllColumns.Add(addrChanel);
+				treeListView.AllColumns.Add(formatChanel);
 
-					treeListView.Columns.AddRange(new ColumnHeader[]
-					{
-						nameChanel,
-						addrChanel,
-						formatChanel,
-					});
-				}
+				treeListView.Columns.AddRange(new ColumnHeader[]
+				{
+					nameChanel,
+					addrChanel,
+					formatChanel,
+				});
 			}
 			else
 			{
@@ -118,6 +120,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			treeListView.SetObjects(ItemGroups);
 			treeListView.UseCellFormatEvents = true;
 			treeListView.FormatRow += TreeListViewOnFormatRow;
+			treeListView.ExpandAll();
 		}
 
 		private class ItemGroup
@@ -181,17 +184,29 @@ namespace ScopeSetupApp.ucScopeSetup
 			{
 				var itemGroup = (ItemGroup)obj;
 
+				var countAll = treeListView.CheckedObjects.OfType<Item>().Count();
+				var countCurrent = itemGroup.Children.Count(x => treeListView.IsChecked(x));
+				var countNew = countAll - countCurrent + itemGroup.Children.Count;
+
 				if (!treeListView.IsExpanded(itemGroup))
 				{
-					var countAll = treeListView.CheckedObjects.OfType<Item>().Count();
-					var countCurrent = itemGroup.Children.Count(x => treeListView.IsChecked(x));
-					var countNew = countAll - countCurrent + itemGroup.Children.Count;
-
 					if (countNew > 32)
 					{
 						treeListView.Expand(itemGroup);
 					}
 				}
+				else
+				{
+					if (countAll == 32)
+					{
+						treeListView.UncheckObject(itemGroup);
+					}
+				}
+			}
+			
+			if (treeListView.CheckedObjects.OfType<Item>().Count() > 32)
+			{
+				e.Item.Checked = false;
 			}
 
 			foreach (var itemGroup in ItemGroups)
@@ -200,26 +215,30 @@ namespace ScopeSetupApp.ucScopeSetup
 				itemGroup.Name = itemGroup.NameShort + $" (Выбрано {itemGroup.countSelect} из {itemGroup.Children.Count})";
 			}
 
-			if (treeListView.CheckedObjects.OfType<Item>().Count() > 32)
-			{
-				e.Item.Checked = false;
-			}
-
 			_nowMaxChannelCount = (ushort)treeListView.CheckedObjects.OfType<Item>().Count();
 			radioButton.Text = _nowMaxChannelCount.ToString();
+
+			treeListView.RefreshObject(e.Item);
+			//treeListView.UpdateObject(e.Item);
 		}
 
 		#endregion
 
 		public UcScopeSetup(string[] agrs)
 		{
-			InitializeComponent();
+			DoubleBuffered = true;
 
 			if (agrs.Length > 0)
 			{
 				_admin = agrs[0] == "a" || agrs[0] == "A";
 			}
-			InitTable(agrs);
+
+			InitializeComponent();
+		}
+
+		private void UcScopeSetup_Load(object sender, EventArgs e)
+		{
+			InitTable(_admin);
 			reloadButton_Click(null, null);
 			DelayOscil();
 			labelAllSize.Text = $@"Размер доступной памяти: {ScopeConfig.OscilAllSize / 1024} Кб";
@@ -322,10 +341,10 @@ namespace ScopeSetupApp.ucScopeSetup
 					if (item.Value.ChannelAddrs % 2 != 0)
 					{
 						_nowMaxChannelCount = 0;
-						MessageBox.Show(
+						Program.MainFormWin.MessagesBox(
 							// ReSharper disable once LocalizableElement
 							@"Ошибка при формирование осциллограмы" + "\nCODE 0x1007",
-							@"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							@"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 						l.Clear();
 						return l;
 					}
@@ -342,10 +361,10 @@ namespace ScopeSetupApp.ucScopeSetup
 					if (item.Value.ChannelAddrs % 2 != 0)
 					{
 						_nowMaxChannelCount = 0;
-						MessageBox.Show(
+						Program.MainFormWin.MessagesBox(
 							// ReSharper disable once LocalizableElement
 							@"Ошибка при формирование осциллограмы" + "\nCODE 0x1007",
-							@"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							@"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 						l.Clear();
 						return l;
 					}
@@ -367,10 +386,10 @@ namespace ScopeSetupApp.ucScopeSetup
 			if (l.Count != _nowMaxChannelCount)
 			{
 				_nowMaxChannelCount = 0;
-				MessageBox.Show(
+				Program.MainFormWin.MessagesBox(
 					// ReSharper disable once LocalizableElement
 					@"Ошибка при формирование осциллограмы" + "\nCODE 0x1006",
-					@"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					@"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			if (l.Count > _nowMaxChannelCount) { l.Clear(); }
 			return l;
@@ -791,7 +810,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				if (Visible)
 				{
 					// ReSharper disable once LocalizableElement
-					MessageBox.Show(@"Ошибка связи!" + "\nCODE 0x1103", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					Program.MainFormWin.MessagesBox(@"Ошибка связи!" + "\nCODE 0x1103", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 			else
@@ -824,58 +843,58 @@ namespace ScopeSetupApp.ucScopeSetup
 			// ReSharper disable LocalizableElement
 			if ((ScopeConfig.StatusOscil & 0x0000) == 0x0000)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена и принята!" +
-								"\n" + @"CODE: 0x0000", @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				Program.MainFormWin.MessagesBox(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена и принята!" +
+				                                "\n" + @"CODE: 0x0000", @"Information", MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0001) == 0x0001)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена не полностью!" +
-								"\n" + @"CODE: 0x0001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Конфигурация осциллографа была передана!" + "\n" + @"Конфигурация загружена не полностью!" +
+								"\n" + @"CODE: 0x0001", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0002) == 0x0002)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое количество осциллограмм!" +
-								"\n" + @"CODE: 0x0002", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое количество осциллограмм!" +
+								"\n" + @"CODE: 0x0002", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0003) == 0x0003)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое количество каналов!" +
-								"\n" + @"CODE: 0x0003", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое количество каналов!" +
+								"\n" + @"CODE: 0x0003", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0004) == 0x0004)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое значение предыстории!" +
-								"\n" + @"CODE: 0x0004", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимое значение предыстории!" +
+								"\n" + @"CODE: 0x0004", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0005) == 0x0005)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не выровняны 32b и 64b данные!" +
-								"\n" + @"CODE: 0x0005", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не выровняны 32b и 64b данные!" +
+								"\n" + @"CODE: 0x0005", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0006) == 0x0006)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимые 8b данные!" +
-								"\n" + @"CODE: 0x0006", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации не допустимые 8b данные!" +
+								"\n" + @"CODE: 0x0006", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0007) == 0x0007)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации нарушен порядок каналов!" +
-								"\n" + @"CODE: 0x0007", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации нарушен порядок каналов!" +
+								"\n" + @"CODE: 0x0007", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0008) == 0x0008)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации размер памяти не кратен 64b!" +
-								"\n" + @"CODE: 0x0008", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Конфигурация осциллографа была передана!" + "\n" + @"В конфигурации размер памяти не кратен 64b!" +
+								"\n" + @"CODE: 0x0008", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x0009) == 0x0009)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Недостаточно памяти для конфигурации!" +
-								"\n" + @"CODE: 0x0009", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Конфигурация осциллографа была передана!" + "\n" + @"Недостаточно памяти для конфигурации!" +
+								"\n" + @"CODE: 0x0009", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			else if ((ScopeConfig.StatusOscil & 0x000A) == 0x000A)
 			{
-				MessageBox.Show(@"Конфигурация осциллографа была передана!" + "\n" + @"Память под осциллограммы содержит не расчитано на целое число записей!" +
-								"\n" + @"CODE: 0x000A", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Конфигурация осциллографа была передана!" + "\n" + @"Память под осциллограммы содержит не расчитано на целое число записей!" +
+								"\n" + @"CODE: 0x000A", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 
 			ScopeConfig.SendNewConfig = false;
@@ -885,12 +904,12 @@ namespace ScopeSetupApp.ucScopeSetup
 		{
 			if (_nowMaxChannelCount < 1 || _nowMaxChannelCount > 32)
 			{
-				MessageBox.Show(@"Выбрано неверное число каналов" + "\nCODE 0x1001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Выбрано неверное число каналов" + "\nCODE 0x1001", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 			if (!MainForm.MainForm.SerialPort.IsOpen)
 			{
-				MessageBox.Show(@"Соединение с системой не установлено!" + "\nCODE 0x1103", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Соединение с системой не установлено!" + "\nCODE 0x1103", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
 
@@ -918,8 +937,6 @@ namespace ScopeSetupApp.ucScopeSetup
 			string str = "Канала нет в списке: \n";
 			for (int i = 0; i < 32; i++) { channelInList[i] = false; }
 
-			treeListView.UncheckAll();
-
 			OpenFileDialog ofd = new OpenFileDialog
 			{
 				DefaultExt = @".xoc",                                                                  // Default file extension
@@ -928,88 +945,91 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			if (ofd.ShowDialog() == DialogResult.OK)
 			{
+				treeListView.UncheckAll();
+
 				ScopeSysType.XmlFileNameOscil = ofd.FileName;
 				try
 				{
 					ScopeSysType.InitScopeOscilType();
-				}
-				catch
-				{
-					MessageBox.Show(@"Ошибка загрузки данных" + "\nCODE 0x1232", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return;
-				}
-			}
 
-			chCountNumericUpDown.Value = ScopeSysType.OscilCount != 0 ? ScopeSysType.OscilCount : 1;
-			hystoryNumericUpDown.Value = ScopeSysType.HistoryCount != 0 ? ScopeSysType.HistoryCount : 0;
-			oscFreqNumericUpDown.Value = ScopeSysType.FrequncyCount != 0 ? ScopeSysType.FrequncyCount : 1;
-			if (ScopeSysType.SizeValue > 0 && ScopeSysType.SizeValue <= 100) sizeOcsil_trackBar.Value = ScopeSysType.SizeValue;
-			else sizeOcsil_trackBar.Value = 100;
-			radioButton.Clear();
+					chCountNumericUpDown.Value = ScopeSysType.OscilCount != 0 ? ScopeSysType.OscilCount : 1;
+					hystoryNumericUpDown.Value = ScopeSysType.HistoryCount != 0 ? ScopeSysType.HistoryCount : 0;
+					oscFreqNumericUpDown.Value = ScopeSysType.FrequncyCount != 0 ? ScopeSysType.FrequncyCount : 1;
+					if (ScopeSysType.SizeValue > 0 && ScopeSysType.SizeValue <= 100) sizeOcsil_trackBar.Value = ScopeSysType.SizeValue;
+					else sizeOcsil_trackBar.Value = 100;
+					radioButton.Clear();
 
-			if (ScopeSysType.OscilEnable == 0) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
-			if (ScopeSysType.OscilEnable == 1) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
-			if (ScopeSysType.OscilEnable == 2) { enaScopeCheckBox.Checked = true; checkBox1.Checked = true; checkBox3.Checked = false; }
-			if (ScopeSysType.OscilEnable == 3) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = true; }
-			if (ScopeSysType.OscilEnable == 4) { enaScopeCheckBox.Checked = true; checkBox1.Checked = true; checkBox3.Checked = true; }
+					if (ScopeSysType.OscilEnable == 0) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
+					if (ScopeSysType.OscilEnable == 1) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = false; }
+					if (ScopeSysType.OscilEnable == 2) { enaScopeCheckBox.Checked = true; checkBox1.Checked = true; checkBox3.Checked = false; }
+					if (ScopeSysType.OscilEnable == 3) { enaScopeCheckBox.Checked = true; checkBox1.Checked = false; checkBox3.Checked = true; }
+					if (ScopeSysType.OscilEnable == 4) { enaScopeCheckBox.Checked = true; checkBox1.Checked = true; checkBox3.Checked = true; }
 
-			var listItemGroupe = treeListView.Objects.OfType<ItemGroup>().ToList();
+					var listItemGroupe = treeListView.Objects.OfType<ItemGroup>().ToList();
 
-			foreach (var itemGroup in listItemGroupe)
-			{
-				var count = 0;
-				if (itemGroup.GetType() == typeof(ItemGroup))
-				{
-					foreach (var item in itemGroup.Children)
+					foreach (var itemGroup in listItemGroupe)
 					{
-						for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++)
+						var count = 0;
+						if (itemGroup.GetType() == typeof(ItemGroup))
 						{
-							if (ScopeSysType.OscilChannelFormats[i] == item.Format && ScopeSysType.OscilChannelAddrs[i] == item.Addr)
+							foreach (var item in itemGroup.Children)
 							{
-								channelInList[i] = true;
-								treeListView.CheckObject(item);
-								treeListView.RefreshObject(item);
-								count++;
-								break;
+								for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++)
+								{
+									if (ScopeSysType.OscilChannelFormats[i] == item.Format && ScopeSysType.OscilChannelAddrs[i] == item.Addr)
+									{
+										channelInList[i] = true;
+										treeListView.CheckObject(item);
+										treeListView.RefreshObject(item);
+										count++;
+										break;
+									}
+								}
+							}
+
+							itemGroup.countSelect = count;
+							itemGroup.Name = itemGroup.NameShort + $" (Выбрано {itemGroup.countSelect} из {itemGroup.Children.Count})";
+
+							if (count == itemGroup.Children.Count)
+							{
+								treeListView.CheckObject(itemGroup);
+							}
+							else if (count > 0 && count < itemGroup.Children.Count)
+							{
+								treeListView.CheckIndeterminateObject(itemGroup);
+							}
+							else if (count == 0)
+							{
+								treeListView.UncheckObject(itemGroup);
 							}
 						}
 					}
 
-					itemGroup.countSelect = count;
-					itemGroup.Name = itemGroup.NameShort + $" (Выбрано {itemGroup.countSelect} из {itemGroup.Children.Count})";
+					for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++)
+					{
+						if (channelInList[i] == false)
+						{
+							str += ScopeSysType.OscilChannelNames[i] + @" Адрес: 0x" + ScopeSysType.OscilChannelAddrs[i] + @" Формат: " + ScopeSysType.OscilChannelFormats[i] + "\n";
+							channelInLists = true;
+						}
+					}
+					if (channelInLists) MessageBox.Show(str, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-					if (count == itemGroup.Children.Count)
-					{
-						treeListView.CheckObject(itemGroup);
-					}
-					else if (count > 0 && count < itemGroup.Children.Count)
-					{
-						treeListView.CheckIndeterminateObject(itemGroup);
-					}
-					else if (count == 0)
-					{
-						treeListView.UncheckObject(itemGroup);
-					}
 				}
-			}
-
-			for (int i = 0; i < ScopeSysType.OscilChannelNames.Count; i++)
-			{
-				if (channelInList[i] == false)
+				catch
 				{
-					str += ScopeSysType.OscilChannelNames[i] + @" Адрес: 0x" + ScopeSysType.OscilChannelAddrs[i] + @" Формат: " + ScopeSysType.OscilChannelFormats[i] + "\n";
-					channelInLists = true;
+					Program.MainFormWin.MessagesBox(@"Ошибка загрузки данных" + "\nCODE 0x1232", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
+					return;
 				}
 			}
-			if (channelInLists) MessageBox.Show(str, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		//Сохранение осциллограммы в файл
 		private void saveButton2_Click(object sender, EventArgs e)
 		{
-			if (_nowMaxChannelCount != ChNames().Count)
+			if (_nowMaxChannelCount != treeListView.CheckedObjects.OfType<Item>().Count())
 			{
-				MessageBox.Show(@"Количество осциллографируемых и выбранных каналов не совпадает" + "\nCODE 0x1233", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				Program.MainFormWin.MessagesBox(@"Количество осциллографируемых и выбранных каналов не совпадает" + "\nCODE 0x1233", @"Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 
@@ -1030,8 +1050,12 @@ namespace ScopeSetupApp.ucScopeSetup
 					Formatting = Formatting.Indented
 				};
 				xmlOut.WriteStartDocument();
+
 				xmlOut.WriteStartElement("Setup");
 				/////////////////////////////////////////////////////////////
+
+				xmlOut.WriteStartElement("Version", "1.0");
+				xmlOut.WriteEndElement();
 
 				xmlOut.WriteStartElement("Oscil");
 				xmlOut.WriteAttributeString("Count", Convert.ToString(_nowScopeCount));
@@ -1084,7 +1108,7 @@ namespace ScopeSetupApp.ucScopeSetup
 		{
 			if (ScopeConfig.ChannelCount == 0  && MainForm.MainForm.SerialPort.IsOpen && !MainForm.MainForm.SerialPort.portError)
 			{
-				MessageBox.Show(@"В системе отсутствует конфигурация" + "\nCODE 0x1002", @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				Program.MainFormWin.MessagesBox(@"В системе отсутствует конфигурация" + "\nCODE 0x1002", @"Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
 
@@ -1155,7 +1179,7 @@ namespace ScopeSetupApp.ucScopeSetup
 					channelInLists = true;
 				}
 			}
-			if (channelInLists) MessageBox.Show(str, @"Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			if (channelInLists) Program.MainFormWin.MessagesBox(str, @"Information", MessageBoxButton.OK, MessageBoxImage.Information);
 
 			SizeTrackBar();
 		}
@@ -1172,7 +1196,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				}
 				catch
 				{
-					MessageBox.Show(@"Ошибка при чтении конфигурации с платы" + "\nCODE 0x1003", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					Program.MainFormWin.MessagesBox(@"Ошибка при чтении конфигурации с платы" + "\nCODE 0x1003", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 		}
@@ -1183,11 +1207,15 @@ namespace ScopeSetupApp.ucScopeSetup
 			{
 				reloadButton.Enabled = true;
 				writeToSystemBtn.Enabled = true;
+				labelAllSize.Text = $@"Размер доступной памяти: {ScopeConfig.OscilAllSize / 1024} Кб";
+				labelFreq.Text = $@"Частота выборки: {(ScopeConfig.SampleRate / _nowOscFreq):D} Гц";
 			}
 			else
 			{
 				reloadButton.Enabled = false;
 				writeToSystemBtn.Enabled = false;
+				labelAllSize.Text = $@"Размер доступной памяти: {ScopeSysType.OscilAllSize / 1024} Кб";
+				labelFreq.Text = $@"Частота выборки: {(ScopeSysType.OscilSampleRate / _nowOscFreq):D} Гц";
 			}
 		}
 
@@ -1281,6 +1309,10 @@ namespace ScopeSetupApp.ucScopeSetup
 			}
 		}
 
+
+
 		#endregion
+
+
 	}
 }

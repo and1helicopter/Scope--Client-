@@ -61,6 +61,7 @@
 			this.size_toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripContainer3 = new System.Windows.Forms.ToolStripContainer();
 			this.toolStripContainer4 = new System.Windows.Forms.ToolStripContainer();
+			this.checkStateRenderer1 = new BrightIdeasSoftware.CheckStateRenderer();
 			this.toolStripContainer1.ContentPanel.SuspendLayout();
 			this.toolStripContainer1.SuspendLayout();
 			this.Infopanel.SuspendLayout();
@@ -188,6 +189,7 @@
 			// 
 			// panel1
 			// 
+			this.panel1.BackColor = System.Drawing.SystemColors.Control;
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(0, 0);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0);
@@ -587,6 +589,7 @@
         private System.Windows.Forms.ToolStripButton current_config;
         private System.Windows.Forms.ToolStripButton stopDownloadStripButton;
 		private System.Windows.Forms.ToolStripProgressBar WaitLoadConfig_toolStripProgressBar;
+		private BrightIdeasSoftware.CheckStateRenderer checkStateRenderer1;
 	}
 }
 

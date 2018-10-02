@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.IO.Ports;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using UniSerialPort;
@@ -115,12 +117,20 @@ namespace ScopeSetupApp
 
 		private void CloseComPort()
 		{
-			if (MainForm.MainForm.SerialPort.IsOpen && !MainForm.MainForm.SerialPort.portError)
+			_mainForm.ThreadCloseComPort = new Thread(CloseComPortThread)
 			{
-				MainForm.MainForm.SerialPort.Close();
-				_mainForm.StopUpdate();
-				Close();
-			}
+				Priority = ThreadPriority.AboveNormal
+			};
+			_mainForm.ThreadCloseComPort.Start();
+
+			Close();
+		}
+
+		private void CloseComPortThread()
+		{
+			_mainForm.StopUpdate();
+
+			MainForm.MainForm.SerialPort.Close();
 		}
 
 		private void button1_Click_1(object sender, EventArgs e)

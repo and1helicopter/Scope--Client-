@@ -8,13 +8,16 @@ using System.Reflection;
 using System.Drawing;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Windows;
 using ScopeSetupApp.Format;
 using Brushes = System.Drawing.Brushes;
 using Color = System.Drawing.Color;
+using FontStyle = System.Drawing.FontStyle;
+using Point = System.Drawing.Point;
 
 namespace ScopeSetupApp.ucScopeConfig
 {
-	public partial class UcScopeConfig : UserControl
+	public sealed partial class UcScopeConfig : UserControl
 	{
 		readonly object[] _typeChannel =
 		{
@@ -35,6 +38,8 @@ namespace ScopeSetupApp.ucScopeConfig
 		public UcScopeConfig()
 		{
 			InitializeComponent();
+
+			DoubleBuffered = true;
 
 			Column_channelFormats.Items.Clear();
 			Column_channelFormats.Items.AddRange(_format);
@@ -97,7 +102,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				{
 					ChanneldataGridView[indexColumn, indexRow].Value = _oldvalue;
 					// ReSharper disable once LocalizableElement
-					MessageBox.Show(@"Ошибка ввода данных в поле адреса" + "\nCODE 0x1001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					Program.MainFormWin.MessagesBox(@"Ошибка ввода данных в поле адреса" + "\nCODE 0x1001", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 		}
@@ -223,7 +228,7 @@ namespace ScopeSetupApp.ucScopeConfig
 			catch
 			{
 				// ReSharper disable once LocalizableElement
-				MessageBox.Show(@"Неправильно введены данные" + "\nCODE 0x1001", @"Error",  MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Program.MainFormWin.MessagesBox(@"Неправильно введены данные" + "\nCODE 0x1001", @"Error",  MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			str = Convert.ToString(i);
 			//if (del != "") str = str.Replace(del, "");
@@ -280,7 +285,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				catch
 				{
 					// ReSharper disable once LocalizableElement
-					MessageBox.Show(@"Ошибка загрузки данных" + "\nCODE 0x1222", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					Program.MainFormWin.MessagesBox(@"Ошибка загрузки данных" + "\nCODE 0x1222", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 			}
@@ -312,7 +317,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				catch
 				{
 					// ReSharper disable once LocalizableElement
-					MessageBox.Show(@"Ошибка загрузки данных" + "\nCODE 0x1232", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					Program.MainFormWin.MessagesBox(@"Ошибка загрузки данных" + "\nCODE 0x1232", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 				InitTable();
@@ -363,6 +368,9 @@ namespace ScopeSetupApp.ucScopeConfig
 			xmlOut.WriteStartDocument();
 			xmlOut.WriteStartElement("Setup");
 			/////////////////////////////////////////////////////////////
+
+			xmlOut.WriteStartElement("Version", "1.0");
+			xmlOut.WriteEndElement();
 
 			xmlOut.WriteStartElement("OscilConfig");
 
@@ -510,12 +518,14 @@ namespace ScopeSetupApp.ucScopeConfig
 
 			SaveFileDialog sfd = new SaveFileDialog();
 			string namefile = "ScopeSysType.xml";
-			string pathfile = Path.GetDirectoryName(Path.GetFullPath(ScopeSysType.XmlFileName));
+			string pathfile = ScopeSysType.XmlPathName;
+			ScopeSysType.XmlFileName = namefile;
 			sfd.FileName = pathfile + "\\" + namefile;
 			Save_To_file(sfd);
 
 			Update_Oscil();
 			//Перегрузить конфигурацию из платы
+			Program.MainFormWin.ConfigStrLabel();
 			Program.MainFormWin.CheackConnect();
 		}
 
@@ -562,7 +572,7 @@ namespace ScopeSetupApp.ucScopeConfig
 				catch 
 				{
 					// ReSharper disable once LocalizableElement
-					MessageBox.Show(@"Неправильно заполнены поля каналов" + "\nCODE 0x1001", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					Program.MainFormWin.MessagesBox(@"Неправильно заполнены поля каналов" + "\nCODE 0x1001", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
 					return;
 				}
 			}
