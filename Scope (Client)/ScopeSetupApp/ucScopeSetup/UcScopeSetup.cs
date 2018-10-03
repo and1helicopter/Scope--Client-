@@ -121,6 +121,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			treeListView.UseCellFormatEvents = true;
 			treeListView.FormatRow += TreeListViewOnFormatRow;
 			treeListView.ExpandAll();
+			AutosizeColumns();
 		}
 
 		private class ItemGroup
@@ -243,6 +244,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			DelayOscil();
 			labelAllSize.Text = $@"Размер доступной памяти: {ScopeConfig.OscilAllSize / 1024} Кб";
 			labelFreq.Text = $@"Частота выборки: {(ScopeConfig.SampleRate / _nowOscFreq):D} Гц";
+			labelPrecents.Text = $@"{sizeOcsil_trackBar.Value} %";
 		}
 
 		//****************************************************************************//
@@ -315,6 +317,7 @@ namespace ScopeSetupApp.ucScopeSetup
 		private void trackBar1_ValueChanged(object sender, EventArgs e)
 		{
 			DelayOscil();
+			labelPrecents.Text = $@"{sizeOcsil_trackBar.Value} %";
 		}
 		#endregion
 
@@ -332,6 +335,8 @@ namespace ScopeSetupApp.ucScopeSetup
 		//Конфигурирование осциллограммы 
 		private List<ushort> ChannelFormats()
 		{
+			_channelSeries.Clear();
+
 			List<ushort> l = new List<ushort>();
 
 			foreach (Item item in treeListView.CheckedObjects.OfType<Item>().ToList())
@@ -1283,7 +1288,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				{
 					if (treeListView.IsChecked(itemGroup) || treeListView.IsCheckedIndeterminate(itemGroup))
 					{
-						e.Graphics.DrawString($"{itemGroup.Name}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 20, yPos += 25));
+						e.Graphics.DrawString($"{itemGroup.NameShort}", new Font("Arial", 10, FontStyle.Regular), Brushes.Black, new Point(xPos1 + 20, yPos += 25));
 						foreach (var item in treeListView.CheckedObjects.OfType<Item>().ToList())
 						{
 							if (itemGroup.Children.Contains(item))
@@ -1303,16 +1308,35 @@ namespace ScopeSetupApp.ucScopeSetup
 							}
 						}
 					}
-
-
 				}
 			}
 		}
-
-
-
 		#endregion
 
+		private void AutosizeColumns()
+		{
+			foreach (ColumnHeader col in treeListView.Columns)
+			{
+				//auto resize column width
 
+				int colWidthBeforeAutoResize = col.Width - 32;
+				col.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+				int colWidthAfterAutoResizeByHeader = col.Width - 16;
+				col.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+				int colWidthAfterAutoResizeByContent = col.Width - 32;
+
+				if (colWidthAfterAutoResizeByHeader > colWidthAfterAutoResizeByContent)
+					col.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+				//first column
+				if (col.Index == 0)
+					//we have to manually take care of tree structure, checkbox and image
+					col.Width += treeListView.SmallImageSize.Width;
+				//last column
+				else if (col.Index == treeListView.Columns.Count - 1)
+					//avoid "fill free space"
+					col.Width = colWidthBeforeAutoResize > colWidthAfterAutoResizeByContent ? colWidthBeforeAutoResize : colWidthAfterAutoResizeByContent;
+			}
+		}
 	}
 }

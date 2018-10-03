@@ -54,7 +54,7 @@
 			this.DelayOsc = new System.Windows.Forms.Label();
 			this.enaScopeCheckBox = new System.Windows.Forms.CheckBox();
 			this.panel1 = new System.Windows.Forms.Panel();
-			this.label1 = new System.Windows.Forms.Label();
+			this.labelPrecents = new System.Windows.Forms.Label();
 			this.oscFreqNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.hystoryNumericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.chCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -113,7 +113,7 @@
 			this.sizeOcsil_trackBar.Maximum = 100;
 			this.sizeOcsil_trackBar.Minimum = 1;
 			this.sizeOcsil_trackBar.Name = "sizeOcsil_trackBar";
-			this.sizeOcsil_trackBar.Size = new System.Drawing.Size(116, 45);
+			this.sizeOcsil_trackBar.Size = new System.Drawing.Size(130, 45);
 			this.sizeOcsil_trackBar.TabIndex = 13;
 			this.sizeOcsil_trackBar.TickStyle = System.Windows.Forms.TickStyle.None;
 			this.sizeOcsil_trackBar.Value = 100;
@@ -332,7 +332,7 @@
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.panel1.Controls.Add(this.label1);
+			this.panel1.Controls.Add(this.labelPrecents);
 			this.panel1.Controls.Add(this.oscFreqNumericUpDown);
 			this.panel1.Controls.Add(this.hystoryNumericUpDown);
 			this.panel1.Controls.Add(this.chCountNumericUpDown);
@@ -360,14 +360,14 @@
 			this.panel1.Size = new System.Drawing.Size(790, 144);
 			this.panel1.TabIndex = 36;
 			// 
-			// label1
+			// labelPrecents
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(266, 100);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(15, 13);
-			this.label1.TabIndex = 25;
-			this.label1.Text = "%";
+			this.labelPrecents.AutoSize = true;
+			this.labelPrecents.Location = new System.Drawing.Point(209, 122);
+			this.labelPrecents.Name = "labelPrecents";
+			this.labelPrecents.Size = new System.Drawing.Size(15, 13);
+			this.labelPrecents.TabIndex = 25;
+			this.labelPrecents.Text = "%";
 			// 
 			// oscFreqNumericUpDown
 			// 
@@ -488,7 +488,7 @@
 			this.treeListView.LabelWrap = false;
 			this.treeListView.Location = new System.Drawing.Point(0, 0);
 			this.treeListView.Name = "treeListView";
-			this.treeListView.RenderNonEditableCheckboxesAsDisabled = true;
+			this.treeListView.RevealAfterExpand = false;
 			this.treeListView.SelectAllOnControlA = false;
 			this.treeListView.SelectColumnsMenuStaysOpen = false;
 			this.treeListView.SelectColumnsOnRightClick = false;
@@ -496,12 +496,15 @@
 			this.treeListView.ShowFilterMenuOnRightClick = false;
 			this.treeListView.ShowGroups = false;
 			this.treeListView.ShowHeaderInAllViews = false;
+			this.treeListView.ShowSortIndicators = false;
 			this.treeListView.Size = new System.Drawing.Size(790, 381);
 			this.treeListView.TabIndex = 10;
 			this.treeListView.TriggerCellOverEventsWhenOverHeader = false;
 			this.treeListView.UpdateSpaceFillingColumnsWhenDraggingColumnDivider = false;
 			this.treeListView.UseCompatibleStateImageBehavior = false;
 			this.treeListView.UseHotControls = false;
+			this.treeListView.UseOverlays = false;
+			this.treeListView.UseWaitCursorWhenExpanding = false;
 			this.treeListView.View = System.Windows.Forms.View.Details;
 			this.treeListView.VirtualMode = true;
 			this.treeListView.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.TreeListViewOnFormatRow);
@@ -605,6 +608,6 @@
 		private System.Windows.Forms.ToolStripButton toolStripPrint;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private BrightIdeasSoftware.TreeListView treeListView;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label labelPrecents;
 	}
 }

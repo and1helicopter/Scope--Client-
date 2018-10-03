@@ -543,15 +543,10 @@ namespace ScopeSetupApp.MainForm
 					UpdateStatusButtonsInvoke();
 					UpdateStatus();
 					UpdateTimeStamp();
+					ValidetionConnect();
 
-                    ScopeConfig.ConnectMcu = true;
+					ScopeConfig.ConnectMcu = true;
 				}
-
-				ValidetionConnect();
-			}
-			else
-			{
-
 			}
 
 			ButtonsTimer.Enabled = true;

@@ -98,6 +98,7 @@ namespace ScopeSetupApp.MainForm
 		private void CloseComPortThread()
 		{
 			StopUpdate();
+			SerialPort.UnsetPortBusy();
 			SerialPort.Close();
 		}
 
@@ -503,10 +504,11 @@ namespace ScopeSetupApp.MainForm
 			{
 				if (_connectToSystem)
 				{
-					if (SerialPort.requests.Count(x => x.DataRecievedRTU == ValidetionConnect) > 6)
+					if (SerialPort.requests.Count(x => x.DataRecievedRTU == ValidetionConnect) >= 10)
 					{
 						_connectToSystem = false;
-
+						MessageBox.Show(@"Обрыв соединения" + "\nCODE 0x1103", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
+						StopUpdate();
 						ThreadCloseComPort = new Thread(CloseComPortThread)
 						{
 							Priority = ThreadPriority.AboveNormal

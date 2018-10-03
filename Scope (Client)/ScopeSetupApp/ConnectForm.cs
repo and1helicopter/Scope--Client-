@@ -129,7 +129,7 @@ namespace ScopeSetupApp
 		private void CloseComPortThread()
 		{
 			_mainForm.StopUpdate();
-
+			MainForm.MainForm.SerialPort.UnsetPortBusy();
 			MainForm.MainForm.SerialPort.Close();
 		}
 
