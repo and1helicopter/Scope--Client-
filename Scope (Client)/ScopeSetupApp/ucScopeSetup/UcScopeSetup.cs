@@ -116,7 +116,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			};
 ;
 			treeListView.ChildrenGetter = x => ((ItemGroup) x).Children;
-
+			
 			treeListView.SetObjects(ItemGroups);
 			treeListView.UseCellFormatEvents = true;
 			treeListView.FormatRow += TreeListViewOnFormatRow;

@@ -28,3 +28,24 @@ bld/
 
 *.pdb
 *.dll
+Scope (Client)/ScopeSetupApp/Properties/app.manifest
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_25/AsynchSerialPort.dll.deploy
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_25/Electrical_Threshold-50.ico.deploy
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_25/ObjectListView.dll.deploy
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_25/ru/ScopeSetup.resources.dll.deploy
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_25/ScopeSetup.application
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_25/ScopeSetup.exe.config.deploy
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_25/ScopeSetup.exe.deploy
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_25/ScopeSetup.exe.manifest
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_26/AsynchSerialPort.dll.deploy
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_26/Electrical_Threshold-50.ico.deploy
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_26/ObjectListView.dll.deploy
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_26/ru/ScopeSetup.resources.dll.deploy
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_26/ScopeSetup.application
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_26/ScopeSetup.exe.config.deploy
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_26/ScopeSetup.exe.deploy
+Scope (Client)/ScopeSetupApp/publish/Application Files/ScopeSetup_1_0_2_26/ScopeSetup.exe.manifest
+Scope (Client)/ScopeSetupApp/publish/autorun.inf
+Scope (Client)/ScopeSetupApp/publish/ScopeSetup.application
+Scope (Client)/ScopeSetupApp/publish/setup.exe
+Scope (Client)/ScopeSetupApp/ScopeSetupApp_TemporaryKey.pfx

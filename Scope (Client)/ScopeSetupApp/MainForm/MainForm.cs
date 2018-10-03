@@ -8,11 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using Microsoft.Win32;
 using ScopeSetupApp.Format;
 using ScopeSetupApp.ucScopeConfig;
 using ScopeSetupApp.ucScopeSetup;
 using ScopeSetupApp.ucSettings;
 using UniSerialPort;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 
 namespace ScopeSetupApp.MainForm
 {
@@ -110,8 +113,60 @@ namespace ScopeSetupApp.MainForm
 		private readonly string[] _argsG;
 		private byte _buttonsStatus;
 
+		private static void Get45PlusFromRegistry()
+		{
+			const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
+
+			try
+			{
+				using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
+				{
+					if (ndpKey?.GetValue("Release") != null)
+					{
+						var version = (int)ndpKey.GetValue("Release");
+						if (version < 379893)
+						{
+							MessageBox.Show("На устройстве установленна версия NET.Framework ниже 4.5.2\nСтабильная работа приложения не гарантируется!", @"Error", MessageBoxButtons.OK,
+								MessageBoxIcon.Error);
+						}
+					}
+				}
+			}
+			catch
+			{
+				MessageBox.Show("На устройстве установленна версия NET.Framework ниже 4.5.2\nСтабильная работа приложения не гарантируется!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+		//private static string CheckFor45PlusVersion(int releaseKey)
+		//{
+		//	if (releaseKey >= 461808)
+		//		return "4.7.2 or later";
+		//	if (releaseKey >= 461308)
+		//		return "4.7.1";
+		//	if (releaseKey >= 460798)
+		//		return "4.7";
+		//	if (releaseKey >= 394802)
+		//		return "4.6.2";
+		//	if (releaseKey >= 394254)
+		//		return "4.6.1";
+		//	if (releaseKey >= 393295)
+		//		return "4.6";
+		//	if (releaseKey >= 379893)
+		//		return "4.5.2";
+		//	if (releaseKey >= 378675)
+		//		return "4.5.1";
+		//	if (releaseKey >= 378389)
+		//		return "4.5";
+		//	// This code should never execute. A non-null release key should mean
+		//	// that 4.5 or later is installed.
+		//	return "No 4.5 or later version detected";
+		//}
+
 		public MainForm(string[] agrs)
 		{
+			Get45PlusFromRegistry();
+
 			_argsG = agrs;
 
 			InitializeComponent();
