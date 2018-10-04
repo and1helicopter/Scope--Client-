@@ -1219,7 +1219,7 @@ namespace ScopeSetupApp.ucScopeSetup
 			{
 				reloadButton.Enabled = false;
 				writeToSystemBtn.Enabled = false;
-				labelAllSize.Text = $@"Размер доступной памяти: {ScopeSysType.OscilAllSize / 1024} Кб";
+				labelAllSize.Text = $@"Размер доступной памяти: {ScopeSysType.OscilAllSize } Кб";
 				labelFreq.Text = $@"Частота выборки: {(ScopeSysType.OscilSampleRate / _nowOscFreq):D} Гц";
 			}
 		}

@@ -117,6 +117,8 @@ namespace ScopeSetupApp
 
 		private void CloseComPort()
 		{
+			_mainForm.ShowButtons();
+
 			_mainForm.ThreadCloseComPort = new Thread(CloseComPortThread)
 			{
 				Priority = ThreadPriority.AboveNormal

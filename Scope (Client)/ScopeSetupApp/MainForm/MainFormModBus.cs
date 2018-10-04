@@ -550,7 +550,9 @@ namespace ScopeSetupApp.MainForm
 
 		private void WaitLoadConfig(bool wait, int step)
 		{
-			if (step == 13 && ScopeConfig.ChannelCount == 0)
+			if (step == 13 && ScopeConfig.ChannelCount == 0 ||
+			    step == 7 && ScopeConfig.SampleRate == 0 ||
+				step == 8 && ScopeConfig.OscilAllSize == 0)
 			{
 				step = 23;
 			}
@@ -566,10 +568,15 @@ namespace ScopeSetupApp.MainForm
 
 			if (step == 23)
 			{
-				ConfigMCUButton.Enabled = true;
-				ConfigScopeButton.Enabled = true;
-				Setting_Button.Enabled = true;
+				ShowButtons();
 			}
+		}
+
+		internal void ShowButtons()
+		{
+			ConfigMCUButton.Enabled = true;
+			ConfigScopeButton.Enabled = true;
+			Setting_Button.Enabled = true;
 		}
 
 		private void LoadConfig()
@@ -715,6 +722,13 @@ namespace ScopeSetupApp.MainForm
 								ScopeConfig.SampleRate = paramRtu[0];
 								ScopeConfig.ScopeEnabled = true;
 								_loadConfigStep = 7;
+								if (ScopeConfig.SampleRate == 0)
+								{
+									MessagesBox($"Не удалось прочитать\nOscil Cmnd Address: 0x{ScopeSysType.OscilCmndAddr:x4}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+									UpdateWaitLoadConfig(true, _loadConfigStep);
+									StopUpdate();
+									return;
+								}
 								LoadConfig();
 							}
 							break;
@@ -724,6 +738,13 @@ namespace ScopeSetupApp.MainForm
 								ScopeConfig.OscilAllSize = (uint)(paramRtu[1] << 16);
 								ScopeConfig.OscilAllSize += (paramRtu[0]);
 								_loadConfigStep = 8;
+								if (ScopeConfig.SampleRate == 0)
+								{
+									MessagesBox($"Не удалось прочитать Oscil Cmnd\nАдрес: 0x{ScopeSysType.OscilCmndAddr:x4}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+									UpdateWaitLoadConfig(true, _loadConfigStep);
+									StopUpdate();
+									return;
+								}
 								LoadConfig();
 							}
 							break;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\and1h\.Rider2017.3\system\resharper-host\local\Transient\ReSharperHost\v11\SolutionCaches\_ScopeSetupApp.307820199.00" t="ExcludeRecursive" />
+    <e p="C:\Users\and1h\.Rider2018.1\system\resharper-host\local\Transient\ReSharperHost\v12\SolutionCaches\_ScopeSetupApp.307820199.00" t="ExcludeRecursive" />
     <e p="F:\project\Scope (Client)\Scope (Client)" t="IncludeFlat">
       <e p="packages" t="ExcludeRecursive">
         <e p="MSTest.TestAdapter.1.1.18\build\_common\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll" t="Include" />
@@ -35,6 +35,7 @@
         <e p="packages.config" t="Include" />
         <e p="Program.cs" t="Include" />
         <e p="Properties" t="Include">
+          <e p="app.manifest" t="Include" />
           <e p="AssemblyInfo.cs" t="Include" />
           <e p="DataSources" t="Include">
             <e p="ScopeSysType.datasource" t="Include" />
@@ -80,10 +81,12 @@
         <e p="ScopeChannelConfig.cs" t="Include" />
         <e p="ScopeConfig.cs" t="Include" />
         <e p="ScopeSetupApp.csproj" t="IncludeRecursive" />
+        <e p="ScopeSetupApp_TemporaryKey.pfx" t="Include" />
         <e p="ScopeSysType.cs" t="Include" />
         <e p="SelectChannel.cs" t="Include" />
         <e p="SelectChannel.Designer.cs" t="Include" />
         <e p="SelectChannel.resx" t="Include" />
+        <e p="StructAddr.cs" t="Include" />
         <e p="ucScopeConfig" t="Include">
           <e p="UcScopeConfig.cs" t="Include" />
           <e p="UcScopeConfig.Designer.cs" t="Include" />

@@ -124,44 +124,56 @@ namespace ScopeSetupApp.MainForm
 					if (ndpKey?.GetValue("Release") != null)
 					{
 						var version = (int)ndpKey.GetValue("Release");
+						//MessageBox.Show($"version NET.Framework {CheckFor45PlusVersion(version)}", @"Information", MessageBoxButtons.OK,
+						//	MessageBoxIcon.Information);
 						if (version < 379893)
 						{
-							MessageBox.Show("На устройстве установленна версия NET.Framework ниже 4.5.2\nСтабильная работа приложения не гарантируется!", @"Error", MessageBoxButtons.OK,
-								MessageBoxIcon.Error);
+							MessageBox.Show($"На устройстве установленна версия NET.Framework {CheckFor45PlusVersion(version)}\n" +
+							                "Для стабильной работа приложения требуется версия NET.Framework 4.5.2",
+								@"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 						}
+					}
+					else
+					{
+						MessageBox.Show("На устройстве установленна версия NET.Framework ниже 4.5\n" +
+						                "Для стабильной работа приложения требуется версия NET.Framework 4.5.2", 
+							@"Error", MessageBoxButtons.OK,
+							MessageBoxIcon.Error);
 					}
 				}
 			}
 			catch
 			{
-				MessageBox.Show("На устройстве установленна версия NET.Framework ниже 4.5.2\nСтабильная работа приложения не гарантируется!", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("На устройстве установленна версия NET.Framework ниже 4.5\n" +
+								"Для стабильной работа приложения требуется версия NET.Framework 4.5.2",
+					@"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
-		//private static string CheckFor45PlusVersion(int releaseKey)
-		//{
-		//	if (releaseKey >= 461808)
-		//		return "4.7.2 or later";
-		//	if (releaseKey >= 461308)
-		//		return "4.7.1";
-		//	if (releaseKey >= 460798)
-		//		return "4.7";
-		//	if (releaseKey >= 394802)
-		//		return "4.6.2";
-		//	if (releaseKey >= 394254)
-		//		return "4.6.1";
-		//	if (releaseKey >= 393295)
-		//		return "4.6";
-		//	if (releaseKey >= 379893)
-		//		return "4.5.2";
-		//	if (releaseKey >= 378675)
-		//		return "4.5.1";
-		//	if (releaseKey >= 378389)
-		//		return "4.5";
-		//	// This code should never execute. A non-null release key should mean
-		//	// that 4.5 or later is installed.
-		//	return "No 4.5 or later version detected";
-		//}
+		private static string CheckFor45PlusVersion(int releaseKey)
+		{
+			if (releaseKey >= 461808)
+				return "4.7.2 or later";
+			if (releaseKey >= 461308)
+				return "4.7.1";
+			if (releaseKey >= 460798)
+				return "4.7";
+			if (releaseKey >= 394802)
+				return "4.6.2";
+			if (releaseKey >= 394254)
+				return "4.6.1";
+			if (releaseKey >= 393295)
+				return "4.6";
+			if (releaseKey >= 379893)
+				return "4.5.2";
+			if (releaseKey >= 378675)
+				return "4.5.1";
+			if (releaseKey >= 378389)
+				return "4.5";
+			// This code should never execute. A non-null release key should mean
+			// that 4.5 or later is installed.
+			return "No 4.5 or later version detected";
+		}
 
 		public MainForm(string[] agrs)
 		{
@@ -277,34 +289,41 @@ namespace ScopeSetupApp.MainForm
 
 		private void toolStripButton1_Click(object sender, EventArgs e)
 		{
-			var oldStatus = _buttonsStatus;
-			_buttonsStatus = (byte)(_buttonsStatus == 0x02 ? 0x00 : 0x02);
-
-			var draw = _buttonsStatus == 0x00 || (oldStatus == 0x00 && _buttonsStatus == 0x02);
-
-			if (draw)
+			try
 			{
-				nowStatusFlowLayoutPanel.Visible = false;
-			}
+				var oldStatus = _buttonsStatus;
+				_buttonsStatus = (byte)(_buttonsStatus == 0x02 ? 0x00 : 0x02);
 
-			VarificationUc();
-			UpdateButtons();
+				var draw = _buttonsStatus == 0x00 || (oldStatus == 0x00 && _buttonsStatus == 0x02);
 
-			if (_ucScopeSetup == null)
-			{
-				_ucScopeSetup = new UcScopeSetup(_argsG)
+				if (draw)
 				{
-					Dock = DockStyle.Fill
-				};
+					nowStatusFlowLayoutPanel.Visible = false;
+				}
+
+				VarificationUc();
+				UpdateButtons();
+
+				if (_ucScopeSetup == null)
+				{
+					_ucScopeSetup = new UcScopeSetup(_argsG)
+					{
+						Dock = DockStyle.Fill
+					};
+				}
+
+				panel1.SuspendLayout();
+				panel1.Controls.Add(_ucScopeSetup);
+				panel1.ResumeLayout();
+
+				if (draw)
+				{
+					nowStatusFlowLayoutPanel.Visible = true;
+				}
 			}
-
-			panel1.SuspendLayout();
-			panel1.Controls.Add(_ucScopeSetup);
-			panel1.ResumeLayout();
-
-			if (draw)
+			catch 
 			{
-				nowStatusFlowLayoutPanel.Visible = true;
+				//ignore
 			}
 		}
 
@@ -312,34 +331,41 @@ namespace ScopeSetupApp.MainForm
 
 		private void toolStripButton3_Click(object sender, EventArgs e)
 		{
-			var oldStatus = _buttonsStatus;
-			_buttonsStatus = (byte)(_buttonsStatus == 0x01 ? 0x00 : 0x01);
-
-			var draw = _buttonsStatus == 0x00 || (oldStatus == 0x00 && _buttonsStatus == 0x01);
-
-			if (draw)
+			try
 			{
-				nowStatusFlowLayoutPanel.Visible = false;
-			}
+				var oldStatus = _buttonsStatus;
+				_buttonsStatus = (byte)(_buttonsStatus == 0x01 ? 0x00 : 0x01);
 
-			VarificationUc();
-			UpdateButtons();
+				var draw = _buttonsStatus == 0x00 || (oldStatus == 0x00 && _buttonsStatus == 0x01);
 
-			if (_ucScopeConfig == null)
-			{
-				_ucScopeConfig = new UcScopeConfig()
+				if (draw)
 				{
-					Dock = DockStyle.Fill
-				};
+					nowStatusFlowLayoutPanel.Visible = false;
+				}
+
+				VarificationUc();
+				UpdateButtons();
+
+				if (_ucScopeConfig == null)
+				{
+					_ucScopeConfig = new UcScopeConfig()
+					{
+						Dock = DockStyle.Fill
+					};
+				}
+
+				panel1.SuspendLayout();
+				panel1.Controls.Add(_ucScopeConfig);
+				panel1.ResumeLayout();
+
+				if (draw)
+				{
+					nowStatusFlowLayoutPanel.Visible = true;
+				}
 			}
-
-			panel1.SuspendLayout();
-			panel1.Controls.Add(_ucScopeConfig);
-			panel1.ResumeLayout();
-
-			if (draw)
+			catch 
 			{
-				nowStatusFlowLayoutPanel.Visible = true;
+				//ignore
 			}
 		}
 
@@ -347,34 +373,41 @@ namespace ScopeSetupApp.MainForm
 
 		private void Setting_Button_Click(object sender, EventArgs e)
 		{
-			var oldStatus = _buttonsStatus;
-			_buttonsStatus = (byte)(_buttonsStatus == 0x03 ? 0x00 : 0x03);
-
-			var draw = _buttonsStatus == 0x00 || (oldStatus == 0x00 && _buttonsStatus == 0x03);
-
-			if (draw)
+			try
 			{
-				nowStatusFlowLayoutPanel.Visible = false;
-			}
+				var oldStatus = _buttonsStatus;
+				_buttonsStatus = (byte)(_buttonsStatus == 0x03 ? 0x00 : 0x03);
 
-			VarificationUc();
-			UpdateButtons();
+				var draw = _buttonsStatus == 0x00 || (oldStatus == 0x00 && _buttonsStatus == 0x03);
 
-			if (_ucSettings == null)
-			{
-				_ucSettings = new UcSettings()
+				if (draw)
 				{
-					Dock = DockStyle.Fill
-				};
+					nowStatusFlowLayoutPanel.Visible = false;
+				}
+
+				VarificationUc();
+				UpdateButtons();
+
+				if (_ucSettings == null)
+				{
+					_ucSettings = new UcSettings()
+					{
+						Dock = DockStyle.Fill
+					};
+				}
+
+				panel1.SuspendLayout();
+				panel1.Controls.Add(_ucSettings);
+				panel1.ResumeLayout();
+
+				if (draw)
+				{
+					nowStatusFlowLayoutPanel.Visible = true;
+				}
 			}
-
-			panel1.SuspendLayout();
-			panel1.Controls.Add(_ucSettings);
-			panel1.ResumeLayout();
-
-			if (draw)
+			catch 
 			{
-				nowStatusFlowLayoutPanel.Visible = true;
+				//ignore
 			}
 		}
 
