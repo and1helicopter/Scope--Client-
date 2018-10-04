@@ -16,7 +16,6 @@ bld/
 [Ll]og/
 
 /Scope (Client)/UnitTestProject/**
-/Scope (Client)/UniSerialPort/**
 /Scope (Client)/TestResults/**
 /Scope (Client)/.vs/**
 
