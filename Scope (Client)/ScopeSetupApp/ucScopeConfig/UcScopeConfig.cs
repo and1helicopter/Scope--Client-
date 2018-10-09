@@ -9,13 +9,13 @@ using System.Drawing;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
-using ScopeSetupApp.Format;
+using ScopeApp.Format;
 using Brushes = System.Drawing.Brushes;
 using Color = System.Drawing.Color;
 using FontStyle = System.Drawing.FontStyle;
 using Point = System.Drawing.Point;
 
-namespace ScopeSetupApp.ucScopeConfig
+namespace ScopeApp.ucScopeConfig
 {
 	public sealed partial class UcScopeConfig : UserControl
 	{

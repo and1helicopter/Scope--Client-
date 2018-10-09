@@ -3,10 +3,10 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using ScopeSetupApp.Format;
-using ScopeSetupApp.Properties;
+using ScopeApp.Format;
+using ScopeApp.Properties;
 
-namespace ScopeSetupApp.ucSettings
+namespace ScopeApp.ucSettings
 {
 	public partial class UcSettings : UserControl
 	{

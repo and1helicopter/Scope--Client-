@@ -8,8 +8,8 @@
     <ProjectGuid>{49F0497A-030F-49A0-ADBF-5B06B5353C52}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScopeSetupApp</RootNamespace>
-    <AssemblyName>ScopeSetup</AssemblyName>
+    <RootNamespace>ScopeApp</RootNamespace>
+    <AssemblyName>ScopeConfig</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -59,7 +59,7 @@
     <ApplicationIcon>Electrical_Threshold-50.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>ScopeSetupApp.Program</StartupObject>
+    <StartupObject>ScopeApp.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -131,11 +131,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="StructAddr.cs" />
-    <Compile Include="ucScopeSetup\UcScopeSetup.cs">
+    <Compile Include="ucScopeSet\UcScopeSet.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ucScopeSetup\UcScopeSetup.Designer.cs">
-      <DependentUpon>UcScopeSetup.cs</DependentUpon>
+    <Compile Include="ucScopeSet\UcScopeSet.Designer.cs">
+      <DependentUpon>UcScopeSet.cs</DependentUpon>
     </Compile>
     <Compile Include="Format\FormatConverter.cs" />
     <Compile Include="ucSettings\UcSettings.cs">
@@ -173,11 +173,12 @@
     <EmbeddedResource Include="LoadOscQueryForm.resx">
       <DependentUpon>LoadOscQueryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucScopeSetup\UcScopeSetup.resx">
-      <DependentUpon>UcScopeSetup.cs</DependentUpon>
+    <EmbeddedResource Include="ucScopeSet\UcScopeSet.resx">
+      <DependentUpon>UcScopeSet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucSettings\UcSettings.resx">
       <DependentUpon>UcSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -192,6 +193,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ucSettings\UcSettings.ru.resx">
       <DependentUpon>UcSettings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ucScopeConfig\UcScopeConfig.resx">
       <DependentUpon>UcScopeConfig.cs</DependentUpon>

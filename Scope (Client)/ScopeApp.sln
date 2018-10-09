@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScopeSetupApp", "ScopeSetupApp\ScopeSetupApp.csproj", "{49F0497A-030F-49A0-ADBF-5B06B5353C52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScopeApp", "ScopeSetupApp\ScopeApp.csproj", "{49F0497A-030F-49A0-ADBF-5B06B5353C52}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{3CF9CC7F-9B31-467A-A973-C0862A9E27EC}"
 EndProject
@@ -79,5 +79,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9E953939-23EC-400C-BE6E-F43FC9091F8D}
 	EndGlobalSection
 EndGlobal

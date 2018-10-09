@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace ScopeSetupApp
+namespace ScopeApp
 {
     public partial class LoadOscQueryForm : Form
     {

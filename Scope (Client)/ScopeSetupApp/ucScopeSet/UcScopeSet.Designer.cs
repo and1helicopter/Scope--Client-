@@ -1,4 +1,4 @@
-﻿namespace ScopeSetupApp.ucScopeSetup
+﻿namespace ScopeApp.ucScopeSet
 {
 	sealed partial class UcScopeSetup
 	{
@@ -214,7 +214,7 @@
 			// 
 			this.toolStripView.AutoSize = false;
 			this.toolStripView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripView.Image = global::ScopeSetupApp.Properties.Resources.Fine_Print_50;
+			this.toolStripView.Image = global::ScopeApp.Properties.Resources.Fine_Print_50;
 			this.toolStripView.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripView.Margin = new System.Windows.Forms.Padding(3);
 			this.toolStripView.Name = "toolStripView";
@@ -227,7 +227,7 @@
 			// 
 			this.toolStripPrint.AutoSize = false;
 			this.toolStripPrint.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripPrint.Image = global::ScopeSetupApp.Properties.Resources.Print_50;
+			this.toolStripPrint.Image = global::ScopeApp.Properties.Resources.Print_50;
 			this.toolStripPrint.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripPrint.Margin = new System.Windows.Forms.Padding(3);
 			this.toolStripPrint.Name = "toolStripPrint";

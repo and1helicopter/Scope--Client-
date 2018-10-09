@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
-using System.Windows.Forms;
 using System.Xml;
-using MessageBox = System.Windows.Forms.MessageBox;
 
 
-namespace ScopeSetupApp
+namespace ScopeApp
 {
 	public static class ScopeSysType
 	{

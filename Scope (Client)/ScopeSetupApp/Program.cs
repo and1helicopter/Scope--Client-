@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace ScopeSetupApp
+namespace ScopeApp
 {
 	internal static class Program
 	{
@@ -13,12 +13,19 @@ namespace ScopeSetupApp
 		[STAThread]
 		private static void Main(string[] args)
 		{
+			try
+			{
+				Application.EnableVisualStyles();
+				Application.SetCompatibleTextRenderingDefault(false);
+				MainFormWin = new MainForm.MainForm(args);
 
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			MainFormWin = new MainForm.MainForm(args);
+				Application.Run(MainFormWin);
+			}
+			catch
+			{
+				//ignore
+			}
 
-			Application.Run(MainFormWin);
 		}
 	}
 }

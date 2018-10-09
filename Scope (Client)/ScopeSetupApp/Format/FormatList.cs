@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Windows.Forms;
 
-namespace ScopeSetupApp.Format
+namespace ScopeApp.Format
 {
 	public static partial class FormatConverter
 	{
-		private static readonly object[] _oldFormat =
+		private static readonly object[] OldFormatObj =
 		{
 			"0 - Percent",
 			"1 - uint16",
@@ -39,6 +38,8 @@ namespace ScopeSetupApp.Format
 
 		private class ObjFormat
 		{
+
+			// ReSharper disable once UnusedAutoPropertyAccessor.Local
 			public string NameFormat { get; }
 			public string VisualNameFormat { get; }
 			public int IndexSizeFormat { get; }
@@ -59,8 +60,8 @@ namespace ScopeSetupApp.Format
 
 			if (OldFormat)
 			{
-				ActualFormat = _oldFormat;
-				foreach (var itemFormat in _oldFormat.ToList())
+				ActualFormat = OldFormatObj;
+				foreach (var itemFormat in OldFormatObj.ToList())
 				{
 					ListObjFormats.Add(new ObjFormat(itemFormat.ToString(), itemFormat.ToString(), 0));
 				}
@@ -102,8 +103,8 @@ namespace ScopeSetupApp.Format
 
 		public static string GetEquationFormat(int index)
 		{
-			return FormatConverter.FormatList[index].A.ToString(CultureInfo.InvariantCulture) +
-			                @" * value + " + FormatConverter.FormatList[index].B.ToString(CultureInfo.InvariantCulture); ;
+			return FormatList[index].A.ToString(CultureInfo.InvariantCulture) +
+			                @" * value + " + FormatList[index].B.ToString(CultureInfo.InvariantCulture);
 		}
 	}
 }

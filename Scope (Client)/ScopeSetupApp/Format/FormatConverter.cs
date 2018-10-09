@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace ScopeSetupApp.Format
+namespace ScopeApp.Format
 {
 	public static partial class FormatConverter
 	{

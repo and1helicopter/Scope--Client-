@@ -1,4 +1,4 @@
-﻿namespace ScopeSetupApp.ucSettings
+﻿namespace ScopeApp.ucSettings
 {
 	partial class UcSettings
 	{
@@ -201,7 +201,7 @@
 			this.open_toolStripButton.AutoSize = false;
 			this.open_toolStripButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
 			this.open_toolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.open_toolStripButton.Image = global::ScopeSetupApp.Properties.Resources.Open_Folder_50;
+			this.open_toolStripButton.Image = global::ScopeApp.Properties.Resources.Open_Folder_50;
 			this.open_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.open_toolStripButton.Margin = new System.Windows.Forms.Padding(3);
 			this.open_toolStripButton.Name = "open_toolStripButton";
@@ -215,7 +215,7 @@
 			// 
 			this.save_toolStripButton.AutoSize = false;
 			this.save_toolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.save_toolStripButton.Image = global::ScopeSetupApp.Properties.Resources.Save_as_50;
+			this.save_toolStripButton.Image = global::ScopeApp.Properties.Resources.Save_as_50;
 			this.save_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.save_toolStripButton.Margin = new System.Windows.Forms.Padding(3);
 			this.save_toolStripButton.Name = "save_toolStripButton";
@@ -233,7 +233,7 @@
 			// 
 			this.add_toolStripButton.AutoSize = false;
 			this.add_toolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.add_toolStripButton.Image = global::ScopeSetupApp.Properties.Resources.Plus_50;
+			this.add_toolStripButton.Image = global::ScopeApp.Properties.Resources.Plus_50;
 			this.add_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.add_toolStripButton.Margin = new System.Windows.Forms.Padding(3);
 			this.add_toolStripButton.Name = "add_toolStripButton";
@@ -246,7 +246,7 @@
 			// 
 			this.remove_toolStripButton.AutoSize = false;
 			this.remove_toolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.remove_toolStripButton.Image = global::ScopeSetupApp.Properties.Resources.Cancel_50;
+			this.remove_toolStripButton.Image = global::ScopeApp.Properties.Resources.Cancel_50;
 			this.remove_toolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.remove_toolStripButton.Margin = new System.Windows.Forms.Padding(3);
 			this.remove_toolStripButton.Name = "remove_toolStripButton";

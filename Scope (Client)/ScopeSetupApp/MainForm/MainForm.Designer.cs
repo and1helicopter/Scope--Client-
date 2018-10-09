@@ -1,4 +1,4 @@
-﻿namespace ScopeSetupApp.MainForm
+﻿namespace ScopeApp.MainForm
 {
 	public sealed partial class MainForm
 	{
@@ -300,7 +300,7 @@
 			// 
 			this.Setting_Button.AutoSize = false;
 			this.Setting_Button.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.Setting_Button.Image = global::ScopeSetupApp.Properties.Resources.Support_50;
+			this.Setting_Button.Image = global::ScopeApp.Properties.Resources.Support_50;
 			this.Setting_Button.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.Setting_Button.Margin = new System.Windows.Forms.Padding(2);
 			this.Setting_Button.Name = "Setting_Button";

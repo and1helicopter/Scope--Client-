@@ -1,5 +1,5 @@
 ﻿
-namespace ScopeSetupApp
+namespace ScopeApp
 {
     public class ScopeChannelConfig
     {

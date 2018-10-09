@@ -2,12 +2,11 @@
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using UniSerialPort;
 
-namespace ScopeSetupApp
+namespace ScopeApp
 {
 	public partial class ConnectForm : Form
 	{
@@ -85,7 +84,7 @@ namespace ScopeSetupApp
 		{
 			try
 			{
-				MainForm.MainForm.SerialPort.SerialPortMode = SerialPortModes.RSMode;
+				MainForm.MainForm.SerialPort.SerialPortMode = SerialPortModes.RsMode;
 				MainForm.MainForm.SerialPort.BaudRate = GetBaudRate(speedComboBox.Text);
 				MainForm.MainForm.SerialPort.Parity = GetSerialPortParity(stopBitstComboBox.Text);
 				MainForm.MainForm.SerialPort.StopBits = GetSerialPortStopBits(stopBitstComboBox.Text);

@@ -1,4 +1,4 @@
-﻿namespace ScopeSetupApp.ucScopeConfig
+﻿namespace ScopeApp.ucScopeConfig
 {
 	sealed partial class UcScopeConfig
 	{

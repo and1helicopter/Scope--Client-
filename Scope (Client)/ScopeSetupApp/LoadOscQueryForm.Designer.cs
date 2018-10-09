@@ -1,4 +1,4 @@
-﻿namespace ScopeSetupApp
+﻿namespace ScopeApp
 {
     partial class LoadOscQueryForm
     {

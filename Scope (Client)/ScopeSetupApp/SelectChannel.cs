@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace ScopeSetupApp
+namespace ScopeApp
 {
     public partial class SelectChannel : Form
     {

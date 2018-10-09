@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using System.Text;
-using System.Windows.Forms;
-using System.Xml;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
+using System.Windows.Forms;
+using System.Xml;
 using BrightIdeasSoftware;
-using ScopeSetupApp.Format;
+using ScopeApp.Format;
 using UniSerialPort;
 using Color = System.Drawing.Color;
 using FontStyle = System.Drawing.FontStyle;
@@ -18,7 +18,7 @@ using Point = System.Drawing.Point;
 using SystemColors = System.Drawing.SystemColors;
 using UserControl = System.Windows.Forms.UserControl;
 
-namespace ScopeSetupApp.ucScopeSetup
+namespace ScopeApp.ucScopeSet
 {
 	public sealed partial class UcScopeSetup : UserControl
 	{
@@ -28,8 +28,6 @@ namespace ScopeSetupApp.ucScopeSetup
 		private ushort _nowOscFreq = 1;             //Делитель     
 		private readonly uint _oscilAllSize = ScopeSysType.OscilAllSize;             //
 		private readonly bool _admin;
-
-		private static readonly object[] Format = FormatConverter.ActualFormat;
 
 		private static readonly object[] SizeFormat =
 		{
@@ -42,7 +40,7 @@ namespace ScopeSetupApp.ucScopeSetup
 
 		private static readonly List<ItemGroup> ItemGroups = new List<ItemGroup>();
 
-		private void InitTable(bool _admin)
+		private void InitTable(bool admin)
 		{
 			ItemGroups.Clear();
 
@@ -57,7 +55,7 @@ namespace ScopeSetupApp.ucScopeSetup
 				Width = 350
 			};
 
-			if (_admin)
+			if (admin)
 			{
 				OLVColumn addrChanel = new OLVColumn
 				{
@@ -104,17 +102,18 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			foreach (var item in ScopeSysType.ScopeItem)
 			{
-				var item1 = new Item(item);
+				//Для формирования групп
+				var unused = new Item(item);
 			}
 
 			treeListView.CanExpandGetter = model =>
 			{
 				if (model.GetType() == typeof(ItemGroup))
 					return ((ItemGroup)model).Children.Count > 0;
-				else
-					return false;
+
+				return false;
 			};
-;
+
 			treeListView.ChildrenGetter = x => ((ItemGroup) x).Children;
 			
 			treeListView.SetObjects(ItemGroups);
@@ -128,10 +127,11 @@ namespace ScopeSetupApp.ucScopeSetup
 		{
 			public string Name { get; set; }
 			public string NameShort { get; set; }
+			// ReSharper disable once UnusedMember.Local
 			public string Addr { get; set; } = "";
+			// ReSharper disable once UnusedMember.Local
 			public string Format { get; set; } = "";
-			public int countSelect { get; set; } = 0;
-			public CheckState State { get; set; }
+			public int CountSelect { get; set; }
 
 			public List<Item> Children { get; set; } = new List<Item>();
 		}
@@ -212,8 +212,8 @@ namespace ScopeSetupApp.ucScopeSetup
 
 			foreach (var itemGroup in ItemGroups)
 			{
-				itemGroup.countSelect = itemGroup.Children.Count(x => treeListView.IsChecked(x));
-				itemGroup.Name = itemGroup.NameShort + $" (Выбрано {itemGroup.countSelect} из {itemGroup.Children.Count})";
+				itemGroup.CountSelect = itemGroup.Children.Count(x => treeListView.IsChecked(x));
+				itemGroup.Name = itemGroup.NameShort + $" (Выбрано {itemGroup.CountSelect} из {itemGroup.Children.Count})";
 			}
 
 			_nowMaxChannelCount = (ushort)treeListView.CheckedObjects.OfType<Item>().Count();
@@ -805,12 +805,12 @@ namespace ScopeSetupApp.ucScopeSetup
 				partParam[i] = _newOscillConfig[i + _writeConfigStep * 8];
 			}
 
-			MainForm.MainForm.SerialPort.SetDataRTU((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilNewConfig + _writeConfigStep * 8), EndRequest, RequestPriority.Normal, null, partParam);
+			MainForm.MainForm.SerialPort.SetDataRtu((ushort)(ScopeSysType.OscilCmndAddr + StructAddr.OscilNewConfig + _writeConfigStep * 8), EndRequest, RequestPriority.Normal, null, partParam);
 		}
 
 		private void EndRequest(bool dataOk, ushort[] paramRtu, object param)
 		{
-			if (MainForm.MainForm.SerialPort.portError)
+			if (MainForm.MainForm.SerialPort.PortError)
 			{
 				if (Visible)
 				{
@@ -992,8 +992,8 @@ namespace ScopeSetupApp.ucScopeSetup
 								}
 							}
 
-							itemGroup.countSelect = count;
-							itemGroup.Name = itemGroup.NameShort + $" (Выбрано {itemGroup.countSelect} из {itemGroup.Children.Count})";
+							itemGroup.CountSelect = count;
+							itemGroup.Name = itemGroup.NameShort + $" (Выбрано {itemGroup.CountSelect} из {itemGroup.Children.Count})";
 
 							if (count == itemGroup.Children.Count)
 							{
@@ -1024,7 +1024,6 @@ namespace ScopeSetupApp.ucScopeSetup
 				catch
 				{
 					Program.MainFormWin.MessagesBox(@"Ошибка загрузки данных" + "\nCODE 0x1232", @"Error", MessageBoxButton.OK, MessageBoxImage.Error);
-					return;
 				}
 			}
 		}
@@ -1111,7 +1110,7 @@ namespace ScopeSetupApp.ucScopeSetup
 
 		private void reloadButton_Click(object sender, EventArgs e)
 		{
-			if (ScopeConfig.ChannelCount == 0  && MainForm.MainForm.SerialPort.IsOpen && !MainForm.MainForm.SerialPort.portError)
+			if (ScopeConfig.ChannelCount == 0  && MainForm.MainForm.SerialPort.IsOpen && !MainForm.MainForm.SerialPort.PortError)
 			{
 				Program.MainFormWin.MessagesBox(@"В системе отсутствует конфигурация" + "\nCODE 0x1002", @"Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
@@ -1158,8 +1157,8 @@ namespace ScopeSetupApp.ucScopeSetup
 						}
 					}
 
-					itemGroup.countSelect = count;
-					itemGroup.Name = itemGroup.NameShort + $" (Выбрано {itemGroup.countSelect} из {itemGroup.Children.Count})";
+					itemGroup.CountSelect = count;
+					itemGroup.Name = itemGroup.NameShort + $" (Выбрано {itemGroup.CountSelect} из {itemGroup.Children.Count})";
 
 					if (count == itemGroup.Children.Count)
 					{

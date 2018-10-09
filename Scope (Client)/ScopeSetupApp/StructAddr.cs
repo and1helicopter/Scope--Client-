@@ -1,4 +1,4 @@
-﻿namespace ScopeSetupApp
+﻿namespace ScopeApp
 {
     public static class StructAddr
     {
