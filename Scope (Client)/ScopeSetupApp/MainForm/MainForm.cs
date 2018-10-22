@@ -640,8 +640,7 @@ namespace ScopeApp.MainForm
 
 			ButtonsTimer.Enabled = true;
 		}
-
-
+		
 		delegate void UpdateOscilButtonsStatusDelegate();
 
 		private void UpdateOscilButtonsStatusInvoke()
@@ -660,7 +659,7 @@ namespace ScopeApp.MainForm
 			}
 			else
 			{
-				_statusButtons.ForEach(x =>
+				_statusButtons?.ForEach(x =>
 				{
 					if(_oscilsStatus[(int)x.Tag] != 0x00) x.Enabled = true;
 				});
@@ -1426,15 +1425,14 @@ namespace ScopeApp.MainForm
 					ExecuteScopeView(sfd.FileName);
 				}
 			}
-
 		}
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			try
 			{
-				DelateThread();
 				SaveWindowSize("prgSettings.xml");
+				DelateThread();
 			}
 			catch 
 			{

@@ -21,9 +21,9 @@ namespace ScopeApp
 
 				Application.Run(MainFormWin);
 			}
-			catch
+			catch (Exception exception)
 			{
-				//ignore
+
 			}
 
 		}
