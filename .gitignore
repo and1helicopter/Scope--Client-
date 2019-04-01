@@ -18,6 +18,7 @@ bld/
 /Scope (Client)/UnitTestProject/**
 /Scope (Client)/TestResults/**
 /Scope (Client)/.vs/**
+/Scope (Client)/packages/**
 
 /Scope (Client)/UnitTestProject
 /Scope (Client)/TestResults/
@@ -47,3 +48,4 @@ Scope (Client)/ScopeSetupApp/publish/autorun.inf
 Scope (Client)/ScopeSetupApp/publish/ScopeSetup.application
 Scope (Client)/ScopeSetupApp/publish/setup.exe
 Scope (Client)/ScopeSetupApp/ScopeSetupApp_TemporaryKey.pfx
+
