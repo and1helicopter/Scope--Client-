@@ -731,7 +731,6 @@ namespace ScopeApp.MainForm
 							break;
 						case 6: //Частота выборки
 							ScopeConfig.SampleRate = paramRtu[0];
-							ScopeConfig.ScopeEnabled = true;
 							_loadConfigStep = 7;
 							if (ScopeConfig.SampleRate == 0)
 							{

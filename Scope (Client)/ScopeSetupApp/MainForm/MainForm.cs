@@ -652,7 +652,7 @@ namespace ScopeApp.MainForm
 		{
 			if (_statusLoad)
 			{
-				_statusButtons.ForEach(x =>
+				_statusButtons?.ForEach(x =>
 				{
 					if ((int)x.Tag != _loadOscNum) x.Enabled = false;
 				});

@@ -117,7 +117,6 @@ namespace ScopeApp
 		}
 
 		//Осциллограф включен
-		public static bool ScopeEnabled = true;
 
 		static ScopeConfig()
 		{
