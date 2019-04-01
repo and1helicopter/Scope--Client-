@@ -23,7 +23,7 @@ bld/
 /Scope (Client)/UnitTestProject
 /Scope (Client)/TestResults/
 /Scope (Client)/.vs/
-
+/Scope (Client)/packages/
 
 *.pdb
 *.dll
